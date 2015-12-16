@@ -1,0 +1,30 @@
+<?php
+/**
+ * Template Single Event post type
+ */
+
+get_header( ); ?>
+
+	<?php
+		/**
+		 * donate_before_main_content hook
+		 */
+		do_action( 'donate_before_main_content' );
+	?>
+
+		<?php while ( have_posts() ) : the_post(); ?>
+
+			<?php donate_get_template_part( 'content', 'single-event' ); ?>
+
+		<?php endwhile; // end of the loop. ?>
+
+	<?php
+		/**
+		 * hotel_booking_after_main_content hook
+		 *
+		 * @hooked donate_after_main_content - 10 (outputs closing divs for the content)
+		 */
+		do_action( 'donate_after_main_content' );
+	?>
+
+<?php get_footer( );
