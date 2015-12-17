@@ -11,53 +11,14 @@ class DN_Post_Type
 		/**
 		 * register post type
 		 */
-		// add_action( 'init', array( $this, 'register_post_type_event' ) );
 		add_action( 'init', array( $this, 'register_post_type_cause' ) );
 		add_action( 'init', array( $this, 'register_post_type_donate' ) );
+		add_action( 'init', array( $this, 'register_post_type_donor' ) );
 
 		/**
 		 * register taxonomy
 		 */
 		add_action( 'init', array( $this, 'register_taxonomy_causes' ) );
-	}
-
-	// register post type event hook callback
-	public function register_post_type_event()
-	{
-		$labels = array(
-			'name'               => _x( 'Events', 'Events', 'tp-donate' ),
-			'singular_name'      => _x( 'Event', 'Event', 'tp-donate' ),
-			'menu_name'          => _x( 'Events', 'admin menu', 'tp-donate' ),
-			'name_admin_bar'     => _x( 'Event', 'add new on admin bar', 'tp-donate' ),
-			'add_new'            => _x( 'Add Event', 'event', 'tp-donate' ),
-			'add_new_item'       => __( 'Add New Event', 'tp-donate' ),
-			'new_item'           => __( 'New Event', 'tp-donate' ),
-			'edit_item'          => __( 'Edit Event', 'tp-donate' ),
-			'view_item'          => __( 'View Event', 'tp-donate' ),
-			'all_items'          => __( 'Events', 'tp-donate' ),
-			'search_items'       => __( 'Search Events', 'tp-donate' ),
-			'parent_item_colon'  => __( 'Parent Events:', 'tp-donate' ),
-			'not_found'          => __( 'No events found.', 'tp-donate' ),
-			'not_found_in_trash' => __( 'No events found in Trash.', 'tp-donate' )
-		);
-
-		$args = array(
-			'labels'             => $labels,
-            'description'        => __( 'Event post type.', 'tp-donate' ),
-			'public'             => true,
-			'publicly_queryable' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'event' ),
-			'capability_type'    => 'post',
-			'has_archive'        => true,
-			'hierarchical'       => false,
-			'menu_position'      => 7,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
-		);
-
-		register_post_type( 'dn_event', $args );
 	}
 
 	// register post type cause hook callback
@@ -139,6 +100,48 @@ class DN_Post_Type
 		);
 
 		register_post_type( 'dn_donate', $args );
+	}
+
+	// register post type donor
+	public function register_post_type_donor()
+	{
+		$labels = array(
+			'name'               => _x( 'Donors', 'Donors', 'tp-donate' ),
+			'singular_name'      => _x( 'Donor', 'Donor', 'tp-donate' ),
+			'menu_name'          => _x( 'Donors', 'Donors', 'tp-donate' ),
+			'name_admin_bar'     => _x( 'Donor', 'Donor', 'tp-donate' ),
+			'add_new'            => _x( 'Add Donor', 'donate', 'tp-donate' ),
+			'add_new_item'       => __( 'Add New Donor', 'tp-donate' ),
+			'new_item'           => __( 'New Donor', 'tp-donate' ),
+			'edit_item'          => __( 'Edit Donor', 'tp-donate' ),
+			'view_item'          => __( 'View Donor', 'tp-donate' ),
+			'all_items'          => __( 'Donors', 'tp-donate' ),
+			'search_items'       => __( 'Search Donors', 'tp-donate' ),
+			'parent_item_colon'  => __( 'Parent Donors:', 'tp-donate' ),
+			'not_found'          => __( 'No donors found.', 'tp-donate' ),
+			'not_found_in_trash' => __( 'No donors found in Trash.', 'tp-donate' )
+		);
+
+		$args = array(
+			'labels'             => $labels,
+            'description'        => __( 'Donors', 'tp-donate' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => 'tp_donate',
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'donor' ),
+			'capability_type'    => 'post',
+			'has_archive'        => false,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+			'capabilities' => array(
+				'create_posts'       => false,
+			),
+		);
+
+		register_post_type( 'dn_donor', $args );
 	}
 
 	// register taxonomy

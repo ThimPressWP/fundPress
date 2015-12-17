@@ -1,6 +1,6 @@
 <?php
 
-class DN_Admin_Setting_Donate extends DN_Setting_Page
+class DN_etting_Donate extends DN_Setting_Page
 {
 	/**
 	 * setting id
@@ -52,12 +52,12 @@ class DN_Admin_Setting_Donate extends DN_Setting_Page
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Raised and Coal', 'tp-donate' ),
-										'desc'		=> __( 'Display raised and coal on the fronted', 'tp-donate' ),
+										'desc'		=> __( 'Display raised and goal on the fronted', 'tp-donate' ),
 										'atts'		=> array(
-												'id'	=> 'raised_coal',
-												'class'	=> 'raised_coal'
+												'id'	=> 'raised_goal',
+												'class'	=> 'raised_goal'
 											),
-										'name'		=> 'archive_raised_coal',
+										'name'		=> 'archive_raised_goal',
 										'options'	=> array(
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
@@ -101,12 +101,12 @@ class DN_Admin_Setting_Donate extends DN_Setting_Page
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Raised and Coal', 'tp-donate' ),
-										'desc'		=> __( 'Display raised and coal on the fronted', 'tp-donate' ),
+										'desc'		=> __( 'Display raised and goal on the fronted', 'tp-donate' ),
 										'atts'		=> array(
-												'id'	=> 'raised_coal',
-												'class'	=> 'raised_coal'
+												'id'	=> 'raised_goal',
+												'class'	=> 'raised_goal'
 											),
-										'name'		=> 'single_raised_coal',
+										'name'		=> 'single_raised_goal',
 										'options'	=> array(
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
@@ -133,4 +133,4 @@ class DN_Admin_Setting_Donate extends DN_Setting_Page
 
 }
 
-new DN_Admin_Setting_Donate();
+new DN_etting_Donate();

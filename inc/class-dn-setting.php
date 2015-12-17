@@ -123,12 +123,10 @@ class DN_Setting
 	{
 
 		if( self::$_instance && $prefix === $this->_prefix )
-			return self::$_instance;
+			return $GLOBALS[ 'dn_settings' ] = self::$_instance;
 
-		return new self( $prefix );
+		return $GLOBALS[ 'dn_settings' ] = new self( $prefix );
 
 	}
 
 }
-
-$GLOBALS[ 'dn_settings' ] = DN_Setting::instance();

@@ -1,6 +1,6 @@
 <?php
 
-class DN_Meta_Box_Event extends DN_Meta_Box
+class DN_Meta_Box_Donate_Settings extends DN_Meta_Box
 {
 	/**
 	 * id of the meta box
@@ -23,11 +23,11 @@ class DN_Meta_Box_Event extends DN_Meta_Box
 	public function __construct()
 	{
 		$this->_id = 'donate_setting_section';
-		$this->_title = __( 'Event Settings', 'tp-donate' );
-		$this->_layout = TP_DONATE_INC . '/metabox/views/donate-countdown.php';
+		$this->_title = __( 'Donate Settings', 'tp-donate' );
+		$this->_layout = TP_DONATE_INC . '/metaboxs/views/donate-settings.php';
 		parent::__construct();
 	}
 
 }
 
-new DN_Meta_Box_Event();
+new DN_Meta_Box_Donate_Settings();

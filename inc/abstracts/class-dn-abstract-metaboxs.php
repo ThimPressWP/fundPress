@@ -40,7 +40,7 @@ abstract class DN_Meta_Box
 	 * screen post, page, tp_event
 	 * @var array
 	 */
-	public $_screen = array( 'tp_event' );
+	public $_screen = array( 'dn_cause' );
 
 	public function __construct()
 	{
@@ -63,7 +63,7 @@ abstract class DN_Meta_Box
 				$this->_title,
 				array( $this, 'render' ),
 				$post_type,
-				'advanced',
+				'normal',
 				'high'
 			);
         }
@@ -77,14 +77,17 @@ abstract class DN_Meta_Box
 		if( $this->_layout && file_exists($this->_layout) )
 		{
 			$this->_layout = apply_filters( 'donate_metabox_layout', $this->_layout, $this->_id );
+
+			do_action( 'donate_metabox_before_render', $this->_id, $this->_layout );
 			require_once $this->_layout;
+			do_action( 'donate_metabox_after_render', $this->_id, $this->_layout );
 		}
 	}
 
 	/**
 	 * get_field_name option
-	 * @param  string $name [description]
-	 * @return [type]       [description]
+	 * @param  string $name
+	 * @return string
 	 */
 	public function get_field_name( $name = '' )
 	{

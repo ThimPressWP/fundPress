@@ -1,6 +1,6 @@
 <?php
 
-class DN_Admin_Setting_General extends DN_Setting_Page
+class DN_Setting_General extends DN_Setting_Page
 {
 	/**
 	 * setting id
@@ -108,4 +108,4 @@ class DN_Admin_Setting_General extends DN_Setting_Page
 
 }
 
-new DN_Admin_Setting_General();
+new DN_Setting_General();

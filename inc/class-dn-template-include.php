@@ -25,18 +25,18 @@ class DN_Template {
 
         $file = '';
         $find = array();
-        if( $post_type !== 'tp_event' )
+        if( $post_type !== 'dn_donate' )
             return $template;
 
-        if( is_post_type_archive( 'tp_event' ) )
+        if( is_post_type_archive( 'dn_donate' ) )
         {
-            $file = 'archive-event.php';
+            $file = 'archive-donate.php';
             $find[] = $file;
             $find[] = donate_template_path() . '/' . $file;
         }
         else if( is_single() )
         {
-            $file = 'single-event.php';
+            $file = 'single-donate.php';
             $find[] = $file;
             $find[] = donate_template_path() . '/' . $file;
         }

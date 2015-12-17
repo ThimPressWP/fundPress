@@ -1,6 +1,6 @@
 <?php
 
-class DN_Admin_Setting_Email extends DN_Setting_Page
+class DN_Setting_Email extends DN_Setting_Page
 {
 	/**
 	 * setting id
@@ -49,6 +49,30 @@ class DN_Admin_Setting_Email extends DN_Setting_Page
 												'no'			=> __( 'No', 'tp-donate' )
 											),
 										'default'	=> array()
+									),
+								array(
+										'type'		=> 'input',
+										'label'		=> __( 'From name', 'tp-donate' ),
+										'desc'		=> __( 'This set email from name', 'tp-donate' ),
+										'atts'		=> array(
+												'id'			=> 'from_name',
+												'class'			=> 'from_name',
+												'placeholder'	=> get_option( 'blogname' )
+											),
+										'name'		=> 'from_name',
+										'default'	=> ''
+									),
+								array(
+										'type'		=> 'input',
+										'label'		=> __( 'Email from', 'tp-donate' ),
+										'desc'		=> __( 'This set email send', 'tp-donate' ),
+										'atts'		=> array(
+												'id'			=> 'admin_email',
+												'class'			=> 'admin_email',
+												'placeholder'	=> get_option( 'admin_email' )
+											),
+										'name'		=> 'admin_email',
+										'default'	=> ''
 									)
 							)
 					)
@@ -57,4 +81,4 @@ class DN_Admin_Setting_Email extends DN_Setting_Page
 
 }
 
-new DN_Admin_Setting_Email();
+new DN_Setting_Email();
