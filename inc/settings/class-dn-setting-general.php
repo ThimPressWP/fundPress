@@ -38,17 +38,22 @@ class DN_Admin_Setting_General extends DN_Setting_Page
 						'title'	=> __( 'Currency', 'tp-donate' ),
 						'desc'	=> __( 'The following options affect how prices are displayed on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
-								'select'	=> array(
+								array(
+										'type'		=> 'select',
 										'label'		=> __( 'Currency', 'tp-donate' ),
+										'desc'		=> __( 'This controlls what the currency prices', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'currency',
 												'class'	=> 'currency'
 											),
 										'name'		=> 'currency',
-										'options'	=> donate_get_currencies()
+										'options'	=> donate_get_currencies(),
+										'default'	=> array()
 									),
-								'select'	=> array(
+								array(
+										'type'		=> 'select',
 										'label'		=> __( 'Currency Position', 'tp-donate' ),
+										'desc'		=> __( 'This controlls the position of the currency symbol', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'currency_position',
 												'class'	=> 'currency_position'
@@ -59,33 +64,43 @@ class DN_Admin_Setting_General extends DN_Setting_Page
 												'right'			=> __( 'Right', 'tp-donate' ) . ' ' . '(99.99£)',
 												'left_space'	=> __( 'Left with space', 'tp-donate' ) . ' ' . '(£ 99.99)',
 												'right_space'	=> __( 'Right with space', 'tp-donate' ) . ' ' . '(99.99 £)',
-											)
+											),
+										'default'	=> array()
 									),
-								'input'		=> array(
+								array(
+										'type'		=> 'input',
 										'label'		=> __( 'Thousand Separator', 'tp-donate' ),
 										'atts'		=> array(
+												'type'	=> 'text',
 												'id'	=> 'thousand',
 												'class'	=> 'thousand'
 											),
 										'name'		=> 'currency_thousand',
+										'default'	=> ','
 									),
-								'input'		=> array(
+								array(
+										'type'		=> 'input',
 										'label'		=> __( 'Decimal Separator', 'tp-donate' ),
 										'atts'		=> array(
-												'id'	=> 'decimal',
-												'class'	=> 'decimal'
+												'type'	=> 'text',
+												'id'	=> 'decimal_separator',
+												'class'	=> 'decimal_separator'
 											),
-										'name'		=> 'currency_decimal',
+										'name'		=> 'currency_separator',
+										'default'	=> '.'
 									),
-								'input'		=> array(
+								array(
+										'type'		=> 'input',
 										'label'		=> __( 'Number of Decimals', 'tp-donate' ),
-										'type'		=> 'number',
 										'atts'		=> array(
+												'type'	=> 'number',
 												'id'	=> 'decimals',
-												'class'	=> 'decimals'
+												'class'	=> 'decimals',
+												'min'	=> 1
 											),
 										'name'		=> 'currency_num_decimal',
-									),
+										'default'	=> '2'
+									)
 							)
 					)
 			);

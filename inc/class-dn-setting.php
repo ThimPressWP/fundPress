@@ -7,13 +7,13 @@ class DN_Setting
 	 * $_options
 	 * @var null
 	 */
-	protected $_options = null;
+	public $_options = null;
 
 	/**
 	 * prefix option name
 	 * @var string
 	 */
-	protected $_prefix = 'thimpress_donate';
+	public $_prefix = 'thimpress_donate';
 
 	/**
 	 * _instance
@@ -27,11 +27,12 @@ class DN_Setting
 			$this->_prefix = $prefix;
 
 		// load options
-		$this->_options = $this->options();
+		if( ! $this->_options )
+			$this->_options = $this->options();
 
 		// save, update setting
 		add_filter( 'donate_admnin_menus', array( $this, 'setting_page' ), 10, 1 );
-		add_action( 'admin_init', array( $this, 'update_settings' ) );
+		add_action( 'admin_init', array( $this, 'register_setting' ) );
 	}
 
 	/**
@@ -54,17 +55,9 @@ class DN_Setting
 		donate()->_include( 'inc/admin/views/settings.php' );
 	}
 
-	/**
-	 * update settings function
-	 * @return options || WP_Error
-	 */
-	public function update_settings()
+	function register_setting()
 	{
-		if( empty( $_POST ) || ! isset( $_POST[ $this->_prefix ] ) )
-			return;
-
-		update_option( $this->_prefix, $_POST[ $this->_prefix ] );
-
+		register_setting( $this->_prefix, $this->_prefix );
 	}
 
 	/**
@@ -73,7 +66,7 @@ class DN_Setting
 	 */
 	protected function options()
 	{
-		return get_option( $this->_prefix, array() );
+		return get_option( $this->_prefix, null );
 	}
 
 	/**
@@ -81,15 +74,12 @@ class DN_Setting
 	 * @param  $name of field option
 	 * @return string name field
 	 */
-	public function get_field_name( $name = null, $group = null )
+	public function get_field_name( $name = null )
 	{
 		if( ! $this->_prefix || ! $name )
 			return;
 
-		if( $group )
-			return $this->_prefix[ $group ][ $name ];
-
-		return $this->_prefix[ $name ];
+		return $this->_prefix . '[' . $name . ']' ;
 
 	}
 
@@ -98,13 +88,10 @@ class DN_Setting
 	 * @param  $name of field option
 	 * @return string name field
 	 */
-	public function get_field_id( $name = null, $group = null )
+	public function get_field_id( $name = null, $default = null )
 	{
 		if( ! $this->_prefix || ! $name )
 			return;
-
-		if( $group )
-			return $this->_prefix . '_' . $group . '_' . $name;
 
 		return $this->_prefix . '_' . $name;
 
@@ -115,14 +102,13 @@ class DN_Setting
 	 * @param  $name
 	 * @return option value. array, string, boolean
 	 */
-	public function get( $name = null, $group = null, $default = null )
+	public function get( $name = null, $default = null )
 	{
+		if( ! $this->_options )
+			$this->_options = $this->options();
 
-		if( $group && isset( $this->_options[ $group ], $this->_options[ $group ][ $name ] ) )
-			return $this->_options[ $group ][ $name ];
-
-		if( $name && isset( $this->_options[ $group ][ $name ] ) )
-			return $this->_options[ $group ][ $name ];
+		if( $name && isset( $this->_options[ $name ] ) )
+			return $this->_options[ $name ];
 
 		return $default;
 
@@ -137,10 +123,12 @@ class DN_Setting
 	{
 
 		if( self::$_instance && $prefix === $this->_prefix )
-			return $GLOBALS[ 'dn_settings' ] = self::$_instance;
+			return self::$_instance;
 
-		return $GLOBALS[ 'dn_settings' ] = new self( $prefix );
+		return new self( $prefix );
 
 	}
 
 }
+
+$GLOBALS[ 'dn_settings' ] = DN_Setting::instance();

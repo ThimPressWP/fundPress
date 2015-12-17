@@ -120,7 +120,7 @@ class ThimPress_Donate
 		$this->_include( 'inc/functions.php' );
 		$this->_include( 'inc/class-dn-setting.php' );
 
-		$paths = array( 'abstracts', 'shortcodes', 'widgets', 'metaboxs' );
+		$paths = array( 'abstracts', 'settings', 'shortcodes', 'widgets', 'metaboxs' );
 
 		foreach ($paths as $key => $path) {
 			$real_path = TP_DONATE_INC . '/' . $path;

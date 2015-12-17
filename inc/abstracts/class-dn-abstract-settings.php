@@ -1,6 +1,6 @@
 <?php
 
-abstract class DN_Setting_Page
+abstract class DN_Setting_Page extends DN_Setting
 {
 
 	/**
@@ -21,6 +21,8 @@ abstract class DN_Setting_Page
 	 */
 	protected $_fields = array();
 
+	public $_options = null;
+
 	/**
 	 * $_position
 	 * @var integer
@@ -29,8 +31,13 @@ abstract class DN_Setting_Page
 
 	public function __construct()
 	{
-		add_filter( 'donate_admin_settings', array( $this, 'add_tab' ), $this->_position, 1 );
-		add_action( 'donate_admin_setting_' . $this->_id . '_content', array( $this, 'layout' ), $this->_position, 1 );
+		if( is_admin() )
+		{
+			add_filter( 'donate_admin_settings', array( $this, 'add_tab' ), $this->_position, 1 );
+			add_action( 'donate_admin_setting_' . $this->_id . '_content', array( $this, 'layout' ), $this->_position, 1 );
+		}
+
+		$this->_options = $this->options();
 	}
 
 	/**
@@ -55,7 +62,7 @@ abstract class DN_Setting_Page
 		// before tab content
 		do_action( 'donate_admin_setting_before_' . $this->_id, $this->_id );
 
-		donate()->_include( 'inc/admin/views/tab_' . $this->_id . '.php' ); return;
+		// donate()->_include( 'inc/admin/views/tab_' . $this->_id . '.php' ); return;
 		$this->_fields = apply_filters( 'donate_admin_' . $this->_id  . '_fields', $this->load_field(), $this->_id );
 
 		if( $this->_fields )
@@ -74,37 +81,58 @@ abstract class DN_Setting_Page
 					$html[] = '<table>';
 					foreach( $group[ 'fields' ] as $type => $field )
 					{
-						$html[] = '<tr>';
 
-						// label
-						$html[]	= '<th>' . sprintf( '%s', $field['label'] );
-
-						if( isset( $label[ 'desc' ] ) )
+						if( isset( $field[ 'name' ], $field[ 'type' ] ) )
 						{
-							$html[] = '<small>' . sprintf( '%s', $field['desc'] ) . '</small>';
+							$html[] = '<tr>';
+
+							// label
+							$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
+
+							if( isset( $field[ 'desc' ] ) )
+							{
+								$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
+							}
+
+							$html[]	= '</th>';
+							// end label
+
+							// field
+							$html[] = '<td>';
+
+							$default = array(
+											'type'		=> '',
+											'label'		=> '',
+											'desc'		=> '',
+											'atts'		=> array(
+													'id'	=> '',
+													'class'	=> ''
+												),
+											'name'		=> '',
+											'group'		=> $this->_id ? $this->_id : null,
+											'options'	=> array(
+
+												)
+										);
+
+							$field = wp_parse_args( $field, $default );
+
+							ob_start();
+							include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
+							$html[] = ob_get_clean();
+
+							$html[] = '</td>';
+							// end field
+
+							$html[]	= '</tr>';
 						}
-
-						$html[]	= '</th>';
-						// end label
-
-						// field
-						$html[] = '<td>';
-
-						// ob_start();
-						donate()->_include( 'inc/admin/views/html/' . $type . '.php' );
-						// $html[] = ob_get_clean();
-
-						$html[] = '</td>';
-						// end field
-
-						$html[]	= '</tr>';
 					}
 					$html[] = '</table>';
 				}
 			}
+			echo implode( '' , $html );
 
 		}
-
 		// after tab content
 		do_action( 'donate_admin_setting_after_' . $this->_id, $this->_id );
 	}
@@ -112,6 +140,97 @@ abstract class DN_Setting_Page
 	protected function load_field()
 	{
 		return array();
+	}
+
+	/**
+	 * genarate input atts
+	 * @param  $atts
+	 * @return string
+	 */
+	public function render_atts( $atts = array() )
+	{
+		if( ! is_array( $atts ) )
+			return;
+
+		$html = array();
+		foreach ( $atts as $key => $value ) {
+			if( is_array( $value ) )
+			{
+				$value = implode( ' ', $value );
+			}
+			$html[] = $key . '="' . esc_attr( $value ) . '"';
+		}
+		return implode( ' ' , $html );
+	}
+
+	/**
+	 * options load options
+	 * @return array || null
+	 */
+	protected function options()
+	{
+		$options = get_option( $this->_prefix, null );
+		if( isset( $options[ $this->_id ] ) )
+			return $options[ $this->_id ];
+
+		return null;
+	}
+
+	/**
+	 * get option value
+	 * @param  $name
+	 * @return option value. array, string, boolean
+	 */
+	public function get( $name = null, $default = null )
+	{
+		if( ! $this->_options )
+			$this->_options = $this->options();
+
+		if( $name && isset( $this->_options[ $name ] ) )
+			return $this->_options[ $name ];
+
+		return $default;
+
+	}
+
+	/**
+	 * get_name_field
+	 * @param  $name of field option
+	 * @return string name field
+	 */
+	public function get_field_id( $name = null, $group = null )
+	{
+		if( ! $this->_prefix || ! $name )
+			return;
+
+		if( ! $group )
+			$group = $this->_id;
+
+		if( $group )
+			return $this->_prefix . '_' . $group . '_' . $name;
+
+		return $this->_prefix . '_' . $name;
+
+	}
+
+	/**
+	 * get_name_field
+	 * @param  $name of field option
+	 * @return string name field
+	 */
+	public function get_field_name( $name = null, $group = null )
+	{
+		if( ! $this->_prefix || ! $name )
+			return;
+
+		if( ! $group )
+			$group = $this->_id;
+
+		if( $group )
+			return $this->_prefix . '[' . $group . '][' . $name . ']' ;
+
+		return $this->_prefix . '[' . $name . ']' ;
+
 	}
 
 }

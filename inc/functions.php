@@ -273,7 +273,300 @@ if( ! function_exists( 'donate_get_currencies' ) )
 {
 	function donate_get_currencies()
 	{
-		$currencies = array();
+		$currencies = array(
+				'AED' => 'United Arab Emirates Dirham (د.إ)',
+				'AUD' => 'Australian Dollars ($)',
+				'BDT' => 'Bangladeshi Taka (৳&nbsp;)',
+				'BRL' => 'Brazilian Real (R$)',
+				'BGN' => 'Bulgarian Lev (лв.)',
+				'CAD' => 'Canadian Dollars ($)',
+				'CLP' => 'Chilean Peso ($)',
+				'CNY' => 'Chinese Yuan (¥)',
+				'COP' => 'Colombian Peso ($)',
+				'CZK' => 'Czech Koruna (Kč)',
+				'DKK' => 'Danish Krone (kr.)',
+				'DOP' => 'Dominican Peso (RD$)',
+				'EUR' => 'Euros (€)',
+				'HKD' => 'Hong Kong Dollar ($)',
+				'HRK' => 'Croatia kuna (Kn)',
+				'HUF' => 'Hungarian Forint (Ft)',
+				'ISK' => 'Icelandic krona (Kr.)',
+				'IDR' => 'Indonesia Rupiah (Rp)',
+				'INR' => 'Indian Rupee (Rs.)',
+				'NPR' => 'Nepali Rupee (Rs.)',
+				'ILS' => 'Israeli Shekel (₪)',
+				'JPY' => 'Japanese Yen (¥)',
+				'KIP' => 'Lao Kip (₭)',
+				'KRW' => 'South Korean Won (₩)',
+				'MYR' => 'Malaysian Ringgits (RM)',
+				'MXN' => 'Mexican Peso ($)',
+				'NGN' => 'Nigerian Naira (₦)',
+				'NOK' => 'Norwegian Krone (kr)',
+				'NZD' => 'New Zealand Dollar ($)',
+				'PYG' => 'Paraguayan Guaraní (₲)',
+				'PHP' => 'Philippine Pesos (₱)',
+				'PLN' => 'Polish Zloty (zł)',
+				'GBP' => 'Pounds Sterling (£)',
+				'RON' => 'Romanian Leu (lei)',
+				'RUB' => 'Russian Ruble (руб.)',
+				'SGD' => 'Singapore Dollar ($)',
+				'ZAR' => 'South African rand (R)',
+				'SEK' => 'Swedish Krona (kr)',
+				'CHF' => 'Swiss Franc (CHF)',
+				'TWD' => 'Taiwan New Dollars (NT$)',
+				'THB' => 'Thai Baht (฿)',
+				'TRY' => 'Turkish Lira (₺)',
+				'USD' => 'US Dollars ($)',
+				'VND' => 'Vietnamese Dong (₫)',
+				'EGP' => 'Egyptian Pound (EGP)'
+			);
 		return apply_filters( 'donate_currencies', $currencies );
 	}
+}
+
+if( ! function_exists( 'donate_get_currency' ) )
+{
+
+	function donate_get_currency()
+	{
+		return donate()->options->get( 'currency', null, 'USD' );
+	}
+}
+
+/**
+ * Get Currency symbol.
+ * @param string $currency (default: '')
+ * @return string
+ */
+if( ! function_exists( 'donate_get_currency_symbol' ) )
+{
+
+	function donate_get_currency_symbol( $currency = '' ) {
+		if ( ! $currency ) {
+			$currency = donate_get_currency();
+		}
+
+		switch ( $currency ) {
+			case 'AED' :
+				$currency_symbol = 'د.إ';
+				break;
+			case 'AUD' :
+			case 'ARS' :
+			case 'CAD' :
+			case 'CLP' :
+			case 'COP' :
+			case 'HKD' :
+			case 'MXN' :
+			case 'NZD' :
+			case 'SGD' :
+			case 'USD' :
+				$currency_symbol = '&#36;';
+				break;
+			case 'BDT':
+				$currency_symbol = '&#2547;&nbsp;';
+				break;
+			case 'BGN' :
+				$currency_symbol = '&#1083;&#1074;.';
+				break;
+			case 'BRL' :
+				$currency_symbol = '&#82;&#36;';
+				break;
+			case 'CHF' :
+				$currency_symbol = '&#67;&#72;&#70;';
+				break;
+			case 'CNY' :
+			case 'JPY' :
+			case 'RMB' :
+				$currency_symbol = '&yen;';
+				break;
+			case 'CZK' :
+				$currency_symbol = '&#75;&#269;';
+				break;
+			case 'DKK' :
+				$currency_symbol = 'DKK';
+				break;
+			case 'DOP' :
+				$currency_symbol = 'RD&#36;';
+				break;
+			case 'EGP' :
+				$currency_symbol = 'EGP';
+				break;
+			case 'EUR' :
+				$currency_symbol = '&euro;';
+				break;
+			case 'GBP' :
+				$currency_symbol = '&pound;';
+				break;
+			case 'HRK' :
+				$currency_symbol = 'Kn';
+				break;
+			case 'HUF' :
+				$currency_symbol = '&#70;&#116;';
+				break;
+			case 'IDR' :
+				$currency_symbol = 'Rp';
+				break;
+			case 'ILS' :
+				$currency_symbol = '&#8362;';
+				break;
+			case 'INR' :
+				$currency_symbol = 'Rs.';
+				break;
+			case 'ISK' :
+				$currency_symbol = 'Kr.';
+				break;
+			case 'KIP' :
+				$currency_symbol = '&#8365;';
+				break;
+			case 'KRW' :
+				$currency_symbol = '&#8361;';
+				break;
+			case 'MYR' :
+				$currency_symbol = '&#82;&#77;';
+				break;
+			case 'NGN' :
+				$currency_symbol = '&#8358;';
+				break;
+			case 'NOK' :
+				$currency_symbol = '&#107;&#114;';
+				break;
+			case 'NPR' :
+				$currency_symbol = 'Rs.';
+				break;
+			case 'PHP' :
+				$currency_symbol = '&#8369;';
+				break;
+			case 'PLN' :
+				$currency_symbol = '&#122;&#322;';
+				break;
+			case 'PYG' :
+				$currency_symbol = '&#8370;';
+				break;
+			case 'RON' :
+				$currency_symbol = 'lei';
+				break;
+			case 'RUB' :
+				$currency_symbol = '&#1088;&#1091;&#1073;.';
+				break;
+			case 'SEK' :
+				$currency_symbol = '&#107;&#114;';
+				break;
+			case 'THB' :
+				$currency_symbol = '&#3647;';
+				break;
+			case 'TRY' :
+				$currency_symbol = '&#8378;';
+				break;
+			case 'TWD' :
+				$currency_symbol = '&#78;&#84;&#36;';
+				break;
+			case 'UAH' :
+				$currency_symbol = '&#8372;';
+				break;
+			case 'VND' :
+				$currency_symbol = '&#8363;';
+				break;
+			case 'ZAR' :
+				$currency_symbol = '&#82;';
+				break;
+			default :
+				$currency_symbol = '';
+				break;
+		}
+
+		return apply_filters( 'donate_currency_symbol', $currency_symbol, $currency );
+	}
+}
+
+/**
+ * format price
+ */
+if( ! function_exists( 'donate_price' ) )
+{
+
+	function donate_price( $price )
+	{
+		if( ! is_numeric( $price ) ) return;
+
+		$price = number_format( $price, donate_currency_decimal(), donate_currency_thousand(), donate_currency_separator() );
+
+		$position = donate_currency_position();
+		$symbol = donate_get_currency_symbol();
+		switch ( $position ) {
+			case 'left':
+				$price = $symbol . $price;
+				break;
+
+			case 'right':
+				$price = $price . $symbol;
+				break;
+
+			case 'left_space':
+				$price = $symbol . ' ' . $price;
+				break;
+
+			case 'right_space':
+				$price = $price . ' ' . $symbol;
+				break;
+
+			default:
+				$price = $symbol . $price;
+				break;
+		}
+		return apply_filters( 'donate_price', $price );
+	}
+
+}
+
+/**
+ * currency position format
+ */
+if( ! function_exists( 'donate_currency_position' ) )
+{
+
+	function donate_currency_position( $price )
+	{
+		return apply_filters( 'donate_currency_position', donate()->options->get( 'currency_position', null, 'left' ) );
+	}
+
+}
+
+/**
+ * currency thousand format
+ */
+if( ! function_exists( 'donate_currency_thousand' ) )
+{
+
+	function donate_currency_thousand( $price )
+	{
+		return apply_filters( 'donate_currency_thousand', donate()->options->get( 'currency_thousand', null, ',' ) );
+	}
+
+}
+
+/**
+ * currency separator format
+ */
+if( ! function_exists( 'donate_currency_separator' ) )
+{
+
+	function donate_currency_separator( $price )
+	{
+		return apply_filters( 'donate_currency_separator', donate()->options->get( 'currency_separator', null, '.' ) );
+	}
+
+}
+
+
+/**
+ * currency separator format
+ */
+if( ! function_exists( 'donate_currency_decimal' ) )
+{
+
+	function donate_currency_decimal( $price )
+	{
+		return apply_filters( 'donate_currency_decimal', donate()->options->get( 'currency_num_decimal', null, 2 ) );
+	}
+
 }

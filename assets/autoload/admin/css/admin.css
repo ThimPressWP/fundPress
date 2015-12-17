@@ -1,0 +1,12 @@
+.tp_donate_wrapper_content table th{
+	text-align: left;
+}
+.tp_donate_wrapper_content table p{
+	margin: 2px;
+	font-weight: normal;
+}
+.tp_donate_wrapper_content table select,
+.tp_donate_wrapper_content table input[ type="text" ]{
+	width: auto;
+	min-width: 250px;
+}
