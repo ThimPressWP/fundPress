@@ -1,6 +1,6 @@
 <?php
 
-class DN_etting_Donate extends DN_Setting_Page
+class DN_Setting_Donate extends DN_Setting_Base
 {
 	/**
 	 * setting id
@@ -32,7 +32,7 @@ class DN_etting_Donate extends DN_Setting_Page
 		return
 			array(
 				array(
-						'title'	=> __( 'Archive setting', 'tp-donate' ),
+						'title'	=> __( 'Archive settings', 'tp-donate' ),
 						'desc'	=> __( 'The following options affect how format are displayed list donate causes on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
 								array(
@@ -51,8 +51,8 @@ class DN_etting_Donate extends DN_Setting_Page
 									),
 								array(
 										'type'		=> 'select',
-										'label'		=> __( 'Raised and Coal', 'tp-donate' ),
-										'desc'		=> __( 'Display raised and goal on the fronted', 'tp-donate' ),
+										'label'		=> __( 'Raised and Goal', 'tp-donate' ),
+										'desc'		=> __( 'Display raised and goal on the frontend', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'raised_goal',
 												'class'	=> 'raised_goal'
@@ -66,7 +66,7 @@ class DN_etting_Donate extends DN_Setting_Page
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Countdown Raised', 'tp-donate' ),
-										'desc'		=> __( 'Display countdown raised on the fronted', 'tp-donate' ),
+										'desc'		=> __( 'Display countdown raised on the frontend', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'countdown_raised',
 												'class'	=> 'countdown_raised'
@@ -100,8 +100,8 @@ class DN_etting_Donate extends DN_Setting_Page
 									),
 								array(
 										'type'		=> 'select',
-										'label'		=> __( 'Raised and Coal', 'tp-donate' ),
-										'desc'		=> __( 'Display raised and goal on the fronted', 'tp-donate' ),
+										'label'		=> __( 'Raised and Goal', 'tp-donate' ),
+										'desc'		=> __( 'Display raised and goal on the frontend', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'raised_goal',
 												'class'	=> 'raised_goal'
@@ -115,7 +115,7 @@ class DN_etting_Donate extends DN_Setting_Page
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Countdown Raised', 'tp-donate' ),
-										'desc'		=> __( 'Display countdown raised on the fronted', 'tp-donate' ),
+										'desc'		=> __( 'Display countdown raised on the frontend', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'countdown_raised',
 												'class'	=> 'countdown_raised'
@@ -133,4 +133,4 @@ class DN_etting_Donate extends DN_Setting_Page
 
 }
 
-new DN_etting_Donate();
+$GLOBALS[ 'donate_settings' ] = new DN_Setting_Donate();

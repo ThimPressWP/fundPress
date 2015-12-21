@@ -1,6 +1,6 @@
 <?php
 
-class DN_Setting_General extends DN_Setting_Page
+class DN_Setting_General extends DN_Setting_Base
 {
 	/**
 	 * setting id
@@ -35,7 +35,7 @@ class DN_Setting_General extends DN_Setting_Page
 						'title'	=> __( '1' ),
 					),
 				array(
-						'title'	=> __( 'Currency', 'tp-donate' ),
+						'title'	=> __( 'Currency settings', 'tp-donate' ),
 						'desc'	=> __( 'The following options affect how prices are displayed on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
 								array(
@@ -108,4 +108,4 @@ class DN_Setting_General extends DN_Setting_Page
 
 }
 
-new DN_Setting_General();
+$GLOBALS[ 'general_settings' ] = new DN_Setting_General();

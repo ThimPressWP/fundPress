@@ -1,13 +1,13 @@
 <?php
 
-abstract class DN_Setting_Page extends DN_Setting
+abstract class DN_Setting_Base extends DN_Setting
 {
 
 	/**
 	 * $_id tab id
 	 * @var null
 	 */
-	protected $_id = null;
+	public $_id = null;
 
 	/**
 	 * $_title tab display
@@ -21,6 +21,10 @@ abstract class DN_Setting_Page extends DN_Setting
 	 */
 	protected $_fields = array();
 
+	/**
+	 * options group
+	 * @var null
+	 */
 	public $_options = null;
 
 	/**
@@ -37,7 +41,14 @@ abstract class DN_Setting_Page extends DN_Setting
 			add_action( 'donate_admin_setting_' . $this->_id . '_content', array( $this, 'layout' ), $this->_position, 1 );
 		}
 
-		$this->_options = $this->options();
+		$this->options();
+		add_filter( 'donate_settings_field', array( $this, 'settings' ) );
+	}
+
+	function settings( $settings )
+	{
+		$settings[ $this->_id ] = $this;
+		return $settings;
 	}
 
 	/**
@@ -60,7 +71,7 @@ abstract class DN_Setting_Page extends DN_Setting
 	public function layout()
 	{
 		// before tab content
-		do_action( 'donate_admin_setting_before_' . $this->_id, $this->_id );
+		do_action( 'donate_admin_setting_before_setting_tab', $this->_id );
 
 		// donate()->_include( 'inc/admin/views/tab_' . $this->_id . '.php' ); return;
 		$this->_fields = apply_filters( 'donate_admin_' . $this->_id  . '_fields', $this->load_field(), $this->_id );
@@ -134,7 +145,7 @@ abstract class DN_Setting_Page extends DN_Setting
 
 		}
 		// after tab content
-		do_action( 'donate_admin_setting_after_' . $this->_id, $this->_id );
+		do_action( 'donate_admin_setting_after_setting_tab' . $this->_id, $this->_id );
 	}
 
 	protected function load_field()
@@ -169,9 +180,16 @@ abstract class DN_Setting_Page extends DN_Setting
 	 */
 	protected function options()
 	{
-		$options = get_option( $this->_prefix, null );
+		if( $this->_options )
+			return $this->_options;
+
+		$options = parent::options();
+
+		if( ! $options )
+			$options = get_option( $this->_prefix, null );
+
 		if( isset( $options[ $this->_id ] ) )
-			return $options[ $this->_id ];
+			return $this->_options = $options[ $this->_id ];
 
 		return null;
 	}
@@ -227,7 +245,7 @@ abstract class DN_Setting_Page extends DN_Setting
 			$group = $this->_id;
 
 		if( $group )
-			return $this->_prefix . '[' . $group . '][' . $name . ']' ;
+			return $this->_prefix . '[' . $group . '][' . $name . ']';
 
 		return $this->_prefix . '[' . $name . ']' ;
 

@@ -51,7 +51,7 @@ class ThimPress_Donate
 	{
 		$this->includes();
 
-		$this->options = DN_Setting::instance();
+		$GLOBALS[ 'dn_settings' ] = $this->options = DN_Setting::instance();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueues' ) );
@@ -66,7 +66,7 @@ class ThimPress_Donate
 	 */
 	public function install()
 	{
-		$this->_include( 'install.php' );
+		$this->_include( 'inc/install.php' );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class ThimPress_Donate
 	 */
 	public function uninstall()
 	{
-		$this->_include( 'uninstall.php' );
+		$this->_include( 'inc/uninstall.php' );
 	}
 
 	/**
@@ -117,7 +117,6 @@ class ThimPress_Donate
 	{
 		$this->autoload();
 
-		$this->_include( 'inc/functions.php' );
 		$this->_include( 'inc/class-dn-setting.php' );
 
 		$paths = array( 'abstracts', 'settings', 'shortcodes', 'widgets', 'metaboxs' );
@@ -139,6 +138,7 @@ class ThimPress_Donate
 			}
 		}
 
+		$this->_include( 'inc/functions.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
 		$this->_include( 'inc/class-dn-template-include.php' );
 

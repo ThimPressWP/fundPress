@@ -11,9 +11,9 @@ class DN_Post_Type
 		/**
 		 * register post type
 		 */
-		add_action( 'init', array( $this, 'register_post_type_cause' ) );
-		add_action( 'init', array( $this, 'register_post_type_donate' ) );
-		add_action( 'init', array( $this, 'register_post_type_donor' ) );
+		add_action( 'init', array( $this, 'register_post_type_campaign' ) ); // campaign
+		add_action( 'init', array( $this, 'register_post_type_donate' ) ); // donate
+		add_action( 'init', array( $this, 'register_post_type_donor' ) ); // donor
 
 		/**
 		 * register taxonomy
@@ -22,34 +22,34 @@ class DN_Post_Type
 	}
 
 	// register post type cause hook callback
-	public function register_post_type_cause()
+	public function register_post_type_campaign()
 	{
 		$labels = array(
-			'name'               => _x( 'Causes', 'Causes', 'tp-donate' ),
-			'singular_name'      => _x( 'Cause', 'Cause', 'tp-donate' ),
-			'menu_name'          => _x( 'Causes', 'admin menu', 'tp-donate' ),
-			'name_admin_bar'     => _x( 'Cause', 'add new on admin bar', 'tp-donate' ),
-			'add_new'            => _x( 'Add Cause', 'donate', 'tp-donate' ),
-			'add_new_item'       => __( 'Add New Cause', 'tp-donate' ),
-			'new_item'           => __( 'New Cause', 'tp-donate' ),
-			'edit_item'          => __( 'Edit Cause', 'tp-donate' ),
-			'view_item'          => __( 'View Cause', 'tp-donate' ),
-			'all_items'          => __( 'Causes', 'tp-donate' ),
-			'search_items'       => __( 'Search Causes', 'tp-donate' ),
-			'parent_item_colon'  => __( 'Parent Causes:', 'tp-donate' ),
-			'not_found'          => __( 'No causes found.', 'tp-donate' ),
-			'not_found_in_trash' => __( 'No causes found in Trash.', 'tp-donate' )
+			'name'               => _x( 'Campaigns', 'Campaigns', 'tp-donate' ),
+			'singular_name'      => _x( 'Campaign', 'Campaign', 'tp-donate' ),
+			'menu_name'          => _x( 'Campaigns', 'admin menu', 'tp-donate' ),
+			'name_admin_bar'     => _x( 'Campaign', 'add new on admin bar', 'tp-donate' ),
+			'add_new'            => _x( 'Add Campaign', 'donate', 'tp-donate' ),
+			'add_new_item'       => __( 'Add New Campaign', 'tp-donate' ),
+			'new_item'           => __( 'New Campaign', 'tp-donate' ),
+			'edit_item'          => __( 'Edit Campaign', 'tp-donate' ),
+			'view_item'          => __( 'View Campaign', 'tp-donate' ),
+			'all_items'          => __( 'Campaigns', 'tp-donate' ),
+			'search_items'       => __( 'Search Campaigns', 'tp-donate' ),
+			'parent_item_colon'  => __( 'Parent Campaigns:', 'tp-donate' ),
+			'not_found'          => __( 'No campaign found.', 'tp-donate' ),
+			'not_found_in_trash' => __( 'No campaign found in Trash.', 'tp-donate' )
 		);
 
 		$args = array(
 			'labels'             => $labels,
-            'description'        => __( 'Causes', 'tp-donate' ),
+            'description'        => __( 'Campaigns', 'tp-donate' ),
 			'public'             => true,
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'causes' ),
+			'rewrite'            => array( 'slug' => 'campaign' ),
 			'capability_type'    => 'post',
 			'has_archive'        => true,
 			'hierarchical'       => false,
@@ -57,7 +57,7 @@ class DN_Post_Type
 			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 		);
 
-		register_post_type( 'dn_cause', $args );
+		register_post_type( 'dn_campaign', $args );
 	}
 
 	// register post type donate
@@ -149,16 +149,16 @@ class DN_Post_Type
 	{
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
-			'name'              => _x( 'Cause Categories', 'tp-donate' ),
-			'singular_name'     => _x( 'Cause', 'tp-donate' ),
-			'search_items'      => __( 'Search Causes', 'tp-donate' ),
-			'all_items'         => __( 'All Causes', 'tp-donate' ),
-			'parent_item'       => __( 'Parent Cause', 'tp-donate' ),
-			'parent_item_colon' => __( 'Parent Cause:', 'tp-donate' ),
-			'edit_item'         => __( 'Edit Cause', 'tp-donate' ),
-			'update_item'       => __( 'Update Cause', 'tp-donate' ),
-			'add_new_item'      => __( 'Add New Cause', 'tp-donate' ),
-			'new_item_name'     => __( 'New Cause Name', 'tp-donate' ),
+			'name'              => _x( 'Campaign Categories', 'tp-donate' ),
+			'singular_name'     => _x( 'Campaign', 'tp-donate' ),
+			'search_items'      => __( 'Search Campaigns', 'tp-donate' ),
+			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
+			'parent_item'       => __( 'Parent Campaign', 'tp-donate' ),
+			'parent_item_colon' => __( 'Parent Campaign:', 'tp-donate' ),
+			'edit_item'         => __( 'Edit Campaign', 'tp-donate' ),
+			'update_item'       => __( 'Update Campaign', 'tp-donate' ),
+			'add_new_item'      => __( 'Add New Campaign', 'tp-donate' ),
+			'new_item_name'     => __( 'New Campaign Name', 'tp-donate' ),
 			'menu_name'         => __( 'Categories', 'tp-donate' )
 		);
 
@@ -168,23 +168,23 @@ class DN_Post_Type
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'cause_cat' ),
+			'rewrite'           => array( 'slug' => 'campaign_cat' ),
 		);
 
-		register_taxonomy( 'dn_causes_cat', array( 'dn_cause' ), $args );
+		register_taxonomy( 'dn_campaign_cat', array( 'dn_campaign' ), $args );
 
 		// Add new taxonomy, make it hierarchical (like tags)
 		$labels = array(
-			'name'              => _x( 'Cause Tags', 'tp-donate', 'tp-donate' ),
-			'singular_name'     => _x( 'Cause', 'tp-donate' ),
-			'search_items'      => __( 'Search Causes Tag', 'tp-donate' ),
-			'all_items'         => __( 'All Causes', 'tp-donate' ),
-			'parent_item'       => __( 'Parent Cause Tag', 'tp-donate' ),
-			'parent_item_colon' => __( 'Parent Cause Tag:', 'tp-donate' ),
-			'edit_item'         => __( 'Edit Cause Tag', 'tp-donate' ),
-			'update_item'       => __( 'Update Cause Tag', 'tp-donate' ),
-			'add_new_item'      => __( 'Add New Cause Tag', 'tp-donate' ),
-			'new_item_name'     => __( 'New Cause Tag Name', 'tp-donate' ),
+			'name'              => _x( 'Campaign Tags', 'tp-donate', 'tp-donate' ),
+			'singular_name'     => _x( 'Campaign', 'tp-donate' ),
+			'search_items'      => __( 'Search Campaigns Tag', 'tp-donate' ),
+			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
+			'parent_item'       => __( 'Parent Campaign Tag', 'tp-donate' ),
+			'parent_item_colon' => __( 'Parent Campaign Tag:', 'tp-donate' ),
+			'edit_item'         => __( 'Edit Campaign Tag', 'tp-donate' ),
+			'update_item'       => __( 'Update Campaign Tag', 'tp-donate' ),
+			'add_new_item'      => __( 'Add New Campaign Tag', 'tp-donate' ),
+			'new_item_name'     => __( 'New Campaign Tag Name', 'tp-donate' ),
 			'menu_name'         => __( 'Tags', 'tp-donate' )
 		);
 
@@ -194,10 +194,10 @@ class DN_Post_Type
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'cause_tag' ),
+			'rewrite'           => array( 'slug' => 'campaign_tag' ),
 		);
 
-		register_taxonomy( 'dn_causes_tag', array( 'dn_cause' ), $args );
+		register_taxonomy( 'dn_campaign_tag', array( 'dn_campaign' ), $args );
 	}
 
 }

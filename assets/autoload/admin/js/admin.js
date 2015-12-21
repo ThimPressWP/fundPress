@@ -8,7 +8,10 @@
 			this.admin_setting_tab();
 
 			// select2 js
-			$('.tp_donate_wrapper_content select').select2();
+			$('.tp_donate_wrapper_content select').select2({
+				width: 'resolve',
+				dropdownAutoWidth : true
+			});
 		},
 
 		// tab setting function

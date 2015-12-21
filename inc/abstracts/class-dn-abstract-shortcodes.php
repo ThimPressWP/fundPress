@@ -1,6 +1,6 @@
 <?php
 
-abstract class DN_Shortcodes
+abstract class DN_Shortcode_Base
 {
 
 	/**

@@ -9,6 +9,8 @@ class DN_Setting
 	 */
 	public $_options = null;
 
+	public $_id = null;
+
 	/**
 	 * prefix option name
 	 * @var string
@@ -21,18 +23,29 @@ class DN_Setting
 	 */
 	static $_instance = null;
 
-	function __construct( $prefix = null )
+	function __construct( $prefix = null, $id = null )
 	{
 		if( $prefix )
 			$this->_prefix = $prefix;
 
+		$this->_id = $id;
+
 		// load options
-		if( ! $this->_options )
-			$this->_options = $this->options();
+		$this->options();
 
 		// save, update setting
 		add_filter( 'donate_admnin_menus', array( $this, 'setting_page' ), 10, 1 );
 		add_action( 'admin_init', array( $this, 'register_setting' ) );
+	}
+
+	function __get( $id = null )
+	{
+		$settings = apply_filters( 'donate_settings_field', array() );
+		if( array_key_exists( $id, $settings ) )
+		{
+			return $settings[ $id ];
+		}
+		return null;
 	}
 
 	/**
@@ -66,7 +79,10 @@ class DN_Setting
 	 */
 	protected function options()
 	{
-		return get_option( $this->_prefix, null );
+		if( $this->_options )
+			return $this->_options;
+
+		return $this->_options = get_option( $this->_prefix, null );
 	}
 
 	/**
@@ -119,13 +135,15 @@ class DN_Setting
 	 * @param  $prefix
 	 * @return object class
 	 */
-	static function instance( $prefix = null )
+	static function instance( $prefix = null, $id = null )
 	{
 
-		if( self::$_instance && $prefix === $this->_prefix )
-			return $GLOBALS[ 'dn_settings' ] = self::$_instance;
+		if( self::$_instance && ! empty( self::$_instance[ $prefix ] ) )
+			return self::$_instance[ $prefix ];
 
-		return $GLOBALS[ 'dn_settings' ] = new self( $prefix );
+		$self = self::$_instance[ $prefix ] = new self( $prefix, $id );
+
+		return $self;
 
 	}
 

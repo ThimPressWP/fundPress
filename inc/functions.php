@@ -329,7 +329,7 @@ if( ! function_exists( 'donate_get_currency' ) )
 
 	function donate_get_currency()
 	{
-		return donate()->options->get( 'currency', null, 'USD' );
+		return DN_Setting::instance()->general->get( 'currency', 'USD' );
 	}
 }
 
@@ -524,9 +524,9 @@ if( ! function_exists( 'donate_price' ) )
 if( ! function_exists( 'donate_currency_position' ) )
 {
 
-	function donate_currency_position( $price )
+	function donate_currency_position()
 	{
-		return apply_filters( 'donate_currency_position', donate()->options->get( 'currency_position', null, 'left' ) );
+		return apply_filters( 'donate_currency_position', DN_Setting::instance()->general->get( 'currency_position', 'left' ) );
 	}
 
 }
@@ -539,7 +539,7 @@ if( ! function_exists( 'donate_currency_thousand' ) )
 
 	function donate_currency_thousand( $price )
 	{
-		return apply_filters( 'donate_currency_thousand', donate()->options->get( 'currency_thousand', null, ',' ) );
+		return apply_filters( 'donate_currency_thousand', DN_Setting::instance()->general->get( 'currency_thousand', ',' ) );
 	}
 
 }
@@ -552,11 +552,10 @@ if( ! function_exists( 'donate_currency_separator' ) )
 
 	function donate_currency_separator( $price )
 	{
-		return apply_filters( 'donate_currency_separator', donate()->options->get( 'currency_separator', null, '.' ) );
+		return apply_filters( 'donate_currency_separator', DN_Setting::instance()->general->get( 'currency_separator', '.' ) );
 	}
 
 }
-
 
 /**
  * currency separator format
@@ -566,7 +565,25 @@ if( ! function_exists( 'donate_currency_decimal' ) )
 
 	function donate_currency_decimal( $price )
 	{
-		return apply_filters( 'donate_currency_decimal', donate()->options->get( 'currency_num_decimal', null, 2 ) );
+		return apply_filters( 'donate_currency_decimal', DN_Setting::instance()->general->get( 'currency_num_decimal', 2 ) );
 	}
 
+}
+
+/**
+ * get list pages
+ */
+if( ! function_exists( 'donate_get_pages_setting' ) )
+{
+	function donate_get_pages_setting()
+	{
+		$pages = array();
+
+		$pages[] = __( '---Select page---', 'tp-donate' );
+		$list = get_all_page_ids();
+		foreach ( $list as $key => $id ) {
+			$pages[ $id ] = get_the_title( $id );
+		}
+		return apply_filters( 'donate_all_page', $pages );
+	}
 }

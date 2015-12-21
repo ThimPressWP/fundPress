@@ -1,6 +1,6 @@
 <?php
 
-class DN_Donor extends DN_Post_Base
+class DN_Campaign extends DN_Post_Base
 {
 
 	/**
@@ -21,7 +21,7 @@ class DN_Donor extends DN_Post_Base
 	 * post type
 	 * @var null
 	 */
-	public $post_type = 'dn_donor';
+	public $post_type = 'dn_campaign';
 
 	public function __construct( $post )
 	{

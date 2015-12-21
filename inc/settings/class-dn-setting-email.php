@@ -1,6 +1,6 @@
 <?php
 
-class DN_Setting_Email extends DN_Setting_Page
+class DN_Setting_Email extends DN_Setting_Base
 {
 	/**
 	 * setting id
@@ -32,7 +32,7 @@ class DN_Setting_Email extends DN_Setting_Page
 		return
 			array(
 				array(
-						'title'	=> __( 'Email Donate', 'tp-donate' ),
+						'title'	=> __( 'Email Settings', 'tp-donate' ),
 						'desc'	=> __( 'The following options affect how prices are displayed on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
 								array(
@@ -57,7 +57,8 @@ class DN_Setting_Email extends DN_Setting_Page
 										'atts'		=> array(
 												'id'			=> 'from_name',
 												'class'			=> 'from_name',
-												'placeholder'	=> get_option( 'blogname' )
+												'placeholder'	=> get_option( 'blogname' ),
+												'type'			=> 'text'
 											),
 										'name'		=> 'from_name',
 										'default'	=> ''
@@ -69,7 +70,8 @@ class DN_Setting_Email extends DN_Setting_Page
 										'atts'		=> array(
 												'id'			=> 'admin_email',
 												'class'			=> 'admin_email',
-												'placeholder'	=> get_option( 'admin_email' )
+												'placeholder'	=> get_option( 'admin_email' ),
+												'type'			=> 'text'
 											),
 										'name'		=> 'admin_email',
 										'default'	=> ''
@@ -81,4 +83,4 @@ class DN_Setting_Email extends DN_Setting_Page
 
 }
 
-new DN_Setting_Email();
+$GLOBALS[ 'email_settings' ] = new DN_Setting_Email();

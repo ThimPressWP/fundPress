@@ -3,7 +3,7 @@
 /**
  * register metabox
  */
-abstract class DN_Meta_Box
+abstract class DN_MetaBox_Base
 {
 
 	/**
@@ -40,7 +40,7 @@ abstract class DN_Meta_Box
 	 * screen post, page, tp_event
 	 * @var array
 	 */
-	public $_screen = array( 'dn_cause' );
+	public $_screen = array( 'dn_campaign' );
 
 	public function __construct()
 	{

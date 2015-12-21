@@ -1,6 +1,6 @@
 <?php
 
-class TP_Shortcode_Event_Countdown extends DN_Shortcodes
+class TP_Shortcode_Event_Countdown extends DN_Shortcode_Base
 {
 	/**
 	 * template file

@@ -1,5 +1,9 @@
+.tp_donate_setting_wrapper a.nav-tab:focus{
+	box-shadow: none;
+}
 .tp_donate_wrapper_content table th{
 	text-align: left;
+	min-width: 300px;
 }
 .tp_donate_wrapper_content table p{
 	margin: 2px;
