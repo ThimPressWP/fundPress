@@ -579,7 +579,7 @@ if( ! function_exists( 'donate_get_pages_setting' ) )
 	{
 		$pages = array();
 
-		$pages[] = __( '---Select page---', 'tp-donate' );
+		$pages[] = __( '--- Select page ---', 'tp-donate' );
 		$list = get_all_page_ids();
 		foreach ( $list as $key => $id ) {
 			$pages[ $id ] = get_the_title( $id );

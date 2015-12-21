@@ -171,8 +171,23 @@ class ThimPress_Donate
 	public function enqueues()
 	{
 		wp_enqueue_script( 'jquery' );
-		wp_dequeue_script( 'jquery-ui-datepicker' );
+		// wp_dequeue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-core' );
+
+		wp_register_script( 'thim_press_donate', TP_DONATE_LIB_URI . '/globals.js', array(), TP_DONATE_VER, true );
+
+		/**
+		 * array render object script
+		 * @var array
+		 */
+		$donate_settings = apply_filters( 'donate_localize_object_settings', array(
+				'ajaxurl'	=> admin_url( 'admin-ajax.php?schema=donate-ajax' )
+			));
+
+		wp_localize_script( 'thim_press_donate', apply_filters( 'donate_localize_object', 'Donate_Settings' ), $donate_settings );
+
+		// Enqueued script with localized data.
+		wp_enqueue_script( 'thim_press_donate' );
 		if( is_admin() )
 		{
 			wp_enqueue_script( 'tp-donate-bootstrap-datepicker-js', TP_DONATE_LIB_URI . '/datetimepicker/js/bootstrap-datepicker.js', array(), TP_DONATE_VER, true );

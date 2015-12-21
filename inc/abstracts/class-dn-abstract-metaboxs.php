@@ -37,6 +37,12 @@ abstract class DN_MetaBox_Base
 	protected $_layout = null;
 
 	/**
+	 * field
+	 * @var array
+	 */
+	protected $_fields = array();
+
+	/**
 	 * screen post, page, tp_event
 	 * @var array
 	 */
@@ -78,10 +84,113 @@ abstract class DN_MetaBox_Base
 		{
 			$this->_layout = apply_filters( 'donate_metabox_layout', $this->_layout, $this->_id );
 
+			wp_nonce_field( 'thimpress_donate', 'thimpress_donate_metabox' );
+
 			do_action( 'donate_metabox_before_render', $this->_id, $this->_layout );
-			require_once $this->_layout;
+
+			// require_once $this->_layout;
+			$this->_fields = apply_filters( 'donate_metabox_fields', $this->load_field(), $this->_id );
+
+			if( $this->_fields )
+			{
+				$html = array();
+
+				$html[] = '<ul class="donate_metabox_setting" id="'.esc_attr( $this->_id ).'">';
+				foreach( $this->_fields as $id => $group )
+				{
+					if( isset( $group[ 'title' ] ) )
+					{
+						$html[] = '<li><a href="#" id="'.esc_attr( $id ).'">' . sprintf( '%s', $group[ 'title' ] ) . '</a>';
+
+						if( isset( $group[ 'desc' ] ) )
+							$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
+
+						$html[] = '</li>';
+					}
+
+				}
+				$html[] = '</ul>';
+
+			}
+
+			if( $this->_fields )
+			{
+				$html[] = '<div class="donate_metabox_setting_container">';
+				foreach( $this->_fields as $id => $group )
+				{
+
+					if( isset( $group[ 'fields' ] ) )
+					{
+						$html[] = '<div class="donate_metabox_setting_section" data-id="'.esc_attr( $id ).'">';
+						$html[] = '<table>';
+						foreach( $group[ 'fields' ] as $type => $field )
+						{
+
+							if( isset( $field[ 'name' ], $field[ 'type' ] ) )
+							{
+								$html[] = '<tr>';
+
+								// label
+								$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
+
+								if( isset( $field[ 'desc' ] ) )
+								{
+									$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
+								}
+
+								$html[]	= '</th>';
+								// end label
+
+								// field
+								$html[] = '<td>';
+
+								$default = array(
+												'type'		=> '',
+												'label'		=> '',
+												'desc'		=> '',
+												'atts'		=> array(
+														'id'	=> '',
+														'class'	=> ''
+													),
+												'name'		=> '',
+												'group'		=> $this->_id ? $this->_id : null,
+												'options'	=> array(
+
+													),
+												'default'	=> null
+											);
+
+								$field = wp_parse_args( $field, $default );
+
+								ob_start();
+								include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
+								$html[] = ob_get_clean();
+
+								$html[] = '</td>';
+								// end field
+
+								$html[]	= '</tr>';
+							}
+						}
+						$html[] = '</table>';
+						$html[] = '</div>';
+					}
+				}
+				$html[] = '</div>';
+			}
+			echo implode( '' , $html );
+
 			do_action( 'donate_metabox_after_render', $this->_id, $this->_layout );
 		}
+	}
+
+	/**
+	 * load field
+	 * @return array
+	 */
+	public function load_field()
+	{
+		return array();
 	}
 
 	/**
@@ -94,15 +203,70 @@ abstract class DN_MetaBox_Base
 		return $this->_prefix . $name;
 	}
 
+	/**
+	 * get field value
+	 * @param  string $name
+	 * @return field value
+	 */
 	public function get_field_value( $name = '' )
 	{
 		global $post;
 		return get_post_meta( $post->ID, $this->_prefix . $name, true );
 	}
 
+	/**
+	 * generate id
+	 * @param  $name
+	 * @return string
+	 */
+	public function get_field_id( $name )
+	{
+		return '';
+	}
+
+	/**
+	 * return atts
+	 * @return  null
+	 */
+	public function render_atts( $atts = array() )
+	{
+		if( ! is_array( $atts ) )
+			return;
+
+		$html = array();
+		foreach ( $atts as $key => $value ) {
+			if( is_array( $value ) )
+			{
+				$value = implode( ' ', $value );
+			}
+			$html[] = $key . '="' . esc_attr( $value ) . '"';
+		}
+		return implode( ' ' , $html );
+	}
+
+	/**
+	 * get attribute
+	 * @param  string $name [description]
+	 * @return [type]       [description]
+	 */
+	public function get( $name = '' )
+	{
+		return $this->get_field_value( $name );
+	}
+
+	/**
+	 * update function
+	 * @param  $post_id
+	 * @param  $post
+	 * @param  $update
+	 * @return null
+	 */
 	public function update( $post_id, $post, $update )
 	{
 		if( ! isset( $_POST ) )
+			return;
+
+		if( ! isset( $_POST[ 'thimpress_donate_metabox' ] ) && ! wp_verify_nonce( $_POST[ 'thimpress_donate_metabox' ], 'thimpress_donate' ) )
 			return;
 
 		if( ! in_array( $post->post_type, $this->_screen ) )
@@ -111,7 +275,9 @@ abstract class DN_MetaBox_Base
 		foreach ($_POST as $key => $val) {
 			if( ! strpos( $key, $this->_prefix ) === 0 )
 				return;
-			$val = trim( $val );
+
+			if( is_string( $val ) )
+				$val = trim( $val );
 			update_post_meta( $post_id, $key, $val );
 		}
 	}

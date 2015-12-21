@@ -29,6 +29,12 @@ abstract class DN_Payment_Base
 	protected function process(){}
 
 	/**
+	 * refun action
+	 * @return null
+	 */
+	protected function refun(){}
+
+	/**
 	 * payment send email
 	 * @return null
 	 */

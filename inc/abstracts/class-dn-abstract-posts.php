@@ -61,9 +61,19 @@ abstract class DN_Post_Base
 			'post_type'		=> $this->post_type
 		);
 
+		$default = apply_filters( 'donate_create_post_default', $default, $this->post_type );
+
 		$post = wp_parse_args( $args, $default );
 
-		return wp_insert_post( $post, true );
+		$default = apply_filters( 'donate_create_post_default', $default, $this->post_type );
+
+		do_action( 'donate_before_insert_post', $this->post_type );
+
+		$id = wp_insert_post( $post, true );
+
+		do_action( 'donate_after_insert_post', $id );
+
+		return $id;
 	}
 
 }

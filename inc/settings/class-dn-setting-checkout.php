@@ -73,40 +73,41 @@ class DN_Setting_Checkout extends DN_Setting_Base
 									)
 							)
 					),
-					array(
-						'title'	=> __( 'Checkout page setting', 'tp-donate' ),
-						'desc'	=> __( 'The following options affect how format are displayed list donate causes on the checkout page.', 'tp-donate' ),
-						'fields'		=> array(
-								array(
-										'type'		=> 'select',
-										'label'		=> __( 'Show terms & Conditions', 'tp-donate' ),
-										'desc'		=> __( 'This controlls display term & condition in checkout page', 'tp-donate' ),
-										'atts'		=> array(
-												'id'	=> 'term_condition',
-												'class'	=> 'term_condition'
-											),
-										'name'		=> 'term_condition',
-										'options'	=> array(
-												'yes'			=> __( 'Yes', 'tp-donate' ),
-												'no'			=> __( 'No', 'tp-donate' )
-											)
-									),
-								array(
-										'type'		=> 'select',
-										'label'		=> __( 'Name on donors list?', 'tp-donate' ),
-										'desc'		=> __( 'This controlls hide name on donors box', 'tp-donate' ),
-										'atts'		=> array(
-												'id'	=> 'term_condition',
-												'class'	=> 'term_condition'
-											),
-										'name'		=> 'term_condition',
-										'options'	=> array(
-												'yes'			=> __( 'Yes', 'tp-donate' ),
-												'no'			=> __( 'No', 'tp-donate' )
-											)
-									)
-							)
-					)
+
+				array(
+					'title'	=> __( 'Checkout page setting', 'tp-donate' ),
+					'desc'	=> __( 'The following options affect how format are displayed list donate causes on the checkout page.', 'tp-donate' ),
+					'fields'		=> array(
+							array(
+									'type'		=> 'select',
+									'label'		=> __( 'Show terms & Conditions', 'tp-donate' ),
+									'desc'		=> __( 'This controlls display term & condition in checkout page', 'tp-donate' ),
+									'atts'		=> array(
+											'id'	=> 'term_condition',
+											'class'	=> 'term_condition'
+										),
+									'name'		=> 'term_condition',
+									'options'	=> array(
+											'yes'			=> __( 'Yes', 'tp-donate' ),
+											'no'			=> __( 'No', 'tp-donate' )
+										)
+								),
+							array(
+									'type'		=> 'select',
+									'label'		=> __( 'Name on donors list?', 'tp-donate' ),
+									'desc'		=> __( 'This controlls hide name on donors box', 'tp-donate' ),
+									'atts'		=> array(
+											'id'	=> 'term_condition',
+											'class'	=> 'term_condition'
+										),
+									'name'		=> 'term_condition',
+									'options'	=> array(
+											'yes'			=> __( 'Yes', 'tp-donate' ),
+											'no'			=> __( 'No', 'tp-donate' )
+										)
+								)
+						)
+				)
 			);
 	}
 

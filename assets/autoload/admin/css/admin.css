@@ -14,3 +14,23 @@
 	width: auto;
 	min-width: 250px;
 }
+
+/**
+ * metabox
+ */
+.donate_metabox_setting{
+    width: auto;
+    float: left;
+    min-width: 200px;
+}
+.donate_metabox_setting li a{
+	text-decoration: none;
+	padding: 8px;
+	display: inline-block;
+}
+.donate_metabox_setting_container{
+	float: left;
+}
+#donate_setting_section .inside{
+	overflow: hidden;
+}

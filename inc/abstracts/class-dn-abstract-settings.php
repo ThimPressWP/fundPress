@@ -74,7 +74,7 @@ abstract class DN_Setting_Base extends DN_Setting
 		do_action( 'donate_admin_setting_before_setting_tab', $this->_id );
 
 		// donate()->_include( 'inc/admin/views/tab_' . $this->_id . '.php' ); return;
-		$this->_fields = apply_filters( 'donate_admin_' . $this->_id  . '_fields', $this->load_field(), $this->_id );
+		$this->_fields = apply_filters( 'donate_admin_setting_fields', $this->load_field(), $this->_id );
 
 		if( $this->_fields )
 		{
