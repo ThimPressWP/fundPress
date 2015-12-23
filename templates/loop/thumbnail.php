@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if( has_post_thumbnail() ):  ?>
 
-	<div class="entry-thumbnail">
-		<a href="<?php the_permalink(); ?>">
-			<?php the_post_thumbnail( ); ?>
-		</a>
-	</div>
+	<a href="<?php the_permalink(); ?>" data-campaign-id="<?php echo esc_attr( get_the_ID() ) ?>">
+
+		<?php the_post_thumbnail(); ?>
+
+	</a>
 
 <?php endif; ?>

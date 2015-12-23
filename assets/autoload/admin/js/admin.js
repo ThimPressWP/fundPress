@@ -6,7 +6,7 @@
 		init: function()
 		{
 			this.admin_setting_tab();
-
+			this.donate_meta_box();
 			// select2 js
 			$('.tp_donate_wrapper_content select').select2({
 				width: 'resolve',
@@ -19,10 +19,10 @@
 		{
 			// admin setting
 			$('.tp_donate_wrapper_content > div:not(:first)').hide();
-			var a_tabs = $('.tp_donate_setting_wrapper .nav-tab-wrapper a');
 			$( document ).on( 'click', '.tp_donate_setting_wrapper .nav-tab-wrapper a', function( e ){
 				e.preventDefault();
 
+				var a_tabs = $('.tp_donate_setting_wrapper .nav-tab-wrapper a');
 				a_tabs.removeClass('nav-tab-active');
 				var _self = $(this),
 					_tab_id = _self.attr( 'data-tab' );
@@ -36,10 +36,10 @@
 
 			// donate metabox
 			$('.donate_metabox_setting_section:not(:first)').hide();
-			var a_tabs = $('.donate_metabox_setting a');
 			$( document ).on( 'click', '.donate_metabox_setting a', function( e ){
 				e.preventDefault();
 
+				var a_tabs = $('.donate_metabox_setting a');
 				a_tabs.removeClass('nav-tab-active');
 				var _self = $(this),
 					_tab_id = _self.attr( 'id' );
@@ -50,6 +50,69 @@
 
 				return false;
 			});
+		},
+
+		donate_meta_box: function()
+		{
+			/*
+			 * add new compensate
+			 */
+			$( document ).on( 'click', '.donate_metabox_setting_section .add_compensate', function(e){
+				e.preventDefault();
+
+				var _self = $(this),
+					_section = $('.donate_metabox:last'),
+					_id = 0,
+					_parent = _self.parents( '.donate_metabox_setting_section:first' ),
+					_template = wp.template('compensate-layout');
+
+				if( _section.length === 1 )
+				{
+					_id = _section.attr( 'data-compensate-id' );
+					_id = parseInt(_id) + 1;
+				}
+
+				_parent.append( _template({ id: _id }) );
+
+			});
+
+			// remove package
+			$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', function( e ){
+				e.preventDefault();
+				var _self = $(this),
+					_record = _self.parents( 'tr:first' ),
+					_post_id = $( 'body' ).find( '#post_ID' ).val();
+
+				$.ajax({
+					url: thimpress_donate.ajaxurl,
+					type: 'POST',
+					data: {
+						compensate_id: _self.attr( 'data-compensate-id' ),
+						action: 'donate_remove_compensate',
+						post_id: _post_id
+					},
+					beforeSend: function(){
+
+					}
+				}).done ( function( res ){
+
+					if( typeof res.status === 'undefined' )
+						return;
+
+					if( res.status === 'success' )
+					{
+						_record.remove();
+					}
+					else if ( res.status === 'failed' && typeof res.message !== 'undefined' )
+					{
+						alert( res.message );
+					}
+
+				} ).fail( function(){
+
+				} )
+			});
+
 		},
 
 	};

@@ -36,6 +36,20 @@ class DN_Setting_Donate extends DN_Setting_Base
 						'desc'	=> __( 'The following options affect how format are displayed list donate causes on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
 								array(
+										'type'		=> 'input',
+										'label'		=> __( 'Archive columns', 'tp-donate' ),
+										'desc'		=> __( 'This controlls how many column archive page.', 'tp-donate' ),
+										'atts'		=> array(
+												'id'	=> 'columns',
+												'class'	=> 'columns',
+												'min'	=> 1,
+												'max'	=> 4,
+												'type'	=> 'number'
+											),
+										'name'		=> 'archive_column',
+										'default'	=> 4
+									),
+								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Lightbox', 'tp-donate' ),
 										'desc'		=> __( 'This controlls using lightbox donate. Yes or No?', 'tp-donate' ),

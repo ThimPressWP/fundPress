@@ -22,15 +22,45 @@
     width: auto;
     float: left;
     min-width: 200px;
+    margin: 0;
+    background-color: #fdfdfd;
+    border: 1px solid #dfdfdf;
+}
+.donate_metabox_setting li{
+	margin: 0;
 }
 .donate_metabox_setting li a{
 	text-decoration: none;
 	padding: 8px;
-	display: inline-block;
+	display: block;
+}
+.donate_metabox_setting li a:focus{
+	box-shadow: none;
 }
 .donate_metabox_setting_container{
-	float: left;
+	padding-left: 220px;
 }
 #donate_setting_section .inside{
 	overflow: hidden;
+}
+.donate_metabox_setting_section .donate_metabox{
+	border-bottom: 1px solid #dedede;
+}
+.donate_metabox_setting_section label{
+	font-weight: bold;
+	float: left;
+	width: 100%;
+}
+.donate_metabox_setting_section th{
+	text-align: left;
+	width: 30%;
+}
+.donate_metabox_setting_container .tool_box{
+	overflow: hidden;
+}
+.donate_metabox_setting_container .tool_box .button{
+	float: right;
+}
+.donate_metabox_setting_section textarea{
+	width: 100%;
 }

@@ -139,6 +139,7 @@ class ThimPress_Donate
 		}
 
 		$this->_include( 'inc/functions.php' );
+		$this->_include( 'inc/template-hook.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
 		$this->_include( 'inc/class-dn-template-include.php' );
 
@@ -184,17 +185,13 @@ class ThimPress_Donate
 				'ajaxurl'	=> admin_url( 'admin-ajax.php?schema=donate-ajax' )
 			));
 
-		wp_localize_script( 'thim_press_donate', apply_filters( 'donate_localize_object', 'Donate_Settings' ), $donate_settings );
+		wp_localize_script( 'thim_press_donate', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
 
 		// Enqueued script with localized data.
 		wp_enqueue_script( 'thim_press_donate' );
 		if( is_admin() )
 		{
-			wp_enqueue_script( 'tp-donate-bootstrap-datepicker-js', TP_DONATE_LIB_URI . '/datetimepicker/js/bootstrap-datepicker.js', array(), TP_DONATE_VER, true );
-			wp_enqueue_script( 'tp-donate-bootstrap-timepicker-js', TP_DONATE_LIB_URI . '/datetimepicker/js/jquery.timepicker.js', array(), TP_DONATE_VER, true );
-
-			wp_enqueue_style( 'tp-donate-datepicker', TP_DONATE_LIB_URI . '/datetimepicker/css/bootstrap-datetimepicker.css', array(), TP_DONATE_VER );
-			wp_enqueue_style( 'tp-donate-timepicker', TP_DONATE_LIB_URI . '/datetimepicker/css/jquery.timepicker.css', array(), TP_DONATE_VER );
+			wp_enqueue_script( 'wp-util' );
 
 			foreach ( $this->_assets[ 'admin' ] as $key => $files ) {
 				if( $key === 'css' )
@@ -212,9 +209,6 @@ class ThimPress_Donate
 		}
 		else
 		{
-			wp_enqueue_script( 'tp-donate-countdown-plugin-js', TP_DONATE_LIB_URI . '/countdown/js/jquery.plugin.min.js', array(), TP_DONATE_VER, true );
-			wp_enqueue_script( 'tp-donate-countdown-js', TP_DONATE_LIB_URI . '/countdown/js/jquery.countdown.min.js', array(), TP_DONATE_VER, true );
-			wp_enqueue_style( 'tp-donate-countdown-css', TP_DONATE_LIB_URI . '/countdown/css/jquery.countdown.css', array(), TP_DONATE_VER );
 			foreach ( $this->_assets[ 'site' ] as $key => $files ) {
 				if( $key === 'css' )
 				{

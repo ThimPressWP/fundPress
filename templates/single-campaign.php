@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Single Event post type
+ * Template Single dn_campaign post type
  */
 
 get_header( ); ?>
@@ -14,7 +14,7 @@ get_header( ); ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php donate_get_template_part( 'content', 'single-event' ); ?>
+			<?php donate_get_template_part( 'content', 'single-campaign' ); ?>
 
 		<?php endwhile; // end of the loop. ?>
 

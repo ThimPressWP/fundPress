@@ -1,4 +1,4 @@
-<article id="tp_donate-<?php the_ID(); ?>" <?php post_class('tp_single_cause'); ?>>
+<article id="tp_donate-<?php the_ID(); ?>" <?php post_class('tp_single_campaign'); ?>>
 
 	<?php
 		/**
@@ -7,31 +7,31 @@
 		 * @hooked donate_show_room_sale_flash - 10
 		 * @hooked donate_show_room_images - 20
 		 */
-		do_action( 'donate_before_single_cause' );
+		do_action( 'donate_before_single_campaign' );
 	?>
 
-	<div class="summary entry-summary">
+	<div class="campaign-entry">
 
 		<?php
 			/**
-			 * donate_single_cause_title hook
+			 * donate_single_campaign_title hook
 			 */
-			do_action( 'donate_single_cause_title' );
+			do_action( 'donate_single_campaign_title' );
 
 			/**
-			 * donate_single_cause_thumbnail hook
+			 * donate_single_campaign_thumbnail hook
 			 */
-			do_action( 'donate_single_cause_thumbnail' );
+			do_action( 'donate_single_campaign_thumbnail' );
 
 			/**
-			 * donate_loop_cause_countdown
+			 * donate_loop_campaign_countdown
 			 */
-			do_action( 'donate_loop_cause_countdown' );
+			do_action( 'donate_loop_campaign_countdown' );
 
 			/**
-			 * donate_single_cause_content hook
+			 * donate_single_campaign_content hook
 			 */
-			do_action( 'donate_single_cause_content' );
+			do_action( 'donate_single_campaign_content' );
 		?>
 
 	</div><!-- .summary -->
@@ -44,7 +44,7 @@
 		 * @hooked hotel_booking_upsell_display - 15
 		 * @hooked hotel_booking_output_related_products - 20
 		 */
-		do_action( 'donate_after_single_cause' );
+		do_action( 'donate_after_single_campaign' );
 	?>
 
 </article><!-- #product-<?php the_ID(); ?> -->

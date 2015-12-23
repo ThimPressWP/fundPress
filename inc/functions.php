@@ -35,7 +35,7 @@ if( ! function_exists( 'donate_get_template' ) )
 if( ! function_exists( 'donate_template_path' ) )
 {
 	function donate_template_path(){
-	    return apply_filters( 'donate_template_path', 'thim-event' );
+	    return apply_filters( 'donate_template_path', 'tp-donate' );
 	}
 }
 

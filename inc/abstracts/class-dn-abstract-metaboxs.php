@@ -96,17 +96,19 @@ abstract class DN_MetaBox_Base
 				$html = array();
 
 				$html[] = '<ul class="donate_metabox_setting" id="'.esc_attr( $this->_id ).'">';
+				$i = 0;
 				foreach( $this->_fields as $id => $group )
 				{
 					if( isset( $group[ 'title' ] ) )
 					{
-						$html[] = '<li><a href="#" id="'.esc_attr( $id ).'">' . sprintf( '%s', $group[ 'title' ] ) . '</a>';
+						$html[] = '<li><a href="#" id="'.esc_attr( $id ).'"'.( $i === 0 ? ' class="nav-tab-active"' : '' ).'>' . sprintf( '%s', $group[ 'title' ] ) . '</a>';
 
 						if( isset( $group[ 'desc' ] ) )
 							$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
 
 						$html[] = '</li>';
 					}
+					$i++;
 
 				}
 				$html[] = '</ul>';
@@ -118,10 +120,9 @@ abstract class DN_MetaBox_Base
 				$html[] = '<div class="donate_metabox_setting_container">';
 				foreach( $this->_fields as $id => $group )
 				{
-
-					if( isset( $group[ 'fields' ] ) )
+					$html[] = '<div class="donate_metabox_setting_section" data-id="'.esc_attr( $id ).'">';
+					if( ! empty( $group[ 'fields' ] ) )
 					{
-						$html[] = '<div class="donate_metabox_setting_section" data-id="'.esc_attr( $id ).'">';
 						$html[] = '<table>';
 						foreach( $group[ 'fields' ] as $type => $field )
 						{
@@ -173,8 +174,14 @@ abstract class DN_MetaBox_Base
 							}
 						}
 						$html[] = '</table>';
-						$html[] = '</div>';
 					}
+					else
+					{
+						ob_start();
+						do_action( 'donate_metabox_setting_section', $id );
+						$html[] = ob_get_clean();
+					}
+					$html[] = '</div>';
 				}
 				$html[] = '</div>';
 			}
@@ -208,10 +215,14 @@ abstract class DN_MetaBox_Base
 	 * @param  string $name
 	 * @return field value
 	 */
-	public function get_field_value( $name = '' )
+	public function get_field_value( $name = '', $post_id = null )
 	{
-		global $post;
-		return get_post_meta( $post->ID, $this->_prefix . $name, true );
+		if( ! $post_id )
+		{
+			global $post;
+			$post_id = $post->ID;
+		}
+		return get_post_meta( $post_id, $this->_prefix . $name, true );
 	}
 
 	/**
@@ -266,7 +277,7 @@ abstract class DN_MetaBox_Base
 		if( ! isset( $_POST ) )
 			return;
 
-		if( ! isset( $_POST[ 'thimpress_donate_metabox' ] ) && ! wp_verify_nonce( $_POST[ 'thimpress_donate_metabox' ], 'thimpress_donate' ) )
+		if( ! isset( $_POST[ 'thimpress_donate_metabox' ] ) || ! wp_verify_nonce( $_POST[ 'thimpress_donate_metabox' ], 'thimpress_donate' ) )
 			return;
 
 		if( ! in_array( $post->post_type, $this->_screen ) )

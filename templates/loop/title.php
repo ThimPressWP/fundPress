@@ -5,8 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div class="entry-title">
-	<h4>
+<div class="campaign-title">
+
+	<h3>
 		<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-	</h4>
+	</h3>
+
 </div>
