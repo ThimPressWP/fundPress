@@ -8,10 +8,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if( has_post_thumbnail() ):  ?>
 
-	<a href="<?php the_permalink(); ?>" data-campaign-id="<?php echo esc_attr( get_the_ID() ) ?>">
+	<div class="campaign_thumbnail_figure">
 
-		<?php the_post_thumbnail(); ?>
+		<!-- Thumbnail -->
+		<a href="<?php the_permalink(); ?>">
 
-	</a>
+			<?php the_post_thumbnail(); ?>
+
+		</a>
+
+		<!-- Overlay -->
+		<div class="campaign_thumbnail_overlay">
+
+			<a href="#" class="donate_load_form" data-campaign-id="<?php echo esc_attr( get_the_ID() ) ?>"><?php esc_html_e( 'Donate now', 'tp-donate' ); ?></a>
+
+		</div>
+
+	</div>
 
 <?php endif; ?>

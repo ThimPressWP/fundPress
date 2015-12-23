@@ -25,7 +25,7 @@ class DN_Donate extends DN_Post_Base
 
 	public function __construct( $post )
 	{
-		parent::__construct();
+		parent::__construct( $post );
 	}
 
 	// static function instead of new class

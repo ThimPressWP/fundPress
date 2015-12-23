@@ -10,7 +10,7 @@
 		do_action( 'donate_before_single_campaign' );
 	?>
 
-	<div class="campaign-entry">
+	<div class="campaign_entry">
 
 		<?php
 			/**

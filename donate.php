@@ -139,12 +139,28 @@ class ThimPress_Donate
 		}
 
 		$this->_include( 'inc/functions.php' );
+
 		$this->_include( 'inc/template-hook.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
+
+		$this->_include( 'inc/class-dn-campaign.php' );
+		$this->_include( 'inc/class-dn-cart.php' );
+		$this->_include( 'inc/class-dn-checkout.php' );
+		$this->_include( 'inc/class-dn-donate.php' );
+		$this->_include( 'inc/class-dn-donor.php' );
+		$this->_include( 'inc/class-dn-email.php' );
+
 		$this->_include( 'inc/class-dn-template-include.php' );
+		$this->_include( 'inc/class-dn-template-underscore.php' );
+		$this->_include( 'inc/class-dn-ajax.php' );
 
 	}
 
+	/**
+	 * _include
+	 * @param  $file
+	 * @return null
+	 */
 	public function _include( $file )
 	{
 		if( ! $file ) return;
@@ -182,16 +198,17 @@ class ThimPress_Donate
 		 * @var array
 		 */
 		$donate_settings = apply_filters( 'donate_localize_object_settings', array(
-				'ajaxurl'	=> admin_url( 'admin-ajax.php?schema=donate-ajax' )
+				'ajaxurl'			=> admin_url( 'admin-ajax.php?schema=donate-ajax' ),
+				'nonce'				=> wp_create_nonce( 'thimpress_donate_nonce' )
 			));
 
 		wp_localize_script( 'thim_press_donate', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
 
 		// Enqueued script with localized data.
 		wp_enqueue_script( 'thim_press_donate' );
+		wp_enqueue_script( 'wp-util' );
 		if( is_admin() )
 		{
-			wp_enqueue_script( 'wp-util' );
 
 			foreach ( $this->_assets[ 'admin' ] as $key => $files ) {
 				if( $key === 'css' )
@@ -209,6 +226,9 @@ class ThimPress_Donate
 		}
 		else
 		{
+			wp_enqueue_script( 'thim_press_donate_fancybox', TP_DONATE_LIB_URI . '/fancybox/jquery.fancybox-1.3.4.pack.js' );
+			wp_enqueue_script( 'thim_press_donate_mousewheel', TP_DONATE_LIB_URI . '/fancybox/jquery.mousewheel-3.0.4.pack.js' );
+			wp_enqueue_style( 'thim_press_donate_fancybox', TP_DONATE_LIB_URI . '/fancybox/jquery.fancybox-1.3.4.css' );
 			foreach ( $this->_assets[ 'site' ] as $key => $files ) {
 				if( $key === 'css' )
 				{

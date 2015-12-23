@@ -1,23 +1,64 @@
-.donate_counter{
-    background-color: #ffb606;
-    height: auto;
+/**
+ * column
+ */
+.campaign_archive{
     overflow: hidden;
-    padding: 20px;
+    margin: 0;
 }
-.countdown-section{
-    background: rgba(255,255,255,.2);
-    border: 1px solid rgba(255,255,255,.1);
+.campaign_archive .campaign_entry{
+    float: left;
+    list-style: none;
     padding: 10px;
 }
-.countdown-amount{
+.campaign_column_4 .campaign_entry{
+    width: 25%;
+}
+.campaign_column_3 .campaign_entry{
+    width: 33%;
+}
+.campaign_column_2 .campaign_entry{
+    width: 50%;
+}
+.campaign_column_1 .campaign_entry{
+    width: 100%;
+}
+.campaign_thumbnail_figure{
     position: relative;
-    width: 50px;
-    height: 40px;
-    overflow: hidden;
 }
-.countdown-period{
-
+.campaign_thumbnail_overlay{
+    position: absolute;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    vertical-align: -webkit-baseline-middle;
 }
-.countdown-descr{
-	font-size: 13px !important;
+.campaign_thumbnail_overlay{
+    opacity: 0;
+    background-color: #ae8ce4;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+}
+.campaign_thumbnail_figure:hover > .campaign_thumbnail_overlay{
+    opacity: 0.8;
+}
+.campaign_thumbnail_overlay .donate_load_form{
+    line-height: 10;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fdfffd;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+}
+.campaign_thumbnail_overlay .donate_load_form:hover{
+    background-color: #020202;
+    color: #fdfffd;
 }

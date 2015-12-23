@@ -587,3 +587,43 @@ if( ! function_exists( 'donate_get_pages_setting' ) )
 		return apply_filters( 'donate_all_page', $pages );
 	}
 }
+
+/**
+ * donate redirect
+ */
+if( ! function_exists( 'donate_redirect_url' ) )
+{
+
+	function donate_redirect_url()
+	{
+		$rediect = DN_Setting::instance()->checkout->get( 'donate_redirect', 'checkout' );
+
+		if( $rediect === 'checkout' )
+		{
+			return donate_checkout_url();
+		}
+		else if( $rediect === 'cart' )
+		{
+			return donate_checkout_url();
+		}
+	}
+
+}
+
+// checkout url
+if( ! function_exists( 'donate_checkout_url' ) )
+{
+	function donate_checkout_url()
+	{
+		return get_permalink( DN_Setting::instance()->checkout->get( 'checkout_page', 1 ) );
+	}
+}
+
+// cart url
+if( ! function_exists( 'donate_checkout_url' ) )
+{
+	function donate_checkout_url()
+	{
+		return get_permalink( DN_Setting::instance()->checkout->get( 'cart_page', 1 ) );
+	}
+}

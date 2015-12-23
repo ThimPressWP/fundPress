@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="campaign_content">
-	<?php the_content(); ?>
+<div class="campaign_excerpt">
+
+	<?php the_excerpt(); ?>
+
 </div>

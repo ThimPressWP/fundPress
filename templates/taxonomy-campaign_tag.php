@@ -47,7 +47,7 @@ get_header(); ?>
 				do_action( 'campaign_before_tax_loop' );
 			?>
 
-			<ul class="<?php echo esc_attr( get_query_var( 'taxonomy' ) ) ?> campaign_column_<?php echo esc_attr( DN_Setting::instance()->donate->get( 'archive_column', '4' ) ) ?>">
+			<ul class="campaign_archive <?php echo esc_attr( get_query_var( 'taxonomy' ) ) ?> campaign_column_<?php echo esc_attr( DN_Setting::instance()->donate->get( 'archive_column', '4' ) ) ?>">
 
 				<?php while ( have_posts() ) : the_post(); ?>
 

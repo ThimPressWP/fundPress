@@ -25,7 +25,30 @@ class DN_Campaign extends DN_Post_Base
 
 	public function __construct( $post )
 	{
-		parent::__construct();
+		parent::__construct( $post );
+	}
+
+	/**
+	 * compensate
+	 * @return array
+	 */
+	public function get_compensate()
+	{
+		return get_post_meta( $this->ID, 'donate_marker', true );
+	}
+
+	/**
+	 * currency
+	 * @return array
+	 */
+	public function get_currency()
+	{
+		$currency = donate_get_currency();
+		if( get_post_meta( $this->ID, 'donate_currency', true ) )
+		{
+			$currency = get_post_meta( $this->ID, 'donate_currency', true );
+		}
+		return $currency;
 	}
 
 	// static function instead of new class

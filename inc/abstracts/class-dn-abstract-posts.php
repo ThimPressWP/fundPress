@@ -21,13 +21,15 @@ abstract class DN_Post_Base
 	 */
 	protected $post_type = null;
 
-	function __construct( $post )
+	function __construct( $post = null )
 	{
 		if( is_numeric( $post ) )
 			$this->post = get_post( $post );
 
 		if( $post instanceof WP_Post )
 			$this->post = $post;
+
+		$this->ID = $this->post->ID;
 	}
 
 	/**

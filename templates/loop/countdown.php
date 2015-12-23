@@ -6,9 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="entry-countdown">
+<div class="campaign_countdown">
 
-	<div class="donate_counter" data-time="<?php echo esc_attr( donate_end('M j, Y H:i:s O') ) ?>">
+	<div class="donate_counter">
 
 	</div>
 
