@@ -51,7 +51,7 @@ class ThimPress_Donate
 	{
 		$this->includes();
 
-		$GLOBALS[ 'dn_settings' ] = $this->options = DN_Setting::instance();
+		$GLOBALS[ 'dn_settings' ] = $this->options = DN_Settings::instance();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueues' ) );
@@ -119,7 +119,7 @@ class ThimPress_Donate
 
 		$this->_include( 'inc/class-dn-setting.php' );
 
-		$paths = array( 'abstracts', 'settings', 'shortcodes', 'widgets', 'metaboxs' );
+		$paths = array( 'abstracts', 'settings', 'shortcodes', 'widgets', 'metaboxs', 'payments' );
 
 		foreach ($paths as $key => $path) {
 			$real_path = TP_DONATE_INC . '/' . $path;
@@ -198,8 +198,9 @@ class ThimPress_Donate
 		 * @var array
 		 */
 		$donate_settings = apply_filters( 'donate_localize_object_settings', array(
+				'settings'			=> DN_Settings::instance()->_options,
 				'ajaxurl'			=> admin_url( 'admin-ajax.php?schema=donate-ajax' ),
-				'nonce'				=> wp_create_nonce( 'thimpress_donate_nonce' )
+				'nonce'				=> wp_create_nonce( 'thimpress_donate_nonce' ),
 			));
 
 		wp_localize_script( 'thim_press_donate', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
@@ -226,9 +227,9 @@ class ThimPress_Donate
 		}
 		else
 		{
-			wp_enqueue_script( 'thim_press_donate_fancybox', TP_DONATE_LIB_URI . '/fancybox/jquery.fancybox-1.3.4.pack.js' );
-			wp_enqueue_script( 'thim_press_donate_mousewheel', TP_DONATE_LIB_URI . '/fancybox/jquery.mousewheel-3.0.4.pack.js' );
-			wp_enqueue_style( 'thim_press_donate_fancybox', TP_DONATE_LIB_URI . '/fancybox/jquery.fancybox-1.3.4.css' );
+
+			wp_enqueue_script( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/jquery.magnific-popup.min.js' );
+			wp_enqueue_style( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/magnific-popup.css' );
 			foreach ( $this->_assets[ 'site' ] as $key => $files ) {
 				if( $key === 'css' )
 				{
@@ -252,7 +253,7 @@ class ThimPress_Donate
 	 */
 	public function options()
 	{
-		return DN_Setting::instance();
+		return DN_Settings::instance();
 	}
 
 }

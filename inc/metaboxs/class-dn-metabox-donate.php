@@ -53,8 +53,8 @@ class DN_MetaBox_Base_Donate_Settings extends DN_MetaBox_Base
 
 	/**
 	 * metabox section
-	 * @param  [type] $id [description]
-	 * @return [type]     [description]
+	 * @param $id
+	 * @return
 	 */
 	public function donate_metabox_setting( $id )
 	{

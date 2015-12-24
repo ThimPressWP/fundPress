@@ -196,78 +196,11 @@ if( ! function_exists( 'donate_add_property_countdown' ) )
 
 }
 
-add_action( 'donate_before_main_content', 'donate_before_main_content' );
-if( ! function_exists( 'donate_before_main_content' ) )
+if ( ! function_exists( 'donate_payments_enable' ) )
 {
-	function donate_before_main_content()
-	{
-
-	}
+	
 }
 
-add_action( 'donate_after_main_content', 'donate_after_main_content' );
-if( ! function_exists( 'donate_after_main_content' ) )
-{
-	function donate_after_main_content()
-	{
-
-	}
-}
-
-add_action( 'donate_before_single_event', 'donate_before_single_event' );
-if( ! function_exists( 'donate_before_single_event' ) )
-{
-	function donate_before_single_event()
-	{
-
-	}
-}
-
-add_action( 'donate_after_single_event', 'donate_after_single_event' );
-if( ! function_exists( 'donate_after_single_event' ) )
-{
-	function donate_after_single_event()
-	{
-
-	}
-}
-
-/*template hook*/
-add_action( 'donate_single_event_title', 'donate_single_event_title' );
-if( ! function_exists( 'donate_single_event_title' ) )
-{
-	function donate_single_event_title()
-	{
-		donate_get_template('loop/title.php');
-	}
-}
-
-add_action( 'donate_single_event_thumbnail', 'donate_single_event_thumbnail' );
-if( ! function_exists( 'donate_single_event_thumbnail' ) )
-{
-	function donate_single_event_thumbnail()
-	{
-		donate_get_template('loop/thumbnail.php');
-	}
-}
-
-add_action( 'donate_loop_event_countdown', 'donate_loop_event_countdown' );
-if( ! function_exists( 'donate_loop_event_countdown' ) )
-{
-	function donate_loop_event_countdown()
-	{
-		donate_get_template('loop/countdown.php');
-	}
-}
-
-add_action( 'donate_single_event_content', 'donate_single_event_content' );
-if( ! function_exists( 'donate_single_event_content' ) )
-{
-	function donate_single_event_content()
-	{
-		donate_get_template('loop/content.php');
-	}
-}
 
 if( ! function_exists( 'donate_get_currencies' ) )
 {
@@ -329,7 +262,7 @@ if( ! function_exists( 'donate_get_currency' ) )
 
 	function donate_get_currency()
 	{
-		return DN_Setting::instance()->general->get( 'currency', 'USD' );
+		return DN_Settings::instance()->general->get( 'currency', 'USD' );
 	}
 }
 
@@ -484,14 +417,14 @@ if( ! function_exists( 'donate_get_currency_symbol' ) )
 if( ! function_exists( 'donate_price' ) )
 {
 
-	function donate_price( $price )
+	function donate_price( $price, $currency = null )
 	{
 		if( ! is_numeric( $price ) ) return;
 
 		$price = number_format( $price, donate_currency_decimal(), donate_currency_thousand(), donate_currency_separator() );
 
 		$position = donate_currency_position();
-		$symbol = donate_get_currency_symbol();
+		$symbol = donate_get_currency_symbol( $currency );
 		switch ( $position ) {
 			case 'left':
 				$price = $symbol . $price;
@@ -526,7 +459,7 @@ if( ! function_exists( 'donate_currency_position' ) )
 
 	function donate_currency_position()
 	{
-		return apply_filters( 'donate_currency_position', DN_Setting::instance()->general->get( 'currency_position', 'left' ) );
+		return apply_filters( 'donate_currency_position', DN_Settings::instance()->general->get( 'currency_position', 'left' ) );
 	}
 
 }
@@ -537,9 +470,9 @@ if( ! function_exists( 'donate_currency_position' ) )
 if( ! function_exists( 'donate_currency_thousand' ) )
 {
 
-	function donate_currency_thousand( $price )
+	function donate_currency_thousand()
 	{
-		return apply_filters( 'donate_currency_thousand', DN_Setting::instance()->general->get( 'currency_thousand', ',' ) );
+		return apply_filters( 'donate_currency_thousand', DN_Settings::instance()->general->get( 'currency_thousand', ',' ) );
 	}
 
 }
@@ -550,9 +483,9 @@ if( ! function_exists( 'donate_currency_thousand' ) )
 if( ! function_exists( 'donate_currency_separator' ) )
 {
 
-	function donate_currency_separator( $price )
+	function donate_currency_separator()
 	{
-		return apply_filters( 'donate_currency_separator', DN_Setting::instance()->general->get( 'currency_separator', '.' ) );
+		return apply_filters( 'donate_currency_separator', DN_Settings::instance()->general->get( 'currency_separator', '.' ) );
 	}
 
 }
@@ -563,9 +496,9 @@ if( ! function_exists( 'donate_currency_separator' ) )
 if( ! function_exists( 'donate_currency_decimal' ) )
 {
 
-	function donate_currency_decimal( $price )
+	function donate_currency_decimal()
 	{
-		return apply_filters( 'donate_currency_decimal', DN_Setting::instance()->general->get( 'currency_num_decimal', 2 ) );
+		return apply_filters( 'donate_currency_decimal', DN_Settings::instance()->general->get( 'currency_num_decimal', 2 ) );
 	}
 
 }
@@ -596,7 +529,7 @@ if( ! function_exists( 'donate_redirect_url' ) )
 
 	function donate_redirect_url()
 	{
-		$rediect = DN_Setting::instance()->checkout->get( 'donate_redirect', 'checkout' );
+		$rediect = DN_Settings::instance()->checkout->get( 'donate_redirect', 'checkout' );
 
 		if( $rediect === 'checkout' )
 		{
@@ -615,7 +548,7 @@ if( ! function_exists( 'donate_checkout_url' ) )
 {
 	function donate_checkout_url()
 	{
-		return get_permalink( DN_Setting::instance()->checkout->get( 'checkout_page', 1 ) );
+		return get_permalink( DN_Settings::instance()->checkout->get( 'checkout_page', 1 ) );
 	}
 }
 
@@ -624,6 +557,6 @@ if( ! function_exists( 'donate_checkout_url' ) )
 {
 	function donate_checkout_url()
 	{
-		return get_permalink( DN_Setting::instance()->checkout->get( 'cart_page', 1 ) );
+		return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
 	}
 }

@@ -52,13 +52,24 @@ class DN_Ajax
 		$campaign_id = $campaign->ID;
 		$campaign = DN_Campaign::instance( $campaign );
 
-		$compensate = $campaign->get_compensate();
+		$compensates = array();
+		$currency = $campaign->get_currency();
+
+		if( $eachs = $campaign->get_compensate() )
+		{
+			foreach ( $eachs as $key => $compensate ) {
+				$compensates[ $key ] = array(
+						'amount'		=> donate_price( $compensate['amount'], $currency ),
+						'desc'			=> $compensate['desc']
+					);
+			}
+		}
 
 		wp_send_json( array(
 
 				'status'		=> 'success',
-				'compensates'	=> $compensate,
-				'currency'		=> donate_get_currency_symbol( $campaign->get_currency() )
+				'compensates'	=> $compensates,
+				'currency'		=> donate_get_currency_symbol( $currency )
 
 			));
 	}

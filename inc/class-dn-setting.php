@@ -1,6 +1,6 @@
 <?php
 
-class DN_Setting
+class DN_Settings
 {
 
 	/**

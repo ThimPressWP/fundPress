@@ -1,8 +1,7 @@
 <?php
 
-abstract class DN_Setting_Base extends DN_Setting
+abstract class DN_Setting_Base extends DN_Settings
 {
-
 	/**
 	 * $_id tab id
 	 * @var null
@@ -20,6 +19,12 @@ abstract class DN_Setting_Base extends DN_Setting
 	 * @var array
 	 */
 	protected $_fields = array();
+
+	/**
+	 * tab in tab setting
+	 * @var boolean
+	 */
+	public $_tab = false;
 
 	/**
 	 * options group
@@ -79,66 +84,73 @@ abstract class DN_Setting_Base extends DN_Setting
 		if( $this->_fields )
 		{
 			$html = array();
-			foreach( $this->_fields as $key => $group )
+			if( $this->_tab )
 			{
-				if( isset( $group[ 'title' ], $group[ 'desc' ] ) )
+				
+			}
+			else
+			{
+				foreach( $this->_fields as $key => $group )
 				{
-					$html[] = '<h3>' . sprintf( '%s', $group[ 'title' ] ) . '</h3>';
-					$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
-				}
-
-				if( isset( $group[ 'fields' ] ) )
-				{
-					$html[] = '<table>';
-					foreach( $group[ 'fields' ] as $type => $field )
+					if( isset( $group[ 'title' ], $group[ 'desc' ] ) )
 					{
-
-						if( isset( $field[ 'name' ], $field[ 'type' ] ) )
-						{
-							$html[] = '<tr>';
-
-							// label
-							$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
-
-							if( isset( $field[ 'desc' ] ) )
-							{
-								$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
-							}
-
-							$html[]	= '</th>';
-							// end label
-
-							// field
-							$html[] = '<td>';
-
-							$default = array(
-											'type'		=> '',
-											'label'		=> '',
-											'desc'		=> '',
-											'atts'		=> array(
-													'id'	=> '',
-													'class'	=> ''
-												),
-											'name'		=> '',
-											'group'		=> $this->_id ? $this->_id : null,
-											'options'	=> array(
-
-												)
-										);
-
-							$field = wp_parse_args( $field, $default );
-
-							ob_start();
-							include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
-							$html[] = ob_get_clean();
-
-							$html[] = '</td>';
-							// end field
-
-							$html[]	= '</tr>';
-						}
+						$html[] = '<h3>' . sprintf( '%s', $group[ 'title' ] ) . '</h3>';
+						$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
 					}
-					$html[] = '</table>';
+
+					if( isset( $group[ 'fields' ] ) )
+					{
+						$html[] = '<table>';
+						foreach( $group[ 'fields' ] as $type => $field )
+						{
+
+							if( isset( $field[ 'name' ], $field[ 'type' ] ) )
+							{
+								$html[] = '<tr>';
+
+								// label
+								$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
+
+								if( isset( $field[ 'desc' ] ) )
+								{
+									$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
+								}
+
+								$html[]	= '</th>';
+								// end label
+
+								// field
+								$html[] = '<td>';
+
+								$default = array(
+												'type'		=> '',
+												'label'		=> '',
+												'desc'		=> '',
+												'atts'		=> array(
+														'id'	=> '',
+														'class'	=> ''
+													),
+												'name'		=> '',
+												'group'		=> $this->_id ? $this->_id : null,
+												'options'	=> array(
+
+													)
+											);
+
+								$field = wp_parse_args( $field, $default );
+
+								ob_start();
+								include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
+								$html[] = ob_get_clean();
+
+								$html[] = '</td>';
+								// end field
+
+								$html[]	= '</tr>';
+							}
+						}
+						$html[] = '</table>';
+					}
 				}
 			}
 			echo implode( '' , $html );

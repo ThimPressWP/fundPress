@@ -32,7 +32,10 @@ if( ! function_exists( 'donate_loop_campaign_countdown' ) )
 {
 	function donate_loop_campaign_countdown()
 	{
-		donate_get_template( 'loop/countdown.php' );
+		if( DN_Settings::instance()->donate->get( 'archive_countdown_raised', 'yes' ) === 'yes' )
+		{
+			donate_get_template( 'loop/countdown.php' );
+		}
 	}
 }
 
@@ -44,7 +47,10 @@ if( ! function_exists( 'donate_loop_campaign_goal_raised' ) )
 {
 	function donate_loop_campaign_goal_raised()
 	{
-		donate_get_template( 'loop/goal_raised.php' );
+		if( DN_Settings::instance()->donate->get( 'archive_raised_goal', 'yes' ) === 'yes' )
+		{
+			donate_get_template( 'loop/goal_raised.php' );
+		}
 	}
 }
 
@@ -59,6 +65,7 @@ if( ! function_exists( 'donate_loop_campaign_excerpt' ) )
 		donate_get_template( 'loop/excerpt.php' );
 	}
 }
+
 /**
  * content
  */

@@ -7,6 +7,7 @@
 		{
 			this.admin_setting_tab();
 			this.donate_meta_box();
+			this.donate_lightbox();
 			// select2 js
 			$('.tp_donate_wrapper_content select').select2({
 				width: 'resolve',
@@ -113,6 +114,31 @@
 				} )
 			});
 
+		},
+
+		donate_lightbox: function()
+		{
+			var donate_lightbox = $( '#lightbox_checkout' ),
+				donate_redirect = $( '#donate_redirect' ),
+				tr_donate_redirect = donate_redirect.parents( 'tr:first' );
+
+			if( donate_lightbox.val() === 'no' )
+				return;
+
+			tr_donate_redirect.hide();
+
+			donate_lightbox.on( 'change', function(e){
+				e.preventDefault();
+
+				if( $(this).val() === 'yes' )
+				{
+					tr_donate_redirect.hide();
+				}
+				else
+				{
+					tr_donate_redirect.show();
+				}
+			});
 		},
 
 	};

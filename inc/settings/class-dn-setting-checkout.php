@@ -15,6 +15,12 @@ class DN_Setting_Checkout extends DN_Setting_Base
 	public $_title = null;
 
 	/**
+	 * tab in tab setting
+	 * @var boolean
+	 */
+	public $_tab = true;
+
+	/**
 	 * $_position
 	 * @var integer
 	 */
@@ -35,6 +41,20 @@ class DN_Setting_Checkout extends DN_Setting_Base
 						'title'	=> __( 'General settings', 'tp-donate' ),
 						'desc'	=> __( 'The following options affect how format are displayed list donate causes on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
+								array(
+										'type'		=> 'select',
+										'label'		=> __( 'Include lightbox', 'tp-donate' ),
+										'desc'		=> __( 'This controlls include payment lightbox donate form and not using Cart or Checkout page', 'tp-donate' ),
+										'atts'		=> array(
+												'id'	=> 'lightbox_checkout',
+												'class'	=> 'lightbox_checkout'
+											),
+										'name'		=> 'lightbox_checkout',
+										'options'	=> array(
+												'no'				=> __( 'No', 'tp-donate' ),
+												'yes'				=> __( 'Yes', 'tp-donate' )
+											)
+									),
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Donate redirect.', 'tp-donate' ),

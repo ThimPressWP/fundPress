@@ -39,19 +39,39 @@
 					},
 					beforeSend: function()
 					{
-
+						DONATE_Site.beforeAjax();
 					}
 				}).done( function( res ){
+
+					DONATE_Site.afterAjax();
 
 					if( typeof res.status !== 'undefined' && res.status === 'success' )
 					{
 						var _tmpl = wp.template( 'donate-form-template' );
-						console.debug( res );
+
+						$('#donate_hidden').html( _tmpl(res) );
+
+						$.magnificPopup.open({
+							type: 'inline',
+							items: {
+								src: '#donate_hidden'
+							}
+				        });
 					}
 
 				});
 
 			});
+
+		},
+
+		beforeAjax: function()
+		{
+
+		},
+
+		afterAjax: function()
+		{
 
 		},
 

@@ -47,7 +47,7 @@ get_header(); ?>
 				do_action( 'campaign_before_archive_loop' );
 			?>
 
-			<ul class="campaign_archive campaign_column_<?php echo esc_attr( DN_Setting::instance()->donate->get( 'archive_column', '4' ) ) ?>">
+			<ul class="campaign_archive campaign_column_<?php echo esc_attr( DN_Settings::instance()->donate->get( 'archive_column', '4' ) ) ?>">
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
