@@ -15,7 +15,16 @@
 	width: auto;
 	min-width: 250px;
 }
-
+#checkout h3 a{
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0px 12px;
+}
+#checkout h3 a.active{
+    border-bottom: 1px solid #f1f1f1;
+    background: #f1f1f1;
+    color: #000;
+}
 /**
  * metabox
  */

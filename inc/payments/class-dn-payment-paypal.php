@@ -4,53 +4,75 @@
  * Class DN_Payment_Palpal
  */
 class DN_Payment_Palpal extends DN_Payment_Base{
+
     /**
+     * id of payment
      * @var null
      */
-    protected $paypal_live_url              = null;
+    public $_id = 'paypal';
 
     /**
+     * payment title
      * @var null
      */
-    protected $paypal_sandbox_url           = null;
+    public $_title = null;
 
-    /**
-     * @var null
-     */
-    protected $paypal_payment_live_url      = null;
-
-    /**
-     * @var null
-     */
-    protected $paypal_payment_sandbox_url   = null;
-
-    /**
-     * @var null
-     */
-    protected $paypal_nvp_api_live_url      = null;
-
-    /**
-     * @var null
-     */
-    protected $paypal_vnp_api_sandbox_url   = null;
-
-    /**
-     * @var array
-     */
-    protected $_settings = array();
-
-    /**
-     * Construction
-     */
-    function __construct(){
-
+    function __construct()
+    {
+        $this->_title = __( 'Paypal', 'tp-donate' );
+        parent::__construct();
     }
 
     /**
-     * Init hooks
+     * fields settings
+     * @return array
      */
-    function init(){
+    public function fields()
+    {
+        return  array(
+                    'title'     => $this->_title, // tab title
+                    'fields'    => array(
+                            'fields'        => array(
+                                array(
+                                        'type'      => 'select',
+                                        'label'     => __( 'Enable', 'tp-donate' ),
+                                        'desc'      => __( 'This controlls enable payment method', 'tp-donate' ),
+                                        'atts'      => array(
+                                                'id'    => 'paypal_enable',
+                                                'class' => 'paypal_enable'
+                                            ),
+                                        'name'      => 'paypal_enable',
+                                        'options'   => array(
+                                                'no'                => __( 'No', 'tp-donate' ),
+                                                'yes'               => __( 'Yes', 'tp-donate' )
+                                            )
+                                    ),
+                                array(
+                                        'type'      => 'input',
+                                        'label'     => __( 'Paypal email', 'tp-donate' ),
+                                        'atts'      => array(
+                                                'id'    => 'paypal_email',
+                                                'class' => 'paypal_email',
+                                                'type'  => 'text'
+                                            ),
+                                        'name'      => 'paypal_email'
+                                    ),
+                                array(
+                                        'type'      => 'input',
+                                        'label'     => __( 'Paypal sandbox email', 'tp-donate' ),
+                                        'atts'      => array(
+                                                'id'    => 'paypal_sanbox_email',
+                                                'class' => 'paypal_sanbox_email',
+                                                'type'  => 'text'
+                                            ),
+                                        'name'      => 'paypal_sanbox_email'
+                                    )
+                            ),
 
+                )
+            );
     }
 
 }
+
+new DN_Payment_Palpal();

@@ -227,7 +227,6 @@ class ThimPress_Donate
 		}
 		else
 		{
-
 			wp_enqueue_script( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/jquery.magnific-popup.min.js' );
 			wp_enqueue_style( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/magnific-popup.css' );
 			foreach ( $this->_assets[ 'site' ] as $key => $files ) {

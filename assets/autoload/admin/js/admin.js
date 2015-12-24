@@ -51,6 +51,21 @@
 
 				return false;
 			});
+
+			$('#checkout > div:not(:first)').hide();
+			$( document ).on( 'click', '.tp_donate_wrapper_content h3 a', function( e ){
+				e.preventDefault();
+
+				$('.tp_donate_wrapper_content h3 a').removeClass( 'active' );
+				var _self = $(this),
+					_data_id = _self.attr( 'id' );
+
+				_self.addClass( 'active' );
+				$('#checkout > div').hide();
+
+				$('#checkout > div[data-tab-id^="'+_data_id+'"]').show();
+
+			});
 		},
 
 		donate_meta_box: function()

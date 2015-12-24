@@ -86,73 +86,29 @@ abstract class DN_Setting_Base extends DN_Settings
 			$html = array();
 			if( $this->_tab )
 			{
-				
+				$html[] = '<h3>';
+				foreach( $this->_fields as $id => $groups )
+				{
+					$html[] = '<a href="#" id="'.esc_attr( $id ).'">'.$groups[ 'title' ].'</a>';
+				}
+				$html[] = '</h3>';
+
+			}
+
+			if( $this->_tab )
+			{
+				foreach( $this->_fields as $id => $groups )
+				{
+					$html[] = '<div data-tab-id="'.$id.'">';
+					$html[] = $this->generate_fields( $groups );
+					$html[] = '</div>';
+				}
 			}
 			else
 			{
-				foreach( $this->_fields as $key => $group )
-				{
-					if( isset( $group[ 'title' ], $group[ 'desc' ] ) )
-					{
-						$html[] = '<h3>' . sprintf( '%s', $group[ 'title' ] ) . '</h3>';
-						$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
-					}
-
-					if( isset( $group[ 'fields' ] ) )
-					{
-						$html[] = '<table>';
-						foreach( $group[ 'fields' ] as $type => $field )
-						{
-
-							if( isset( $field[ 'name' ], $field[ 'type' ] ) )
-							{
-								$html[] = '<tr>';
-
-								// label
-								$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
-
-								if( isset( $field[ 'desc' ] ) )
-								{
-									$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
-								}
-
-								$html[]	= '</th>';
-								// end label
-
-								// field
-								$html[] = '<td>';
-
-								$default = array(
-												'type'		=> '',
-												'label'		=> '',
-												'desc'		=> '',
-												'atts'		=> array(
-														'id'	=> '',
-														'class'	=> ''
-													),
-												'name'		=> '',
-												'group'		=> $this->_id ? $this->_id : null,
-												'options'	=> array(
-
-													)
-											);
-
-								$field = wp_parse_args( $field, $default );
-
-								ob_start();
-								include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
-								$html[] = ob_get_clean();
-
-								$html[] = '</td>';
-								// end field
-
-								$html[]	= '</tr>';
-							}
-						}
-						$html[] = '</table>';
-					}
-				}
+				$html[] = $this->generate_fields( $this->_fields );
 			}
+
 			echo implode( '' , $html );
 
 		}
@@ -261,6 +217,80 @@ abstract class DN_Setting_Base extends DN_Settings
 
 		return $this->_prefix . '[' . $name . ']' ;
 
+	}
+
+	/**
+	 * genterate fields settings
+	 * @param  array  $groups
+	 * @return html
+	 */
+	function generate_fields( $groups = array() )
+	{
+		$html = array();
+		foreach( $groups as $key => $group )
+		{
+			if( isset( $group[ 'title' ], $group[ 'desc' ] ) )
+			{
+				$html[] = '<h3>' . sprintf( '%s', $group[ 'title' ] ) . '</h3>';
+				$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
+			}
+
+			if( isset( $group[ 'fields' ] ) )
+			{
+				$html[] = '<table>';
+				foreach( $group[ 'fields' ] as $type => $field )
+				{
+
+					if( isset( $field[ 'name' ], $field[ 'type' ] ) )
+					{
+						$html[] = '<tr>';
+
+						// label
+						$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
+
+						if( isset( $field[ 'desc' ] ) )
+						{
+							$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
+						}
+
+						$html[]	= '</th>';
+						// end label
+
+						// field
+						$html[] = '<td>';
+
+						$default = array(
+										'type'		=> '',
+										'label'		=> '',
+										'desc'		=> '',
+										'atts'		=> array(
+												'id'	=> '',
+												'class'	=> ''
+											),
+										'name'		=> '',
+										'group'		=> $this->_id ? $this->_id : null,
+										'options'	=> array(
+
+											),
+										'default'	=> ''
+									);
+
+						$field = wp_parse_args( $field, $default );
+
+						ob_start();
+						include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
+						$html[] = ob_get_clean();
+
+						$html[] = '</td>';
+						// end field
+
+						$html[]	= '</tr>';
+					}
+				}
+				$html[] = '</table>';
+			}
+		}
+		return implode( '' , $html );
 	}
 
 }

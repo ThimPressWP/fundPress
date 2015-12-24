@@ -88,7 +88,8 @@
 .donate_compensates li{
     list-style: none;
 }
-.donate_compensates .donate_amount_group{
+.donate_compensates .donate_amount_group,
+.donate_dornor_info .donate_field label{
     font-weight: 500;
     font-size: 18px;
 }
@@ -136,4 +137,21 @@
 #donate_hidden .mfp-close:hover{
     background: none;
     color: #ecb338;
+}
+.donate_dornor_info h3{
+    text-align: center;
+}
+.donate_dornor_info .donate_field{
+    width: 50%;
+    float: left;
+    padding: 10px;
+}
+.donate_dornor_info .donate_field label{
+    font-size: 15px;
+}
+.donate_dornor_info .donate_field > input,
+.donate_dornor_info .donate_field > textarea{
+    width: 100%;
+    font-size: 12px;
+    padding: 8px;
 }

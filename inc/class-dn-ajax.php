@@ -65,11 +65,27 @@ class DN_Ajax
 			}
 		}
 
+		$payments = array();
+
+		if( DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) === 'yes' )
+		{
+			$payment_enable = donate_payments_enable();
+			foreach( $payment_enable as $key => $payment )
+			{
+				$payments[] = array(
+						'id'		=> $payment->_id,
+						'title'		=> $payment->_title,
+						'icon'		=> $payment->_icon
+					);
+			}
+		}
+
 		wp_send_json( array(
 
 				'status'		=> 'success',
 				'compensates'	=> $compensates,
-				'currency'		=> donate_get_currency_symbol( $currency )
+				'currency'		=> donate_get_currency_symbol( $currency ),
+				'payments'		=> $payments
 
 			));
 	}

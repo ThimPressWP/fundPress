@@ -198,7 +198,10 @@ if( ! function_exists( 'donate_add_property_countdown' ) )
 
 if ( ! function_exists( 'donate_payments_enable' ) )
 {
-	
+	function donate_payments_enable()
+	{
+		return apply_filters( 'donate_payment_gateways', array() );
+	}
 }
 
 
