@@ -622,5 +622,37 @@ if( ! function_exists( 'donate_find_compensate_by_amount' ) )
 
 	}
 
+}
 
+/**
+ * generate post key
+ */
+if( ! function_exists( 'donate_generate_post_key' ) )
+{
+	function donate_generate_post_key( $post_id )
+	{
+		return '#'.$post_id;
+	}
+}
+
+/**
+ * convert array to string
+ */
+if( ! function_exists( 'donate_array_to_string' ) )
+{
+	function donate_array_to_string( $param )
+	{
+		$html = array();
+		foreach ( $param as $key => $value ) {
+			if( is_array( $value ) )
+			{
+				$html[] = donate_array_to_string( $value );
+			}
+			else
+			{
+				$html[] = $key . $value;
+			}
+		}
+		return implode( '', $html );
+	}
 }

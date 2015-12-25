@@ -120,6 +120,7 @@
 
             <# } else { #>
 
+	        	<input type="hidden" name="payment_process" value="1" />
             	<div class="donate_form_footer center">
 
             		<button type="submit" class="donate_submit button payment" form="donate_form"><?php _e( 'Donate', 'tp-donate' ) ?></button>

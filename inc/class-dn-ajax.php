@@ -103,7 +103,7 @@ class DN_Ajax
 	 */
 	function donate_submit()
 	{
-
+		// validate sanitize input $_POST
 		if( ! isset( $_GET[ 'schema' ] ) || $_GET[ 'schema' ] !== 'donate-ajax' || empty( $_POST ) )
 			return;
 
@@ -119,16 +119,18 @@ class DN_Ajax
 			return;
 
 		$params = array(
-				'campaign_id'		=> $campaign->ID,
-				'donate'			=> array(),
+				'donate'			=> array(
+						'campaign_id'		=> $campaign->ID
+					),
 				'dornor'			=> array(
 						'first_name'		=> isset( $_POST['first_name'] ) ? sanitize_text_field( $_POST['first_name'] ) : __( 'No First Name', 'tp-donate' ),
 						'last_name'			=> isset( $_POST['last_name'] ) ? sanitize_text_field( $_POST['last_name'] ) : __( 'No Last Name', 'tp-donate' ),
 						'email'				=> isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : false,
 						'phone'				=> isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '',
 						'address'			=> isset( $_POST['address'] ) ? sanitize_text_field( $_POST['address'] ) : '',
-						'addition_note'		=> isset( $_POST['addition_note'] ) ? sanitize_text_field( $_POST['addition_note'] ) : '',
-					)
+						'addition_note'		=> isset( $_POST['addition_note'] ) ? sanitize_text_field( $_POST['addition_note'] ) : ''
+					),
+				'payment_method'	=> isset( $_POST['payment_method'] ) ? $_POST['payment_method'] : 'paypal'
 			);
 
 		$amount = 0;
@@ -150,6 +152,7 @@ class DN_Ajax
 
 		}
 
+		// find compensate by amount donate
 		$compensate_desc = donate_find_compensate_by_amount( $campaign, $amount );
 
 		/**
@@ -166,12 +169,17 @@ class DN_Ajax
 
 		if( $params )
 		{
+			$params = apply_filters( 'donate_ajax_submit_params', $params );
+
 			$checkout = new DN_Checkout();
-			$checkout->process_checkout( $params );
+			// send json
+			wp_send_json( $checkout->process_checkout( $params ) ); die();
 		}
 
-	}
+		// failed
+		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Something went wrong. Please try again or contact administrator', 'tp-donate' ) ) ); die();
 
+	}
 
 }
 

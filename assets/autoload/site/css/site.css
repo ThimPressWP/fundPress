@@ -120,6 +120,7 @@
 .donate_form .donate_form_input.payment{
     width: 94%;
     max-width: 100%;
+    text-align: center;
 }
 .donate_form .donate_form_input{
     width: 80%;

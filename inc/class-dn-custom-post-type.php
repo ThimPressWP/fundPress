@@ -19,6 +19,11 @@ class DN_Post_Type
 		 * register taxonomy
 		 */
 		add_action( 'init', array( $this, 'register_taxonomy_causes' ) );
+
+		/**
+		 * post status
+		 */
+		add_action( 'init', array( $this, 'register_post_status' ) );
 	}
 
 	// register post type cause hook callback
@@ -93,10 +98,11 @@ class DN_Post_Type
 			'has_archive'        => false,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+			'supports'           => array( 'title', 'author', 'excerpt' ),
 			'capabilities' => array(
 				'create_posts'       => false,
 			),
+			'map_meta_cap' => true
 		);
 
 		register_post_type( 'dn_donate', $args );
@@ -135,10 +141,11 @@ class DN_Post_Type
 			'has_archive'        => false,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+			'supports'           => array( 'author' ),
 			'capabilities' => array(
-				'create_posts'       => false,
+				'create_posts'  => false
 			),
+			'map_meta_cap' => true
 		);
 
 		register_post_type( 'dn_donor', $args );
@@ -149,8 +156,8 @@ class DN_Post_Type
 	{
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
-			'name'              => _x( 'Campaign Categories', 'tp-donate' ),
-			'singular_name'     => _x( 'Campaign', 'tp-donate' ),
+			'name'              => _x( 'Campaign Categories', 'Campaign Category', 'tp-donate' ),
+			'singular_name'     => _x( 'Campaign', 'Campaign', 'tp-donate' ),
 			'search_items'      => __( 'Search Campaigns', 'tp-donate' ),
 			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
 			'parent_item'       => __( 'Parent Campaign', 'tp-donate' ),
@@ -198,6 +205,45 @@ class DN_Post_Type
 		);
 
 		register_taxonomy( 'dn_campaign_tag', array( 'dn_campaign' ), $args );
+	}
+
+	function register_post_status()
+	{
+		/**
+		 * pending payment
+		 */
+		register_post_status( 'donate-pending', array(
+			'label'                     => _x( 'Pending', 'Donate Status', 'tp-donate' ),
+			'public'                    => true,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
+		) );
+
+		/**
+		 * pending payment
+		 */
+		register_post_status( 'donate-processing', array(
+			'label'                     => _x( 'Processing', 'Donate Status', 'tp-donate' ),
+			'public'                    => true,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>' ),
+		) );
+
+		/**
+		 * pending payment
+		 */
+		register_post_status( 'donate-completed', array(
+			'label'                     => _x( 'Completed', 'Donate Status', 'tp-donate' ),
+			'public'                    => true,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>' ),
+		) );
 	}
 
 }

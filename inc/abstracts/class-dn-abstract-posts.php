@@ -16,6 +16,12 @@ abstract class DN_Post_Base
 	protected $post = null;
 
 	/**
+	 * meta prefix of post type
+	 * @var null
+	 */
+	protected $meta_prefix = null;
+
+	/**
 	 * post type
 	 * @var null
 	 */
@@ -29,7 +35,10 @@ abstract class DN_Post_Base
 		if( $post instanceof WP_Post )
 			$this->post = $post;
 
-		$this->ID = $this->post->ID;
+		if( $this->post )
+		{
+			$this->ID = $this->post->ID;
+		}
 	}
 
 	/**

@@ -144,6 +144,9 @@ class ThimPress_Donate
 		$this->_include( 'inc/template-hook.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
 
+		// sessions libraries
+		$this->_include( 'inc/class-dn-sessions.php' );
+
 		$this->_include( 'inc/class-dn-campaign.php' );
 		$this->_include( 'inc/class-dn-cart.php' );
 		$this->_include( 'inc/class-dn-checkout.php' );

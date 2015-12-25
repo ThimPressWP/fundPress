@@ -15,6 +15,12 @@ class DN_Campaign extends DN_Post_Base
 	 */
 	public $post = null;
 
+	/**
+	 * meta prefix of post type
+	 * @var null
+	 */
+	public $meta_prefix = 'donate_';
+
 	static $_instances = null;
 
 	/**
