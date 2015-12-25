@@ -12,6 +12,11 @@
 			 * load form action
 			 */
 			this.load_donate_form();
+
+			/**
+			 * submit on lightbox
+			 */
+			this.donate_submit_lightbox();
 		},
 
 		/**
@@ -62,6 +67,124 @@
 				});
 
 			});
+
+		},
+
+		donate_submit_lightbox: function()
+		{
+
+			$( document ).on( 'submit', '.donate_form', function( e ){
+				e.preventDefault();
+
+				var _form = $(this);
+
+				// remove old message error
+				_form.find( '.donate_message_error' ).remove();
+				// donate on lightbox redirect cart, checkout form.
+				if( DONATE_Site.donate_on_lightbox() === false )
+				{
+					_form.submit();
+				}
+				else // donate on lightbox without cart, checkout form.
+				{
+
+					var messages = [];
+					// amount
+					if( _form.find( 'input[name="donate_input_amount_package"]' ).val() === '' && _form.find('input[name="donate_input_amount"]').val() === '' )
+					{
+						messages.push( thimpress_donate.l18n.amount_invalid );
+					}
+
+					// firstname
+					var first_name = _form.find( 'input[name="first_name"]' ).val();
+					if( first_name === '' || _form.find('.first_name').val() === '' )
+					{
+						messages.push( thimpress_donate.l18n.first_name_invalid );
+					}
+
+					// lastname
+					var last_name = _form.find( 'input[name="last_name"]' ).val();
+					if( last_name === '' )
+					{
+						messages.push( thimpress_donate.l18n.last_name_invalid );
+					}
+
+					// email
+					var email = _form.find( 'input[name="email"]' ).val();
+					if( email === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test(email) === false )
+					{
+						messages.push( thimpress_donate.l18n.email_invalid );
+					}
+
+					// phone
+					var phone = _form.find( 'input[name="phone"]' ).val();
+					var reges = /^\d{10}$/;
+					if( phone === '' || reges.test( phone ) === false )
+					{
+						messages.push( thimpress_donate.l18n.phone_number_invalid );
+					}
+
+					// payment method
+					if( _form.find( 'input[name="payment_method"]' ).val() === '' )
+					{
+						messages.push( thimpress_donate.l18n.payment_method_invalid );
+					}
+
+					// invalid fields
+					if( messages.length > 0 )
+					{
+						var html = [];
+						for( var i = 0; i < messages.length; i++ )
+						{
+							html.push( '<p class="donate_message_error">' + messages[i] + '</p>' );
+						}
+
+						$( '.donate_form_footer' ).prepend( html.join( '' ) );
+					}
+					else
+					{
+						// process ajax
+						var _data = _form.serializeArray();
+
+						$.ajax({
+							url: thimpress_donate.ajaxurl,
+							type: 'POST',
+							data: _data,
+							beforeSend: function()
+							{
+								DONATE_Site.beforeAjax();
+							}
+						}).done( function( res ){
+							DONATE_Site.afterAjax();
+							console.debug(res);
+						});
+					}
+
+
+				}
+
+				return false;
+
+			});
+
+		},
+
+		donate_on_lightbox: function()
+		{
+			if( typeof thimpress_donate.settings !== 'undefined' &&
+	        	typeof thimpress_donate.settings.checkout !== 'undefined' &&
+	        	typeof thimpress_donate.settings.checkout.lightbox_checkout !== 'undefined' &&
+	        	thimpress_donate.settings.checkout.lightbox_checkout === 'yes' ){
+
+				return true;
+
+			}
+
+			return false;
+		},
+
+		sanitize_form_fields: function( data )
+		{
 
 		},
 

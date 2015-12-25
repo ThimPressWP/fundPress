@@ -40,6 +40,21 @@ class DN_Setting_General extends DN_Setting_Base
 						'fields'		=> array(
 								array(
 										'type'		=> 'select',
+										'label'		=> __( 'Currency aggregator', 'tp-donate' ),
+										'desc'		=> __( 'This controlls what the currency prices when change currency setting', 'tp-donate' ),
+										'atts'		=> array(
+												'id'	=> 'aggregator',
+												'class'	=> 'aggregator'
+											),
+										'name'		=> 'aggregator',
+										'options'	=> array(
+												'google'		=> 'http://google.com/finance',
+												'yahoo'			=> 'http://finance.yahoo.com'
+											),
+										'default'	=> array()
+									),
+								array(
+										'type'		=> 'select',
 										'label'		=> __( 'Currency', 'tp-donate' ),
 										'desc'		=> __( 'This controlls what the currency prices', 'tp-donate' ),
 										'atts'		=> array(

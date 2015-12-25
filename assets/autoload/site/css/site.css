@@ -82,6 +82,18 @@
     text-transform: uppercase;
     text-align: center;
 }
+#donate_hidden .donate_form{
+    padding: 0 10px;
+    overflow: hidden;
+}
+#donate_hidden .donate_compensates,
+#donate_hidden .donate_dornor_info,
+#donate_hidden .donate_payment_method,
+#donate_hidden .donate_form_footer{
+    width: 100%;
+    float: left;
+    padding: 10px 0;
+}
 .donate_compensates ul{
     margin: 0;
 }
@@ -93,7 +105,8 @@
     font-weight: 500;
     font-size: 18px;
 }
-.donate_compensates .donate_amount_group:hover{
+#donate_hidden .donate_amount_group:hover,
+#donate_hidden .donate_payment_method label:hover{
     cursor: pointer;
 }
 .donate_compensates li p{
@@ -103,6 +116,10 @@
 .donate_amount{
     color: #ecb338;
     font-style: italic;
+}
+.donate_form .donate_form_input.payment{
+    width: 94%;
+    max-width: 100%;
 }
 .donate_form .donate_form_input{
     width: 80%;
@@ -121,6 +138,9 @@
     width: 40px;
     height: 40px;
 }
+#donate_hidden .donate_form_footer.center{
+    text-align: center;
+}
 #donate_hidden .donate_submit{
     background-color: #020202;
     color: #fdfffd;
@@ -138,20 +158,37 @@
     background: none;
     color: #ecb338;
 }
-.donate_dornor_info h3{
+#donate_hidden .donate_dornor_info{
+    margin-left: -10px;
+    margin-right: -10px;
+    width: auto;
+}
+#donate_hidden .donate_dornor_info h3{
     text-align: center;
 }
-.donate_dornor_info .donate_field{
+#donate_hidden .donate_dornor_info .donate_field{
     width: 50%;
     float: left;
     padding: 10px;
 }
-.donate_dornor_info .donate_field label{
+#donate_hidden .donate_dornor_info .donate_field label{
     font-size: 15px;
 }
-.donate_dornor_info .donate_field > input,
-.donate_dornor_info .donate_field > textarea{
+#donate_hidden .donate_dornor_info .donate_field > input,
+#donate_hidden .donate_dornor_info .donate_field > textarea{
     width: 100%;
     font-size: 12px;
     padding: 8px;
+    border: 1px solid #dedede;
+}
+/**
+ * message error form
+ */
+.donate_message_error{
+    text-align: left;
+    font-size: 13px;
+    color: #F90404;
+    margin-bottom: 3px;
+    padding: 5px 10px;
+    background-color: #dedede;
 }

@@ -114,88 +114,6 @@ if ( ! function_exists( 'is_event_taxonomy' ) ) {
     }
 }
 
-/**
- * template hook function
- */
-add_filter( 'the_content', 'donate_the_content' );
-if( ! function_exists( 'donate_the_content' ) )
-{
-	function donate_the_content( $content )
-	{
-		return do_shortcode( $content );
-	}
-}
-
-add_filter( 'the_post', 'donate_add_property_countdown' );
-if( ! function_exists( 'donate_add_property_countdown' ) )
-{
-	/**
-	 * add property inside the loop
-	 * @param  [type] $post [description]
-	 * @return [type]       [description]
-	 */
-	function donate_add_property_countdown( $post )
-	{
-		if( $post->post_type !== 'tp_event' )
-			return $post;
-
-		$date_start = get_post_meta( $post->ID, 'donate_date_start', true );
-		$time_start = get_post_meta( $post->ID, 'donate_time_start', true );
-		if( $date_start && $time_start )
-		{
-			$start = $date_start . ' ' . $time_start;
-			$post->event_start = date( 'Y-m-d H:i:s', strtotime($start) );
-		}
-		else
-		{
-			$post->event_start = null;
-		}
-
-		$date_end = get_post_meta( $post->ID, 'donate_date_end', true );
-		$time_end = get_post_meta( $post->ID, 'donate_time_end', true );
-		if( $date_end && $time_end )
-		{
-			$end = $date_end . ' ' . $time_end;
-			$post->event_end = date( 'Y-m-d H:i:s', strtotime($end) );
-		}
-		else
-		{
-			$post->event_end = null;
-		}
-
-		return $post;
-	}
-
-	/**
-	 * get event start datetime
-	 * @param  string $format [description]
-	 * @return [type]         [description]
-	 */
-	function donate_start( $format = 'Y-m-d H:i:s' )
-	{
-		$post = get_post();
-		if( ! $post->event_start )
-			return null;
-
-		return date( $format, strtotime( $post->event_start ) );
-	}
-
-	/**
-	 * get event end datetime same as function
-	 * @param  string $format [description]
-	 * @return [type]         [description]
-	 */
-	function donate_end( $format = 'Y-m-d H:i:s' )
-	{
-		$post = get_post();
-		if( ! $post->event_end )
-			return null;
-
-		return date( $format, strtotime( $post->event_end ) );
-	}
-
-}
-
 if ( ! function_exists( 'donate_payments_enable' ) )
 {
 	function donate_payments_enable()
@@ -203,7 +121,6 @@ if ( ! function_exists( 'donate_payments_enable' ) )
 		return apply_filters( 'donate_payment_gateways', array() );
 	}
 }
-
 
 if( ! function_exists( 'donate_get_currencies' ) )
 {
@@ -562,4 +479,148 @@ if( ! function_exists( 'donate_checkout_url' ) )
 	{
 		return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
 	}
+}
+
+/**
+ * convert amount campaigns
+ */
+if( ! function_exists( 'donate_campaign_convert_amount' ) )
+{
+
+	/**
+	 * donate_campaign_convert_amount
+	 * @param  integer $amount   amount of campaign
+	 * @param  string  $currency currency  of campaign
+	 * @return integer $amount
+	 */
+	function donate_campaign_convert_amount( $amount = 1, $from = '', $to = '' )
+	{
+
+		// currency setting
+		if( ! $to )
+		{
+			$to = donate_get_currency();
+		}
+
+		if( ! $from || $from === $to )
+			return $amount;
+
+		$name = 'donate_rate_' . $from . '_' . $to;
+
+		if( false === ( $rate = get_transient( $name ) ) )
+		{
+			$type = DN_Settings::instance()->general->get( 'aggregator', 'yahoo' );
+
+			switch ( $type ) {
+				case 'yahoo':
+	                $yql_query = 'select * from yahoo.finance.xchange where pair in ("' . $from . $to. '")';
+
+	                $url = 'http://query.yahooapis.com/v1/public/yql?q='. urlencode($yql_query);
+	                $url .= "&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+
+	                if ( function_exists('curl_init') ) {
+	                    $res = donate_curl_get($url);
+	                } else {
+	                    $res = file_get_contents($url);
+	                }
+
+	                //***
+	                $results = json_decode($res, true);
+	                $rate = (float) $results['query']['results']['rate']['Rate'];
+
+					break;
+
+				case 'google':
+					# code...
+					$amount = urlencode(1);
+	                $from_Currency = urlencode( $from );
+	                $to_Currency = urlencode( $to );
+	                $url = "http://www.google.com/finance/converter?a=$amount&from=$from_Currency&to=$to_Currency";
+
+	                if ( function_exists('curl_init') ) {
+	                    $html = donate_curl_get($url);
+	                } else {
+	                    $html = file_get_contents($url);
+	                }
+
+	                preg_match_all('/<span class=bld>(.*?)<\/span>/s', $html, $matches);
+
+	                if ( isset($matches[1][0]) ) {
+	                    $rate = floatval($matches[1][0]);
+	                } else {
+	                    $rate = sprintf( __("no data for %s", 'tp-hotel-booking'), $to );
+	                }
+					break;
+
+				default:
+					$rate = 1;
+					break;
+			}
+
+			set_transient( $name, $rate, 12 * HOUR_IN_SECONDS );
+		}
+
+
+		return $amount * $rate;
+
+	}
+
+	/**
+	 * get rate of currency
+	 * @param  string $from
+	 * @param  string $to
+	 * @return rate
+	 */
+	function donate_curl_get( $url )
+	{
+		$ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        return $data;
+	}
+
+}
+
+if( ! function_exists( 'donate_find_compensate_by_amount' ) )
+{
+	/**
+	 * fint compensate by amount donate
+	 * @param $campaign
+	 * @param  integer $amount
+	 * @return string
+	 */
+	function donate_find_compensate_by_amount( $campaign = null, $amount = 0 )
+	{
+		if( $amount === 0 )
+			return '';
+
+		$campaign = DN_Campaign::instance( $campaign );
+		$compensates = $campaign->get_compensate();
+
+		if( ! $compensates )
+			return '';
+
+		$desc = '';
+		$prev = 0;
+		foreach ( $compensates as $key => $compensate ) {
+			if( $compensate[ 'amount' ] && $amount >= $compensate[ 'amount' ] && $compensate[ 'amount' ] > $prev )
+			{
+				$desc = $compensate['desc'];
+				$prev = $compensate[ 'amount' ];
+			}
+		}
+
+		return $desc;
+
+	}
+
+
 }

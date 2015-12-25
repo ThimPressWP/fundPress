@@ -67,6 +67,9 @@ class DN_Campaign extends DN_Post_Base
 			$id = $post->ID;
 		}
 
+		if( ! isset( $id ) )
+			$id = $post->ID;
+
 		if( ! empty( self::$_instances[ $id ] ) )
 		{
 			return self::$_instances[ $id ];

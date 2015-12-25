@@ -139,6 +139,7 @@ class ThimPress_Donate
 		}
 
 		$this->_include( 'inc/functions.php' );
+		$this->_include( 'inc/l18n.php' );
 
 		$this->_include( 'inc/template-hook.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
@@ -199,6 +200,7 @@ class ThimPress_Donate
 		 */
 		$donate_settings = apply_filters( 'donate_localize_object_settings', array(
 				'settings'			=> DN_Settings::instance()->_options,
+				'l18n'				=> donate_18n_languages(),
 				'ajaxurl'			=> admin_url( 'admin-ajax.php?schema=donate-ajax' ),
 				'nonce'				=> wp_create_nonce( 'thimpress_donate_nonce' ),
 			));

@@ -1,32 +1,57 @@
 <div id="donate_hidden"></div>
 <script type="text/html" id="tmpl-donate-form-template">
-	<form action="<?php echo esc_attr( donate_redirect_url() ) ?>" method="POST" class="donate_form">
+	<form action="<?php echo esc_attr( donate_redirect_url() ) ?>" method="POST" class="donate_form" id="donate_form">
 		<h2><?php _e( 'DONATION AMOUNT', 'tp-donate' ) ?></h2>
 		<div class="donate_form_layout">
 
-	        <# if ( typeof data.compensates !== 'undefined' && Object.keys(data.compensates).length > 0 ) { #>
+			<# var payment = false; #>
+
+			<# if( typeof thimpress_donate.settings !== 'undefined' &&
+	        	typeof thimpress_donate.settings.checkout !== 'undefined' &&
+	        	typeof thimpress_donate.settings.checkout.lightbox_checkout !== 'undefined' &&
+	        	thimpress_donate.settings.checkout.lightbox_checkout === 'yes' ) {
+
+				payment = true;
+
+			} #>
+
+	        <# if ( typeof data.compensates !== 'undefined' ) { #>
 
 	            <div class="donate_compensates">
 	                <ul>
-	                    <# jQuery.each( data.compensates, function(key, val){ #>
-	                            <li>
-	                            	<input type="radio" name="donate_input_price" value="{{ key }}" id="{{ key }}"/>
-	                            	<label class="donate_amount_group" for="{{ key }}">
-	                            		<?php _e( 'Donate', 'tp-donate' ) ?>
-	                            		<span class="donate_amount">{{{ val.amount }}}</span>
-	                            	</label>
-	                            	<p>{{{ val.desc }}}</p>
-	                            </li>
-	                     <# }); #>
+	                	<# if( Object.keys(data.compensates).length > 0 ) { #>
+
+		                    <# jQuery.each( data.compensates, function(key, val){ #>
+		                            <li>
+		                            	<input type="radio" name="donate_input_amount_package" value="{{ key }}" id="{{ key }}"/>
+		                            	<label class="donate_amount_group" for="{{ key }}">
+		                            		<?php _e( 'Donate', 'tp-donate' ) ?>
+		                            		<span class="donate_amount">{{{ val.amount }}}</span>
+		                            	</label>
+		                            	<p>{{{ val.desc }}}</p>
+		                            </li>
+		                    <# }); #>
+
+	                	<# }#>
+
+	                    <# if( payment ) { #>
+
+	                    	<li>
+					            <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
+
+					            <span class="currency">{{{ data.currency }}}</span>
+
+					            <input type="number" name="donate_input_amount" step="any" class="donate_form_input payment" min="0"/>
+	                    	</li>
+
+	                    <# } #>
+
 	                </ul>
 	            </div>
 
 	        <# } #>
 
-	        <# if( typeof thimpress_donate.settings !== 'undefined' &&
-	        	typeof thimpress_donate.settings.checkout !== 'undefined' &&
-	        	typeof thimpress_donate.settings.checkout.lightbox_checkout !== 'undefined' &&
-	        	thimpress_donate.settings.checkout.lightbox_checkout === 'yes' ) { #>
+	        <# if( payment ) { #>
 
 	        	<div class="donate_dornor_info">
 
@@ -58,32 +83,50 @@
 
 	        	</div>
 
-	        	<# if( typeof data.payments !== 'undefined' ){ #>
+	        	<# if( typeof data.payments !== 'undefined' && data.payments.length > 0 ){ #>
 
-	        		<# for( var i = 0; i < data.payments.length; i++ ) { #>
+	        		<div class="donate_payment_method">
 
-	        			<# var payment = data.payments[i] #>
+		        		<# for( var i = 0; i < data.payments.length; i++ ) { #>
 
-	        			<label for="payment_method_{{ payment.id }}"><img width="115" height="50" src="{{ payment.icon }}" /></label>
-	        			<input id="payment_method_{{ payment.id }}" type="radio" name="payment_method" value="{{ payment.id }}"/>
+		        			<# var payment = data.payments[i] #>
 
-	        		<# } #>
+		        			<label class="payment_method" for="payment_method_{{ payment.id }}"><img width="115" height="50" src="{{ payment.icon }}" /></label>
+		        			<input id="payment_method_{{ payment.id }}" type="radio" name="payment_method" value="{{ payment.id }}"/>
+
+		        		<# } #>
+
+	        		</div>
 
 	        	<# } #>
 
 	        <# } #>
 
-	        <div class="donate_form_footer">
+	        <?php wp_nonce_field( 'thimpress_donate_nonce', 'thimpress_donate_nonce' ); ?>
+	        <input type="hidden" name="campaign_id" value="{{{ data.campaign_id }}}" />
+	        <input type="hidden" name="action" value="donate_submit" />
 
-	            <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
+	        <# if( payment === false ) { #>
+        		<div class="donate_form_footer">
 
-	            <span class="currency">{{{ data.currency }}}</span>
+		            <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
 
-	            <input type="number" name="donate_input_amount" step="any" class="donate_form_input" min="0"/>
+		            <span class="currency">{{{ data.currency }}}</span>
 
-	            <button type="submit" class="donate_submit button"><?php _e( 'Donate', 'tp-donate' ) ?></button>
+		            <input type="number" name="donate_input_amount" step="any" class="donate_form_input" min="0"/>
+	            	<button type="submit" class="donate_submit button" form="donate_form"><?php _e( 'Donate', 'tp-donate' ) ?></button>
 
-	        </div>
+	            </div>
+
+            <# } else { #>
+
+            	<div class="donate_form_footer center">
+
+            		<button type="submit" class="donate_submit button payment" form="donate_form"><?php _e( 'Donate', 'tp-donate' ) ?></button>
+
+            	</div>
+
+            <# } #>
 
 	    </div>
 	</form>

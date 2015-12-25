@@ -22,7 +22,13 @@ abstract class DN_Payment_Base
 
 	function __construct()
 	{
+		add_action( 'init', array( $this, 'init' ) );
 		$this->_icon = TP_DONATE_INC_URI . '/payments/' . $this->_id . '.png';
+		add_action( 'donate_payment_gateways_select', array( $this, 'donate_gateways' ) );
+	}
+
+	public function init()
+	{
 		/**
 		 * filter payments
 		 */
@@ -30,10 +36,12 @@ abstract class DN_Payment_Base
 
 		if( is_admin() )
 		{
+			/**
+			 * generate fields settings
+			 */
 			add_filter( 'donate_admin_setting_fields', array( $this, 'generate_fields' ), 10, 2 );
 		}
 
-		add_action( 'donate_payment_gateways_select', array( $this, 'donate_gateways' ) );
 	}
 
 	/**

@@ -1,6 +1,18 @@
 <?php
 
 /**
+ * template hook function
+ */
+add_filter( 'the_content', 'donate_the_content' );
+if( ! function_exists( 'donate_the_content' ) )
+{
+	function donate_the_content( $content )
+	{
+		return do_shortcode( $content );
+	}
+}
+
+/**
  * title
  */
 add_action( 'donate_single_campaign_title', 'donate_single_campaign_title' );
