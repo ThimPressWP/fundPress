@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class DN_Sessions
 {
@@ -19,7 +20,7 @@ class DN_Sessions
 	 * prefix
 	 * @var null
 	 */
-	private $prefix = null;
+	public $prefix = null;
 
 	function __construct( $prefix = '', $remember = true )
 	{
@@ -46,7 +47,8 @@ class DN_Sessions
 		{
 			return $_SESSION[ $this->prefix ];
 		}
-		elseif( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ){
+		else if( $this->remember && isset( $_COOKIE[ $this->prefix ] ) )
+		{
 			return maybe_unserialize( $_COOKIE[ $this->prefix ] );
 		}
 

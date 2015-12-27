@@ -25,8 +25,8 @@ class DN_Cart
 	function __construct()
 	{
 		// load cart items
-		$this->cart_contents = $this->get_cart();
 		$this->sessions = DN_Sessions::instance( 'thimpress_donate_cart', true );
+		$this->cart_contents = $this->get_cart();
 	}
 
 	/**
@@ -55,6 +55,7 @@ class DN_Cart
 					if( ! class_exists( $product_class ) )
 					 	$product_class = 'DN_Product_Base';
 
+					// class product
 					$param->product_class = apply_filters( 'donate_product_type_class', $product_class, $post_type );
 					$product = new $param->product_class;
 					$param->amount_include_tax = $product->amount_include_tax();
@@ -75,12 +76,17 @@ class DN_Cart
 	 * @param array   $param
 	 * @param integer $qty
 	 */
-	function add_to_cart( $post_id, $params = array(), $qty = 1, $asc = false )
+	function add_to_cart( $post_id, $params = array(), $qty = 1, $amount = 0, $asc = false )
 	{
-
 		$cart_item_id = $this->generate_cart_id( $params );
+
 		if( in_array( $cart_item_id, $this->cart_contents ) )
 		{
+			if( $qty == 0 )
+			{
+				return $this->remove_cart_item( $cart_item_id );
+			}
+
 			if( $asc === false )
 			{
 				$this->remove_cart_item( $cart_item_id );
@@ -90,6 +96,13 @@ class DN_Cart
 				$params[ 'quantity' ] = $this->cart_contents[ 'quantity' ] + $qty;
 			}
 		}
+		else
+		{
+			$params[ 'quantity' ] = 1;
+		}
+
+		// only donate use
+		$params[ 'amount' ] = $amount;
 
 		// allow hook before set sessions
 		do_action( 'donate_before_add_to_cart_item' );
@@ -102,7 +115,7 @@ class DN_Cart
 
 		// refresh cart data
 		$this->refresh();
-		echo '<pre>'; print_r( $this->cart_contents ); die();
+		return $cart_item_id;
 	}
 
 	// refresh all
@@ -167,7 +180,11 @@ class DN_Cart
 	function remove_cart_item( $item_key = null )
 	{
 		do_action( 'donate_remove_cart_item', $item_key );
-		return $this->sessions->set( $item_key, null );
+
+		$this->sessions->set( $item_key, null );
+
+		do_action( 'donate_removed_cart_item', $item_key );
+		return $item_key;
 	}
 
 	/**
@@ -202,3 +219,4 @@ class DN_Cart
 	}
 
 }
+// var_dump(DN_Cart::instance()->cart_contents); die();

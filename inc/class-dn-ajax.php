@@ -155,14 +155,13 @@ class DN_Ajax
 		$cart_params = apply_filters( 'donate_add_to_cart_item_params', array(
 
 				'product_id'		=> $campaign->ID,
-				'currency'			=> donate_get_currency(),
-				'amount'			=> $amount
+				'currency'			=> donate_get_currency()
 
 			) );
 
-		if( $cart_item_id = DN_Cart::instance()->add_to_cart( $campaign->ID, $cart_params ) )
+		if( $cart_item_id = DN_Cart::instance()->add_to_cart( $campaign->ID, $cart_params, 1, $amount ) )
 		{
-			echo '<pre>'; print_r( DN_Cart::instance()->cart_items ); die();
+			echo '<pre>'; print_r( DN_Cart::instance()->cart_contents ); die();
 		}
 		/************** END NEW SCRIPT **************/
 

@@ -12,8 +12,12 @@ class DN_Product_Campaign extends DN_Product_Base
 	}
 
 	// get amount exclude tax
-	public function amount_exclude_tax(){}
+	public function amount_exclude_tax(){
+		return 1;
+	}
 
 	// get amount include tax
-	public function amount_include_tax(){}
+	public function amount_include_tax(){
+		return 1;
+	}
 }
