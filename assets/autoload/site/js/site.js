@@ -16,7 +16,7 @@
 			/**
 			 * submit on lightbox
 			 */
-			this.donate_submit_lightbox();
+			this.donate_submit();
 		},
 
 		/**
@@ -54,7 +54,7 @@
 					{
 						var _tmpl = wp.template( 'donate-form-template' );
 
-						$('#donate_hidden').html( _tmpl(res) );
+						$('#donate_hidden').addClass('active').html( _tmpl(res) );
 
 						$.magnificPopup.open({
 							type: 'inline',
@@ -70,9 +70,8 @@
 
 		},
 
-		donate_submit_lightbox: function()
+		donate_submit: function()
 		{
-
 			$( document ).on( 'submit', '.donate_form', function( e ){
 				e.preventDefault();
 
@@ -80,13 +79,13 @@
 
 				// remove old message error
 				_form.find( '.donate_message_error' ).remove();
-				// donate on lightbox redirect cart, checkout form.
-				if( DONATE_Site.donate_on_lightbox() === false )
-				{
-					_form.submit();
-				}
-				else // donate on lightbox without cart, checkout form.
-				{
+				// // donate on lightbox redirect cart, checkout form.
+				// if( DONATE_Site.donate_on_lightbox() === false )
+				// {
+				// 	_form.submit();
+				// }
+				// else // donate on lightbox without cart, checkout form.
+				// {
 					var messages = DONATE_Site.sanitize_form_fields( _form );
 					// invalid fields
 					if( messages.length > 0 )
@@ -114,12 +113,24 @@
 							}
 						}).done( function( res ){
 							DONATE_Site.afterAjax();
-							console.debug(res);
+
+							if( typeof res.status === 'undefined' )
+								return;
+
+							if( res.status === 'success' && typeof res.url !== 'undefined' )
+							{
+								window.location.href = res.url;
+							}
+							else if( res.status === 'failed' && typeof res.messages !== 'undefined' )
+							{
+								$( '.donate_form_footer .donate_message_error' ).remove();
+								$( '.donate_form_footer .donate_message_error' ).append( '<p class="donate_message_error">' + res.messages + '</p>' );
+							}
 						});
 					}
 
 
-				}
+				// }
 
 				return false;
 
@@ -165,22 +176,23 @@
 			}
 
 			// email
-			var email = _form.find( 'input[name="email"]' ).val();
-			if( email === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test(email) === false )
+			var email = _form.find( 'input[name="email"]' );
+			if( email.length != 0 && ( email.val() === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test( email.val() ) === false ) )
 			{
 				messages.push( thimpress_donate.l18n.email_invalid );
 			}
 
 			// phone
-			var phone = _form.find( 'input[name="phone"]' ).val();
+			var phone = _form.find( 'input[name="phone"]' );
 			var reges = /^\d{10}$/;
-			if( phone === '' || reges.test( phone ) === false )
+			if( phone.length != 0 && ( phone.val() === '' || reges.test( phone.val() ) === false ) )
 			{
 				messages.push( thimpress_donate.l18n.phone_number_invalid );
 			}
 
 			// payment method
-			if( _form.find( 'input[name="payment_method"]' ).val() === '' )
+			var payment_method = _form.find( 'input[name="payment_method"]' );
+			if( payment_method.length != 0 && payment_method.val() === '' )
 			{
 				messages.push( thimpress_donate.l18n.payment_method_invalid );
 			}

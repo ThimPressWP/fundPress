@@ -74,3 +74,14 @@
 .donate_metabox_setting_section textarea{
 	width: 100%;
 }
+
+/**
+ * donor metabox
+ */
+#donate_donor_info_section th,
+#donate_donor_info_section td,
+#donate_donate_info_section th,
+#donate_donate_info_section td{
+	padding: 10px;
+	border: 1px solid #dedede;
+}

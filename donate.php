@@ -52,11 +52,19 @@ class ThimPress_Donate
 	 */
 	public $options = null;
 
+	/**
+	 * cart
+	 * @var null
+	 */
+	public $cart = null;
+
 	function __construct()
 	{
 		$this->includes();
 
 		$GLOBALS[ 'dn_settings' ] = $this->options = DN_Settings::instance();
+
+		$this->cart = DN_Cart::instance();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueues' ) );

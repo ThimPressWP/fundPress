@@ -54,19 +54,28 @@ class DN_Donate extends DN_Post_Base
 		// update post with new title
 		wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
 
+		$cart = donate()->cart;
 		// get cart contents
-		$cart_contents = DN_Cart::instance()->cart_contents;
+		$cart_contents = $cart->cart_contents;
+		// cart_contents
+		add_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents );
+		add_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
 		// insert post meta
-		foreach ( $cart_contents as $meta_key => $value ) {
-			// ignoire product_data key
-			if( $meta_key === 'product_data' )
-				continue;
+		// foreach ( $cart_contents as $cart_item_id => $cart_content ) {
+		// 	// ignoire product_data key
+		// 	foreach ( $cart_content as $meta_key => $value ) {
+		// 		// ignoire product_data key
+		// 		if( $meta_key === 'product_data' )
+		// 			continue;
 
-			add_post_meta( $donate_id, $this->meta_prefix . $meta_key, $value );
-		}
+		// 		add_post_meta( $donate_id, $this->meta_prefix . $meta_key, $value );
+		// 	}
+		// }
 
 		add_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
+		add_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
 
+		// return donate_id
 		return $donate_id;
 
 	}

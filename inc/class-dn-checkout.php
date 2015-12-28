@@ -26,7 +26,7 @@ class DN_Checkout
 		}
 
 		$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method );
-var_dump($donate_id); die();
+
 		if( is_wp_error( $donate_id ) )
 		{
 			return array( 'status' => 'failed', 'message' => $donate_id->get_error_message() );
@@ -42,7 +42,9 @@ var_dump($donate_id); die();
 
 		if( $payment->process() )
 		{
-			
+
+			// remove cart when process payment completed
+			DN_Cart::instance()->remove_cart();
 		}
 
 	}

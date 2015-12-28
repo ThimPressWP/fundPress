@@ -67,6 +67,7 @@
  * lightbox
  */
 #donate_hidden{
+    display: none;
     position: relative;
     background: #FFF;
     padding: 20px;
@@ -74,6 +75,9 @@
     min-width: 500px;
     max-width: 800px;
     margin: 20px auto;
+}
+#donate_hidden.active{
+    display: block;
 }
 .donate_form h2{
     color: #2e3544;
@@ -105,8 +109,8 @@
     font-weight: 500;
     font-size: 18px;
 }
-#donate_hidden .donate_amount_group:hover,
-#donate_hidden .donate_payment_method label:hover{
+.donate_dornor_info .donate_amount_group:hover,
+.donate_dornor_info .donate_payment_method label:hover{
     cursor: pointer;
 }
 .donate_compensates li p{
@@ -123,7 +127,7 @@
     text-align: center;
 }
 .donate_form .donate_form_input{
-    width: 80%;
+    width: 79%;
     max-width: 610px;
 }
 .donate_form .currency{
@@ -139,10 +143,14 @@
     width: 40px;
     height: 40px;
 }
-#donate_hidden .donate_form_footer.center{
+#donate_hidden .mfp-close:hover{
+    background: none;
+    color: #ecb338;
+}
+.donate_dornor_info .donate_form_footer.center{
     text-align: center;
 }
-#donate_hidden .donate_submit{
+.donate_dornor_info .donate_submit{
     background-color: #020202;
     color: #fdfffd;
     transition: all 0.3s;
@@ -151,32 +159,28 @@
     -o-transition: all 0.3s;
     -ms-transition: all 0.3s;
 }
-#donate_hidden .donate_submit:hover{
+.donate_dornor_info .donate_submit:hover{
     color: #ecb338;
     background-color: #9C8686;
-}
-#donate_hidden .mfp-close:hover{
-    background: none;
-    color: #ecb338;
 }
 #donate_hidden .donate_dornor_info{
     margin-left: -10px;
     margin-right: -10px;
     width: auto;
 }
-#donate_hidden .donate_dornor_info h3{
+.donate_dornor_info h3{
     text-align: center;
 }
-#donate_hidden .donate_dornor_info .donate_field{
+.donate_dornor_info .donate_field{
     width: 50%;
     float: left;
     padding: 10px;
 }
-#donate_hidden .donate_dornor_info .donate_field label{
+.donate_dornor_info .donate_field label{
     font-size: 15px;
 }
-#donate_hidden .donate_dornor_info .donate_field > input,
-#donate_hidden .donate_dornor_info .donate_field > textarea{
+.donate_dornor_info .donate_field > input,
+.donate_dornor_info .donate_field > textarea{
     width: 100%;
     font-size: 12px;
     padding: 8px;
@@ -192,4 +196,68 @@
     margin-bottom: 3px;
     padding: 5px 10px;
     background-color: #dedede;
+}
+/**
+ * cart form
+ */
+.donate_cart th,
+.donate_cart td{
+    padding: 10px 20px;
+}
+.donate_cart_form{
+    text-decoration: none !important;
+    box-shadow: none !important;
+    font-size: 13px;
+    text-decoration: none;
+}
+.donate_cart .donate_cart_item_name .donate_cart_item_thumbnail{
+    width: 50px;
+    height: auto;
+    float: left;
+    margin-right: 20px;
+}
+.donate_cart .donate_cart_item_name .donate_cart_item_name_title a,
+.donate_cart .donate_action_remove a{
+    color: #007acc;
+    font-weight: 400;
+    text-decoration: none;
+    box-shadow: none;
+}
+.donate_cart .donate_action_remove a{
+    color: #f00;
+}
+.donate_cart .donate_cart_item_name .donate_cart_item_name_title a:hover{
+    color: #686868;
+}
+.donate_cart thead .donate_cart_item_name,
+.donate_cart .donate_cart_item_amount,
+.donate_cart .donate_action_remove,
+.donate_cart .donate_cart_foot_total_amount,
+.donate_cart .donate_cart_foot_total{
+    text-align: center;
+}
+.donate_button{
+    font-size: 14px;
+    background: #1a1a1a;
+    border: 0;
+    border-radius: 2px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.046875em;
+    line-height: 1;
+    padding: 0.84375em 0.875em 0.78125em;
+    text-transform: uppercase;
+}
+.donate_button:hover{
+    background: #007acc;
+    color: #fff;
+}
+.donate_button:focus{
+    outline: none;
+}
+.donate_button.checkout_url{
+    float: right;
+}
+.donate_payment_button_process{
+    text-align: center;
 }

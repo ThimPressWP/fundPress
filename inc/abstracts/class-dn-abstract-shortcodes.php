@@ -31,7 +31,8 @@ abstract class DN_Shortcode_Base
 		return '<div class="donate_wrapper '.$this->_shortcodeName.'">';
 	}
 
-	protected function add_shortcode( $atts, $content = null )
+	// add shortcode callback
+	public function add_shortcode( $atts, $content = null )
 	{
 		do_action( 'donate_before_wrap_shortcode', $this->_shortcodeName );
 
@@ -53,7 +54,7 @@ abstract class DN_Shortcode_Base
 	 */
 	public function parses( $atts )
 	{
-		return apply_filters( 'tp_events_shortcode_atts', $atts, $this->_shortcodeName );
+		return apply_filters( 'donate_shortcode_atts', $atts, $this->_shortcodeName );
 	}
 
 }
