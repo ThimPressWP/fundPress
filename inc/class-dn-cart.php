@@ -12,9 +12,10 @@ class DN_Cart
 	/** @var null **/
 	public $sessions = null;
 
-	public $cart_include_totals = 0;
-	public $cart_exclude_totals = 0;
-	public $cart_items_count = 0;
+	public $cart_total_include_tax = 0;
+	public $cart_total 			= 0;
+	public $cart_total_exclude_tax = 0;
+	public $cart_items_count 	= 0;
 
 	/**
 	 * instance insteadof new class();
@@ -27,6 +28,17 @@ class DN_Cart
 		// load cart items
 		$this->sessions = DN_Sessions::instance( 'thimpress_donate_cart', true );
 		$this->cart_contents = $this->get_cart();
+
+		// refresh cart data
+		$this->refresh();
+
+		add_action( 'init', array( $this, 'process_cart' ), 99 );
+	}
+
+	// process remove, update cart
+	function process_cart()
+	{
+
 	}
 
 	/**
@@ -64,10 +76,10 @@ class DN_Cart
 					$product = new $param->product_class;
 
 					// amount include tax
-					$param->amount_include_tax = $product->amount_include_tax();
+					$param->amount_include_tax = $param->amount; //$product->amount_include_tax();
 
 					// amount exclude tax
-					$param->amount_exclude_tax = $product->amount_exclude_tax();
+					$param->amount_exclude_tax = $param->amount; //$product->amount_exclude_tax();
 
 					// amount tax
 					$param->tax = $param->amount_include_tax - $param->amount_exclude_tax;
@@ -139,7 +151,7 @@ class DN_Cart
 		$this->cart_contents = $this->get_cart();
 
 		// refresh cart_totals
-		$this->cart_include_totals = $this->cart_include_totals();
+		$this->cart_total_include_tax = $this->cart_total = $this->cart_total_include_tax();
 
 		// refresh cart_totals_exclude_tax
 		$this->cart_totals_exclude_tax = $this->cart_total_exclude_tax();
@@ -149,14 +161,14 @@ class DN_Cart
 	}
 
 	// cart totals
-	function cart_include_totals()
+	function cart_total_include_tax()
 	{
 		$total = 0;
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
 			$total = $total + $cart_item->amount_include_tax;
 		}
 		// return total cart include tax
-		return apply_filters( 'donate_cart_include_totals', $total );
+		return apply_filters( 'donate_cart_totals_include_tax', $total );
 	}
 
 	// cart exclude tax
@@ -205,6 +217,22 @@ class DN_Cart
 
 		// return cart item removed
 		return $item_key;
+	}
+
+	// destroy cart
+	function remove_cart()
+	{
+		// remove
+		$this->sessions->remove();
+
+		// refresh cart contents
+		$this->refresh();
+	}
+
+	// return is empty
+	function is_empty()
+	{
+		return ! empty( $this->cart_contents ) ? false : true;
 	}
 
 	/**

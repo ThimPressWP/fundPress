@@ -457,7 +457,7 @@ if( ! function_exists( 'donate_redirect_url' ) )
 		}
 		else if( $rediect === 'cart' )
 		{
-			return donate_checkout_url();
+			return donate_cart_url();
 		}
 	}
 
@@ -473,9 +473,9 @@ if( ! function_exists( 'donate_checkout_url' ) )
 }
 
 // cart url
-if( ! function_exists( 'donate_checkout_url' ) )
+if( ! function_exists( 'donate_cart_url' ) )
 {
-	function donate_checkout_url()
+	function donate_cart_url()
 	{
 		return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
 	}
@@ -657,12 +657,56 @@ if( ! function_exists( 'donate_array_to_string' ) )
 	}
 }
 
-// setcookie
-function donate_setcookie( $name, $value, $expire = 0, $secure = false ) {
-	if ( ! headers_sent() ) {
-		setcookie( $name, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure );
-	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		headers_sent( $file, $line );
-		trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE );
+if( ! function_exists( 'donate_setcookie' ) )
+{
+	// setcookie
+	function donate_setcookie( $name, $value, $expire = 0, $secure = false ) {
+		if ( ! headers_sent() ) {
+			setcookie( $name, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure );
+		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			headers_sent( $file, $line );
+			trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE );
+		}
+	}
+}
+
+if( ! function_exists( 'donate_add_notice' ) )
+{
+	function donate_add_notice( $notice_key = null, $message = null )
+	{
+		if( ! $notice_key || ! $message )
+			return;
+
+		if( ! isset( $_SESSION[ 'donate_messages' ] ) )
+		{
+			$_SESSION[ 'donate_messages' ] = array();
+		}
+
+		$_SESSION[ 'donate_messages' ][ $name ] = sprintf( '%s', $message );
+	}
+}
+
+/**
+ * show message
+ */
+if( ! function_exists( 'donate_notice_display' ) )
+{
+	function donate_notice_display( $name = null )
+	{
+		if( empty( $_SESSION[ 'donate_messages' ] ) )
+			return;
+
+		if( ! $name )
+		{
+			foreach ( $_SESSION[ 'donate_message' ] as $name => $message ) {
+				donate_get_template( 'messages.php', array( 'name' => $name, 'message' => $message ) );
+			}
+		}
+		else if( isset( $_SESSION[ 'donate_message' ][ $name ] ) )
+		{
+			donate_get_template( 'messages.php', array( 'name' => $name, 'message' => $_SESSION[ 'donate_message' ][ $name ] ) );
+		}
+
+		unset( $_SESSION[ 'donate_message' ] );
 	}
 }

@@ -55,6 +55,19 @@ class DN_Sessions
 		return array();
 	}
 
+	// remove session
+	function remove()
+	{
+		if( isset( $_SESSION[ $this->prefix ] ) )
+		{
+			unset( $_SESSION[ $this->prefix ] );
+		}
+		else if( $this->remember && isset( $_COOKIE[ $this->prefix ] ) )
+		{
+			donate_setcookie( $this->prefix, '', time() - $this->live_item );
+		}
+	}
+
 	/**
 	 * set key
 	 * @param $key

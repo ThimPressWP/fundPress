@@ -16,7 +16,7 @@
 			/**
 			 * submit on lightbox
 			 */
-			this.donate_submit_lightbox();
+			this.donate_submit();
 		},
 
 		/**
@@ -54,7 +54,7 @@
 					{
 						var _tmpl = wp.template( 'donate-form-template' );
 
-						$('#donate_hidden').html( _tmpl(res) );
+						$('#donate_hidden').addClass('active').html( _tmpl(res) );
 
 						$.magnificPopup.open({
 							type: 'inline',
@@ -70,9 +70,8 @@
 
 		},
 
-		donate_submit_lightbox: function()
+		donate_submit: function()
 		{
-
 			$( document ).on( 'submit', '.donate_form', function( e ){
 				e.preventDefault();
 

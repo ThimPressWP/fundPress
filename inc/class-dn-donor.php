@@ -91,6 +91,22 @@ class DN_Donor extends DN_Post_Base
 		return $dornor_id;
 	}
 
+	function get_donated()
+	{
+		$args = array(
+			'posts_per_page'   => -1,
+			'orderby'          => 'date',
+			'order'            => 'DESC',
+			'meta_key'         => 'thimpress_donate_donor_id',
+			'meta_value'       => $this->ID,
+			'post_type'        => 'dn_donate',
+			'post_status'      => array( 'donate-pending', 'donate-processing', 'donate-completed' )
+		);
+		$posts_array = get_posts( $args );
+		wp_reset_postdata();
+		return $posts_array;
+	}
+
 	// static function instead of new class
 	static function instance( $post = null )
 	{

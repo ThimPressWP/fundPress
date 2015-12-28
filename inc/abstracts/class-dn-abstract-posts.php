@@ -57,6 +57,14 @@ abstract class DN_Post_Base
 		return $this->post->{$key};
 	}
 
+	function get_meta( $key, $default = null )
+	{
+		if( $meta = get_post_meta( $this->ID, $this->meta_prefix . $key , true ) )
+			return $meta;
+
+		return $default;
+	}
+
 	/**
 	 * create post with post type = $this->post_type
 	 * @param  array  $args

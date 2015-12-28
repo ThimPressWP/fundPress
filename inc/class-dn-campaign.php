@@ -64,7 +64,7 @@ class DN_Campaign extends DN_Post_Base
 		if( ! $post )
 			return new self( $post );
 
-		if( is_numeric( $post ) && ! self::$_instances[ $post ] )
+		if( is_numeric( $post ) )
 		{
 			$post = get_post( $post );
 			$id = $post->ID;
@@ -74,7 +74,7 @@ class DN_Campaign extends DN_Post_Base
 			$id = $post->ID;
 		}
 
-		if( ! isset( $id ) )
+		if( ! isset( $id ) && $post )
 			$id = $post->ID;
 
 		if( ! empty( self::$_instances[ $id ] ) )
