@@ -15,6 +15,9 @@
 		<?php donate_get_template( 'checkout/personal.php' ) ?>
 
 		<!--payment method -->
+		<?php donate_get_template( 'checkout/term_condition.php' ) ?>
+
+		<!--payment method -->
 		<?php donate_get_template( 'checkout/payment_methods.php' ) ?>
 
 		<input type="hidden" name="payment_process" value="1" />

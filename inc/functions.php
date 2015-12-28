@@ -480,7 +480,18 @@ if( ! function_exists( 'donate_cart_url' ) )
 		return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
 	}
 }
+// term & conditions url
+if( ! function_exists( 'donate_term_condition_url' ) )
+{
+	function donate_term_condition_url()
+	{
+		$page_id = DN_Settings::instance()->checkout->get( 'term_condition_page', 1 );
 
+		if( ! $page_id ) return;
+
+		return get_permalink( $page_id );
+	}
+}
 /**
  * convert amount campaigns
  */

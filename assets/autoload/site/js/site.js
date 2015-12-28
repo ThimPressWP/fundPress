@@ -109,10 +109,10 @@
 							data: _data,
 							beforeSend: function()
 							{
-								DONATE_Site.beforeAjax();
+								DONATE_Site.beforeAjax( _form );
 							}
 						}).done( function( res ){
-							DONATE_Site.afterAjax();
+							DONATE_Site.afterAjax( _form );
 
 							if( typeof res.status === 'undefined' )
 								return;
@@ -200,14 +200,20 @@
 			return messages;
 		},
 
-		beforeAjax: function()
+		beforeAjax: function( _form )
 		{
+			if( typeof _form === 'undefined' )
+				return;
 
+			_form.find( '.donate_button' ).addClass( 'donate_button_processing' );
 		},
 
-		afterAjax: function()
+		afterAjax: function( _form)
 		{
+			if( typeof _form === 'undefined' )
+				return;
 
+			_form.find( '.donate_button' ).removeClass( 'donate_button_processing' );
 		},
 
 	};

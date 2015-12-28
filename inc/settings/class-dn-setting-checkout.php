@@ -106,6 +106,17 @@ class DN_Setting_Checkout extends DN_Setting_Base
 														),
 													'name'		=> 'checkout_page',
 													'options'	=> donate_get_pages_setting()
+												),
+											array(
+													'type'		=> 'select',
+													'label'		=> __( 'Terms and Conditions page', 'tp-donate' ),
+													'desc'		=> __( 'This controlls set Terms and Conditions page', 'tp-donate' ),
+													'atts'		=> array(
+															'id'	=> 'term_condition_page',
+															'class'	=> 'term_condition_page'
+														),
+													'name'		=> 'term_condition_page',
+													'options'	=> donate_get_pages_setting()
 												)
 									)
 							),
