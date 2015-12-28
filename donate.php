@@ -20,6 +20,11 @@ define( 'TP_DONATE_ASSETS_URI', TP_DONATE_URI . '/assets' );
 define( 'TP_DONATE_LIB_URI', TP_DONATE_INC_URI . '/libraries' );
 define( 'TP_DONATE_VER', 1.0 );
 
+// define meta post type
+define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
+define( 'TP_DONATE_META_DONATE', 'thimpress_donate_' );
+define( 'TP_DONATE_META_CAMPAGIN', 'thimpress_campaign_' );
+
 /**
  * Donate class
  */

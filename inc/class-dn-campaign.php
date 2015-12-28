@@ -19,7 +19,7 @@ class DN_Campaign extends DN_Post_Base
 	 * meta prefix of post type
 	 * @var null
 	 */
-	public $meta_prefix = 'donate_';
+	public $meta_prefix = null;
 
 	static $_instances = null;
 
@@ -31,6 +31,7 @@ class DN_Campaign extends DN_Post_Base
 
 	public function __construct( $post )
 	{
+		$this->meta_prefix = TP_DONATE_META_CAMPAGIN;
 		parent::__construct( $post );
 	}
 
@@ -40,7 +41,7 @@ class DN_Campaign extends DN_Post_Base
 	 */
 	public function get_compensate()
 	{
-		return get_post_meta( $this->ID, 'donate_marker', true );
+		return get_post_meta( $this->ID, $this->meta_prefix . 'marker', true );
 	}
 
 	/**
@@ -50,9 +51,9 @@ class DN_Campaign extends DN_Post_Base
 	public function get_currency()
 	{
 		$currency = donate_get_currency();
-		if( get_post_meta( $this->ID, 'donate_currency', true ) )
+		if( get_post_meta( $this->ID, $this->meta_prefix . 'currency', true ) )
 		{
-			$currency = get_post_meta( $this->ID, 'donate_currency', true );
+			$currency = get_post_meta( $this->ID, $this->meta_prefix . 'currency', true );
 		}
 		return $currency;
 	}

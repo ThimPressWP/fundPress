@@ -80,115 +80,113 @@ abstract class DN_MetaBox_Base
 	 */
 	public function render()
 	{
-		if( $this->_layout && file_exists($this->_layout) )
+		wp_nonce_field( 'thimpress_donate', 'thimpress_donate_metabox' );
+
+		do_action( 'donate_metabox_before_render', $this->_id );
+
+		// require_once $this->_layout;
+		$this->_fields = apply_filters( 'donate_metabox_fields', $this->load_field(), $this->_id );
+
+		if( ! empty( $this->_fields ) )
 		{
-			$this->_layout = apply_filters( 'donate_metabox_layout', $this->_layout, $this->_id );
+			$html = array();
 
-			wp_nonce_field( 'thimpress_donate', 'thimpress_donate_metabox' );
-
-			do_action( 'donate_metabox_before_render', $this->_id, $this->_layout );
-
-			// require_once $this->_layout;
-			$this->_fields = apply_filters( 'donate_metabox_fields', $this->load_field(), $this->_id );
-
-			if( $this->_fields )
+			$html[] = '<ul class="donate_metabox_setting" id="'.esc_attr( $this->_id ).'">';
+			$i = 0;
+			foreach( $this->_fields as $id => $group )
 			{
-				$html = array();
-
-				$html[] = '<ul class="donate_metabox_setting" id="'.esc_attr( $this->_id ).'">';
-				$i = 0;
-				foreach( $this->_fields as $id => $group )
+				if( isset( $group[ 'title' ] ) )
 				{
-					if( isset( $group[ 'title' ] ) )
-					{
-						$html[] = '<li><a href="#" id="'.esc_attr( $id ).'"'.( $i === 0 ? ' class="nav-tab-active"' : '' ).'>' . sprintf( '%s', $group[ 'title' ] ) . '</a>';
+					$html[] = '<li><a href="#" id="'.esc_attr( $id ).'"'.( $i === 0 ? ' class="nav-tab-active"' : '' ).'>' . sprintf( '%s', $group[ 'title' ] ) . '</a>';
 
-						if( isset( $group[ 'desc' ] ) )
-							$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
+					if( isset( $group[ 'desc' ] ) )
+						$html[] = '<p>' . sprintf( '%s', $group[ 'desc' ] ) . '</p>';
 
-						$html[] = '</li>';
-					}
-					$i++;
-
+					$html[] = '</li>';
 				}
-				$html[] = '</ul>';
+				$i++;
 
 			}
+			$html[] = '</ul>';
 
-			if( $this->_fields )
+
+			$html[] = '<div class="donate_metabox_setting_container">';
+			foreach( $this->_fields as $id => $group )
 			{
-				$html[] = '<div class="donate_metabox_setting_container">';
-				foreach( $this->_fields as $id => $group )
+				$html[] = '<div class="donate_metabox_setting_section" data-id="'.esc_attr( $id ).'">';
+				if( ! empty( $group[ 'fields' ] ) )
 				{
-					$html[] = '<div class="donate_metabox_setting_section" data-id="'.esc_attr( $id ).'">';
-					if( ! empty( $group[ 'fields' ] ) )
+					$html[] = '<table>';
+					foreach( $group[ 'fields' ] as $type => $field )
 					{
-						$html[] = '<table>';
-						foreach( $group[ 'fields' ] as $type => $field )
+
+						if( isset( $field[ 'name' ], $field[ 'type' ] ) )
 						{
+							$html[] = '<tr>';
 
-							if( isset( $field[ 'name' ], $field[ 'type' ] ) )
+							// label
+							$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
+
+							if( isset( $field[ 'desc' ] ) )
 							{
-								$html[] = '<tr>';
-
-								// label
-								$html[]	= '<th><label for="'.$this->get_field_id( $field[ 'name' ] ).'">' . sprintf( '%s', $field['label'] ) . '</label>' ;
-
-								if( isset( $field[ 'desc' ] ) )
-								{
-									$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
-								}
-
-								$html[]	= '</th>';
-								// end label
-
-								// field
-								$html[] = '<td>';
-
-								$default = array(
-												'type'		=> '',
-												'label'		=> '',
-												'desc'		=> '',
-												'atts'		=> array(
-														'id'	=> '',
-														'class'	=> ''
-													),
-												'name'		=> '',
-												'group'		=> $this->_id ? $this->_id : null,
-												'options'	=> array(
-
-													),
-												'default'	=> null
-											);
-
-								$field = wp_parse_args( $field, $default );
-
-								ob_start();
-								include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
-								$html[] = ob_get_clean();
-
-								$html[] = '</td>';
-								// end field
-
-								$html[]	= '</tr>';
+								$html[] = '<p><small>' . sprintf( '%s', $field['desc'] ) . '</small></p>';
 							}
+
+							$html[]	= '</th>';
+							// end label
+
+							// field
+							$html[] = '<td>';
+
+							$default = array(
+											'type'		=> '',
+											'label'		=> '',
+											'desc'		=> '',
+											'atts'		=> array(
+													'id'	=> '',
+													'class'	=> ''
+												),
+											'name'		=> '',
+											'group'		=> $this->_id ? $this->_id : null,
+											'options'	=> array(
+
+												),
+											'default'	=> null
+										);
+
+							$field = wp_parse_args( $field, $default );
+
+							ob_start();
+							include TP_DONATE_INC . '/admin/views/html/' . $field[ 'type' ] . '.php';
+							$html[] = ob_get_clean();
+
+							$html[] = '</td>';
+							// end field
+
+							$html[]	= '</tr>';
 						}
-						$html[] = '</table>';
 					}
-					else
-					{
-						ob_start();
-						do_action( 'donate_metabox_setting_section', $id );
-						$html[] = ob_get_clean();
-					}
-					$html[] = '</div>';
+					$html[] = '</table>';
+				}
+				else
+				{
+					ob_start();
+					do_action( 'donate_metabox_setting_section', $id );
+					$html[] = ob_get_clean();
 				}
 				$html[] = '</div>';
 			}
+			$html[] = '</div>';
 			echo implode( '' , $html );
 
-			do_action( 'donate_metabox_after_render', $this->_id, $this->_layout );
 		}
+		else if( $this->_layout && file_exists( $this->_layout ) )
+		{
+			$this->_layout = apply_filters( 'donate_metabox_layout', $this->_layout, $this->_id );
+			require_once $this->_layout;
+		}
+
+		do_action( 'donate_metabox_after_render', $this->_id );
 	}
 
 	/**

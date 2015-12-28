@@ -19,7 +19,7 @@ class DN_Donate extends DN_Post_Base
 	 * meta prefix of post type
 	 * @var null
 	 */
-	public $meta_prefix = 'thimpress_donate_';
+	public $meta_prefix = null; //'thimpress_donate_';
 
 	static $_instances = null;
 
@@ -31,6 +31,7 @@ class DN_Donate extends DN_Post_Base
 
 	public function __construct( $post )
 	{
+		$this->meta_prefix = TP_DONATE_META_DONATE;
 		parent::__construct( $post );
 	}
 
@@ -50,6 +51,7 @@ class DN_Donate extends DN_Post_Base
 				'post_excerpt'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
 				'post_status'	=> 'donate-pending'
 			));
+		// update post with new title
 		wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
 
 		// get cart contents

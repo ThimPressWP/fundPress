@@ -24,7 +24,8 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	{
 		$this->_id = 'donate_setting_section';
 		$this->_title = __( 'Donate Settings', 'tp-donate' );
-		$this->_layout = TP_DONATE_INC . '/metaboxs/views/donate-settings.php';
+		$this->_prefix = TP_DONATE_META_CAMPAGIN;
+		// $this->_layout = TP_DONATE_INC . '/metaboxs/views/donate-settings.php';
 		add_action( 'donate_metabox_setting_section', array( $this, 'donate_metabox_setting' ), 10, 1 );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 

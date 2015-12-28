@@ -119,7 +119,6 @@
 	            </div>
 
             <# } else { #>
-            	// hidden process if isset
 	        	<input type="hidden" name="payment_process" value="1" />
             	<div class="donate_form_footer center">
 

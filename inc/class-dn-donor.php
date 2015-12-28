@@ -19,7 +19,7 @@ class DN_Donor extends DN_Post_Base
 	 * meta prefix of post type
 	 * @var null
 	 */
-	public $meta_prefix = 'thimpress_donor_';
+	public $meta_prefix = null; //'thimpress_donor_';
 
 	static $_instances = null;
 
@@ -31,6 +31,7 @@ class DN_Donor extends DN_Post_Base
 
 	public function __construct( $post )
 	{
+		$this->meta_prefix = TP_DONATE_META_DONOR;
 		parent::__construct( $post );
 	}
 
