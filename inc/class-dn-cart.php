@@ -42,6 +42,7 @@ class DN_Cart
 			foreach ( $this->sessions->session as $cart_item_id => $cart_param ) {
 				$param = new stdClass();
 
+				// each all cart_param and add to cart_items
 				foreach ( $cart_param as $key => $value ) {
 					$param->{ $key } = $value;
 				}
@@ -55,14 +56,24 @@ class DN_Cart
 					if( ! class_exists( $product_class ) )
 					 	$product_class = 'DN_Product_Base';
 
-					// class product
+					 if( ! class_exists( $product_class ) )
+					 	return new WP_Error( 'donate_cart_class_process_product', __( 'Class process product is not exists', 'tp-donate' ) );
+
+					// class process product
 					$param->product_class = apply_filters( 'donate_product_type_class', $product_class, $post_type );
 					$product = new $param->product_class;
+
+					// amount include tax
 					$param->amount_include_tax = $product->amount_include_tax();
+
+					// amount exclude tax
 					$param->amount_exclude_tax = $product->amount_exclude_tax();
+
+					// amount tax
 					$param->tax = $param->amount_include_tax - $param->amount_exclude_tax;
 				}
 
+				// add to cart_items
 				$cart_items[ $cart_item_id ] = $param;
 			}
 		}
@@ -78,17 +89,20 @@ class DN_Cart
 	 */
 	function add_to_cart( $post_id, $params = array(), $qty = 1, $amount = 0, $asc = false )
 	{
+		// generate cart item id by param
 		$cart_item_id = $this->generate_cart_id( $params );
 
 		if( in_array( $cart_item_id, $this->cart_contents ) )
 		{
 			if( $qty == 0 )
 			{
+				// remove item when qty = 0
 				return $this->remove_cart_item( $cart_item_id );
 			}
 
 			if( $asc === false )
 			{
+				// remove item when is not asc
 				$this->remove_cart_item( $cart_item_id );
 			}
 			else
@@ -141,6 +155,7 @@ class DN_Cart
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
 			$total = $total + $cart_item->amount_include_tax;
 		}
+		// return total cart include tax
 		return apply_filters( 'donate_cart_include_totals', $total );
 	}
 
@@ -151,7 +166,7 @@ class DN_Cart
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
 			$total = $total + $cart_item->amount_exclude_tax;
 		}
-
+		// return total cart exclude tax
 		return apply_filters( 'donate_cart_exclude_totals', $total );
 	}
 
@@ -162,6 +177,7 @@ class DN_Cart
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
 			$total = $total + $cart_item->tax;
 		}
+		// return cart tax total
 		return apply_filters( 'donate_cart_tax_total', $total );
 	}
 
@@ -172,6 +188,8 @@ class DN_Cart
 	{
 		if( $item_key && isset( $this->cart_contents[ $item_key ] ) )
 			return $this->cart_contents[ $item_key ];
+
+		return new WP_Error( 'donate_cart_item_not_exists', sprintf( '%s %s', $item_key, __( 'cart item is not exists', 'tp-donate' ) ) );
 	}
 
 	/**
@@ -184,6 +202,8 @@ class DN_Cart
 		$this->sessions->set( $item_key, null );
 
 		do_action( 'donate_removed_cart_item', $item_key );
+
+		// return cart item removed
 		return $item_key;
 	}
 
@@ -206,6 +226,7 @@ class DN_Cart
 			}
 		}
 
+		// return cart item id
 		return apply_filters( 'donat_generate_cart_item_id', md5( implode( '', $html ) ) );
 	}
 

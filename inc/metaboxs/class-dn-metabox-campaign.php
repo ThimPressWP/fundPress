@@ -1,6 +1,6 @@
 <?php
 
-class DN_MetaBox_Base_Donate_Settings extends DN_MetaBox_Base
+class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 {
 	/**
 	 * id of the meta box
@@ -193,4 +193,4 @@ class DN_MetaBox_Base_Donate_Settings extends DN_MetaBox_Base
 
 }
 
-new DN_MetaBox_Base_Donate_Settings();
+new DN_MetaBox_Campaign_Settings();

@@ -119,6 +119,7 @@ class DN_Ajax
 		if( ! $campaign || $campaign->post_type !== 'dn_campaign' )
 			return;
 
+
 		/************** NEW SCRIPT **************/
 		// update cart
 		$amount = 0;
@@ -159,10 +160,45 @@ class DN_Ajax
 
 			) );
 
-		if( $cart_item_id = DN_Cart::instance()->add_to_cart( $campaign->ID, $cart_params, 1, $amount ) )
+		$cart_item_id = DN_Cart::instance()->add_to_cart( $campaign->ID, $cart_params, 1, $amount );
+
+		if( ! $cart_item_id || is_wp_error( $cart_item_id ) )
 		{
-			echo '<pre>'; print_r( DN_Cart::instance()->cart_contents ); die();
+			wp_send_json( array( 'status' => 'failed', 'message' => __( 'Something went wrong, could not add to cart item. Please try again', 'tp-donate' ) ) ); die();
 		}
+
+		// process checkout
+		if( isset( $_POST[ 'payment_process' ] ) && $_POST[ 'payment_process' ] )
+		{
+			// payments method
+			$payments = donate_payments_enable();
+
+			// payment method is invalid
+			if( ! isset( $_POST['payment_method'] ) || ! $_POST['payment_method'] || ! array_key_exists( $_POST['payment_method'], $payments ) )
+				wp_send_json( array( 'status' => 'failed', 'message' => __( 'Invalid payment method. Please try again.', 'tp-donate' ) ) );
+
+			// payment method
+			$payment_method = sanitize_text_field( $_POST['payment_method'] );
+
+			$params = array(
+					'first_name'		=> isset( $_POST['first_name'] ) ? sanitize_text_field( $_POST['first_name'] ) : __( 'No First Name', 'tp-donate' ),
+					'last_name'			=> isset( $_POST['last_name'] ) ? sanitize_text_field( $_POST['last_name'] ) : __( 'No Last Name', 'tp-donate' ),
+					'email'				=> isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : false,
+					'phone'				=> isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '',
+					'address'			=> isset( $_POST['address'] ) ? sanitize_text_field( $_POST['address'] ) : '',
+					'addition_note'		=> isset( $_POST['addition_note'] ) ? sanitize_text_field( $_POST['addition_note'] ) : ''
+				);
+
+			// alow hook to submit param donor
+			$params = apply_filters( 'donate_ajax_submit_donor', $params );
+
+			$checkout = new DN_Checkout();
+			// send json
+			wp_send_json( $checkout->process_checkout( $params, $payment_method ) ); die();
+		}
+
+		// failed
+		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Something went wrong. Please try again or contact administrator', 'tp-donate' ) ) ); die();
 		/************** END NEW SCRIPT **************/
 
 

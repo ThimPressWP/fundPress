@@ -98,7 +98,7 @@ class DN_Post_Type
 			'has_archive'        => false,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'supports'           => array( 'title', 'author', 'excerpt' ),
+			'supports'           => array( 'author' ),
 			'capabilities' => array(
 				'create_posts'       => false,
 			),

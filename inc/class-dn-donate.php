@@ -35,24 +35,35 @@ class DN_Donate extends DN_Post_Base
 	}
 
 	// create new donate
-	function create_donate( $params = null )
+	function create_donate( $donor_id = null, $payment_method )
 	{
-		if( ! $params || ! $params[ 'campaign_id' ] || ! $params[ 'amount' ] )
+		// donor_id
+		if( ! $donor_id )
 		{
-			return new WP_Error( 'donate_create_donate', __( 'Can not create new donate.', 'tp-donate' ) );
+			return array( 'status' => 'failed', 'message' => __( 'Could not created donor', 'tp-donate' ) );
 		}
 
+		// create donate with cart contents
 		$donate_id = $this->create_post(array(
-				'post_title'	=> sprintf( '%s %s', __( 'Donate for', 'tp-donate' ), $params[ 'campaign_id' ] ),
-				'post_content'	=> sprintf( '%s %s', __( 'Donate for', 'tp-donate' ), $params[ 'campaign_id' ] ),
-				'post_excerpt'	=> sprintf( '%s %s', __( 'Donate for', 'tp-donate' ), $params[ 'campaign_id' ] ),
+				'post_title'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+				'post_content'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+				'post_excerpt'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
 				'post_status'	=> 'donate-pending'
 			));
-
 		wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
-		foreach ( $params as $meta_key => $value ) {
+
+		// get cart contents
+		$cart_contents = DN_Cart::instance()->cart_contents;
+		// insert post meta
+		foreach ( $cart_contents as $meta_key => $value ) {
+			// ignoire product_data key
+			if( $meta_key === 'product_data' )
+				continue;
+
 			add_post_meta( $donate_id, $this->meta_prefix . $meta_key, $value );
 		}
+
+		add_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
 
 		return $donate_id;
 
