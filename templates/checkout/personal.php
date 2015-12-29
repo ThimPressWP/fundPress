@@ -1,4 +1,4 @@
-<div class="donate_dornor_info">
+<div class="donate_form_layout donate_dornor_info">
 
 	<h3><?php _e( 'Personal Info', 'tp-donate' ) ?></h3>
 

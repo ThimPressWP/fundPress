@@ -18,6 +18,15 @@ class DN_Cart
 	public $cart_items_count 	= 0;
 
 	/**
+	 * donate_cart
+	 * @var null
+	 */
+	public $donate_info = null;
+	public $addtion_note = null;
+	public $donate_id = null;
+	public $donor_id = null;
+
+	/**
 	 * instance insteadof new class();
 	 * @var null
 	 */
@@ -32,6 +41,9 @@ class DN_Cart
 		// refresh cart data
 		$this->refresh();
 
+		$this->donate_info = DN_Sessions::instance( 'thimpress_donate_info', true );
+		$this->set_cart_infomation();
+
 		add_action( 'init', array( $this, 'process_cart' ), 99 );
 	}
 
@@ -43,6 +55,7 @@ class DN_Cart
 
 		$cart_item = sanitize_text_field( $_GET[ 'remove_item' ] );
 		$this->remove_cart_item( $cart_item );
+		// redirect url
 		wp_redirect( donate_cart_url() );
 	}
 
@@ -228,14 +241,45 @@ class DN_Cart
 		return $item_key;
 	}
 
+	// set cart information. donor_id. donate_id. addtion_note
+	function set_cart_infomation( $info = array() )
+	{
+		$info = wp_parse_args( $info, array(
+				'addtion_note'	=> $this->donate_info->get( 'addtion_note' ),
+				'donate_id'		=> $this->donate_info->get( 'donate_id' ),
+				'donor_id'		=> $this->donate_info->get( 'donor_id' )
+			));
+
+		foreach ( $info as $key => $value ) {
+			$this->donate_info->set( $key, $value );
+			$this->{$key} = $value;
+		}
+	}
+
+	// get cart information
+	function get_cart_information( $key = null )
+	{
+		$infos = array(
+				'addtion_note',
+				'donate_id',
+				'donor_id'
+			);
+
+		if( in_array( $key, $infos ) )
+			return $this->{$key};
+	}
+
 	// destroy cart
 	function remove_cart()
 	{
 		// remove
+		$this->cart_contents = array();
 		$this->sessions->remove();
+		$this->donate_info->remove();
 
 		// refresh cart contents
 		$this->refresh();
+		$this->set_cart_infomation( array( 'addtion_note' => '', 'donate_id' => '', 'donor_id' => '', ) );
 	}
 
 	// return is empty

@@ -62,7 +62,6 @@
     background-color: #020202;
     color: #fdfffd;
 }
-
 /**
  * lightbox
  */
@@ -189,13 +188,30 @@
 /**
  * message error form
  */
+.donate_form_error_messages{
+    display: none;
+    background-color: #1a1a1a;
+    transition: all 0.3;
+    -moz-transition: all 0.3;
+    -webkit-transition: all 0.3;
+    -o-transition: all 0.3;
+    -ms-transition: all 0.3;
+}
+.donate_form_error_messages.active{
+    display: block;
+}
 .donate_message_error{
     text-align: left;
-    font-size: 13px;
-    color: #F90404;
+    font-size: 11px;
+    color: #fff;
     margin-bottom: 3px;
     padding: 5px 10px;
-    background-color: #dedede;
+}
+.donate-payment-message{
+    color: #fff;
+    padding: 8px;
+    font-size: 12px;
+    margin-bottom: 3px;
 }
 /**
  * cart form

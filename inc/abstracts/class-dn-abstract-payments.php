@@ -99,7 +99,7 @@ abstract class DN_Payment_Base
 
 	/**
 	 * admin setting fields
-	 * @return [type] [description]
+	 * @return array
 	 */
 	public function fields()
 	{

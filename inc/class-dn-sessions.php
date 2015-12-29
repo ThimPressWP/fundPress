@@ -103,9 +103,9 @@ class DN_Sessions
 	 * @param  $key
 	 * @return anythings
 	 */
-	function get( $key = null, $default = null )
+	function get( $name = null, $default = null )
 	{
-		if( ! $key )
+		if( ! $name )
 			return $default;
 
 		if( isset( $this->session[ $name ] ) )

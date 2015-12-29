@@ -50,6 +50,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                                 array(
                                         'type'      => 'input',
                                         'label'     => __( 'Test Secret Key', 'tp-donate' ),
+                                        'desc'      => __( 'Test environment', 'tp-donate' ),
                                         'atts'      => array(
                                                 'id'    => 'stripe_test_secret_key',
                                                 'class' => 'stripe_test_secret_key',
@@ -60,6 +61,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                                 array(
                                         'type'      => 'input',
                                         'label'     => __( 'Test Publish Key', 'tp-donate' ),
+                                        'desc'      => __( 'Test environment', 'tp-donate' ),
                                         'atts'      => array(
                                                 'id'    => 'stripe_test_publish_key',
                                                 'class' => 'stripe_test_publish_key',
@@ -70,6 +72,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                                 array(
                                         'type'      => 'input',
                                         'label'     => __( 'Live Secret Key', 'tp-donate' ),
+                                        'desc'      => __( 'Production environment', 'tp-donate' ),
                                         'atts'      => array(
                                                 'id'    => 'stripe_live_secret_key',
                                                 'class' => 'stripe_live_secret_key',
@@ -80,6 +83,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                                 array(
                                         'type'      => 'input',
                                         'label'     => __( 'Live Publish Key', 'tp-donate' ),
+                                        'desc'      => __( 'Production environment', 'tp-donate' ),
                                         'atts'      => array(
                                                 'id'    => 'stripe_live_publish_key',
                                                 'class' => 'stripe_live_publish_key',

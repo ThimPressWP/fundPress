@@ -36,7 +36,7 @@ class DN_Donate extends DN_Post_Base
 	}
 
 	// create new donate
-	function create_donate( $donor_id = null, $payment_method )
+	function create_donate( $donor_id = null, $payment_method = null )
 	{
 		// donor_id
 		if( ! $donor_id )
@@ -73,6 +73,7 @@ class DN_Donate extends DN_Post_Base
 		// }
 
 		add_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
+		add_post_meta( $donate_id, $this->meta_prefix . 'addition', donate()->cart->addtion_note );
 		add_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
 
 		// return donate_id

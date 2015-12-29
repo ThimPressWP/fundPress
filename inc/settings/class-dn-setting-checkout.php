@@ -51,7 +51,7 @@ class DN_Setting_Checkout extends DN_Setting_Base
 		                                                'id'    => 'environment',
 		                                                'class' => 'environment'
 		                                            ),
-		                                        'name'      => 'donate_redirect',
+		                                        'name'      => 'environment',
 		                                        'options'   => array(
 		                                                'test'              	=> __( 'Test', 'tp-donate' ),
 		                                                'production'          	=> __( 'Production', 'tp-donate' )
@@ -130,29 +130,29 @@ class DN_Setting_Checkout extends DN_Setting_Base
 												'label'		=> __( 'Show terms & Conditions', 'tp-donate' ),
 												'desc'		=> __( 'This controlls display term & condition in checkout page', 'tp-donate' ),
 												'atts'		=> array(
-														'id'	=> 'term_condition',
-														'class'	=> 'term_condition'
+														'id'	=> 'term_condition_enable',
+														'class'	=> 'term_condition_enable'
 													),
-												'name'		=> 'term_condition',
+												'name'		=> 'term_condition_enable',
 												'options'	=> array(
 														'yes'			=> __( 'Yes', 'tp-donate' ),
 														'no'			=> __( 'No', 'tp-donate' )
 													)
 											),
-										array(
-												'type'		=> 'select',
-												'label'		=> __( 'Name on donors list?', 'tp-donate' ),
-												'desc'		=> __( 'This controlls hide name on donors box', 'tp-donate' ),
-												'atts'		=> array(
-														'id'	=> 'term_condition',
-														'class'	=> 'term_condition'
-													),
-												'name'		=> 'term_condition',
-												'options'	=> array(
-														'yes'			=> __( 'Yes', 'tp-donate' ),
-														'no'			=> __( 'No', 'tp-donate' )
-													)
-											)
+										// array(
+										// 		'type'		=> 'select',
+										// 		'label'		=> __( 'Name on donors list?', 'tp-donate' ),
+										// 		'desc'		=> __( 'This controlls hide name on donors box', 'tp-donate' ),
+										// 		'atts'		=> array(
+										// 				'id'	=> 'term_condition',
+										// 				'class'	=> 'term_condition'
+										// 			),
+										// 		'name'		=> 'term_condition',
+										// 		'options'	=> array(
+										// 				'yes'			=> __( 'Yes', 'tp-donate' ),
+										// 				'no'			=> __( 'No', 'tp-donate' )
+										// 			)
+										// 	)
 									)
 							)
 					)

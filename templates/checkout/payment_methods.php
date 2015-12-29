@@ -5,7 +5,6 @@
 
 // all payment method is enable
 $payments = donate_payments_enable();
-
 ?>
 
 <?php if( $payments ) : ?>
