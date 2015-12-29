@@ -5,6 +5,7 @@
 
 // display message
 echo donate_notice_display();
+
 if( donate()->cart->is_empty() )
 {
 	// empty cart

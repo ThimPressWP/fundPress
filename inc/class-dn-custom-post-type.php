@@ -15,6 +15,10 @@ class DN_Post_Type
 		add_action( 'init', array( $this, 'register_post_type_donate' ) ); // donate
 		add_action( 'init', array( $this, 'register_post_type_donor' ) ); // donor
 
+		// custom post type admin column
+		add_filter( 'manage_dn_donate_posts_columns', array( $this, 'add_columns' ) );
+		add_action( 'manage_dn_donate_posts_custom_column', array( $this, 'columns' ), 10, 2 );
+
 		/**
 		 * register taxonomy
 		 */
@@ -24,6 +28,25 @@ class DN_Post_Type
 		 * post status
 		 */
 		add_action( 'init', array( $this, 'register_post_status' ) );
+	}
+
+	/**
+	 * add_columns to donate post type admin
+	 * @param array
+	 */
+	function add_columns( $columns )
+	{
+		$columns[ 'donate_status' ] = sprintf( '%s', __( 'Status', 'tp-donate' ) );
+		return $columns;
+	}
+
+	function columns( $column, $post_id )
+	{
+		switch ( $column ) {
+			case 'donate_status':
+					echo donate_get_status_label( $post_id );
+				break;
+		}
 	}
 
 	// register post type cause hook callback

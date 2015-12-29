@@ -12,12 +12,17 @@ class DN_Checkout
 	 * process checkout
 	 * @return
 	 */
-	function process_checkout( $donor_info = null, $payment_method = 'paypal' )
+	function process_checkout( $donor_info = null, $payment_method = 'paypal', $addition = null )
 	{
 
-		// create donor
-		$donor = DN_Donor::instance();
-		$donor_id = DN_Donor::instance()->create_donor( $donor_info );
+		$cart = donate()->cart;
+		// get donate_id from cart
+		if( ! $donor_id = $cart->donor_id )
+		{
+			// create donor
+			$donor = DN_Donor::instance();
+			$donor_id = DN_Donor::instance()->create_donor( $donor_info );
+		}
 
 		// is return wp error
 		if( is_wp_error( $donor_id ) )
@@ -25,7 +30,11 @@ class DN_Checkout
 			return array( 'status' => 'failed', 'message' => $donor_id->get_error_message() );
 		}
 
-		$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method );
+		// get donate_id from cart
+		if( ! $donate_id = $cart->donate_id )
+		{
+			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method );
+		}
 
 		if( is_wp_error( $donate_id ) )
 		{
@@ -38,14 +47,19 @@ class DN_Checkout
 		if( ! array_key_exists( $payment_method , $payments ) )
 			return array( 'status' => 'failed', 'message' => __( 'Invalid payment method. Please try again', 'tp-donate' ) );
 
+		// set cart information
+		$cart->set_cart_infomation(
+				array(
+						'addtion_note'	=> $addition,
+						'donate_id'		=> $donate_id,
+						'donor_id'		=> $donor_id
+					)
+			);
+
+		// payment method selected
 		$payment = $payments[ $payment_method  ];
 
-		if( $payment->process() )
-		{
-
-			// remove cart when process payment completed
-			DN_Cart::instance()->remove_cart();
-		}
+		return $payment->process();
 
 	}
 

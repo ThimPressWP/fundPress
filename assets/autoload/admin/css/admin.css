@@ -85,3 +85,23 @@
 	padding: 10px;
 	border: 1px solid #dedede;
 }
+/**
+ * donate status
+ */
+.donate-status{
+	display: inline-block;
+    padding: 8px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+.donate-status.donate-pending{
+    background-color: rgba(255, 47, 0, 0.82);
+}
+.donate-status.donate-processing{
+    background-color: rgba(239, 255, 0, 0.82);
+}
+.donate-status.donate-completed{
+    background-color: rgba(31, 241, 28, 0.82);
+}

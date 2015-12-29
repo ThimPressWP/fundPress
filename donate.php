@@ -92,10 +92,10 @@ class ThimPress_Donate
 	}
 
 	/**
-	 * autoload function
+	 * autoload assets function
 	 * @return null
 	 */
-	public function autoload()
+	public function load_assets()
 	{
 
 		$path = TP_DONATE_PATH . 'assets/autoload';
@@ -128,19 +128,12 @@ class ThimPress_Donate
 	 */
 	public function includes()
 	{
-		$this->autoload();
+		$this->load_assets();
 
 		$this->_include( 'inc/class-dn-setting.php' );
 
-		$paths = array( 'abstracts', 'settings', 'products', 'shortcodes', 'widgets', 'metaboxs', 'payments' );
-
-		foreach ($paths as $key => $path) {
-			$real_path = TP_DONATE_INC . '/' . $path;
-			$path = substr( $path, 0, -1 );
-			foreach ( (array)glob( $real_path . '/class-dn-'. $path .'-*.php' ) as $key => $file) {
-				$this->_include( $file );
-			}
-		}
+		$paths = array( 'abstracts', 'settings', 'shortcodes', 'widgets', 'metaboxs' );
+		$this->autoload( $paths );
 
 		if( is_admin() )
 		{
@@ -171,6 +164,19 @@ class ThimPress_Donate
 		$this->_include( 'inc/class-dn-template-underscore.php' );
 		$this->_include( 'inc/class-dn-ajax.php' );
 
+		$this->autoload( array( 'products', 'payments' ) );
+
+	}
+
+	function autoload( $paths = array() )
+	{
+		foreach ($paths as $key => $path) {
+			$real_path = TP_DONATE_INC . '/' . $path;
+			$path = substr( $path, 0, -1 );
+			foreach ( (array)glob( $real_path . '/class-dn-'. $path .'-*.php' ) as $key => $file) {
+				$this->_include( $file );
+			}
+		}
 	}
 
 	/**

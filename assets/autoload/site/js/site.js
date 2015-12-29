@@ -75,10 +75,11 @@
 			$( document ).on( 'submit', '.donate_form', function( e ){
 				e.preventDefault();
 
-				var _form = $(this);
+				var _form = $(this),
+					_layout = _form.find( '.donate_form_layout' );
 
 				// remove old message error
-				_form.find( '.donate_message_error' ).remove();
+				_form.find( '.donate_form_error_messages' ).remove();
 				// // donate on lightbox redirect cart, checkout form.
 				// if( DONATE_Site.donate_on_lightbox() === false )
 				// {
@@ -90,13 +91,7 @@
 					// invalid fields
 					if( messages.length > 0 )
 					{
-						var html = [];
-						for( var i = 0; i < messages.length; i++ )
-						{
-							html.push( '<p class="donate_message_error">' + messages[i] + '</p>' );
-						}
-
-						$( '.donate_form_footer' ).prepend( html.join( '' ) );
+						DONATE_Site.generate_messages( _layout, messages );
 					}
 					else
 					{
@@ -123,8 +118,10 @@
 							}
 							else if( res.status === 'failed' && typeof res.messages !== 'undefined' )
 							{
-								$( '.donate_form_footer .donate_message_error' ).remove();
-								$( '.donate_form_footer .donate_message_error' ).append( '<p class="donate_message_error">' + res.messages + '</p>' );
+								if( _layout.length === 1 )
+								{
+									DONATE_Site.generate_messages( _layout, messages );
+								}
 							}
 						});
 					}
@@ -156,28 +153,33 @@
 		{
 			var messages = [];
 			// amount
-			if( _form.find( 'input[name="donate_input_amount_package"]' ).val() === '' && _form.find('input[name="donate_input_amount"]').val() === '' )
+			var _package = _form.find( 'input[name="donate_input_amount_package"]:checked' ),
+				_amount = _form.find('input[name="donate_input_amount"]');
+
+			if( typeof _package.val() === 'undefined' && _amount.val() == '' )
 			{
 				messages.push( thimpress_donate.l18n.amount_invalid );
 			}
 
 			// firstname
-			var first_name = _form.find( 'input[name="first_name"]' ).val();
-			if( first_name === '' || _form.find('.first_name').val() === '' )
+			var first_name = _form.find( 'input[name="first_name"]' ),
+				val = first_name.val();
+			if( first_name.length === 1 && ( val === '' || new RegExp('^[a-zA-Z]{3,15}$').test( val ) === false ) )
 			{
 				messages.push( thimpress_donate.l18n.first_name_invalid );
 			}
 
 			// lastname
-			var last_name = _form.find( 'input[name="last_name"]' ).val();
-			if( last_name === '' )
+			var last_name = _form.find( 'input[name="last_name"]' ),
+				val = last_name.val();
+			if( last_name.length === 1 && ( val === '' || new RegExp('^[a-zA-Z]{3,15}$').test( val ) === false ) )
 			{
 				messages.push( thimpress_donate.l18n.last_name_invalid );
 			}
 
 			// email
 			var email = _form.find( 'input[name="email"]' );
-			if( email.length != 0 && ( email.val() === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test( email.val() ) === false ) )
+			if( email.length === 1 && ( email.val() === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test( email.val() ) === false ) )
 			{
 				messages.push( thimpress_donate.l18n.email_invalid );
 			}
@@ -185,19 +187,31 @@
 			// phone
 			var phone = _form.find( 'input[name="phone"]' );
 			var reges = /^\d{10}$/;
-			if( phone.length != 0 && ( phone.val() === '' || reges.test( phone.val() ) === false ) )
+			if( phone.length === 1 && ( phone.val() === '' || reges.test( phone.val() ) === false ) )
 			{
 				messages.push( thimpress_donate.l18n.phone_number_invalid );
 			}
 
 			// payment method
 			var payment_method = _form.find( 'input[name="payment_method"]' );
-			if( payment_method.length != 0 && payment_method.val() === '' )
+			if( payment_method.length === 1 && payment_method.val() === '' )
 			{
 				messages.push( thimpress_donate.l18n.payment_method_invalid );
 			}
 
 			return messages;
+		},
+
+		generate_messages: function( _layout, messages )
+		{
+			var html = [];
+			for( var i = 0; i < messages.length; i++ )
+			{
+				html.push( '<p class="donate_message_error">' + messages[i] + '</p>' );
+			}
+
+			_layout.prepend( '<div class="donate_form_error_messages">' + html.join( '' ) + '</div>' );
+			$('.donate_form_error_messages').addClass( 'active' );
 		},
 
 		beforeAjax: function( _form )

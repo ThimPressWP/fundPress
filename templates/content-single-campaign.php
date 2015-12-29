@@ -1,4 +1,4 @@
-<article id="tp_donate-<?php the_ID(); ?>" <?php post_class('tp_single_campaign'); ?>>
+<article id="tp_donate-<?php the_ID(); ?>" <?php post_class('campaign_single'); ?>>
 
 	<?php
 		/**

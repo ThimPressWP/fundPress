@@ -691,9 +691,19 @@ if( ! function_exists( 'donate_add_notice' ) )
 		if( ! isset( $_SESSION[ 'donate_messages' ] ) )
 		{
 			$_SESSION[ 'donate_messages' ] = array();
+			$_SESSION[ 'donate_messages' ][ 'errors' ] = array();
+			$_SESSION[ 'donate_messages' ][ 'success' ] = array();
 		}
 
-		$_SESSION[ 'donate_messages' ][ $name ] = sprintf( '%s', $message );
+		if( $notice_key === 'errors' )
+		{
+			$_SESSION[ 'donate_messages' ][ 'errors' ][] = sprintf( '%s', $message );
+		}
+		else
+		{
+			$_SESSION[ 'donate_messages' ][ 'success' ][] = sprintf( '%s', $message );
+		}
+
 	}
 }
 
@@ -702,22 +712,33 @@ if( ! function_exists( 'donate_add_notice' ) )
  */
 if( ! function_exists( 'donate_notice_display' ) )
 {
-	function donate_notice_display( $name = null )
+	function donate_notice_display()
 	{
 		if( empty( $_SESSION[ 'donate_messages' ] ) )
 			return;
 
-		if( ! $name )
+		if( isset( $_SESSION[ 'donate_messages' ] ) )
 		{
-			foreach ( $_SESSION[ 'donate_message' ] as $name => $message ) {
-				donate_get_template( 'messages.php', array( 'name' => $name, 'message' => $message ) );
-			}
+			donate_get_template( 'messages.php', array( 'messages' => $_SESSION[ 'donate_messages' ] ) );
+			unset( $_SESSION[ 'donate_messages' ] );
 		}
-		else if( isset( $_SESSION[ 'donate_message' ][ $name ] ) )
-		{
-			donate_get_template( 'messages.php', array( 'name' => $name, 'message' => $_SESSION[ 'donate_message' ][ $name ] ) );
-		}
+	}
 
-		unset( $_SESSION[ 'donate_message' ] );
+}
+
+/**
+ * get status
+ */
+if( ! function_exists( 'donate_get_status' ) )
+{
+	function donate_get_status( $post_id )
+	{
+		$status = array(
+				'donate-pending'	=> __( 'Pending', 'tp-donate' ),
+				'donate-processing'	=> __( 'Processing', 'tp-donate' ),
+				'donate-completed'	=> __( 'Completed', 'tp-donate' )
+			);
+
+		return apply_filters( 'donate_get_status', $status );
 	}
 }

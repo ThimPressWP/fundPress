@@ -35,7 +35,7 @@
 				<td>
 					<?php global $post; $donate_id = $post->ID ?>
 					<?php $donation = DN_Donate::instance( $donate_id ) ?>
-					<?php sprintf( '%s', donate_price( $donation->get_meta( 'total' ), $currency ) ) ?>
+					<?php printf( '%s', donate_price( $donation->get_meta( 'total' ), $currency ) ) ?>
 				</td>
 			</tr>
 			<tr>

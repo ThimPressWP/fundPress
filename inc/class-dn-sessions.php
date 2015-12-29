@@ -65,6 +65,7 @@ class DN_Sessions
 		else if( $this->remember && isset( $_COOKIE[ $this->prefix ] ) )
 		{
 			donate_setcookie( $this->prefix, '', time() - $this->live_item );
+			unset( $_COOKIE[$this->prefix] );
 		}
 	}
 
@@ -103,9 +104,9 @@ class DN_Sessions
 	 * @param  $key
 	 * @return anythings
 	 */
-	function get( $key = null, $default = null )
+	function get( $name = null, $default = null )
 	{
-		if( ! $key )
+		if( ! $name )
 			return $default;
 
 		if( isset( $this->session[ $name ] ) )
