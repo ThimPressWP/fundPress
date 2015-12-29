@@ -276,6 +276,7 @@ class DN_Cart
 	function remove_cart()
 	{
 		// remove
+		$this->cart_contents = array();
 		$this->sessions->remove();
 		$this->donate_info->remove();
 
