@@ -20,7 +20,6 @@ class DN_Checkout
 		if( ! $donor_id = $cart->donor_id )
 		{
 			// create donor
-			$donor = DN_Donor::instance();
 			$donor_id = DN_Donor::instance()->create_donor( $donor_info );
 		}
 
@@ -36,6 +35,7 @@ class DN_Checkout
 			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method );
 		}
 
+		// is wp error when create donate
 		if( is_wp_error( $donate_id ) )
 		{
 			return array( 'status' => 'failed', 'message' => $donate_id->get_error_message() );
@@ -48,13 +48,14 @@ class DN_Checkout
 			return array( 'status' => 'failed', 'message' => __( 'Invalid payment method. Please try again', 'tp-donate' ) );
 
 		// set cart information
-		$cart->set_cart_infomation(
-				array(
+		$param = array(
 						'addtion_note'	=> $addition,
 						'donate_id'		=> $donate_id,
 						'donor_id'		=> $donor_id
-					)
-			);
+					);
+		$param = apply_filters( 'donate_cart_information_data', $param );
+		// set cart info
+		$cart->set_cart_infomation( $param );
 
 		// payment method selected
 		$payment = $payments[ $payment_method  ];
