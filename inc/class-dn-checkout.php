@@ -35,6 +35,10 @@ class DN_Checkout
 			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method );
 		}
 
+		// test
+		DN_Donate::instance( $donate_id )->send_email( 'donate-completed' );
+		// remove that
+
 		// is wp error when create donate
 		if( is_wp_error( $donate_id ) )
 		{

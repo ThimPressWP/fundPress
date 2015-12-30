@@ -173,7 +173,7 @@ abstract class DN_Setting_Base extends DN_Settings
 			$this->_options = $this->options();
 
 		if( $name && isset( $this->_options[ $name ] ) )
-			return $this->_options[ $name ];
+			return trim( $this->_options[ $name ] );
 
 		return $default;
 

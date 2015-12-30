@@ -21,6 +21,8 @@ class DN_Donate extends DN_Post_Base
 	 */
 	public $meta_prefix = null; //'thimpress_donate_';
 
+	public $donor = null;
+
 	static $_instances = null;
 
 	/**
@@ -79,6 +81,45 @@ class DN_Donate extends DN_Post_Base
 		// return donate_id
 		return $donate_id;
 
+	}
+
+	function update_status( $status = 'donate-processing' )
+	{
+
+		if( ! $this->ID )
+			return;
+
+		$old_status = get_post_status( $this->ID );
+
+		do_action( 'donate_update_status_' . $old_status . '_' . $status );
+		do_action( 'donate_update_status', $old_status, $status );
+
+		wp_update_post( array( 'ID' => $this->ID, 'post_status' => $status ) );
+
+		$this->send_email( $status );
+
+	}
+
+	// send email
+	function send_email( $status )
+	{
+		if( $status === 'donate-completed' )
+		{
+			$donor = $this->get_donor();
+			DN_Email::instance()->send_email_donate_completed( $donor );
+		}
+	}
+
+	// get donor by donate id
+	function get_donor()
+	{
+		if( $this->donor )
+			return $this->donor;
+
+		$donor_id = $this->get_meta( 'donor_id' );
+		if( ! $donor_id ) return;
+
+		return $this->donor = DN_Donor::instance( $donor_id );
 	}
 
 	// static function instead of new class
