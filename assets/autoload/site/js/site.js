@@ -95,35 +95,42 @@
 					}
 					else
 					{
-						// process ajax
-						var _data = _form.serializeArray( _form );
+						if( _form.find( 'input[name="payment_method"]:checked' ).val() === 'stripe' )
+						{
+							Donate_Stripe_Payment.load_form( _form );
+						}
+						else
+						{
+							// process ajax
+							var _data = _form.serializeArray( _form );
 
-						$.ajax({
-							url: thimpress_donate.ajaxurl,
-							type: 'POST',
-							data: _data,
-							beforeSend: function()
-							{
-								DONATE_Site.beforeAjax( _form );
-							}
-						}).done( function( res ){
-							DONATE_Site.afterAjax( _form );
-
-							if( typeof res.status === 'undefined' )
-								return;
-
-							if( res.status === 'success' && typeof res.url !== 'undefined' )
-							{
-								window.location.href = res.url;
-							}
-							else if( res.status === 'failed' && typeof res.messages !== 'undefined' )
-							{
-								if( _layout.length === 1 )
+							$.ajax({
+								url: thimpress_donate.ajaxurl,
+								type: 'POST',
+								data: _data,
+								beforeSend: function()
 								{
-									DONATE_Site.generate_messages( _layout, messages );
+									DONATE_Site.beforeAjax( _form );
 								}
-							}
-						});
+							}).done( function( res ){
+								DONATE_Site.afterAjax( _form );
+
+								if( typeof res.status === 'undefined' )
+									return;
+
+								if( res.status === 'success' && typeof res.url !== 'undefined' )
+								{
+									window.location.href = res.url;
+								}
+								else if( res.status === 'failed' && typeof res.messages !== 'undefined' )
+								{
+									if( _layout.length === 1 )
+									{
+										DONATE_Site.generate_messages( _layout, messages );
+									}
+								}
+							});
+						}
 					}
 
 

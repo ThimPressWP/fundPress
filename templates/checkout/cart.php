@@ -20,6 +20,8 @@
 	</table>
 </div>
 
+<input type="hidden" name="amount" value="<?php echo esc_attr( donate()->cart->cart_total ) ?>">
+
 <?php do_action( 'donate_after_checkout_cart' ); ?>
 
 <?php do_action( 'donate_after_cart_contents' ); ?>

@@ -14,6 +14,9 @@ abstract class DN_Payment_Base
 	 */
 	protected $_title = null;
 
+	// is enable
+	public $is_enable = true;
+
 	/**
 	 * icon url
 	 * @var null
@@ -25,6 +28,7 @@ abstract class DN_Payment_Base
 		add_action( 'init', array( $this, 'init' ) );
 		$this->_icon = TP_DONATE_INC_URI . '/payments/' . $this->_id . '.png';
 		add_action( 'donate_payment_gateways_select', array( $this, 'donate_gateways' ) );
+		$this->is_enable();
 	}
 
 	public function init()
@@ -69,7 +73,7 @@ abstract class DN_Payment_Base
 	 */
 	public function payment_gateways( $payment_gateways )
 	{
-		if( $this->enable() )
+		if( $this->is_enable )
 		{
 			if( $this->_id && $this->_title )
 			{
@@ -110,13 +114,13 @@ abstract class DN_Payment_Base
 	 * enable
 	 * @return boolean
 	 */
-	public function enable()
+	public function is_enable()
 	{
 		if( DN_Settings::instance()->checkout->get( $this->_id . '_enable', 'yes' ) === 'yes' )
 		{
-			return true;
+			return $this->is_enable = true;
 		}
-		return false;
+		return $this->is_enable = false;
 	}
 
 	/**

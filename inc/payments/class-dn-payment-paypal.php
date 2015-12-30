@@ -35,7 +35,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         $this->paypal_email = DN_Settings::instance()->checkout->get( 'paypal_sanbox_email' );
 
         // production environment
-        if( DN_Settings::instance()->checkout->environment === 'production' )
+        if( DN_Settings::instance()->checkout->get( 'environment' ) === 'production' )
         {
             $this->paypal_url = 'https://www.paypal.com/';
             $this->paypal_payment_url = 'https://www.paypal.com/cgi-bin/webscr';

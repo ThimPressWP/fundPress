@@ -71,11 +71,11 @@ class DN_Email
 
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 
-			if( $fo = fopen( TP_DONATE_PATH . '/email.html', 'w+') )
-			{
-				fwrite( $fo, $body );
-				fclose($fo);die();
-			}
+			// if( $fo = fopen( TP_DONATE_PATH . '/email.html', 'w+') )
+			// {
+			// 	fwrite( $fo, $body );
+			// 	fclose($fo);die();
+			// }
 			wp_mail( $to, $subject, $body, $headers );
 		}
 	}
