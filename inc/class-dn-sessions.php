@@ -62,7 +62,8 @@ class DN_Sessions
 		{
 			unset( $_SESSION[ $this->prefix ] );
 		}
-		else if( $this->remember && isset( $_COOKIE[ $this->prefix ] ) )
+
+		if( $this->remember && isset( $_COOKIE[ $this->prefix ] ) )
 		{
 			donate_setcookie( $this->prefix, '', time() - $this->live_item );
 			unset( $_COOKIE[$this->prefix] );

@@ -2,8 +2,14 @@
 
 class DN_Email
 {
+	static $instance = null;
 
 	function __construct()
+	{
+		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	function init()
 	{
 		// filter email setting
 		add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
@@ -34,11 +40,57 @@ class DN_Email
 	}
 
 	// send email donate completed
-	function send_email_donate_completed()
+	function send_email_donate_completed( $donor = null )
 	{
+		// email template
+		$email_template = DN_Settings::instance()->email->get( 'email_template' );
+		if( $email = $donor->get_meta( 'email' ) && $email_template )
+		{
+			$to = $email;
+			$subject = __( 'Donate completed', 'tp-donate' );
 
+			$body = $email_template;
+
+			$replace = array(
+					'/\[(.*?)donor_first_name(.*?)\]/i',
+					'/\[(.*?)donor_last_name(.*?)\]/i',
+					'/\[(.*?)donor_phone(.*?)\]/i',
+					'/\[(.*?)donor_email(.*?)\]/i',
+					'/\[(.*?)donor_adress(.*?)\]/i'
+				);
+
+			$replace_with = array(
+					$donor->get_meta( 'first_name' ),
+					$donor->get_meta( 'last_name' ),
+					$donor->get_meta( 'phone' ),
+					$donor->get_meta( 'email' ),
+					$donor->get_meta( 'address' )
+				);
+
+			$body = preg_replace( $replace, $replace_with, $body );
+
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+
+			if( $fo = fopen( TP_DONATE_PATH . '/email.html', 'w+') )
+			{
+				fwrite( $fo, $body );
+				fclose($fo);die();
+			}
+			wp_mail( $to, $subject, $body, $headers );
+		}
+	}
+
+	// instance
+	static function instance()
+	{
+		if( ! self::$instance )
+		{
+			return self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 }
 
-new DN_Email();
+DN_Email::instance();

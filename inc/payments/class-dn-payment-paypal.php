@@ -50,12 +50,16 @@ class DN_Payment_Palpal extends DN_Payment_Base{
     // callback
     function payment_validation()
     {
-        if( isset( $_GET[ 'donate-paypal-nonce' ] ) && isset( $_GET[ 'donate-paypal-payment' ] ) )
+
+        if( isset( $_GET[ 'donate-paypal-payment' ] ) && $_GET[ 'donate-paypal-payment' ] )
         {
+            if( ! isset( $_GET[ 'donate-paypal-nonce' ] ) || ! wp_verify_nonce( $_GET[ 'donate-paypal-nonce' ], 'donate-paypal-nonce' ) )
+                return;
+
             if( $_GET[ 'donate-paypal-payment' ] === 'completed' )
             {
-                donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method validate.', 'tp-donate' ) );
-                donate()->cart->remove_cart();
+                donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'tp-donate' ) );
+                DN_Cart::instance()->remove_cart();
             }
             else if( $_GET[ 'donate-paypal-payment' ] === 'cancel' )
             {
@@ -64,6 +68,49 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             // redirect
             $url = add_query_arg( array(  'donate-paypal-nonce' => $_GET[ 'donate-paypal-nonce' ]  ), donate_checkout_url() );
             wp_redirect( $url ); exit();
+        }
+
+        // validate payment notify_url, update status
+        if( ! empty( $_POST ) && isset( $_POST[ 'txn_type' ] ) && $_POST[ 'txn_type' ] === 'web_accept' )
+        {
+            if( ! isset( $_POST['payment_status'] ) )
+                return;
+
+            if( empty( $_POST['custom'] ) )
+                return;
+
+            // transaction object
+            $transaction_subject = stripcslashes($_POST['custom']);
+            $transaction_subject = json_decode($transaction_subject);
+
+            if( ! $donate_id =  $transaction_subject->donate_id )
+                return;
+
+            $donate = DN_Donate::instance( $donate_id );
+
+            // santitize
+            $pay_verify = array_merge( array( 'cmd' => '_notify-validate' ), $_POST );
+
+            $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
+
+            $response = wp_remote_post( $paypal_api_url, array( 'body' => $_POST ) );
+
+            $body = wp_remote_retrieve_body( $response );
+            if( ! is_wp_error( $response ) )
+            {
+                if( strtolower($body) === 'verified' )
+                {
+                    // payment status
+                    $payment_status = strtolower( $_POST['payment_status'] );
+
+                    if( in_array( $payment_status, array( 'pending', 'completed' )) )
+                    {
+                        $status = 'donate-completed';
+                        $donate->update_status( $status );
+                    }
+                }
+            }
+
         }
 
     }
@@ -160,7 +207,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             'no_shipping'   => '1',
             'return'        => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
             'cancel_return' => add_query_arg( array( 'donate-paypal-payment' => 'cancel', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
-            // 'custom'        => json_encode( $cart->cart_contents )
+            'custom'        => json_encode( array( 'donate_id' => $cart->donate_id, 'donor_id' => $cart->donor_id ) )
         );
 
         // allow hook paypal param
