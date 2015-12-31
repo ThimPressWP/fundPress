@@ -17,6 +17,9 @@
 			 * submit on lightbox
 			 */
 			this.donate_submit();
+
+			// load percent
+			this.generate_percent();
 		},
 
 		/**
@@ -235,6 +238,18 @@
 				return;
 
 			_form.find( '.donate_button' ).removeClass( 'donate_button_processing' );
+		},
+
+		generate_percent: function()
+		{
+			var percents = $( '.donate_counter_percent' );
+			for( var i = 0; i < percents.length; i++ )
+			{
+				var percent = $( percents[ i ] );
+				percent.css({
+					width: percent.attr( 'data-percent' ) + '%'
+				})
+			}
 		},
 
 	};

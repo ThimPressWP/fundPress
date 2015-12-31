@@ -357,3 +357,18 @@
     text-transform: none;
     display: inline-block;
 }
+.donate_campaign_goal_raised > div{
+    width: 50%;
+    float: left;
+}
+.donate_counter{
+    width: 100%;
+    float: left;
+    height: 10px;
+    background-color: #18DD00;
+}
+.donate_counter_percent{
+    height: 100%;
+    background-color: #d00;
+    float: left;
+}
