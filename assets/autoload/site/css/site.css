@@ -277,3 +277,83 @@
 .donate_payment_button_process{
     text-align: center;
 }
+/**
+ * donate now button
+ */
+.thimpress_donate_button{
+    text-align: center;
+    position: relative;
+}
+.donate_button_title{
+    border-color: #8c6e16;
+    background-color: #ecb338;
+    min-width: 150px;
+    width: auto;
+    line-height: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: block;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+}
+.donate_items_count{
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #F00;
+    line-height: 30px;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+}
+.donate_items_content{
+    display: none;
+    transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+}
+.thimpress_donate_button:hover{
+    cursor: pointer;
+}
+.thimpress_donate_button:hover .donate_items_content{
+    display: block;
+}
+.donate_items_content ul{
+    float: left;
+    width: 100%;
+    margin: 0 !important;
+}
+.donate_items_content ul li{
+    list-style: none;
+    padding: 8px;
+    border-bottom: 1px dotted #8c6e16;
+    float: left;
+    width: 100%;
+    background-color: #E4CD89;
+    text-align: left;
+}
+.donate_items_content ul li img{
+    width: 50px;
+    height: auto;
+    float: left;
+    margin-right: 10px;
+}
+.donate_items_footer{
+    float: left;
+    width: 100%;
+    padding: 10px;
+    overflow: hidden;
+    background-color: rgba(92, 119, 40, 0.55);
+}
+.donate_items_footer .donate_button {
+    text-transform: none;
+    display: inline-block;
+}
