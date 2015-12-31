@@ -141,18 +141,26 @@ class DN_Payment_Stripe extends DN_Payment_Base{
 
         $donor = DN_Donor::instance( $cart->donor_id );
 
-        $params = array(
-                'description'   => sprintf( '%s %s', __( 'Donor for', 'tp-donate' ), $donor->get_meta( 'email' ) ),
-                'source'        => $token
-            );
-        // create customer
-        $response = $this->stripe_request( 'customers', $params );
+        $customer_id = $donor->get_meta( 'stripe_id' );
 
-        if( is_wp_error( $response ) && ! $response->id )
+        if( ! $customer_id )
         {
-            return array( 'status' => 'error', 'message' => sprintf( __( '%s. Please try again', 'tp-hotel-booking' ), $response->get_error_message() ) );
+            $params = array(
+                    'description'   => sprintf( '%s %s', __( 'Donor for', 'tp-donate' ), $donor->get_meta( 'email' ) ),
+                    'source'        => $token
+                );
+            // create customer
+            $response = $this->stripe_request( 'customers', $params );
+
+            if( is_wp_error( $response ) && ! $response->id )
+            {
+                return array( 'status' => 'error', 'message' => sprintf( __( '%s. Please try again', 'tp-hotel-booking' ), $response->get_error_message() ) );
+            }
+
+            $customer_id = $response->id;
+
+            $donor->set_meta( 'stripe_id', $customer_id );
         }
-        $customer_id = $response->id;
 
         $params = array(
                 'amount'        => $cart->cart_total * 100,
@@ -181,7 +189,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
         }
         else
         {
-            $return = array( 'result' => 'error', 'message' => __( 'Please try again', 'tp-donate' ) );
+            $return = array( 'result' => 'error', 'message' => __( 'Connect Stripe has error. Please try again!', 'tp-donate' ) );
         }
         return $return;
     }
@@ -219,7 +227,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
             return $body;
         }
 
-        return new WP_Error( 'stripe_error', __( 'Stripe requets errors', 'tp-donate' ) );
+        return new WP_Error( 'stripe_error', $response->get_error_message() );
     }
 
     // enquene script
@@ -310,7 +318,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         DONATE_Site.beforeAjax( form );
 
                         if (typeof res.status !== 'undefined' && res.status == 'success') {
-                            if (typeof res.url !== 'undefined')
+                            if ( typeof res.url !== 'undefined' )
                                 window.location.href = res.url;
                         }
                         else if (typeof res.message !== 'undefined') {

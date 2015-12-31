@@ -89,3 +89,87 @@ if( ! function_exists( 'donate_single_campaign_content' ) )
 		donate_get_template( 'loop/content.php' );
 	}
 }
+
+add_filter( 'the_post', 'donate_get_camgain_amount' );
+if( ! function_exists( 'donate_get_camgain_amount' ) )
+{
+	function donate_get_camgain_amount( $post )
+	{
+		$post->total = donate_total_campagin( $post->ID );
+		return $post;
+	}
+}
+
+// get campaign total
+if( ! function_exists( 'donate_total_campagin' ) )
+{
+	function donate_total_campagin( $post = null )
+	{
+		if( ! $post )
+		{
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		if( is_numeric( $post ) )
+			$post_id = $post;
+
+		if( $post instanceof WP_Post )
+		{
+			$post_id = $post->ID;
+		}
+
+		$campaign = DN_Campaign::instance( $post_id );
+
+		global $wpdb;
+
+		$query = $wpdb->prepare("
+				SELECT SUM( amount.meta_value ) AS raised FROM $wpdb->postmeta AS amount
+				RIGHT JOIN $wpdb->posts AS campaign ON amount.post_id = campaign.ID
+				WHERE campaign.ID = %s
+				AND campaign.post_type = %s
+				AND campaign.post_status = %s
+				AND amount.meta_key = %s
+				AND
+					(	SELECT DISTINCT donate.post_status FROM $wpdb->posts AS donate
+						LEFT JOIN $wpdb->postmeta AS donate_meta ON donate_meta.meta_value = donate.ID
+						WHERE
+							donate.post_type = %s
+							AND donate_meta.post_id = campaign.ID
+							AND donate_meta.meta_key = %s
+							GROUP BY donate.post_status
+					) = %s
+			", $post_id, 'dn_campaign', 'publish', 'thimpress_campaign_amount', 'dn_donate', 'thimpress_campaign_donate', 'donate-completed' );
+// echo $query;die();
+		if( $query = $wpdb->get_row( $query, OBJECT ) )
+		{
+			return $query->raised;
+		}
+		return 0;
+	}
+}
+
+if( ! function_exists( 'donate_goal_campagin' ) )
+{
+	function donate_goal_campagin( $post = null )
+	{
+		if( ! $post )
+		{
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		if( is_numeric( $post ) )
+			$post_id = $post;
+
+		if( $post instanceof WP_Post )
+		{
+			$post_id = $post->ID;
+		}
+
+		$campaign = DN_Campaign::instance( $post_id );
+		// convert to current currency settings
+		return donate_campaign_convert_amount( $campaign->get_meta( 'goal' ), $campaign->get_meta( 'currency' ), donate_get_currency() );
+	}
+
+}
