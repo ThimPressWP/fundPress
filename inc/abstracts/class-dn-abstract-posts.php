@@ -57,12 +57,22 @@ abstract class DN_Post_Base
 		return $this->post->{$key};
 	}
 
-	function get_meta( $key, $default = null )
+	// get post meta
+	function get_meta( $key, $unique = true )
 	{
-		if( $meta = get_post_meta( $this->ID, $this->meta_prefix . $key , true ) )
+		if( $meta = get_post_meta( $this->ID, $this->meta_prefix . $key , $unique ) )
 			return $meta;
 
-		return $default;
+		return null;
+	}
+
+	// set post meta
+	function set_meta( $key, $val = '', $unique = false )
+	{
+		if( $val )
+		{
+			add_post_meta( $this->ID, $this->meta_prefix . $key, $val, $unique );
+		}
 	}
 
 	/**

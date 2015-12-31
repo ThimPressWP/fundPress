@@ -89,3 +89,67 @@ if( ! function_exists( 'donate_single_campaign_content' ) )
 		donate_get_template( 'loop/content.php' );
 	}
 }
+
+add_filter( 'the_post', 'donate_get_camgain_amount' );
+if( ! function_exists( 'donate_get_camgain_amount' ) )
+{
+	function donate_get_camgain_amount( $post )
+	{
+		$post->total = donate_total_campagin( $post->ID );
+		return $post;
+	}
+}
+
+// get campaign total
+if( ! function_exists( 'donate_total_campagin' ) )
+{
+	function donate_total_campagin( $post = null )
+	{
+		if( ! $post )
+		{
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		if( is_numeric( $post ) )
+			$post_id = $post;
+
+		if( $post instanceof WP_Post )
+		{
+			$post_id = $post->ID;
+		}
+
+		$campaign = DN_Campaign::instance( $post_id );
+		if( $campaign->get_meta( 'amount', false ) )
+		{
+			// convert to current currency settings
+			return donate_campaign_convert_amount( array_sum( $campaign->get_meta( 'amount', false ) ), $campaign->get_meta( 'currency' ), donate_get_currency() );
+		}
+		return 0;
+	}
+}
+
+if( ! function_exists( 'donate_goal_campagin' ) )
+{
+	function donate_goal_campagin( $post = null )
+	{
+		if( ! $post )
+		{
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		if( is_numeric( $post ) )
+			$post_id = $post;
+
+		if( $post instanceof WP_Post )
+		{
+			$post_id = $post->ID;
+		}
+
+		$campaign = DN_Campaign::instance( $post_id );
+		// convert to current currency settings
+		return donate_campaign_convert_amount( $campaign->get_meta( 'goal' ), $campaign->get_meta( 'currency' ), donate_get_currency() );
+	}
+
+}

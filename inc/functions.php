@@ -492,6 +492,7 @@ if( ! function_exists( 'donate_term_condition_url' ) )
 		return get_permalink( $page_id );
 	}
 }
+
 /**
  * convert amount campaigns
  */

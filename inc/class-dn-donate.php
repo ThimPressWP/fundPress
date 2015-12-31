@@ -63,16 +63,12 @@ class DN_Donate extends DN_Post_Base
 		add_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents );
 		add_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
 		// insert post meta
-		// foreach ( $cart_contents as $cart_item_id => $cart_content ) {
-		// 	// ignoire product_data key
-		// 	foreach ( $cart_content as $meta_key => $value ) {
-		// 		// ignoire product_data key
-		// 		if( $meta_key === 'product_data' )
-		// 			continue;
-
-		// 		add_post_meta( $donate_id, $this->meta_prefix . $meta_key, $value );
-		// 	}
-		// }
+		foreach ( $cart_contents as $cart_item_id => $cart_content ) {
+			// ignoire product_data key
+			$campaign = DN_Campaign::instance( $cart_content->product_id );
+			// convert campaign currency format
+			$campaign->set_meta( 'amount', donate_campaign_convert_amount( $cart_content->amount, $cart_content->currency, $campaign->get_meta( 'currency' ) ) );
+		}
 
 		add_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
 		add_post_meta( $donate_id, $this->meta_prefix . 'addition', donate()->cart->addtion_note );
@@ -83,6 +79,7 @@ class DN_Donate extends DN_Post_Base
 
 	}
 
+	// update status
 	function update_status( $status = 'donate-processing' )
 	{
 

@@ -77,8 +77,8 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 			$html[] = '<tr>';
 			$html[] = '<th><label>'.sprintf( '%s(%s)', __( 'Goal', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
 			$html[] = '<input type="number" class="goal" name="'.$this->get_field_name( 'goal' ).'" value="'.$this->get_field_value( 'goal', 0 ).'" min="0"/></th>';
-			$html[] = '<td><label>'.sprintf( '%s(%s)', __( 'Description', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
-			$html[] = '<input type="number" class="raised" name="'.$this->get_field_name( 'raised' ).'" value="'.$this->get_field_value( 'raised', 0 ).'" min="0" readonly/></td>';
+			$html[] = '<td><label>'.sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
+			$html[] = '<input type="number" class="raised" name="'.$this->get_field_name( 'raised' ).'" value="'.donate_total_campagin().'" min="0" readonly/></td>';
 			$html[] = '</tr>';
 			$html[] = '</table>';
 
