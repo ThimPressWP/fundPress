@@ -331,10 +331,11 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         data      : token,
                         type      : 'POST',
                         beforeSend: function () {
-                            DONATE_Site.beforeAjax( form );
+                            TP_Donate_Global.beforeAjax( form );
+                            // DONATE_Site.beforeAjax( form );
                         }
                     }).done(function (res) {
-                        DONATE_Site.beforeAjax( form );
+                        // DONATE_Site.beforeAjax( form );
 
                         if (typeof res.status !== 'undefined' && res.status == 'success') {
                             if ( typeof res.url !== 'undefined' )
@@ -344,7 +345,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                             DONATE_Site.generate_messages( form, res.messages );
                         }
                     }).fail(function () {
-                        DONATE_Site.beforeAjax( form );
+                        // DONATE_Site.beforeAjax( form );
                     });
                 }
 

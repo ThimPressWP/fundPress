@@ -21,7 +21,7 @@
 	                <ul>
 	                	<# if( Object.keys(data.compensates).length > 0 ) { #>
 
-		                    <# jQuery.each( data.compensates, function(key, val){ #>
+		                    <# jQuery.each( data.compensates, function(key, val) { #>
 		                            <li>
 		                            	<input type="radio" name="donate_input_amount_package" value="{{ key }}" id="{{ key }}"/>
 		                            	<label class="donate_amount_group" for="{{ key }}">
@@ -119,6 +119,7 @@
 	            </div>
 
             <# } else { #>
+
 	        	<input type="hidden" name="payment_process" value="1" />
 	        	<?php $term_condition_page_id = DN_Settings::instance()->checkout->get( 'term_condition_page' ); ?>
 				<?php $enable = DN_Settings::instance()->checkout->get( 'term_condition', 'yes' ); ?>

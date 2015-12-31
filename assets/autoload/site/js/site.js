@@ -47,11 +47,12 @@
 					},
 					beforeSend: function()
 					{
-						DONATE_Site.beforeAjax();
+						TP_Donate_Global.beforeAjax();
+						// DONATE_Site.beforeAjax();
 					}
 				}).done( function( res ){
-
-					DONATE_Site.afterAjax();
+					TP_Donate_Global.afterAjax();
+					// DONATE_Site.afterAjax();
 
 					if( typeof res.status !== 'undefined' && res.status === 'success' )
 					{
@@ -113,10 +114,12 @@
 								data: _data,
 								beforeSend: function()
 								{
-									DONATE_Site.beforeAjax( _form );
+									TP_Donate_Global.beforeAjax();
+									// DONATE_Site.beforeAjax( _form );
 								}
 							}).done( function( res ){
-								DONATE_Site.afterAjax( _form );
+								TP_Donate_Global.afterAjax();
+								// DONATE_Site.afterAjax( _form );
 
 								if( typeof res.status === 'undefined' )
 									return;

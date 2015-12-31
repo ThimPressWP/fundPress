@@ -68,6 +68,7 @@ class ThimPress_Donate
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueues' ) );
+		add_action( 'wp_footer', array( $this, 'footer' ) );
 		// active plugin
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'uninstall' ) );
@@ -268,6 +269,21 @@ class ThimPress_Donate
 			}
 		}
 
+	}
+
+	function footer()
+	{ ?>
+		<div class="donate_ajax_overflow">
+			<div class="donate_ajax_loading">
+				<span class="donate-1"></span>
+				<span class="donate-2"></span>
+				<span class="donate-3"></span>
+				<span class="donate-4"></span>
+				<span class="donate-5"></span>
+				<span class="donate-6"></span>
+			</div>
+		</div>
+	<?php
 	}
 
 	/**
