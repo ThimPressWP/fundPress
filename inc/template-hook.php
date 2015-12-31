@@ -124,26 +124,22 @@ if( ! function_exists( 'donate_total_campagin' ) )
 		global $wpdb;
 
 		$query = $wpdb->prepare("
-				SELECT SUM( amount.meta_value ) AS raised FROM $wpdb->postmeta AS amount
+				SELECT SUM( DISTINCT amount.meta_value ) AS raised FROM $wpdb->postmeta AS amount
 				RIGHT JOIN $wpdb->posts AS campaign ON amount.post_id = campaign.ID
+				LEFT JOIN $wpdb->postmeta AS donate_meta ON donate_meta.post_id = campaign.ID
+				RIGHT JOIN $wpdb->posts AS donate ON donate.ID = donate_meta.meta_value
 				WHERE campaign.ID = %s
 				AND campaign.post_type = %s
 				AND campaign.post_status = %s
 				AND amount.meta_key = %s
-				AND
-					(	SELECT DISTINCT donate.post_status FROM $wpdb->posts AS donate
-						LEFT JOIN $wpdb->postmeta AS donate_meta ON donate_meta.meta_value = donate.ID
-						WHERE
-							donate.post_type = %s
-							AND donate_meta.post_id = campaign.ID
-							AND donate_meta.meta_key = %s
-							GROUP BY donate.post_status
-					) = %s
+					AND donate.post_type = %s
+					AND donate_meta.meta_key = %s
+					AND donate.post_status = %s
 			", $post_id, 'dn_campaign', 'publish', 'thimpress_campaign_amount', 'dn_donate', 'thimpress_campaign_donate', 'donate-completed' );
-// echo $query;die();
+
 		if( $query = $wpdb->get_row( $query, OBJECT ) )
 		{
-			return $query->raised;
+			return round( $query->raised, 2 );
 		}
 		return 0;
 	}
@@ -168,8 +164,39 @@ if( ! function_exists( 'donate_goal_campagin' ) )
 		}
 
 		$campaign = DN_Campaign::instance( $post_id );
+		if( ! $goal = $campaign->get_meta( 'goal' ) )
+		{
+			$goal = 0;
+		}
 		// convert to current currency settings
-		return donate_campaign_convert_amount( $campaign->get_meta( 'goal' ), $campaign->get_meta( 'currency' ), donate_get_currency() );
+		return donate_campaign_convert_amount( $goal, $campaign->get_meta( 'currency' ), donate_get_currency() );
 	}
 
+}
+
+if( ! function_exists( 'donate_get_campaign_percent' ) )
+{
+	function donate_get_campaign_percent( $post = null )
+	{
+		if( ! $post )
+		{
+			global $post;
+			$post_id = $post->ID;
+		}
+
+		if( is_numeric( $post ) )
+			$post_id = $post;
+
+		if( $post instanceof WP_Post )
+		{
+			$post_id = $post->ID;
+		}
+
+		$total = donate_total_campagin( $post_id );
+		if( ! $total )
+			return 0;
+		$goal = donate_goal_campagin( $post_id );
+
+		return ( $total / $goal ) * 100;
+	}
 }
