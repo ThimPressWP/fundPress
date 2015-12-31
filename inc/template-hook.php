@@ -197,6 +197,9 @@ if( ! function_exists( 'donate_get_campaign_percent' ) )
 			return 0;
 		$goal = donate_goal_campagin( $post_id );
 
+		if( ! $goal )
+			return 100;
+
 		return ( $total / $goal ) * 100;
 	}
 }
