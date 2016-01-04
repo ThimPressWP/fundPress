@@ -300,6 +300,9 @@ body {
     background: none;
     color: #ecb338;
 }
+.donate_form_layout{
+    overflow: hidden;
+}
 .donate_dornor_info .donate_form_footer.center{
     text-align: center;
 }
@@ -338,6 +341,16 @@ body {
     font-size: 12px;
     padding: 8px;
     border: 1px solid #dedede;
+}
+.donate_term_condition,
+.donate_payments{
+    text-align: left;
+}
+.donate_cart,
+.donate_term_condition,
+.donate_payments,
+.donate_payment_button_process{
+    padding: 10px;
 }
 /**
  * message error form
