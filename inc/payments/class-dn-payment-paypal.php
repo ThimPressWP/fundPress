@@ -88,7 +88,12 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             $donate = DN_Donate::instance( $donate_id );
 
             // santitize
-            $pay_verify = array_merge( array( 'cmd' => '_notify-validate' ), $_POST );
+            // $pay_verify = array_merge( array( 'cmd' => '_notify-validate' ), $_POST );
+            $pay_verify = array();
+            $pay_verify['cmd'] = '_notify-validate';
+            foreach( $_POST as $key => $value ) {
+                $pay_verify[$key] = stripcslashes( $value );
+            }
 
             $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 

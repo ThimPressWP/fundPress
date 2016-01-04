@@ -21,7 +21,13 @@
 			// load percent
 			this.generate_percent();
 
-			
+			// donate system anywhere
+			this.donate_system_form();
+		},
+
+		donate_system_form: function()
+		{
+
 		},
 
 		/**
