@@ -80,8 +80,8 @@ class DN_Payment_Palpal extends DN_Payment_Base{
                 return;
 
             // transaction object
-            $transaction_subject = stripcslashes($_POST['custom']);
-            $transaction_subject = json_decode($transaction_subject);
+            $transaction_subject = stripcslashes( $_POST['custom'] );
+            $transaction_subject = json_decode( $transaction_subject );
 
             if( ! $donate_id =  $transaction_subject->donate_id )
                 return;
@@ -93,17 +93,19 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
             $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
-            $response = wp_remote_post( $paypal_api_url, array( 'body' => $_POST ) );
+            $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
 
             $body = wp_remote_retrieve_body( $response );
-            if( ! is_wp_error( $response ) )
+
+            if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) == 200 )
             {
-                if( strtolower($body) === 'verified' )
+                var_dump($body); die();
+                if( strtolower( $body ) === 'verified' )
                 {
                     // payment status
                     $payment_status = strtolower( $_POST['payment_status'] );
 
-                    if( in_array( $payment_status, array( 'pending', 'completed' )) )
+                    if( in_array( $payment_status, array( 'pending', 'completed' ) ) )
                     {
                         $status = 'donate-completed';
                         $donate->update_status( $status );
