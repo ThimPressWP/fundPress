@@ -357,6 +357,7 @@ body {
  */
 .donate_form_error_messages{
     display: none;
+    text-align: left;
     background-color: #BC9FEA;
     transition: all 0.3;
     -moz-transition: all 0.3;
