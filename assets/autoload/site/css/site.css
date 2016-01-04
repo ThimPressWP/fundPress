@@ -34,8 +34,8 @@ body {
     margin: 0 auto;
 }
 .donate_ajax_loading span[class*="donate-"] {
-    height: 6px;
-    width: 6px;
+    height: 5px;
+    width: 5px;
     background: #ae8ce4;
     display: inline-block;
     /*margin: 12px 2px;*/
