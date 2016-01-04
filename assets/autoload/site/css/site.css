@@ -201,6 +201,7 @@ body {
 .campaign_title a{
     font-size: 15px;
     color: #ae8ce4;
+    line-height: 1.2;
 }
 .campaign_details .campaign_excerpt{
     font-size: 13px;
