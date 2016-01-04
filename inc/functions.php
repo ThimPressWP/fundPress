@@ -113,12 +113,24 @@ if ( ! function_exists( 'is_event_taxonomy' ) ) {
         return is_tax( get_object_taxonomies( 'tp_event' ) );
     }
 }
-
+/**
+ * donate payments
+ */
+if ( ! function_exists( 'donate_payment_gateways' ) )
+{
+	function donate_payment_gateways()
+	{
+		return apply_filters( 'donate_payment_gateways', array() );
+	}
+}
+/**
+ * donate payment is enable
+ */
 if ( ! function_exists( 'donate_payments_enable' ) )
 {
 	function donate_payments_enable()
 	{
-		return apply_filters( 'donate_payment_gateways', array() );
+		return apply_filters( 'donate_payment_gateways_enable', array() );
 	}
 }
 

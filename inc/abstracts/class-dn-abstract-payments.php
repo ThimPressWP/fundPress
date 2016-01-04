@@ -34,7 +34,11 @@ abstract class DN_Payment_Base
 	public function init()
 	{
 		/**
-		 * filter payments
+		 * filter payments enable
+		 */
+		add_filter( 'donate_payment_gateways_enable', array( $this, 'payment_gateways_enable' ) );
+		/**
+		 * filter payments enable
 		 */
 		add_filter( 'donate_payment_gateways', array( $this, 'payment_gateways' ) );
 
@@ -67,11 +71,25 @@ abstract class DN_Payment_Base
 	public function send_email(){}
 
 	/**
-	 * donate_payment_gateways filter callback
+	 * payment_gateways
+	 * @param  $payment_gateways
+	 * @return $payment_gateways
+	 */
+	public function payment_gateways( $payment_gateways )
+	{
+		if( $this->_id && $this->_title )
+		{
+			$payment_gateways[ $this->_id ] = $this;
+		}
+		return $payment_gateways;
+	}
+
+	/**
+	 * donate_payment_gateways_enable filter callback
 	 * @param  $payment_gateways array
 	 * @return $payment_gateways array
 	 */
-	public function payment_gateways( $payment_gateways )
+	public function payment_gateways_enable( $payment_gateways )
 	{
 		if( $this->is_enable )
 		{

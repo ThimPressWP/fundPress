@@ -36,13 +36,22 @@ class DN_Post_Type
 	 */
 	function add_columns( $columns )
 	{
+		$columns[ 'donate_payment_method' ] = sprintf( '%s', __( 'Payment Method', 'tp-donate' ) );
 		$columns[ 'donate_status' ] = sprintf( '%s', __( 'Status', 'tp-donate' ) );
 		return $columns;
 	}
 
+	// add columns
 	function columns( $column, $post_id )
 	{
 		switch ( $column ) {
+			case 'donate_payment_method':
+					$donate = DN_Donate::instance( $post_id );
+					$payment = $donate->get_meta( 'payment_method' );
+					$payments_enable = donate_payment_gateways();
+					if( array_key_exists( $payment, $payments_enable ) )
+						echo $payments_enable[ $payment ]->_title;
+				break;
 			case 'donate_status':
 					echo donate_get_status_label( $post_id );
 				break;
