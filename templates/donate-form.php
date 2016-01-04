@@ -126,10 +126,12 @@
 
 				<?php if( $enable === 'yes' && $term_condition_page_id ) : ?>
 
-					<input type="checkbox" name="term_condition" value="1" id="term_condition"/>
-					<label for="term_condition">
-						<?php _e( 'Terms & Conditions', 'tp-donate' ); ?>
-					</label>
+					<div class="donate_term_condition">
+						<input type="checkbox" name="term_condition" value="1" id="term_condition"/>
+						<label for="term_condition">
+							<?php _e( 'Terms & Conditions', 'tp-donate' ); ?>
+						</label>
+					</div>
 
 				<?php endif; ?>
             	<div class="donate_form_footer center">
