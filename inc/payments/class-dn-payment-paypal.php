@@ -218,6 +218,13 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
     public function process()
     {
+        if( ! $this->paypal_email )
+        {
+            return array(
+                'status'        => 'failed',
+                'message'       => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.' )
+            );
+        }
         return array(
                 'status'    => 'success',
                 'url'       => $this->checkout_url()

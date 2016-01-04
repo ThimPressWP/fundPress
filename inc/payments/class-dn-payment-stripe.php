@@ -132,8 +132,16 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     // process
     function process()
     {
+        if( ! $this->secret_key || ! $this->publish_key )
+        {
+            return array(
+                'status'        => 'failed',
+                'message'       => __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.' )
+            );
+        }
+
         if( ! isset( $_POST[ 'id' ] ) )
-           return array( 'status' => 'error', 'message' => __( 'Token is invalid', 'tp-donate' ) );
+           return array( 'status' => 'failed', 'message' => __( 'Token is invalid', 'tp-donate' ) );
 
         $token = $_POST[ 'id' ];
 
@@ -154,7 +162,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
 
             if( is_wp_error( $response ) && ! $response->id )
             {
-                return array( 'status' => 'error', 'message' => sprintf( __( '%s. Please try again', 'tp-hotel-booking' ), $response->get_error_message() ) );
+                return array( 'status' => 'failed', 'message' => sprintf( __( '%s. Please try again', 'tp-hotel-booking' ), $response->get_error_message() ) );
             }
 
             $customer_id = $response->id;
@@ -189,7 +197,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
         }
         else
         {
-            $return = array( 'result' => 'error', 'message' => __( 'Connect Stripe has error. Please try again!', 'tp-donate' ) );
+            $return = array( 'result' => 'failed', 'message' => __( 'Connect Stripe has error. Please try again!', 'tp-donate' ) );
         }
         return $return;
     }
