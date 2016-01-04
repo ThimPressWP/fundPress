@@ -50,7 +50,6 @@ class DN_Payment_Palpal extends DN_Payment_Base{
     // callback
     function payment_validation()
     {
-var_dump(1);
         if( isset( $_GET[ 'donate-paypal-payment' ] ) && $_GET[ 'donate-paypal-payment' ] )
         {
             if( ! isset( $_GET[ 'donate-paypal-nonce' ] ) || ! wp_verify_nonce( $_GET[ 'donate-paypal-nonce' ], 'donate-paypal-nonce' ) )
@@ -97,9 +96,8 @@ var_dump(1);
 
             $body = wp_remote_retrieve_body( $response );
 
-            if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) == 200 )
+            if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 )
             {
-                var_dump($body); die();
                 if( strtolower( $body ) === 'verified' )
                 {
                     // payment status
