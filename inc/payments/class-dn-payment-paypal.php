@@ -97,7 +97,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 )
             {
                 $body = wp_remote_retrieve_body( $response );
-
+var_dump($body); die();
                 if( strtolower( $body ) === 'verified' )
                 {
                     // payment status
