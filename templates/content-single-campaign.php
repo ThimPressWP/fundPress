@@ -13,15 +13,16 @@
 	<div class="campaign_entry">
 
 		<?php
-			/**
-			 * donate_single_campaign_title hook
-			 */
-			do_action( 'donate_single_campaign_title' );
 
 			/**
 			 * donate_single_campaign_thumbnail hook
 			 */
 			do_action( 'donate_single_campaign_thumbnail' );
+
+			/**
+			 * donate_single_campaign_title hook
+			 */
+			do_action( 'donate_single_campaign_title' );
 
 			/**
 			 * donate_loop_campaign_countdown

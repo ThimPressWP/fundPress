@@ -114,7 +114,7 @@ class DN_Donor extends DN_Post_Base
 			return new self( $post );
 
 		$id = null;
-		if( is_numeric( $post ) && ! self::$_instances[ $post ] )
+		if( is_numeric( $post ) )
 		{
 			$post = get_post( $post );
 			$id = $post->ID;
