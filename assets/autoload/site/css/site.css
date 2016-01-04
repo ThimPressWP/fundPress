@@ -420,7 +420,8 @@ body {
 .donate_cart .donate_cart_foot_total{
     text-align: center;
 }
-.donate_button{
+.donate_button,
+.donate_submit{
     font-size: 14px;
     background: #9170C5;
     border: 0;
@@ -432,7 +433,8 @@ body {
     padding: 0.84375em 0.875em 0.78125em;
     text-transform: uppercase;
 }
-.donate_button:hover{
+.donate_button:hover,
+.donate_submit:hover{
     background: #ECEAF1;
     color: #9170C5;
 }
