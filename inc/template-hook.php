@@ -200,6 +200,6 @@ if( ! function_exists( 'donate_get_campaign_percent' ) )
 		if( ! $goal )
 			return 100;
 
-		return ( $total / $goal ) * 100;
+		return round( ( $total / $goal ) * 100, donate_currency_decimal() );
 	}
 }
