@@ -136,6 +136,10 @@ if ( ! function_exists( 'donate_payments_enable' ) )
 
 if( ! function_exists( 'donate_get_currencies' ) )
 {
+	/**
+	 * donate_get_currencies
+	 * @return array currencies
+	 */
 	function donate_get_currencies()
 	{
 		$currencies = array(
@@ -191,7 +195,10 @@ if( ! function_exists( 'donate_get_currencies' ) )
 
 if( ! function_exists( 'donate_get_currency' ) )
 {
-
+	/**
+	 * donate_get_currency
+	 * @return donate_get_currency
+	 */
 	function donate_get_currency()
 	{
 		return DN_Settings::instance()->general->get( 'currency', 'USD' );

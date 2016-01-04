@@ -307,7 +307,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         }
                         else
                         {
-                            alert( thimpress_donate.amount_invalid );
+                            DONATE_Site.generate_messages( form, thimpress_donate.l18n.amount_invalid );
                             return;
                         }
                         // Open Checkout with further options
@@ -319,7 +319,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                     }
                     else
                     {
-                        alert( Donate_Stripe_Settings.key_missing );
+                        DONATE_Site.generate_messages( form, Donate_Stripe_Settings.key_missing );
                     }
                 },
 
