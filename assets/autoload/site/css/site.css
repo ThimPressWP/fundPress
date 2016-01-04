@@ -19,7 +19,6 @@ body {
     right: 0;
     left: 0;
     bottom: 0;
-
 }
 .donate_ajax_overflow.active{
     display: table;
@@ -34,11 +33,10 @@ body {
     display: block;
     margin: 0 auto;
 }
-
 .donate_ajax_loading span[class*="donate-"] {
-    height: 5px;
-    width: 5px;
-    background: #000;
+    height: 6px;
+    width: 6px;
+    background: #ae8ce4;
     display: inline-block;
     /*margin: 12px 2px;*/
     border-radius: 100%;
@@ -57,7 +55,7 @@ body {
     animation-timing-function: cubic-bezier(0.030, 0.615, 0.995, 0.415);
     animation-fill-mode: both;
 }
-.donate_ajax_loading span.donate-1 {-webkit-animation-delay: 0.8s;animation-delay: 0.81s;-ms-animation-delay: 0.8s;-moz-animation-delay: 0.8s;}
+.donate_ajax_loading span.donate-1 {-webkit-animation-delay: 0.8s;animation-delay: 0.8s;-ms-animation-delay: 0.8s;-moz-animation-delay: 0.8s;}
 .donate_ajax_loading span.donate-2 {-webkit-animation-delay: 0.6s;animation-delay: 0.6s;-ms-animation-delay: 0.6s;-moz-animation-delay: 0.6s;}
 .donate_ajax_loading span.donate-3 {-webkit-animation-delay: 0.4s;animation-delay: 0.4s;-ms-animation-delay: 0.4s;-moz-animation-delay: 0.4s;}
 .donate_ajax_loading span.donate-4 {-webkit-animation-delay: 0.2s;animation-delay: 0.2s;-ms-animation-delay: 0.2s;-moz-animation-delay: 0.2s;}
@@ -187,8 +185,8 @@ body {
     -ms-transition: all 0.3s;
 }
 .campaign_single .donate_load_form:hover{
-    background-color: #fdfffd;
-    color: #000;
+    background-color: #ae8ce4;
+    color: #fff;
 }
 .campaign_details{
     padding: 10px 15px;
@@ -200,7 +198,7 @@ body {
     text-align: left;
 }
 .campaign_details .campaign_title,
-.campaign_details .campaign_title a{
+.campaign_title a{
     font-size: 15px;
     color: #ae8ce4;
 }
@@ -211,6 +209,7 @@ body {
     display: block;
     float: left;
     width: 100%;
+    font-size: 13px;
     font-weight: 600;
 }
 /**
@@ -219,7 +218,7 @@ body {
 #donate_hidden{
     display: none;
     position: relative;
-    background: #FFF;
+    background: #f1f4f8;
     padding: 20px;
     width: auto;
     min-width: 500px;
@@ -271,7 +270,7 @@ body {
     padding-left: 25px;
 }
 .donate_amount{
-    color: #ecb338;
+    color: #ae8ce4;
     font-style: italic;
 }
 .donate_form .donate_form_input.payment{
@@ -344,7 +343,7 @@ body {
  */
 .donate_form_error_messages{
     display: none;
-    background-color: #1a1a1a;
+    background-color: #BC9FEA;
     transition: all 0.3;
     -moz-transition: all 0.3;
     -webkit-transition: all 0.3;
@@ -388,7 +387,7 @@ body {
 }
 .donate_cart .donate_cart_item_name .donate_cart_item_name_title a,
 .donate_cart .donate_action_remove a{
-    color: #007acc;
+    color: #9473C7;
     font-weight: 400;
     text-decoration: none;
     box-shadow: none;
@@ -408,7 +407,7 @@ body {
 }
 .donate_button{
     font-size: 14px;
-    background: #1a1a1a;
+    background: #9170C5;
     border: 0;
     border-radius: 2px;
     color: #fff;
@@ -419,8 +418,8 @@ body {
     text-transform: uppercase;
 }
 .donate_button:hover{
-    background: #007acc;
-    color: #fff;
+    background: #ECEAF1;
+    color: #9170C5;
 }
 .donate_button:focus{
     outline: none;
@@ -439,8 +438,8 @@ body {
     position: relative;
 }
 .donate_button_title{
-    border-color: #8c6e16;
-    background-color: #ecb338;
+    border-color: #9473C7;
+    background-color: #BC9FEA;
     min-width: 150px;
     width: auto;
     line-height: 100px;
@@ -488,10 +487,10 @@ body {
 .donate_items_content ul li{
     list-style: none;
     padding: 8px;
-    border-bottom: 1px dotted #8c6e16;
+    border-bottom: 1px dotted #9473C7;
     float: left;
     width: 100%;
-    background-color: #E4CD89;
+    background-color: #BC9FEA;
     text-align: left;
 }
 .donate_items_content ul li img{
@@ -505,7 +504,7 @@ body {
     width: 100%;
     padding: 10px;
     overflow: hidden;
-    background-color: rgba(92, 119, 40, 0.55);
+    background-color: #C2B7D4;
 }
 .donate_items_footer .donate_button {
     text-transform: none;
@@ -516,9 +515,11 @@ body {
 }
 .campaign_raised.campaign_goal_raised {
     border-right: 1px solid #ae8ce4;
+    padding-top: 10px;
 }
 .campaign_goal.campaign_goal_raised {
     border-left: 1px solid #ae8ce4;
+    padding-top: 10px;
 }
 .donate_campaign_goal_raised > div{
     width: 50%;
@@ -534,7 +535,7 @@ body {
 .donate_counter_percent{
     background-color: #ae8ce4;
     display: inline-block;
-    height: 3px;
+    height: 4px;
     left: 0;
     max-width: 100%;
     position: absolute;

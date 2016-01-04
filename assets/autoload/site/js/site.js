@@ -20,6 +20,8 @@
 
 			// load percent
 			this.generate_percent();
+
+			
 		},
 
 		/**
@@ -128,11 +130,11 @@
 								{
 									window.location.href = res.url;
 								}
-								else if( res.status === 'failed' && typeof res.messages !== 'undefined' )
+								else if( res.status === 'failed' && typeof res.message !== 'undefined' )
 								{
 									if( _layout.length === 1 )
 									{
-										DONATE_Site.generate_messages( _layout, messages );
+										DONATE_Site.generate_messages( _layout, res.message );
 									}
 								}
 							});
@@ -218,9 +220,16 @@
 		generate_messages: function( _layout, messages )
 		{
 			var html = [];
-			for( var i = 0; i < messages.length; i++ )
+			if( typeof messages === 'object' )
 			{
-				html.push( '<p class="donate_message_error">' + messages[i] + '</p>' );
+				for( var i = 0; i < messages.length; i++ )
+				{
+					html.push( '<p class="donate_message_error">' + messages[i] + '</p>' );
+				}
+			}
+			else if( typeof messages === 'string' )
+			{
+				html.push( '<p class="donate_message_error">' + messages + '</p>' );
 			}
 
 			_layout.prepend( '<div class="donate_form_error_messages">' + html.join( '' ) + '</div>' );

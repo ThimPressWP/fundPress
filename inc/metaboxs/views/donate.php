@@ -31,6 +31,14 @@
 				</tr>
 			<?php endforeach; ?>
 			<tr>
+				<td><?php _e( 'Addition note', 'tp-donate' ); ?></td>
+				<td colspan="3">
+					<?php global $post; $donate_id = $post->ID ?>
+					<?php $donation = DN_Donate::instance( $donate_id ); ?>
+					<?php printf( '%s', $donation->get_meta( 'addition' ) ) ?>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="3"><?php _e( 'Total amount', 'tp-donate' ); ?></td>
 				<td>
 					<?php global $post; $donate_id = $post->ID ?>

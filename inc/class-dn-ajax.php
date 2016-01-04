@@ -106,10 +106,10 @@ class DN_Ajax
 	{
 		// validate sanitize input $_POST
 		if( ! isset( $_GET[ 'schema' ] ) || $_GET[ 'schema' ] !== 'donate-ajax' || empty( $_POST ) )
-			wp_send_json( array( 'status' => 'failed', 'messages' => array( __( 'Could not do action.', 'tp-donate' ) ) ) );
+			wp_send_json( array( 'status' => 'failed', 'message' => array( __( 'Could not do action.', 'tp-donate' ) ) ) );
 
 		if( ! isset( $_POST[ 'thimpress_donate_nonce' ] ) || ! wp_verify_nonce( $_POST[ 'thimpress_donate_nonce' ], 'thimpress_donate_nonce' ) )
-			wp_send_json( array( 'status' => 'failed', 'messages' => array( __( 'Could not do action.', 'tp-donate' ) ) ) );
+			wp_send_json( array( 'status' => 'failed', 'message' => array( __( 'Could not do action.', 'tp-donate' ) ) ) );
 
 		/************** NEW SCRIPT **************/
 		// update cart
@@ -143,9 +143,9 @@ class DN_Ajax
 			 * donate 0 currency
 			 * @var
 			 */
-			if( $amount === 0 )
+			if( $amount == 0 )
 			{
-				wp_send_json( array( 'status' => 'failed', 'message' => sprintf( '%s%s', __( 'Can not donate amount zero point', 'tp-donate' ), donate_price( 0 ) ) ) ); die();
+				wp_send_json( array( 'status' => 'failed', 'message' => sprintf( '%s %s', __( 'Can not donate amount zero point', 'tp-donate' ), donate_price( 0 ) ) ) ); die();
 			}
 			// add to cart param
 			$cart_params = apply_filters( 'donate_add_to_cart_item_params', array(
@@ -171,7 +171,7 @@ class DN_Ajax
 			if( $term_enable === 'yes' )
 			{
 				if( ! isset( $_POST[ 'term_condition' ] ) || ! $_POST[ 'term_condition' ] )
-					wp_send_json( array( 'status' => 'failed', 'messages' => array( __( 'Terms and Contidions invalid.', 'tp-donate' ) ) ) );
+					wp_send_json( array( 'status' => 'failed', 'message' => array( __( 'Terms and Contidions invalid.', 'tp-donate' ) ) ) );
 			}
 
 			// payments method

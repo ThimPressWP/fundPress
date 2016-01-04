@@ -130,7 +130,7 @@ class DN_Donate extends DN_Post_Base
 		if( ! $post )
 			return new self( $post );
 
-		if( is_numeric( $post ) && ! self::$_instances[ $post ] )
+		if( is_numeric( $post ) )
 		{
 			$post = get_post( $post );
 			$id = $post->ID;

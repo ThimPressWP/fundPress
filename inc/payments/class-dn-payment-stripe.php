@@ -336,15 +336,16 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         }
                     }).done(function (res) {
                         // DONATE_Site.beforeAjax( form );
-
+                        TP_Donate_Global.afterAjax( form );
                         if (typeof res.status !== 'undefined' && res.status == 'success') {
                             if ( typeof res.url !== 'undefined' )
                                 window.location.href = res.url;
                         }
-                        else if ( typeof res.messages !== 'undefined' ) {
-                            DONATE_Site.generate_messages( form, res.messages );
+                        else if ( typeof res.message !== 'undefined' ) {
+                            DONATE_Site.generate_messages( form, res.message );
                         }
                     }).fail(function () {
+                        TP_Donate_Global.afterAjax( form );
                         // DONATE_Site.beforeAjax( form );
                     });
                 }

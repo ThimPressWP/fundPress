@@ -15,5 +15,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 </div>
-
-<p style="clear:both"></p>
