@@ -62,7 +62,7 @@ class DN_Email
 					'/\[(.*?)donor_last_name(.*?)\]/i',
 					'/\[(.*?)donor_phone(.*?)\]/i',
 					'/\[(.*?)donor_email(.*?)\]/i',
-					'/\[(.*?)donor_adress(.*?)\]/i'
+					'/\[(.*?)donor_address(.*?)\]/i'
 				);
 
 			$replace_with = array(
