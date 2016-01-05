@@ -8,6 +8,8 @@
 
 	<form class="donate_form">
 
+		<?php do_action( 'donate_before_form_checkout' ); ?>
+
 		<!-- personal info -->
 		<?php donate_get_template( 'checkout/cart.php' ) ?>
 
@@ -28,6 +30,8 @@
 
 		<!--Require-->
 		<?php wp_nonce_field( 'thimpress_donate_nonce', 'thimpress_donate_nonce' ); ?>
+
+		<?php do_action( 'donate_after_form_checkout' ); ?>
 
 		<div class="donate_payment_button_process">
 			<button type="submit" class="donate_button"><?php _e( 'Donate', 'tp-donate' ); ?></button>

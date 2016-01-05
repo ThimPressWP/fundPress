@@ -36,12 +36,32 @@
 
 <?php
 	$donor = DN_Donor::instance( $post->Id );
-	$donated = $donor->get_donated();
+	$donateds = $donor->get_donated();
 ?>
 
-<?php if( $donated ): ?>
+<?php if( $donateds ): ?>
 	<h3><?php _e( 'Donated', 'tp-donate' ) ?></h3>
 
-
+	<table>
+		<thead>
+			<tr>
+				<th><?php _e( 'Donate ID', 'tp-donate' ) ?></th>
+				<th><?php _e( 'Amount', 'tp-donate' ) ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ( $donateds as $key => $donated ): ?>
+				<?php $donation = DN_Donate::instance( $donated->ID ) ?>
+				<tr>
+					<th>
+						<a href="<?php echo esc_url( get_edit_post_link( $donated->ID ) ); ?>"><?php printf( '%s', donate_generate_post_key( $donated->ID ) ) ?></a>
+					</th>
+					<td>
+						<?php echo donate_price( $donation->get_meta( 'total' ), $donation->get_meta( 'currency' ) ) ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
 
 <?php endif; ?>

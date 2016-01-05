@@ -9,6 +9,8 @@ $payments = donate_payments_enable();
 
 <?php if( $payments ) : ?>
 
+	<?php do_action( 'donate_before_payments_checkout' ); ?>
+
 	<div class="donate_payments">
 		<?php foreach( $payments as $key => $payment ) : ?>
 
@@ -17,5 +19,7 @@ $payments = donate_payments_enable();
 
 		<?php endforeach; ?>
 	</div>
+
+	<?php do_action( 'donate_after_payments_checkout' ); ?>
 
 <?php endif; ?>

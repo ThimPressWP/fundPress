@@ -39,9 +39,21 @@ class DN_Setting_General extends DN_Setting_Base
 						'desc'	=> __( 'The following options affect how prices are displayed on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
 								array(
+										'type'		=> 'input',
+										'label'		=> __( 'Donation system', 'tp-donate' ),
+										'desc'		=> __( 'Donation system without campaign.', 'tp-donate' ),
+										'name'		=> '',
+										'atts'		=> array(
+												'type'	=> 'hidden',
+												'id'	=> 'donate_system',
+												'class'	=> 'donate_system'
+											),
+										'filter'	=> 'donation_sytem_total_amount'
+									),
+								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Currency aggregator', 'tp-donate' ),
-										'desc'		=> __( 'This controlls what the currency prices when change currency setting', 'tp-donate' ),
+										'desc'		=> __( 'This controlls what the currency prices when change currency setting.', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'aggregator',
 												'class'	=> 'aggregator'
@@ -56,7 +68,7 @@ class DN_Setting_General extends DN_Setting_Base
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Currency', 'tp-donate' ),
-										'desc'		=> __( 'This controlls what the currency prices', 'tp-donate' ),
+										'desc'		=> __( 'This controlls what the currency prices.', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'currency',
 												'class'	=> 'currency'
@@ -68,7 +80,7 @@ class DN_Setting_General extends DN_Setting_Base
 								array(
 										'type'		=> 'select',
 										'label'		=> __( 'Currency Position', 'tp-donate' ),
-										'desc'		=> __( 'This controlls the position of the currency symbol', 'tp-donate' ),
+										'desc'		=> __( 'This controlls the position of the currency symbol.', 'tp-donate' ),
 										'atts'		=> array(
 												'id'	=> 'currency_position',
 												'class'	=> 'currency_position'
@@ -84,7 +96,7 @@ class DN_Setting_General extends DN_Setting_Base
 									),
 								array(
 										'type'		=> 'input',
-										'label'		=> __( 'Thousand Separator', 'tp-donate' ),
+										'label'		=> __( 'Thousand Separator.', 'tp-donate' ),
 										'atts'		=> array(
 												'type'	=> 'text',
 												'id'	=> 'thousand',
@@ -95,7 +107,7 @@ class DN_Setting_General extends DN_Setting_Base
 									),
 								array(
 										'type'		=> 'input',
-										'label'		=> __( 'Decimal Separator', 'tp-donate' ),
+										'label'		=> __( 'Decimal Separator.', 'tp-donate' ),
 										'atts'		=> array(
 												'type'	=> 'text',
 												'id'	=> 'decimal_separator',
@@ -106,7 +118,7 @@ class DN_Setting_General extends DN_Setting_Base
 									),
 								array(
 										'type'		=> 'input',
-										'label'		=> __( 'Number of Decimals', 'tp-donate' ),
+										'label'		=> __( 'Number of Decimals.', 'tp-donate' ),
 										'atts'		=> array(
 												'type'	=> 'number',
 												'id'	=> 'decimals',
@@ -124,3 +136,27 @@ class DN_Setting_General extends DN_Setting_Base
 }
 
 $GLOBALS[ 'general_settings' ] = new DN_Setting_General();
+
+if( ! function_exists( 'donation_sytem_total_amount' ) )
+{
+	function donation_sytem_total_amount( $field )
+	{
+		?>
+			<tr>
+				<th>
+					<?php if( isset( $field['label'] ) ) : ?>
+						<label for="<?php echo esc_attr( $field[ 'name' ] ) ?>"><?php printf( '%s', $field['label'] ) ?></label>
+						<?php if( isset( $field[ 'desc' ] ) ) : ?>
+							<p><small><?php printf( '%s', $field['desc'] ) ?></small></p>
+						<?php endif; ?>
+					<?php endif; ?>
+				</th>
+				<td>
+					<input type="text" value="<?php echo esc_attr( get_option( TP_DONATE_SYSTEM_AMOUNT . 'donate_amount_system', 0 ) ); ?>" readonly="readonly" />
+					<?php printf( '%s', donate_get_currency_symbol() ) ?>
+				</td>
+			</tr>
+
+		<?php
+	}
+}

@@ -45,7 +45,7 @@ class DN_Cart
 		$this->refresh();
 
 		$this->donate_info = DN_Sessions::instance( 'thimpress_donate_info', true );
-		$this->set_cart_infomation();
+		$this->set_cart_information();
 
 		add_action( 'init', array( $this, 'process_cart' ), 99 );
 	}
@@ -192,6 +192,12 @@ class DN_Cart
 		return apply_filters( 'donate_cart_totals_include_tax', $total );
 	}
 
+	// set total
+	function set_total()
+	{
+		return $this->cart_total_include_tax = $this->cart_total = apply_filters( 'donate_cart_set_total', 0 );
+	}
+
 	// cart exclude tax
 	function cart_total_exclude_tax()
 	{
@@ -245,7 +251,7 @@ class DN_Cart
 	}
 
 	// set cart information. donor_id. donate_id. addtion_note
-	function set_cart_infomation( $info = array() )
+	function set_cart_information( $info = array() )
 	{
 		$info = wp_parse_args( $info, array(
 				'addtion_note'	=> $this->donate_info->get( 'addtion_note' ),
@@ -283,7 +289,7 @@ class DN_Cart
 		// refresh cart contents
 		$this->cart_contents = array();
 		$this->refresh();
-		$this->set_cart_infomation( array( 'addtion_note' => '', 'donate_id' => '', 'donor_id' => '', ) );
+		$this->set_cart_information( array( 'addtion_note' => '', 'donate_id' => '', 'donor_id' => '', ) );
 	}
 
 	// return is empty

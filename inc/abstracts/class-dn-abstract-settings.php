@@ -241,8 +241,30 @@ abstract class DN_Setting_Base extends DN_Settings
 				foreach( $group[ 'fields' ] as $type => $field )
 				{
 
-					if( isset( $field[ 'name' ], $field[ 'type' ] ) )
+					$default = array(
+									'type'		=> '',
+									'label'		=> '',
+									'desc'		=> '',
+									'atts'		=> array(
+											'id'	=> '',
+											'class'	=> ''
+										),
+									'name'		=> '',
+									'group'		=> $this->_id ? $this->_id : null,
+									'options'	=> array(
+
+										),
+									'default'	=> ''
+								);
+					if( isset( $field[ 'filter' ] ) && $field[ 'filter' ] )
 					{
+						ob_start();
+						call_user_func_array( $field[ 'filter' ], array( $field ) );
+						$html[] = ob_get_clean();
+					}
+					else if( isset( $field[ 'name' ], $field[ 'type' ] ) )
+					{
+
 						$html[] = '<tr>';
 
 						// label
@@ -258,22 +280,6 @@ abstract class DN_Setting_Base extends DN_Settings
 
 						// field
 						$html[] = '<td>';
-
-						$default = array(
-										'type'		=> '',
-										'label'		=> '',
-										'desc'		=> '',
-										'atts'		=> array(
-												'id'	=> '',
-												'class'	=> ''
-											),
-										'name'		=> '',
-										'group'		=> $this->_id ? $this->_id : null,
-										'options'	=> array(
-
-											),
-										'default'	=> ''
-									);
 
 						$field = wp_parse_args( $field, $default );
 

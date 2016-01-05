@@ -189,7 +189,7 @@ body {
     color: #fff;
 }
 .campaign_details{
-    padding: 10px 15px;
+    padding: 10px 15px 0px 10px;
     font-size: 12px;
     color: #666;
 }
@@ -235,13 +235,22 @@ body {
     margin-bottom: 10px;
     text-transform: uppercase;
     text-align: center;
+    margin: 0;
+    line-height: 1;
+}
+#donate_hidden .description{
+    font-size: 18px;
+    text-align: center;
+    /* margin-bottom: 0; */
+    line-height: 1;
+    margin: 8px 0;
 }
 #donate_hidden .donate_form{
     padding: 0 10px;
     overflow: hidden;
 }
 #donate_hidden .donate_compensates,
-#donate_hidden .donate_dornor_info,
+#donate_hidden .donate_donor_info,
 #donate_hidden .donate_payment_method,
 #donate_hidden .donate_form_footer{
     width: 100%;
@@ -258,12 +267,12 @@ body {
     list-style: none;
 }
 .donate_compensates .donate_amount_group,
-.donate_dornor_info .donate_field label{
+.donate_donor_info .donate_field label{
     font-weight: 500;
     font-size: 18px;
 }
-.donate_dornor_info .donate_amount_group:hover,
-.donate_dornor_info .donate_payment_method label:hover{
+.donate_donor_info .donate_amount_group:hover,
+.donate_donor_info .donate_payment_method label:hover{
     cursor: pointer;
 }
 .donate_compensates li p{
@@ -303,10 +312,10 @@ body {
 .donate_form_layout{
     overflow: hidden;
 }
-.donate_dornor_info .donate_form_footer.center{
+.donate_donor_info .donate_form_footer.center{
     text-align: center;
 }
-.donate_dornor_info .donate_submit{
+.donate_donor_info .donate_submit{
     background-color: #020202;
     color: #fdfffd;
     transition: all 0.3s;
@@ -315,28 +324,28 @@ body {
     -o-transition: all 0.3s;
     -ms-transition: all 0.3s;
 }
-.donate_dornor_info .donate_submit:hover{
+.donate_donor_info .donate_submit:hover{
     color: #ecb338;
     background-color: #9C8686;
 }
-#donate_hidden .donate_dornor_info{
+#donate_hidden .donate_donor_info{
     margin-left: -10px;
     margin-right: -10px;
     width: auto;
 }
-.donate_dornor_info h3{
+.donate_donor_info h3{
     text-align: center;
 }
-.donate_dornor_info .donate_field{
+.donate_donor_info .donate_field{
     width: 50%;
     float: left;
     padding: 10px;
 }
-.donate_dornor_info .donate_field label{
+.donate_donor_info .donate_field label{
     font-size: 15px;
 }
-.donate_dornor_info .donate_field > input,
-.donate_dornor_info .donate_field > textarea{
+.donate_donor_info .donate_field > input,
+.donate_donor_info .donate_field > textarea{
     width: 100%;
     font-size: 12px;
     padding: 8px;
@@ -484,6 +493,7 @@ body {
 }
 .donate_items_content{
     display: none;
+    overflow: hidden;
     transition: all 0.3s;
     -moz-transition: all 0.3s;
     -o-transition: all 0.3s;
@@ -510,6 +520,9 @@ body {
     background-color: #BC9FEA;
     text-align: left;
 }
+.donate_items_content ul li a{
+    color: #000;
+}
 .donate_items_content ul li img{
     width: 50px;
     height: auto;
@@ -532,14 +545,25 @@ body {
 }
 .campaign_raised.campaign_goal_raised {
     border-right: 1px solid #ae8ce4;
-    padding-top: 10px;
+    padding: 10px 0;
+    border-bottom: 2px solid #ae8ce4;
 }
 .campaign_goal.campaign_goal_raised {
     border-left: 1px solid #ae8ce4;
-    padding-top: 10px;
+    border-bottom: 2px solid #ae8ce4;
+    padding: 10px 0;
 }
 .donate_campaign_goal_raised > div{
     width: 50%;
+    float: left;
+}
+.donate_campaign_posted{
+    padding: 10px 0;
+}
+.donate_campaign_posted > div{
+    text-align: right;
+}
+.donate_campaign_posted > div label{
     float: left;
 }
 .donate_counter{

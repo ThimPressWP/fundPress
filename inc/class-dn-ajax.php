@@ -42,41 +42,65 @@ class DN_Ajax
 		if( ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], 'thimpress_donate_nonce' ) )
 			return;
 
-		if( ! isset( $_POST[ 'campaign_id' ] ) || ! is_numeric( $_POST[ 'campaign_id' ] ) )
-			return;
-
-		$campaign = get_post( $_POST[ 'campaign_id' ] );
-
-		if( ! $campaign || $campaign->post_type !== 'dn_campaign' )
-			return;
-
-		$campaign_id = $campaign->ID;
-		$campaign = DN_Campaign::instance( $campaign );
-
-		$compensates = array();
-		$currency = $campaign->get_currency();
-
-		if( $eachs = $campaign->get_compensate() )
-		{
-			foreach ( $eachs as $key => $compensate ) {
-				/**
-				 * convert campaign amount currency to amount with currency setting
-				 * @var
-				 */
-				$amount = donate_campaign_convert_amount( $compensate['amount'], $currency );
-				$compensates[ $key ] = array(
-						'amount'		=> donate_price( $amount ),
-						'desc'			=> $compensate['desc']
-					);
-			}
-		}
-
+		/**
+		 * load form with campaign ID
+		 */
 		$payments = array();
-
-		// load payments when checkout on lightbox setting isset yes
-		if( DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) === 'yes' )
+		$payment_enable = donate_payments_enable();
+		if( isset( $_POST[ 'campaign_id' ] ) && is_numeric( $_POST[ 'campaign_id' ] ) )
 		{
-			$payment_enable = donate_payments_enable();
+			$campaign = get_post( $_POST[ 'campaign_id' ] );
+
+			if( ! $campaign || $campaign->post_type !== 'dn_campaign' )
+			{
+				wp_send_json( array( 'status' => 'failed', 'message' => __( 'Campaign is not exists in our system.', 'tp-donate' ) ) );
+			}
+
+			$campaign_id = $campaign->ID;
+			$campaign = DN_Campaign::instance( $campaign );
+
+			$compensates = array();
+			$currency = $campaign->get_currency();
+
+			if( $eachs = $campaign->get_compensate() )
+			{
+				foreach ( $eachs as $key => $compensate ) {
+					/**
+					 * convert campaign amount currency to amount with currency setting
+					 * @var
+					 */
+					$amount = donate_campaign_convert_amount( $compensate['amount'], $currency );
+					$compensates[ $key ] = array(
+							'amount'		=> donate_price( $amount ),
+							'desc'			=> $compensate['desc']
+						);
+				}
+			}
+
+			// load payments when checkout on lightbox setting isset yes
+			if( DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) === 'yes' )
+			{
+				foreach( $payment_enable as $key => $payment )
+				{
+					$payments[] = array(
+							'id'		=> $payment->_id,
+							'title'		=> $payment->_title,
+							'icon'		=> $payment->_icon
+						);
+				}
+			}
+
+			$results = array(
+				'status'		=> 'success',
+				'campaign_id'	=> $campaign->ID,
+				'campaign_title'=> get_the_title( $campaign->ID ),
+				'compensates'	=> $compensates,
+				'currency'		=> donate_get_currency_symbol(),
+				'payments'		=> $payments // list payment allow
+			);
+		}
+		else // load form donate now button
+		{
 			foreach( $payment_enable as $key => $payment )
 			{
 				$payments[] = array(
@@ -85,17 +109,19 @@ class DN_Ajax
 						'icon'		=> $payment->_icon
 					);
 			}
+
+			$results = array(
+				'status'		=> 'success',
+				'campaign_title'=> apply_filters( 'donate_form_title_without_campaign', sprintf( '%s - %s', get_bloginfo( 'name' ), get_bloginfo( 'description' ) ) ),
+				'currency'		=> donate_get_currency_symbol(),
+				'allow_payment'	=> true,
+				'donate_system'	=> true,
+				'payments'		=> $payments // list payment allow
+			);
 		}
 
-		wp_send_json( array(
-
-				'status'		=> 'success',
-				'campaign_id'	=> $campaign->ID,
-				'compensates'	=> $compensates,
-				'currency'		=> donate_get_currency_symbol(),
-				'payments'		=> $payments // list payment allow
-
-			));
+		$results = apply_filters( 'donate_load_form_donate_results', $results );
+		wp_send_json( $results );
 	}
 
 	/**
@@ -112,18 +138,24 @@ class DN_Ajax
 			wp_send_json( array( 'status' => 'failed', 'message' => array( __( 'Could not do action.', 'tp-donate' ) ) ) );
 
 		/************** NEW SCRIPT **************/
-		// update cart
+		// update cart.
+		// errors array
+		$errors = array();
+		// if isset campaign_id when click donate
+
+		$amount = 0;
+		if( isset( $_POST[ 'donate_input_amount' ] ) )
+		{
+			$amount = sanitize_text_field( $_POST[ 'donate_input_amount' ] );
+		}
+
 		if( isset( $_POST[ 'campaign_id' ] ) && is_numeric( $_POST[ 'campaign_id' ] ) )
 		{
 			// get campaign
 			$campaign = get_post( $_POST[ 'campaign_id' ] );
 
 			if( ! $campaign || $campaign->post_type !== 'dn_campaign' )
-				return;
-
-			$amount = 0;
-			if( isset( $_POST[ 'donate_input_amount' ] ) )
-				$amount = sanitize_text_field( $_POST[ 'donate_input_amount' ] );
+				$errors[] = __( 'Campaign is invalid.', 'tp-donate' );
 
 			if( ! $amount && isset( $_POST[ 'donate_input_amount_package' ] ) )
 			{
@@ -140,12 +172,12 @@ class DN_Ajax
 			}
 
 			/**
-			 * donate 0 currency
+			 * donate 0 amount
 			 * @var
 			 */
 			if( $amount == 0 )
 			{
-				wp_send_json( array( 'status' => 'failed', 'message' => sprintf( '%s %s', __( 'Can not donate amount zero point', 'tp-donate' ), donate_price( 0 ) ) ) ); die();
+				$errors[] = sprintf( '%s %s', __( 'Can not donate amount zero point.', 'tp-donate' ), donate_price( 0 ) );
 			}
 			// add to cart param
 			$cart_params = apply_filters( 'donate_add_to_cart_item_params', array(
@@ -155,55 +187,108 @@ class DN_Ajax
 
 				) );
 
-			$cart_item_id = donate()->cart->add_to_cart( $campaign->ID, $cart_params, 1, $amount );
-
-			if( ! $cart_item_id || is_wp_error( $cart_item_id ) )
+			// failed if errors is not empty
+			if( ! empty( $errors ) )
 			{
-				wp_send_json( array( 'status' => 'failed', 'message' => __( 'Something went wrong, could not add to cart item. Please try again', 'tp-donate' ) ) ); die();
+				wp_send_json( array( 'status' => 'failed', 'message' => $errors ) );
+			}
+			else
+			{
+				// add to cart
+				$cart_item_id = donate()->cart->add_to_cart( $campaign->ID, $cart_params, 1, $amount );
+
+				if( ! $cart_item_id || is_wp_error( $cart_item_id ) )
+				{
+					// failed
+					wp_send_json( array( 'status' => 'failed', 'message' => __( 'Something went wrong, could not add to cart item. Please try again.', 'tp-donate' ) ) );
+				}
 			}
 		}
+		// end update cart
 
 		// process checkout
 		if( isset( $_POST[ 'payment_process' ] ) && $_POST[ 'payment_process' ] )
 		{
+			$donate_system = false;
+			if( isset( $_POST[ 'donate_system' ] ) && $_POST[ 'donate_system' ] == 1 )
+			{
+				$donate_system = true;
+			}
+
+			/**
+			 * donate 0 amount
+			 * @var
+			 */
+			if( ( $donate_system === false && DN_Cart::instance()->cart_total == 0 ) || ( $donate_system === false  && $amount <= 0 ) )
+			{
+				$errors[] = sprintf( '%s %s', __( 'Can not donate amount zero point.', 'tp-donate' ), donate_price( 0 ) );
+			}
+
 			// terms and conditions
 			$term_enable = DN_Settings::instance()->checkout->get( 'term_condition', 'yes' );
+
 			if( $term_enable === 'yes' )
 			{
 				if( ! isset( $_POST[ 'term_condition' ] ) || ! $_POST[ 'term_condition' ] )
-					wp_send_json( array( 'status' => 'failed', 'message' => array( __( 'Terms and Contidions invalid.', 'tp-donate' ) ) ) );
+					$errors[] = __( 'Terms and Contidions is require field.', 'tp-donate' );
 			}
+
+			// address is field is require
+			if( ! isset( $_POST[ 'address' ] ) || ! $_POST[ 'address' ] )
+				$errors[] = __( 'Please fill in the Address require field.', 'tp-donate' );
 
 			// payments method
 			$payments = donate_payments_enable();
 
 			// payment method is invalid
 			if( ! isset( $_POST['payment_method'] ) || ! $_POST['payment_method'] || ! array_key_exists( $_POST['payment_method'], $payments ) )
-				wp_send_json( array( 'status' => 'failed', 'message' => __( 'Invalid payment method. Please try again.', 'tp-donate' ) ) );
+				$errors[] = __( 'Invalid payment method. Please try again.', 'tp-donate' );
 
-			// payment method
-			$payment_method = sanitize_text_field( $_POST['payment_method'] );
+			// failed if errors is not empty
+			if( ! empty( $errors ) )
+			{
+				$results = array( 'status' => 'failed', 'message' => $errors );
+			}
+			else
+			{
+				// payment method
+				$payment_method = sanitize_text_field( $_POST['payment_method'] );
 
-			$params = array(
-					'first_name'		=> isset( $_POST['first_name'] ) ? sanitize_text_field( $_POST['first_name'] ) : __( 'No First Name', 'tp-donate' ),
-					'last_name'			=> isset( $_POST['last_name'] ) ? sanitize_text_field( $_POST['last_name'] ) : __( 'No Last Name', 'tp-donate' ),
-					'email'				=> isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : false,
-					'phone'				=> isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '',
-					'address'			=> isset( $_POST['address'] ) ? sanitize_text_field( $_POST['address'] ) : ''
-				);
-			// addtion note
-			$addition_note	= isset( $_POST['addition_note'] ) ? sanitize_text_field( $_POST['addition_note'] ) : '';
+				$params = array(
+						'first_name'		=> isset( $_POST['first_name'] ) 	? sanitize_text_field( $_POST['first_name'] ) 	: __( 'No First Name', 'tp-donate' ),
+						'last_name'			=> isset( $_POST['last_name'] ) 	? sanitize_text_field( $_POST['last_name'] ) 	: __( 'No Last Name', 'tp-donate' ),
+						'email'				=> isset( $_POST['email'] ) 		? sanitize_text_field( $_POST['email'] ) 		: false,
+						'phone'				=> isset( $_POST['phone'] ) 		? sanitize_text_field( $_POST['phone'] ) 		: '',
+						'address'			=> isset( $_POST['address'] ) 		? sanitize_text_field( $_POST['address'] ) 		: ''
+					);
 
-			// alow hook to submit param donor
-			$params = apply_filters( 'donate_ajax_submit_donor', $params );
+				// alow hook to submit param donor
+				$params = apply_filters( 'donate_ajax_submit_donor', $params );
+				// addtional note
+				$addition_note	= isset( $_POST['addition_note'] ) ? sanitize_text_field( $_POST['addition_note'] ) : '';
 
-			$checkout = new DN_Checkout();
-			// send json
-			wp_send_json( $checkout->process_checkout( $params, $payment_method, $addition_note ) ); die();
+				$checkout = new DN_Checkout();
+
+				// send json
+				if( $donate_system === false )
+				{
+					// donate for campaign
+					$results = $checkout->process_checkout( $params, $payment_method, $addition_note );
+				}
+				else
+				{
+					// donate for system
+					$results = $checkout->process_checkout( $params, $payment_method, $addition_note, $amount );
+				}
+			}
+			// send results
+			wp_send_json( $results );
+
 		}
+		// end process checkout
 
 		// failed
-		wp_send_json( array( 'status' => 'success', 'url' => donate_redirect_url() ) ); die();
+		wp_send_json( array( 'status' => 'success', 'url' => donate_redirect_url() ) );
 		/************** END NEW SCRIPT **************/
 
 	}

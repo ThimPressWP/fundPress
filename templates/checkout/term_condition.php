@@ -13,7 +13,6 @@
 		<input type="checkbox" name="term_condition" value="1" id="term_condition"/>
 		<label for="term_condition">
 			<?php _e( 'Terms & Conditions', 'tp-donate' ); ?>
-			<!-- <a href="<?php //echo esc_attr( donate_term_condition_url() ) ?>"><?php //_e( 'Terms & Conditions', 'tp-donate' ); ?></a> -->
 		</label>
 
 	</div>

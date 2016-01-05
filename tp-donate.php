@@ -24,6 +24,7 @@ define( 'TP_DONATE_VER', 1.0 );
 define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
 define( 'TP_DONATE_META_DONATE', 'thimpress_donate_' );
 define( 'TP_DONATE_META_CAMPAGIN', 'thimpress_campaign_' );
+define( 'TP_DONATE_SYSTEM_AMOUNT', 'thimpress_donate_system' );
 
 /**
  * Donate class
@@ -58,8 +59,12 @@ class ThimPress_Donate
 	 */
 	public $cart = null;
 
+	// instance
+	static $instance = null;
+
 	function __construct()
 	{
+
 		$this->includes();
 
 		$GLOBALS[ 'dn_settings' ] = $this->options = DN_Settings::instance();
@@ -295,6 +300,24 @@ class ThimPress_Donate
 		return DN_Settings::instance();
 	}
 
+	static function instance()
+	{
+		if( ! self::$instance )
+		{
+			return self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
 }
 
-new ThimPress_Donate();
+ThimPress_Donate::instance();
+
+if( ! function_exists( 'donate' ) )
+{
+	function donate()
+	{
+		return ThimPress_Donate::instance();
+	}
+}

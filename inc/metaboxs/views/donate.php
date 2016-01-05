@@ -1,18 +1,19 @@
 <?php $cart_contents = $this->get_field_value( 'cart_contents' ); ?>
+<?php global $post; ?>
+<?php $donation = DN_Donate::instance( $post->ID ) ?>
 
-<table>
-	<thead>
-		<tr>
-			<th><?php _e( 'Campaign ID', 'tp-donate' ); ?></th>
-			<th><?php _e( 'Campaign Title', 'tp-donate' ); ?></th>
-			<th><?php _e( 'Compensate', 'tp-donate' ); ?></th>
-			<th><?php _e( 'Donation amount', 'tp-donate' ); ?></th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php $currency = donate_get_currency(); ?>
-		<?php if( $cart_contents ): ?>
-
+<?php if( $cart_contents ): ?>
+	<table>
+		<thead>
+			<tr>
+				<th><?php _e( 'Campaign ID', 'tp-donate' ); ?></th>
+				<th><?php _e( 'Campaign Title', 'tp-donate' ); ?></th>
+				<th><?php _e( 'Compensate', 'tp-donate' ); ?></th>
+				<th><?php _e( 'Donation amount', 'tp-donate' ); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $currency = donate_get_currency(); ?>
 			<?php foreach( $cart_contents as $cart_item_key => $cart_content ) : ?>
 				<tr>
 					<td>
@@ -56,6 +57,23 @@
 					</a>
 				</td>
 			</tr>
-		<?php endif; ?>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+
+<?php elseif ( $donation->get_meta( 'donate_amount_system' ) ) : ?>
+
+	<table>
+		<tbody>
+			<tr>
+				<th>
+					<?php _e( 'Donate for system', 'tp-donate' ); ?>
+				</th>
+				<td>
+					<?php echo donate_price( $donation->get_meta( 'total' ), $donation->get_meta( 'currency' ) ) ?>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+<?php endif; ?>

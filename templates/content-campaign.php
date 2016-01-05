@@ -44,15 +44,21 @@
 
 				/**
 				 * donate_loop_campaign_countdown
-				 * <!-- Description Campaign -->
+				 * <!-- Countdown Campaign -->
 				 */
 				do_action( 'donate_loop_campaign_countdown' );
 
 				/**
-				 * donate_single_campaign_content hook
-				 * <!-- Description Campaign -->
+				 * donate_loop_campaign_goal_raised hook
+				 * <!-- Goal and Raised Campaign -->
 				 */
 				do_action( 'donate_loop_campaign_goal_raised' );
+
+				/**
+				 * donate_loop_campaign_posted hook
+				 * <!-- Posted Campaign -->
+				 */
+				do_action( 'donate_loop_campaign_posted' );
 			?>
 
 		</div>

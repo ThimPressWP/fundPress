@@ -1,11 +1,4 @@
 <?php
-if( ! function_exists( 'donate' ) )
-{
-	function donate()
-	{
-		return new ThimPress_Donate();
-	}
-}
 
 if( ! function_exists( 'donate_get_template' ) )
 {

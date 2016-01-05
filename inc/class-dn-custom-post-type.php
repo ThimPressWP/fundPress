@@ -36,8 +36,8 @@ class DN_Post_Type
 	 */
 	function add_columns( $columns )
 	{
-		$columns[ 'donate_payment_method' ] = sprintf( '%s', __( 'Payment Method', 'tp-donate' ) );
-		$columns[ 'donate_status' ] = sprintf( '%s', __( 'Status', 'tp-donate' ) );
+		$columns[ 'donate_payment_method' ] = apply_filters( 'donate_add_column_donate_payment_method', sprintf( '%s', __( 'Payment Method', 'tp-donate' ) ) );
+		$columns[ 'donate_status' ] = apply_filters( 'donate_add_column_donate_status', sprintf( '%s', __( 'Status', 'tp-donate' ) ) );
 		return $columns;
 	}
 
@@ -94,6 +94,7 @@ class DN_Post_Type
 			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
 		);
 
+		$args = apply_filters( 'donate_register_post_type_campaign', $args );
 		register_post_type( 'dn_campaign', $args );
 	}
 
@@ -137,6 +138,7 @@ class DN_Post_Type
 			'map_meta_cap' => true
 		);
 
+		$args = apply_filters( 'donate_register_post_type_donate', $args );
 		register_post_type( 'dn_donate', $args );
 	}
 
@@ -180,6 +182,7 @@ class DN_Post_Type
 			'map_meta_cap' => true
 		);
 
+		$args = apply_filters( 'donate_register_post_type_donor', $args );
 		register_post_type( 'dn_donor', $args );
 	}
 
@@ -210,6 +213,7 @@ class DN_Post_Type
 			'rewrite'           => array( 'slug' => 'campaign_cat' ),
 		);
 
+		$args = apply_filters( 'donate_register_tax_capaign_cat', $args );
 		register_taxonomy( 'dn_campaign_cat', array( 'dn_campaign' ), $args );
 
 		// Add new taxonomy, make it hierarchical (like tags)
@@ -236,6 +240,7 @@ class DN_Post_Type
 			'rewrite'           => array( 'slug' => 'campaign_tag' ),
 		);
 
+		$args = apply_filters( 'donate_register_tax_capaign_tag', $args );
 		register_taxonomy( 'dn_campaign_tag', array( 'dn_campaign' ), $args );
 	}
 
@@ -244,7 +249,7 @@ class DN_Post_Type
 		/**
 		 * pending payment
 		 */
-		register_post_status( 'donate-pending', array(
+		$args = apply_filters( 'donate_register_post_status_pending', array(
 			'label'                     => _x( 'Pending', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -252,11 +257,12 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
 		) );
+		register_post_status( 'donate-pending', $args );
 
 		/**
 		 * pending payment
 		 */
-		register_post_status( 'donate-processing', array(
+		$args = apply_filters( 'donate_register_post_status_processing', array(
 			'label'                     => _x( 'Processing', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -264,11 +270,12 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>' ),
 		) );
+		register_post_status( 'donate-processing', $args );
 
 		/**
 		 * pending payment
 		 */
-		register_post_status( 'donate-completed', array(
+		$args = apply_filters( 'donate_register_post_status_completed', array(
 			'label'                     => _x( 'Completed', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -276,6 +283,7 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>' ),
 		) );
+		register_post_status( 'donate-completed', $args );
 	}
 
 }

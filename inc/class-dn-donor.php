@@ -36,14 +36,14 @@ class DN_Donor extends DN_Post_Base
 	}
 
 	/**
-	 * dornor_exists
+	 * donor_exists
 	 * @param string email
 	 * @return boolean
 	 */
-	function dornor_exists( $email = null )
+	function donor_exists( $email = null )
 	{
 		if( ! $email )
-			return new WP_Error( 'donate_create_donor', __( 'Can not create new dornor with empty email', 'tp-donate' ) );
+			return new WP_Error( 'donate_create_donor', __( 'Could not create new donor with empty email.', 'tp-donate' ) );
 
 		global $wpdb;
 		$query = $wpdb->prepare("
@@ -69,28 +69,32 @@ class DN_Donor extends DN_Post_Base
 	function create_donor( $param = null )
 	{
 		if( ! $param )
-			return new WP_Error( 'donate_create_dornor', __( 'Can not create new dornor', 'tp-donate' ) );
+			return new WP_Error( 'donate_create_donor', __( 'Could not create new donor.', 'tp-donate' ) );
 
-		if( $dornor_id = $this->dornor_exists( $param['email'] ) )
+		if( $donor_id = $this->donor_exists( $param['email'] ) )
 		{
-			return $dornor_id;
+			return $donor_id;
 		}
 		else
 		{
-			$dornor_id = $this->create_post(array(
-					'post_title' 		=> sprintf( '%s %s', $param['first_name'], $param['last_name'] ),
+			$donor_id = $this->create_post( array(
+					'post_title' 		=> 	sprintf( '%s %s', $param['first_name'], $param['last_name'] ),
 					'post_content'	 	=>	sprintf( '%s', $param[ 'email' ] ),
 					'post_exceprt'	 	=>	sprintf( '%s', $param[ 'email' ] )
-				));
+				) );
 
 			foreach ( $param as $meta_key => $value ) {
-				add_post_meta( $dornor_id, $this->meta_prefix . $meta_key, $value );
+				add_post_meta( $donor_id, $this->meta_prefix . $meta_key, $value );
 			}
 		}
 
-		return $dornor_id;
+		return $donor_id;
 	}
 
+	/**
+	 * get all donated of donor
+	 * @return posts
+	 */
 	function get_donated()
 	{
 		$args = array(

@@ -67,6 +67,18 @@ if( ! function_exists( 'donate_loop_campaign_goal_raised' ) )
 }
 
 /**
+ * posted
+ */
+add_action( 'donate_loop_campaign_posted', 'donate_loop_campaign_posted' );
+if( ! function_exists( 'donate_loop_campaign_posted' ) )
+{
+	function donate_loop_campaign_posted()
+	{
+		donate_get_template( 'loop/posted.php' );
+	}
+}
+
+/**
  * content
  */
 add_action( 'donate_loop_campaign_excerpt', 'donate_loop_campaign_excerpt' );

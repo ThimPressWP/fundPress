@@ -167,12 +167,22 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             );
     }
 
+    /**
+     * get_item_name
+     * @return string
+     */
     function get_item_name()
     {
-        $cart_items = donate()->cart->cart_contents;
         $description = array();
-        foreach ( $cart_items as $cart_item_key => $cart_item ) {
-            $description[] = sprintf( '%s(%s)', $cart_item->product_data->post_title, donate_price( $cart_item->amount, $cart_item->currency ) );
+        if ( $cart_items = donate()->cart->cart_contents )
+        {
+            foreach ( $cart_items as $cart_item_key => $cart_item ) {
+                $description[] = sprintf( '%s(%s)', $cart_item->product_data->post_title, donate_price( $cart_item->amount, $cart_item->currency ) );
+            }
+        }
+        else
+        {
+            $description[] = sprintf( '%s %s - %s', __( 'Donate for', 'tp-donate' ), get_bloginfo( 'name' ), get_bloginfo( 'description' ) );
         }
 
         return implode( ',', $description );
@@ -192,9 +202,17 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
         $email = DN_Donor::instance( $cart->donor_id )->get_meta( 'email' );
 
+        $total = $cart->cart_total;
+        if( ! $total )
+        {
+            $donation = DN_Donate::instance( $cart->donate_id );
+            $total = (float) $donation->get_meta( 'total' );
+        }
+
+        // query post
         $query = array(
             'cmd'           => '_xclick',
-            'amount'        => $cart->cart_total,
+            'amount'        => $total,
             'quantity'      => '1',
             'business'      => $this->paypal_email, // business email paypal
             'item_name'     => $this->get_item_name(),
@@ -222,7 +240,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         {
             return array(
                 'status'        => 'failed',
-                'message'       => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.' )
+                'message'       => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'tp-donate' )
             );
         }
         return array(

@@ -20,14 +20,6 @@
 
 			// load percent
 			this.generate_percent();
-
-			// donate system anywhere
-			this.donate_system_form();
-		},
-
-		donate_system_form: function()
-		{
-
 		},
 
 		/**
@@ -39,28 +31,31 @@
 			/*
 			 * load form on click
 			 */
-			$( document ).on( 'click', '.donate_load_form', function(event){
+			$( document ).on( 'click', '.donate_load_form, .donate_button_title', function( event ){
 				event.preventDefault();
 
 				var _self = $(this),
-					_campaign_id = _self.attr( 'data-campaign-id' );
+					_campaign_id = _self.attr( 'data-campaign-id' ),
+					_data = {
+						action: 'donate_load_form',
+						nonce: thimpress_donate.nonce
+					};
+
+				if( typeof _campaign_id !== 'undefined' )
+				{
+					_data.campaign_id = _campaign_id;
+				}
 
 				$.ajax({
 					url: thimpress_donate.ajaxurl,
 					type: 'POST',
-					data: {
-						action: 'donate_load_form',
-						nonce: thimpress_donate.nonce,
-						campaign_id: _campaign_id
-					},
+					data: _data,
 					beforeSend: function()
 					{
 						TP_Donate_Global.beforeAjax();
-						// DONATE_Site.beforeAjax();
 					}
 				}).done( function( res ){
 					TP_Donate_Global.afterAjax();
-					// DONATE_Site.afterAjax();
 
 					if( typeof res.status !== 'undefined' && res.status === 'success' )
 					{

@@ -170,8 +170,15 @@ class DN_Payment_Stripe extends DN_Payment_Base{
             $donor->set_meta( 'stripe_id', $customer_id );
         }
 
+        $total = $cart->cart_total;
+        if( ! $total )
+        {
+            $donation = DN_Donate::instance( $cart->donate_id );
+            $total = (float) $donation->get_meta( 'total' );
+        }
+
         $params = array(
-                'amount'        => $cart->cart_total * 100,
+                'amount'        => $total * 100,
                 'currency'      => donate_get_currency(),
                 'customer'      => $customer_id,
                 'description'   => sprintf(
