@@ -6,7 +6,10 @@ class DN_Email
 
 	function __construct()
 	{
-		add_action( 'init', array( $this, 'init' ) );
+		if( $this->is_enable() )
+		{
+			add_action( 'init', array( $this, 'init' ) );
+		}
 	}
 
 	function init()
@@ -42,6 +45,9 @@ class DN_Email
 	// send email donate completed
 	function send_email_donate_completed( $donor = null )
 	{
+		if( $this->is_enable() !== true )
+			return;
+
 		// email template
 		$email_template = DN_Settings::instance()->email->get( 'email_template' );
 		if( $email = $donor->get_meta( 'email' ) && $email_template )
@@ -77,6 +83,14 @@ class DN_Email
 			// 	fclose($fo);die();
 			// }
 			wp_mail( $to, $subject, $body, $headers );
+		}
+	}
+
+	function is_enable()
+	{
+		if( DN_Settings::instance()->email->get( 'enable', 'yes' ) === 'yes' )
+		{
+			return true;
 		}
 	}
 
