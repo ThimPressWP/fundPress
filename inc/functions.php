@@ -755,3 +755,45 @@ if( ! function_exists( 'donate_get_status' ) )
 		return apply_filters( 'donate_get_status', $status );
 	}
 }
+
+if( ! function_exists( 'donate_amount_system' ) )
+{
+	/**
+	 * donate_amount_system
+	 * @return total donate amount for system without campaign
+	 */
+	function donate_amount_system()
+	{
+		global $wpdb;
+
+		$query = $wpdb->prepare("
+				SELECT donate_system.meta_value AS amount, donate_cyrrency.meta_value AS currency
+				FROM $wpdb->postmeta AS donate_system
+				INNER JOIN $wpdb->posts AS donation ON donation.ID = donate_system.post_id
+				INNER JOIN $wpdb->postmeta AS donate_cyrrency ON donate_cyrrency.post_id = donation.ID
+				WHERE
+					donation.post_type = %s
+					AND donation.post_status = %s
+					AND donate_system.meta_key = %s
+					AND donate_cyrrency.meta_key = %s
+				HAVING amount > 0
+			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'amount_system', TP_DONATE_META_DONATE . 'currency' );
+
+		if( $results = $wpdb->get_results( $query ) )
+		{
+			$total = 0;
+			foreach ( $results as $key => $donate ) {
+
+				if( ! $donate->amount )
+					continue;
+
+				$currency = $donate->currency;
+				if( ! $currency )
+					$currency = donate_get_currency();
+
+				$total = $total + donate_campaign_convert_amount( $donate->amount, $currency );
+			}
+			return $total;
+		}
+	}
+}

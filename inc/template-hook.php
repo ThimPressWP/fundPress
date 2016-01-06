@@ -11,14 +11,14 @@ if( ! function_exists( 'donate_the_content' ) )
 		return do_shortcode( $content );
 	}
 }
-
+/*******Archive Template*******/
 /**
  * title
  */
-add_action( 'donate_single_campaign_title', 'donate_single_campaign_title' );
-if( ! function_exists( 'donate_single_campaign_title' ) )
+add_action( 'donate_loop_campaign_title', 'donate_loop_campaign_title' );
+if( ! function_exists( 'donate_loop_campaign_title' ) )
 {
-	function donate_single_campaign_title()
+	function donate_loop_campaign_title()
 	{
 		donate_get_template( 'loop/title.php' );
 	}
@@ -27,10 +27,10 @@ if( ! function_exists( 'donate_single_campaign_title' ) )
 /**
  * thumbnai
  */
-add_action( 'donate_single_campaign_thumbnail', 'donate_single_campaign_thumbnail' );
-if( ! function_exists( 'donate_single_campaign_thumbnail' ) )
+add_action( 'donate_loop_campaign_thumbnail', 'donate_loop_campaign_thumbnail' );
+if( ! function_exists( 'donate_loop_campaign_thumbnail' ) )
 {
-	function donate_single_campaign_thumbnail()
+	function donate_loop_campaign_thumbnail()
 	{
 		donate_get_template( 'loop/thumbnail.php' );
 	}
@@ -79,7 +79,7 @@ if( ! function_exists( 'donate_loop_campaign_posted' ) )
 }
 
 /**
- * content
+ * excerpt loop
  */
 add_action( 'donate_loop_campaign_excerpt', 'donate_loop_campaign_excerpt' );
 if( ! function_exists( 'donate_loop_campaign_excerpt' ) )
@@ -91,16 +91,91 @@ if( ! function_exists( 'donate_loop_campaign_excerpt' ) )
 }
 
 /**
- * content
+ * content loop
+ */
+add_action( 'donate_loop_campaign_content', 'donate_loop_campaign_content' );
+if( ! function_exists( 'donate_loop_campaign_content' ) )
+{
+	function donate_loop_campaign_content()
+	{
+		donate_get_template( 'loop/content.php' );
+	}
+}
+/*******End Archive Template*******/
+
+/*******Single Template*******/
+/**
+ * title
+ */
+add_action( 'donate_single_campaign_title', 'donate_single_campaign_title' );
+if( ! function_exists( 'donate_single_campaign_title' ) )
+{
+	function donate_single_campaign_title()
+	{
+		donate_get_template( 'single/title.php' );
+	}
+}
+
+/**
+ * thumbnai
+ */
+add_action( 'donate_single_campaign_thumbnail', 'donate_single_campaign_thumbnail' );
+if( ! function_exists( 'donate_single_campaign_thumbnail' ) )
+{
+	function donate_single_campaign_thumbnail()
+	{
+		donate_get_template( 'single/thumbnail.php' );
+	}
+}
+
+/**
+ * countdown
+ */
+add_action( 'donate_single_campaign_countdown', 'donate_single_campaign_countdown' );
+if( ! function_exists( 'donate_single_campaign_countdown' ) )
+{
+	function donate_single_campaign_countdown()
+	{
+		donate_get_template( 'single/countdown.php' );
+	}
+}
+
+/**
+ * goal and raised
+ */
+add_action( 'donate_single_campaign_goal_raised', 'donate_single_campaign_goal_raised' );
+if( ! function_exists( 'donate_single_campaign_goal_raised' ) )
+{
+	function donate_single_campaign_goal_raised()
+	{
+		donate_get_template( 'single/goal_raised.php' );
+	}
+}
+
+/**
+ * posted
+ */
+add_action( 'donate_single_campaign_posted', 'donate_single_campaign_posted' );
+if( ! function_exists( 'donate_single_campaign_posted' ) )
+{
+	function donate_single_campaign_posted()
+	{
+		donate_get_template( 'single/posted.php' );
+	}
+}
+
+/**
+ * content loop
  */
 add_action( 'donate_single_campaign_content', 'donate_single_campaign_content' );
 if( ! function_exists( 'donate_single_campaign_content' ) )
 {
 	function donate_single_campaign_content()
 	{
-		donate_get_template( 'loop/content.php' );
+		donate_get_template( 'single/content.php' );
 	}
 }
+/*******End Single Template*******/
 
 add_filter( 'the_post', 'donate_get_camgain_amount' );
 if( ! function_exists( 'donate_get_camgain_amount' ) )

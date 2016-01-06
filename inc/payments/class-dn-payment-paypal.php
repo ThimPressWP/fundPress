@@ -57,7 +57,8 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
             if( $_GET[ 'donate-paypal-payment' ] === 'completed' )
             {
-                donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'tp-donate' ) );
+                $this->completed_process_message();
+
                 DN_Cart::instance()->remove_cart();
             }
             else if( $_GET[ 'donate-paypal-payment' ] === 'cancel' )

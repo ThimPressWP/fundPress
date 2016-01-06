@@ -155,4 +155,13 @@ abstract class DN_Payment_Base
 		echo implode( '' , $html );
 	}
 
+	/**
+	 * add notice message completed when payment completed
+	 * @return null
+	 */
+	public function completed_process_message()
+	{
+		donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'tp-donate' ) );
+	}
+
 }

@@ -195,6 +195,9 @@ class DN_Payment_Stripe extends DN_Payment_Base{
             $donate = DN_Donate::instance( $cart->donate_id );
             $donate->update_status( 'donate-completed' );
 
+            // notice message completed
+            $this->completed_process_message();
+
             $return = array(
                 'status'    => 'success',
                 'url'       => donate_checkout_url()
@@ -293,13 +296,15 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         });
 
                         var first_name = form.find('input[name="first_name"]').val().trim();
-                        var last_name = form.find('input[name="last_name"]').val().trim();
-                        var email = form.find('input[name="email"]').val().trim();
+                            last_name = form.find('input[name="last_name"]').val().trim(),
+                            email = form.find('input[name="email"]').val().trim(),
 
-                        var amount_hidden = form.find('input[name="amount"]');
-                        var amount = 0;
-                        var custom = $('input[name="donate_input_amount"]').val();
-                        var _package = $( 'input[name="donate_input_amount_package"]:checked' ).val();
+                            amount_hidden = form.find('input[name="amount"]'),
+                            amount = 0,
+                            custom = form.find('input[name="donate_input_amount"]').val(),
+                            _package = form.find( 'input[name="donate_input_amount_package"]:checked' ).val(),
+                            currency = form.find('input[name="currency"]').val();
+
                         if( amount_hidden.length == 1 )
                         {
                             amount = amount_hidden.val().trim();
@@ -319,9 +324,10 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         }
                         // Open Checkout with further options
                         handler.open({
-                            name       : first_name + ' ' + last_name,
-                            description: email,
-                            amount     : amount * 100
+                            name        : first_name + ' ' + last_name,
+                            description : email,
+                            currency    : currency,
+                            amount      : amount * 100
                         });
                     }
                     else

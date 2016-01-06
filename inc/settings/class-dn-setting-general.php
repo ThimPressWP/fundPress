@@ -152,7 +152,7 @@ if( ! function_exists( 'donation_sytem_total_amount' ) )
 					<?php endif; ?>
 				</th>
 				<td>
-					<input type="text" value="<?php echo esc_attr( get_option( TP_DONATE_SYSTEM_AMOUNT . 'donate_amount_system', 0 ) ); ?>" readonly="readonly" />
+					<input type="text" value="<?php echo esc_attr( donate_amount_system() ); ?>" readonly="readonly" />
 					<?php printf( '%s', donate_get_currency_symbol() ) ?>
 				</td>
 			</tr>

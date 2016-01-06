@@ -19,10 +19,10 @@
 			<?php
 
 				/**
-				 * donate_single_campaign_thumbnail hook
+				 * donate_loop_campaign_thumbnail hook
 				 * <!-- Thumbnail Campaign -->
 				 */
-				do_action( 'donate_single_campaign_thumbnail' );
+				do_action( 'donate_loop_campaign_thumbnail' );
 			?>
 
 		</div>
@@ -31,10 +31,10 @@
 
 			<?php
 				/**
-				 * donate_single_campaign_title hook
+				 * donate_loop_campaign_title hook
 				 * <!-- Title Campaign -->
 				 */
-				do_action( 'donate_single_campaign_title' );
+				do_action( 'donate_loop_campaign_title' );
 
 				/**
 				 * donate_loop_campaign_countdown

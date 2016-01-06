@@ -58,12 +58,15 @@ class DN_Donate extends DN_Post_Base
 		// update post with new title
 		wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
 
+		// cart
 		$cart = donate()->cart;
+
+		// create donate for symtem without campaign
 		if( $donate_system && is_numeric( $donate_system ) )
 		{
 			$this->donate_system = $donate_system;
 			// create donate without campaign
-			add_post_meta( $donate_id, $this->meta_prefix . 'donate_amount_system', $donate_system );
+			add_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
 			add_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
 			// set flash total
 			$cart->set_total( $donate_system );
@@ -72,7 +75,7 @@ class DN_Donate extends DN_Post_Base
 		else if( $cart_contents = $cart->cart_contents )
 		{
 			// create donate with cart_contents
-			add_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents );
+			add_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
 			add_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
 
 			// insert post meta
@@ -111,22 +114,11 @@ class DN_Donate extends DN_Post_Base
 
 		wp_update_post( array( 'ID' => $this->ID, 'post_status' => $status ) );
 
-		if( $status === 'donate-completed' )
-		{
-			// donate for system without campaign
-			$donate_system = $this->get_meta( $this->ID, 'donate_amount_system' );
-			if( $donate_system )
-			{
-				$donation_amount_system = (float)get_option( TP_DONATE_SYSTEM_AMOUNT, 0 );
-				update_option( TP_DONATE_SYSTEM_AMOUNT, $donation_amount_system + (float)$donate_system );
-			}
-		}
-
 		$this->send_email( $status );
 
 	}
 
-	// send email
+	// send email if status is completed
 	function send_email( $status )
 	{
 		if( $status === 'donate-completed' && $donor = $this->get_donor() )

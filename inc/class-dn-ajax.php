@@ -91,12 +91,13 @@ class DN_Ajax
 			}
 
 			$results = array(
-				'status'		=> 'success',
-				'campaign_id'	=> $campaign->ID,
-				'campaign_title'=> get_the_title( $campaign->ID ),
-				'compensates'	=> $compensates,
-				'currency'		=> donate_get_currency_symbol(),
-				'payments'		=> $payments // list payment allow
+				'status'				=> 'success',
+				'campaign_id'			=> $campaign->ID,
+				'campaign_title'		=> get_the_title( $campaign->ID ),
+				'compensates'			=> $compensates,
+				'currency'				=> donate_get_currency(),
+				'currency_symbol'		=> donate_get_currency_symbol(),
+				'payments'				=> $payments // list payment allow
 			);
 		}
 		else // load form donate now button
@@ -111,12 +112,13 @@ class DN_Ajax
 			}
 
 			$results = array(
-				'status'		=> 'success',
-				'campaign_title'=> apply_filters( 'donate_form_title_without_campaign', sprintf( '%s - %s', get_bloginfo( 'name' ), get_bloginfo( 'description' ) ) ),
-				'currency'		=> donate_get_currency_symbol(),
-				'allow_payment'	=> true,
-				'donate_system'	=> true,
-				'payments'		=> $payments // list payment allow
+				'status'				=> 'success',
+				'campaign_title'		=> apply_filters( 'donate_form_title_without_campaign', sprintf( '%s - %s', get_bloginfo( 'name' ), get_bloginfo( 'description' ) ) ),
+				'currency'				=> donate_get_currency(),
+				'currency_symbol'		=> donate_get_currency_symbol(),
+				'allow_payment'			=> true,
+				'donate_system'			=> true,
+				'payments'				=> $payments // list payment allow
 			);
 		}
 
@@ -219,7 +221,7 @@ class DN_Ajax
 			 * donate 0 amount
 			 * @var
 			 */
-			if( ( $donate_system === false && DN_Cart::instance()->cart_total == 0 ) || ( $donate_system === false  && $amount <= 0 ) )
+			if( ( $donate_system === false && DN_Cart::instance()->cart_total == 0 ) || ( $donate_system === true  && $amount <= 0 ) )
 			{
 				$errors[] = sprintf( '%s %s', __( 'Can not donate amount zero point.', 'tp-donate' ), donate_price( 0 ) );
 			}

@@ -24,7 +24,6 @@ define( 'TP_DONATE_VER', 1.0 );
 define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
 define( 'TP_DONATE_META_DONATE', 'thimpress_donate_' );
 define( 'TP_DONATE_META_CAMPAGIN', 'thimpress_campaign_' );
-define( 'TP_DONATE_SYSTEM_AMOUNT', 'thimpress_donate_system' );
 
 /**
  * Donate class

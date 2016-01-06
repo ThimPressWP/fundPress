@@ -37,6 +37,7 @@
 	        <!--Hidden field-->
 	        <?php wp_nonce_field( 'thimpress_donate_nonce', 'thimpress_donate_nonce' ); ?>
 	        <input type="hidden" name="action" value="donate_submit" />
+	        <input type="hidden" name="currency" value="{{{ data.currency }}}" />
 	        <!--End Hidden field-->
 
 			<!--If payment is true, display input donate amount-->
@@ -63,7 +64,7 @@
 	                    <li>
 				            <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
 
-				            <span class="currency">{{{ data.currency }}}</span>
+				            <span class="currency">{{{ data.currency_symbol }}}</span>
 
 				            <input type="number" name="donate_input_amount" step="any" class="donate_form_input payment" min="0"/>
                     	</li>
@@ -155,7 +156,7 @@
 
 		            <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
 
-		            <span class="currency">{{{ data.currency }}}</span>
+		            <span class="currency">{{{ data.currency_symbol }}}</span>
 
 		            <input type="number" name="donate_input_amount" step="any" class="donate_form_input" min="0"/>
 	            	<button type="submit" class="donate_submit button" form="donate_form"><?php _e( 'Donate', 'tp-donate' ) ?></button>

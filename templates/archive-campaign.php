@@ -47,16 +47,19 @@ get_header(); ?>
 				do_action( 'campaign_before_archive_loop' );
 			?>
 
-			<ul class="campaign_archive campaign_column_<?php echo esc_attr( DN_Settings::instance()->donate->get( 'archive_column', '4' ) ) ?>">
+			<div id="donate_main_content">
 
-				<?php while ( have_posts() ) : the_post(); ?>
+				<ul class="campaign_archive campaign_column_<?php echo esc_attr( DN_Settings::instance()->donate->get( 'archive_column', '4' ) ) ?>">
 
-					<?php donate_get_template_part( 'content', 'campaign' ); ?>
+					<?php while ( have_posts() ) : the_post(); ?>
 
-				<?php endwhile; // end of the loop. ?>
+						<?php donate_get_template_part( 'content', 'campaign' ); ?>
 
-			</ul>
+					<?php endwhile; // end of the loop. ?>
 
+				</ul>
+
+			</div>
 			<?php
 				/**
 				 * campaign_after_shop_loop hook
@@ -85,5 +88,8 @@ get_header(); ?>
 		 */
 		do_action( 'campaign_sidebar' );
 	?>
+
+	<!--get sidebar-->
+	<?php get_sidebar(); ?>
 
 <?php get_footer(); ?>
