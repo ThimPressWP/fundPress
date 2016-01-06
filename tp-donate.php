@@ -76,6 +76,11 @@ class ThimPress_Donate
 		// active plugin
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'uninstall' ) );
+
+		/**
+		 * text-domain
+		 */
+		add_action( 'load_textdomain', array( $this, 'load_textdomain' ), 10, 2 );
 	}
 
 	/**
@@ -94,6 +99,18 @@ class ThimPress_Donate
 	public function uninstall()
 	{
 		$this->_include( 'inc/uninstall.php' );
+	}
+
+	/**
+	 * load_textdomain
+	 * @return null
+	 */
+	public function load_textdomain( $domain, $mofile )
+	{
+		if( $domain === 'tp-donate' && plugin_dir_path( $mofile ) === TP_DONATE_PATH . '/languages/' )
+		{
+			load_textdomain( 'tp-donate', TP_DONATE_PATH . '/languages/' . get_locale() . '.mo' );
+		}
 	}
 
 	/**
