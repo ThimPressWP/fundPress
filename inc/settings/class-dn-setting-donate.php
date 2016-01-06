@@ -86,20 +86,6 @@ class DN_Setting_Donate extends DN_Setting_Base
 						'fields'		=> array(
 								array(
 										'type'		=> 'select',
-										'label'		=> __( 'Lightbox', 'tp-donate' ),
-										'desc'		=> __( 'This controlls using lightbox donate. Yes or No?', 'tp-donate' ),
-										'atts'		=> array(
-												'id'	=> 'single_lightbox',
-												'class'	=> 'lightbox'
-											),
-										'name'		=> 'lightbox',
-										'options'	=> array(
-												'yes'			=> __( 'Yes', 'tp-donate' ),
-												'no'			=> __( 'No', 'tp-donate' )
-											)
-									),
-								array(
-										'type'		=> 'select',
 										'label'		=> __( 'Raised and Goal', 'tp-donate' ),
 										'desc'		=> __( 'Display raised and goal on the frontend', 'tp-donate' ),
 										'atts'		=> array(
