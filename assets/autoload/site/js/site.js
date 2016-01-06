@@ -127,7 +127,26 @@
 								if( typeof res.status === 'undefined' )
 									return;
 
-								if( res.status === 'success' && typeof res.url !== 'undefined' )
+								if( typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true )
+								{
+									// process with authorize.net SIM payment
+									var args = res.args;
+									if( Object.keys( args ).length !== 0 )
+									{
+										var html = [];
+										html.push( '<form id="donate_form_instead" action="'+res.url+'" method="POST">' )
+										$.each( args, function( name, value ){
+
+											html.push( '<input type="hidden" name="'+name+'" value="'+value+'" />' );
+
+										});
+										html.push( '<button type="submit" class="donate-redirecting">'+res.submit_text+'</button>' );
+										html.push( '</form>' );
+										_form.replaceWith( html.join( '' ) );
+										$('#donate_form_instead').submit();
+									}
+								}
+								else if( res.status === 'success' && typeof res.url !== 'undefined' )
 								{
 									window.location.href = res.url;
 								}

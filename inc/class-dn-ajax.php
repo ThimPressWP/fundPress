@@ -151,6 +151,7 @@ class DN_Ajax
 			$amount = sanitize_text_field( $_POST[ 'donate_input_amount' ] );
 		}
 
+		// donate within campaign
 		if( isset( $_POST[ 'campaign_id' ] ) && is_numeric( $_POST[ 'campaign_id' ] ) )
 		{
 			// get campaign

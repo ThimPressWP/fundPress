@@ -193,7 +193,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
      * checkout url
      * @return url string
      */
-    function checkout_url()
+    function checkout_url( $amount = false )
     {
         // cart
         $cart = donate()->cart;
@@ -204,10 +204,9 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         $email = DN_Donor::instance( $cart->donor_id )->get_meta( 'email' );
 
         $total = $cart->cart_total;
-        if( ! $total )
+        if( $amount )
         {
-            $donation = DN_Donate::instance( $cart->donate_id );
-            $total = (float) $donation->get_meta( 'total' );
+            $total = (float)$amount;
         }
 
         // query post
@@ -235,7 +234,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         return $this->paypal_payment_url . '?' . http_build_query( $query );
     }
 
-    public function process()
+    public function process( $amount = false )
     {
         if( ! $this->paypal_email )
         {
@@ -246,7 +245,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         }
         return array(
                 'status'    => 'success',
-                'url'       => $this->checkout_url()
+                'url'       => $this->checkout_url( $amount )
             );
     }
 

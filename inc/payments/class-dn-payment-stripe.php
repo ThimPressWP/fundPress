@@ -130,7 +130,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     }
 
     // process
-    function process()
+    function process( $amount = false )
     {
         if( ! $this->secret_key || ! $this->publish_key )
         {
@@ -171,10 +171,9 @@ class DN_Payment_Stripe extends DN_Payment_Base{
         }
 
         $total = $cart->cart_total;
-        if( ! $total )
+        if( $amount )
         {
-            $donation = DN_Donate::instance( $cart->donate_id );
-            $total = (float) $donation->get_meta( 'total' );
+            $total = (float)$amount;
         }
 
         $params = array(

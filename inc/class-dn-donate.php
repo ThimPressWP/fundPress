@@ -68,8 +68,6 @@ class DN_Donate extends DN_Post_Base
 			// create donate without campaign
 			add_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
 			add_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
-			// set flash total
-			$cart->set_total( $donate_system );
 		}
 		// get cart contents
 		else if( $cart_contents = $cart->cart_contents )

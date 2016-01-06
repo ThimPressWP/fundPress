@@ -66,6 +66,12 @@ abstract class DN_Post_Base
 		return null;
 	}
 
+	// update post meta
+	function update_meta( $key, $value )
+	{
+		update_post_meta( $this->ID, $this->meta_prefix . $key , $value );
+	}
+
 	// set post meta
 	function set_meta( $key, $val = '', $unique = false )
 	{

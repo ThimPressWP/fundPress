@@ -29,8 +29,14 @@ class DN_Checkout
 			return array( 'status' => 'failed', 'message' => $donor_id->get_error_message() );
 		}
 
+		// update post meta
+		if( $amount )
+		{
+			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method, $amount );
+			DN_Donate::instance( $donate_id )->update_meta( 'total', $amount );
+		}
 		// get donate_id from cart
-		if( ! $donate_id = $cart->donate_id )
+		else if( ! $donate_id = $cart->donate_id )
 		{
 			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method, $amount );
 		}
@@ -65,7 +71,7 @@ class DN_Checkout
 		// payment method selected
 		$payment = $payments[ $payment_method  ];
 
-		return $payment->process();
+		return $payment->process( $amount );
 
 	}
 

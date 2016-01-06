@@ -56,7 +56,7 @@ abstract class DN_Payment_Base
 	 * payment process
 	 * @return null
 	 */
-	protected function process(){}
+	protected function process( $amount = false ){}
 
 	/**
 	 * refun action
