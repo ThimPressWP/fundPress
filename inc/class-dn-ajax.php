@@ -228,8 +228,8 @@ class DN_Ajax
 
 			// terms and conditions
 			$term_enable = DN_Settings::instance()->checkout->get( 'term_condition', 'yes' );
-
-			if( $term_enable === 'yes' )
+			$term_condition_page = DN_Settings::instance()->checkout->get( 'term_condition_page' );
+			if( $term_enable === 'yes' && $term_condition_page && get_post( $term_condition_page ) )
 			{
 				if( ! isset( $_POST[ 'term_condition' ] ) || ! $_POST[ 'term_condition' ] )
 					$errors[] = __( 'Terms and Contidions is require field.', 'tp-donate' );

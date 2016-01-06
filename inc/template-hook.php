@@ -136,7 +136,10 @@ if( ! function_exists( 'donate_single_campaign_countdown' ) )
 {
 	function donate_single_campaign_countdown()
 	{
-		donate_get_template( 'single/countdown.php' );
+		if( DN_Settings::instance()->donate->get( 'single_countdown_raised', 'yes' ) === 'yes' )
+		{
+			donate_get_template( 'single/countdown.php' );
+		}
 	}
 }
 
@@ -148,7 +151,10 @@ if( ! function_exists( 'donate_single_campaign_goal_raised' ) )
 {
 	function donate_single_campaign_goal_raised()
 	{
-		donate_get_template( 'single/goal_raised.php' );
+		if( DN_Settings::instance()->donate->get( 'single_countdown_raised', 'yes' ) === 'yes' )
+		{
+			donate_get_template( 'single/goal_raised.php' );
+		}
 	}
 }
 
