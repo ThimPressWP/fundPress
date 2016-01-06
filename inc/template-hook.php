@@ -8,6 +8,16 @@ if( ! function_exists( 'donate_the_content' ) )
 {
 	function donate_the_content( $content )
 	{
+		global $post;
+		$post_id = $post->ID;
+		if( $post_id == DN_Settings::instance()->checkout->get( 'cart_page' ) )
+		{
+			$content = '[donate_cart]';
+		}
+		else if( $post_id == DN_Settings::instance()->checkout->get( 'checkout_page' ) )
+		{
+			$content = '[donate_checkout]';
+		}
 		return do_shortcode( $content );
 	}
 }
