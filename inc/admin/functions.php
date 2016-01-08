@@ -91,3 +91,17 @@ if( ! function_exists( 'donate_create_page' ) )
 	}
 
 }
+
+
+add_filter( 'post_row_actions', 'donate_post_row_actions', 10, 2 );
+if( ! function_exists( 'donate_post_row_actions' ) )
+{
+	function donate_post_row_actions( $rows, $post )
+	{
+		if( in_array( $post->post_type , array( 'dn_donor', 'dn_donate' ) ) )
+		{
+			unset( $rows['view'] );
+		}
+		return $rows;
+	}
+}
