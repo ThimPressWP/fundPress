@@ -165,6 +165,9 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
 
     function checkout_args( $amount = false )
     {
+        if( ! $this->_transaction_key )
+            return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'tp-donate' ) );
+
         $cart = donate()->cart;
         $donation = DN_Donate::instance( $cart->donate_id );
         $donor = DN_Donor::instance( $cart->donor_id );
