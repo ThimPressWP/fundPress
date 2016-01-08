@@ -60,7 +60,7 @@
 		</tbody>
 	</table>
 
-<?php elseif ( $donation->get_meta( 'donate_amount_system' ) ) : ?>
+<?php elseif ( $donation->get_meta( 'amount_system' ) ) : ?>
 
 	<table>
 		<tbody>
