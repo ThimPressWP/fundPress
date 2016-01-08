@@ -18,6 +18,10 @@ if( ! function_exists( 'donate_the_content' ) )
 		{
 			$content = '[donate_checkout]';
 		}
+		else if( in_array( $post->post_type, array( 'dn_donate', 'dn_donor' ) ) )
+		{
+			wp_redirect( home_url() ); exit();
+		}
 		return do_shortcode( $content );
 	}
 }
