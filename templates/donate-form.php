@@ -41,6 +41,7 @@
 	        <!--End Hidden field-->
 
 			<!--If payment is true, display input donate amount-->
+
 	        <# if ( payment ) { #>
 
 	        	<!--Compensates of campaign ID-->
@@ -151,6 +152,28 @@
             	</div>
 
             <# } else { #>
+
+            	<!--Compensates of campaign ID-->
+	            <div class="donate_compensates">
+	                <ul>
+	                	<# if( typeof data.compensates !== 'undefined' && Object.keys(data.compensates).length > 0 ) { #>
+
+		                    <# jQuery.each( data.compensates, function(key, val) { #>
+		                            <li>
+		                            	<input type="radio" name="donate_input_amount_package" value="{{ key }}" id="{{ key }}"/>
+		                            	<label class="donate_amount_group" for="{{ key }}">
+		                            		<?php _e( 'Donate', 'tp-donate' ) ?>
+		                            		<span class="donate_amount">{{{ val.amount }}}</span>
+		                            	</label>
+		                            	<p>{{{ val.desc }}}</p>
+		                            </li>
+		                    <# }); #>
+
+	                	<# } #>
+
+	                </ul>
+	            </div>
+	            <!--End Compensates of campaign ID-->
 
             	<div class="donate_form_footer">
 
