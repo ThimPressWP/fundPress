@@ -93,7 +93,7 @@ class DN_Email
 
 			$body = preg_replace( $replace, $replace_with, $body );
 
-			var_dump(wp_mail( $to, $subject, $body)); die();
+			wp_mail( $to, $subject, $body);
 		}
 	}
 

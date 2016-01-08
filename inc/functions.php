@@ -720,6 +720,18 @@ if( ! function_exists( 'donate_add_notice' ) )
 	}
 }
 
+if( ! function_exists( 'donate_has_notice' ) )
+{
+	function donate_has_notice( $name = null )
+	{
+		if( empty( $_SESSION[ 'donate_messages' ] ) )
+			return false;
+
+		if( isset( $_SESSION[ 'donate_messages' ][ $name ] ) )
+			return true;
+	}
+}
+
 /**
  * show message
  */
