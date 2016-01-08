@@ -68,9 +68,9 @@ class DN_Email
 
 		// email template
 		$email_template = DN_Settings::instance()->email->get( 'email_template' );
-		if( $email = $donor->get_meta( 'email' ) && $email_template )
+		$email = $donor->get_meta( 'email' );
+		if( $email && $email_template )
 		{
-			$to = $email;
 			$subject = __( 'Donate completed', 'tp-donate' );
 
 			$body = $email_template;
@@ -93,7 +93,7 @@ class DN_Email
 
 			$body = preg_replace( $replace, $replace_with, $body );
 
-			wp_mail( $to, $subject, $body);
+			wp_mail( $email, $subject, $body);
 		}
 	}
 
