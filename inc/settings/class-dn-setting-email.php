@@ -77,7 +77,7 @@ class DN_Setting_Email extends DN_Setting_Base
 										'default'	=> ''
 									),
 								array(
-										'type'		=> 'textarea',
+										'type'		=> 'editor',
 										'label'		=> __( 'Email Content', 'tp-donate' ),
 										'desc'		=> __( 'Use [donor_email], [donor_first_name], [donor_last_name], [donor_phone], [donor_address] tags to generate email template', 'tp-donate' ),
 										'atts'		=> array(
