@@ -19,6 +19,12 @@ class DN_Email
 
 		// filter email from name
 		add_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
+
+		// filter content type
+		add_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
+
+		// filter charset
+		add_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
 	}
 
 	// set email from
@@ -40,6 +46,18 @@ class DN_Email
 			return sanitize_title( $donate_name );
 		}
 		return $name;
+	}
+
+	// filter content type
+	function email_content_type( $type )
+	{
+		return 'text/html';
+	}
+
+	// filter charset
+	function email_charset( $chartset )
+	{
+		return 'UTF-8';
 	}
 
 	// send email donate completed
@@ -75,14 +93,7 @@ class DN_Email
 
 			$body = preg_replace( $replace, $replace_with, $body );
 
-			$headers = array('Content-Type: text/html; charset=UTF-8');
-
-			// if( $fo = fopen( TP_DONATE_PATH . '/email.html', 'w+') )
-			// {
-			// 	fwrite( $fo, $body );
-			// 	fclose($fo);die();
-			// }
-			wp_mail( $to, $subject, $body, $headers );
+			wp_mail( $to, $subject, $body);
 		}
 	}
 
