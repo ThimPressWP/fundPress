@@ -1,0 +1,443 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Language: en_US\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:33
+#: tp-donate/templates/donate-form.php:99
+msgid "* Address"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:25
+#: tp-donate/templates/donate-form.php:91
+msgid "* Email"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:17
+#: tp-donate/templates/donate-form.php:83
+msgid "* First Name"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:21
+#: tp-donate/templates/donate-form.php:87
+msgid "* Last Name"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:29
+#: tp-donate/templates/donate-form.php:95
+msgid "* Phone"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:35
+msgid "Addition note"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:37
+#: tp-donate/templates/donate-form.php:103
+msgid "Additional note"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:8
+msgid "Address"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:49
+msgid "Amount"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:9
+msgid "Campaign ID"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:10
+msgid "Campaign Title"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/shortcodes/donate.php:28
+msgid "Checkout"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:11
+msgid "Compensate"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Connect Stripe has error. Please try again!"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/widgets/class-dn-widget-donate.php:1
+msgid "Create button donate everywhere"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Currency"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+#: tp-donate/inc/admin/views/html/select.php:23
+msgid "Currency Position"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Currency aggregator"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Currency settings"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Decimal Separator."
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/checkout.php:37
+#: tp-donate/inc/widgets/class-dn-widget-donate.php:1
+#: tp-donate/templates/donate-form.php:165
+#: tp-donate/templates/donate-form.php:150
+#: tp-donate/templates/donate-form.php:185
+msgid "Donate"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:48
+msgid "Donate ID"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/cart/cart_footer.php:8
+msgid "Donate Payment"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:69
+msgid "Donate for system"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/shortcodes/donate.php:9
+#: tp-donate/templates/loop/thumbnail.php:24
+msgid "Donate now"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:43
+msgid "Donated"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:12
+#: tp-donate/templates/donate-form.php:4
+msgid "Donation amount"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Donation system"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Donation system without campaign."
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:51
+msgid "Donor"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Donor for"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:7
+msgid "Email"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Enable"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/donate-form.php:66
+#: tp-donate/templates/donate-form.php:180
+msgid "Enter custom donate amount: "
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:5
+msgid "First name"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "General"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/loop/goal_raised.php:12
+msgid "Goal"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:4
+msgid "ID"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/cart/cart_title.php:16
+#: tp-donate/templates/checkout/cart_title.php:13
+msgid "Item amount"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/cart/cart_title.php:13
+#: tp-donate/templates/checkout/cart_title.php:10
+msgid "Item name"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:6
+msgid "Last name"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+#: tp-donate/inc/admin/views/html/select.php:23
+msgid "Left"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+#: tp-donate/inc/admin/views/html/select.php:23
+msgid "Left with space"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Live Publish Key"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Live Secret Key"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/admin/views/html/multicheckbox.php:1
+#: tp-donate/inc/admin/views/html/multiradio.php:1
+msgid "Man"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "No"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/admin/views/html/input.php:1
+msgid "Number of Decimals"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Number of Decimals."
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/checkout/personal.php:12
+#: tp-donate/templates/donate-form.php:80
+msgid "Personal Info"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donor.php:9
+msgid "Phone"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/loop/posted.php:15
+msgid "Posted by:"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/loop/posted.php:10
+msgid "Posted in:"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Production environment"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/loop/goal_raised.php:8
+msgid "Raised"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+#: tp-donate/inc/admin/views/html/select.php:23
+msgid "Right"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+#: tp-donate/inc/admin/views/html/select.php:23
+msgid "Right with space"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/admin/views/html/multicheckbox.php:1
+#: tp-donate/inc/admin/views/html/multiradio.php:1
+msgid "Sex"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Stripe"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Stripe Process went wrong"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Stripe key is expired. Please contact administrator to do this payment gateway"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/donate-form.php:118
+#: tp-donate/templates/checkout/term_condition.php:15
+msgid "Terms & Conditions"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Test Publish Key"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Test Secret Key"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Test environment"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "The following options affect how prices are displayed on the frontend."
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "This controlls enable payment method"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/admin/views/html/select.php:23
+msgid "This controlls the position of the currency symbol"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "This controlls the position of the currency symbol."
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "This controlls what the currency prices when change currency setting."
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "This controlls what the currency prices."
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/settings/class-dn-setting-general.php:1
+msgid "Thousand Separator."
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/widgets/class-dn-widget-donate.php:47
+msgid "Title:"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Token is invalid"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/cart/cart_total.php:9
+#: tp-donate/templates/checkout/cart_total.php:9
+msgid "Total"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/inc/metaboxs/views/donate.php:43
+msgid "Total amount"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/cart/cart_footer.php:7
+msgid "Update"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/shortcodes/donate.php:27
+msgid "View Cart"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/admin/views/html/multicheckbox.php:1
+#: tp-donate/inc/admin/views/html/multiradio.php:1
+msgid "Wowan"
+msgstr ""
+
+#. Text in function
+#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+msgid "Yes"
+msgstr ""
+
+#. Text in echo
+#: tp-donate/templates/cart/empty.php:10
+msgid "You have no donate item!"
+msgstr "You have no donate item!!!"

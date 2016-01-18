@@ -80,7 +80,7 @@ class ThimPress_Donate
 		/**
 		 * text-domain
 		 */
-		add_action( 'load_textdomain', array( $this, 'load_textdomain' ), 10, 2 );
+		$this->load_textdomain();
 	}
 
 	/**
@@ -105,12 +105,9 @@ class ThimPress_Donate
 	 * load_textdomain
 	 * @return null
 	 */
-	public function load_textdomain( $domain, $mofile )
+	public function load_textdomain()
 	{
-		if( $domain === 'tp-donate' && plugin_dir_path( $mofile ) === TP_DONATE_PATH . '/languages/' )
-		{
-			load_textdomain( 'tp-donate', TP_DONATE_PATH . '/languages/' . get_locale() . '.mo' );
-		}
+		load_textdomain( 'tp-donate', TP_DONATE_PATH . '/languages/' . get_locale() . '.mo' );
 	}
 
 	/**
