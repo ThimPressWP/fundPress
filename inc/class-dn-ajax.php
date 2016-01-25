@@ -22,7 +22,7 @@ class DN_Ajax
 			add_action( 'wp_ajax_' . $action, array( $this, $action ) );
 			if( $nopriv )
 			{
-				add_action( 'wp_ajax_noprive_' . $action, array( $this, $action ) );
+				add_action( 'wp_ajax_nopriv_' . $action, array( $this, $action ) );
 			}
 
 		}
@@ -35,7 +35,6 @@ class DN_Ajax
 	 */
 	function donate_load_form()
 	{
-
 		if( ! isset( $_GET[ 'schema' ] ) || $_GET[ 'schema' ] !== 'donate-ajax' || empty( $_POST ) )
 			return;
 
