@@ -306,6 +306,7 @@ class DN_Cart
 	{
 
 		$html = array();
+		ksort( $params );
 		foreach ( $params as $key => $value ) {
 			if( is_array( $value ) )
 			{
