@@ -168,7 +168,7 @@ class DN_Ajax
 
 				if( isset( $compensates[ $compensate_id ], $compensates[ $compensate_id ]['amount'] ) )
 				{
-					$amount = $compensates[ $compensate_id ]['amount'];
+					$amount = donate_campaign_convert_amount( $compensates[ $compensate_id ]['amount'], $campaign->get_currency() );
 				}
 
 			}
