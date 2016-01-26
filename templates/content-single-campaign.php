@@ -30,6 +30,11 @@
 			do_action( 'donate_single_campaign_thumbnail' );
 
 			/**
+			 * donate_single_campaign_thumbnail hook
+			 */
+			do_action( 'donate_single_campaign_donate' );
+
+			/**
 			 * donate_single_campaign_countdown
 			 */
 			do_action( 'donate_single_campaign_countdown' );

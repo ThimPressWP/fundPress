@@ -143,6 +143,18 @@ if( ! function_exists( 'donate_single_campaign_thumbnail' ) )
 }
 
 /**
+ * donate
+ */
+add_action( 'donate_single_campaign_donate', 'donate_single_campaign_donate' );
+if( ! function_exists( 'donate_single_campaign_donate' ) )
+{
+	function donate_single_campaign_donate()
+	{
+		donate_get_template( 'single/donate.php' );
+	}
+}
+
+/**
  * countdown
  */
 add_action( 'donate_single_campaign_countdown', 'donate_single_campaign_countdown' );
