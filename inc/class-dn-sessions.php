@@ -87,12 +87,12 @@ class DN_Sessions
 		if( ! $value )
 		{
 			unset( $this->session[ $name ] );
-			$time = time() - $this->live_item;
+			$time = $time - $this->live_item;
 		}
 		else
 		{
 			$this->session[ $name ] = $value;
-			$time = time() + $this->live_item;
+			$time = $time + $this->live_item;
 		}
 
 		// save session
