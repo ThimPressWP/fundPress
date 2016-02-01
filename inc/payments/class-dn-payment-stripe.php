@@ -177,7 +177,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
         }
 
         $params = array(
-                'amount'        => $total * 100,
+                'amount'        => round( $total * 100 ),
                 'currency'      => donate_get_currency(),
                 'customer'      => $customer_id,
                 'description'   => sprintf(
