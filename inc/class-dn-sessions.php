@@ -52,7 +52,7 @@ class DN_Sessions
 		}
 		else if( $this->remember && isset( $_COOKIE[ $this->prefix ] ) )
 		{
-			return maybe_unserialize( $_COOKIE[ $this->prefix ] );
+			return $_SESSION[ $this->prefix ] = maybe_unserialize( $_COOKIE[ $this->prefix ] );
 		}
 
 		return array();
