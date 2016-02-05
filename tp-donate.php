@@ -78,8 +78,13 @@ class ThimPress_Donate
 		register_deactivation_hook( __FILE__, array( $this, 'uninstall' ) );
 
 		/**
-		 * text-domain
+		 * text-domain append plugins_loaded hook
 		 */
+		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+	}
+
+	// plugins loaded hook
+	public function plugins_loaded() {
 		$this->load_textdomain();
 	}
 
@@ -107,7 +112,25 @@ class ThimPress_Donate
 	 */
 	public function load_textdomain()
 	{
-		load_textdomain( 'tp-donate', TP_DONATE_PATH . '/languages/' . get_locale() . '.mo' );
+		// prefix
+        $prefix = basename( dirname( plugin_basename( __FILE__ ) ) );
+        $locale = get_locale();
+        $dir    = TP_DONATE_PATH . 'languages'  ;
+        $mofile = false;
+
+        $wp_file = WP_LANG_DIR . '/plugins/' . $prefix . '-' . $locale . '.mo';
+        $pluginFile = $dir . '/' . $prefix . '-' . $locale . '.mo';
+
+        if ( file_exists( $wp_file ) ) {
+            $mofile = $wp_file;
+        } else if ( file_exists( $pluginFile ) ) {
+            $mofile = $pluginFile;
+        }
+
+        if ( $mofile ) {
+            // In themes/plugins/mu-plugins directory
+            load_textdomain( 'tp-donate', $mofile );
+        }
 	}
 
 	/**
