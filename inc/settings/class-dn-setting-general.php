@@ -123,7 +123,7 @@ class DN_Setting_General extends DN_Setting_Base
 												'type'	=> 'number',
 												'id'	=> 'decimals',
 												'class'	=> 'decimals',
-												'min'	=> 1
+												'min'	=> 0
 											),
 										'name'		=> 'currency_num_decimal',
 										'default'	=> '2'
