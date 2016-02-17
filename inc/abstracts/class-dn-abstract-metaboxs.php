@@ -282,12 +282,11 @@ abstract class DN_MetaBox_Base
 			return;
 
 		foreach ($_POST as $key => $val) {
-			if( ! strpos( $key, $this->_prefix ) === 0 )
-				return;
-
-			if( is_string( $val ) )
-				$val = trim( $val );
-			update_post_meta( $post_id, $key, $val );
+			if( ! strpos( $key, $this->_prefix ) === 0 ) {
+				if( is_string( $val ) )
+					$val = trim( $val );
+				update_post_meta( $post_id, $key, $val );
+			}
 		}
 	}
 
