@@ -127,10 +127,10 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
                                         'label'     => __( 'Enable', 'tp-donate' ),
                                         'desc'      => __( 'This controlls enable payment method', 'tp-donate' ),
                                         'atts'      => array(
-                                                'id'    => 'stripe_enable',
-                                                'class' => 'stripe_enable'
+                                                'id'    => 'authorize_enable',
+                                                'class' => 'authorize_enable'
                                             ),
-                                        'name'      => 'stripe_enable',
+                                        'name'      => 'authorize_enable',
                                         'options'   => array(
                                                 'no'                => __( 'No', 'tp-donate' ),
                                                 'yes'               => __( 'Yes', 'tp-donate' )
