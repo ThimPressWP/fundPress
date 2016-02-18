@@ -62,11 +62,11 @@ class DN_Post_Type
 	public function register_post_type_campaign()
 	{
 		$labels = array(
-			'name'               => _x( 'Campaigns', 'Campaigns', 'tp-donate' ),
-			'singular_name'      => _x( 'Campaign', 'Campaign', 'tp-donate' ),
+			'name'               => _x( 'Campaigns', 'post type general name', 'tp-donate' ),
+			'singular_name'      => _x( 'Campaign', 'post type singular name', 'tp-donate' ),
 			'menu_name'          => _x( 'Campaigns', 'admin menu', 'tp-donate' ),
 			'name_admin_bar'     => _x( 'Campaign', 'add new on admin bar', 'tp-donate' ),
-			'add_new'            => _x( 'Add Campaign', 'donate', 'tp-donate' ),
+			'add_new'            => _x( 'Add Campaign', 'add new on admin bar', 'tp-donate' ),
 			'add_new_item'       => __( 'Add New Campaign', 'tp-donate' ),
 			'new_item'           => __( 'New Campaign', 'tp-donate' ),
 			'edit_item'          => __( 'Edit Campaign', 'tp-donate' ),
@@ -102,11 +102,11 @@ class DN_Post_Type
 	public function register_post_type_donate()
 	{
 		$labels = array(
-			'name'               => _x( 'Donates', 'Donates', 'tp-donate' ),
-			'singular_name'      => _x( 'Donate', 'Donate', 'tp-donate' ),
-			'menu_name'          => _x( 'Donates', 'Donates', 'tp-donate' ),
-			'name_admin_bar'     => _x( 'Donate', 'Donate', 'tp-donate' ),
-			'add_new'            => _x( 'Add Donate', 'donate', 'tp-donate' ),
+			'name'               => _x( 'Donates', 'post type general name', 'tp-donate' ),
+			'singular_name'      => _x( 'Donate', 'post type singular name', 'tp-donate' ),
+			'menu_name'          => _x( 'Donates', 'add new on admin bar', 'tp-donate' ),
+			'name_admin_bar'     => _x( 'Donate', 'admin menu', 'tp-donate' ),
+			'add_new'            => _x( 'Add Donate', 'dn_donate', 'tp-donate' ),
 			'add_new_item'       => __( 'Add New Donate', 'tp-donate' ),
 			'new_item'           => __( 'New Donate', 'tp-donate' ),
 			'edit_item'          => __( 'Edit Donate', 'tp-donate' ),
@@ -126,7 +126,7 @@ class DN_Post_Type
 			'show_ui'            => true,
 			'show_in_menu'       => 'tp_donate',
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'donates' ),
+			'rewrite'            => array( 'slug' => _x( 'donates', 'URL slug', 'tp-donate' ) ),
 			'capability_type'    => 'post',
 			'has_archive'        => false,
 			'hierarchical'       => false,
@@ -146,11 +146,11 @@ class DN_Post_Type
 	public function register_post_type_donor()
 	{
 		$labels = array(
-			'name'               => _x( 'Donors', 'Donors', 'tp-donate' ),
-			'singular_name'      => _x( 'Donor', 'Donor', 'tp-donate' ),
-			'menu_name'          => _x( 'Donors', 'Donors', 'tp-donate' ),
-			'name_admin_bar'     => _x( 'Donor', 'Donor', 'tp-donate' ),
-			'add_new'            => _x( 'Add Donor', 'donate', 'tp-donate' ),
+			'name'               => _x( 'Donors', 'post type general name', 'tp-donate' ),
+			'singular_name'      => _x( 'Donor', 'post type singular name', 'tp-donate' ),
+			'menu_name'          => _x( 'Donors', 'admin menu', 'tp-donate' ),
+			'name_admin_bar'     => _x( 'Donor', 'add new on admin bar', 'tp-donate' ),
+			'add_new'            => _x( 'Add Donor', 'dn_donor', 'tp-donate' ),
 			'add_new_item'       => __( 'Add New Donor', 'tp-donate' ),
 			'new_item'           => __( 'New Donor', 'tp-donate' ),
 			'edit_item'          => __( 'Edit Donor', 'tp-donate' ),
@@ -170,7 +170,7 @@ class DN_Post_Type
 			'show_ui'            => true,
 			'show_in_menu'       => 'tp_donate',
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'donors' ),
+			'rewrite'            => array( 'slug' => _x( 'donors', 'URL slug', 'tp-donate' ) ),
 			'capability_type'    => 'post',
 			'has_archive'        => false,
 			'hierarchical'       => false,
@@ -191,8 +191,8 @@ class DN_Post_Type
 	{
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
-			'name'              => _x( 'Campaign Categories', 'Campaign Category', 'tp-donate' ),
-			'singular_name'     => _x( 'Campaign', 'Campaign', 'tp-donate' ),
+			'name'              => _x( 'Campaign Categories', 'taxonomy general name', 'tp-donate' ),
+			'singular_name'     => _x( 'Campaign', 'taxonomy singular name', 'tp-donate' ),
 			'search_items'      => __( 'Search Campaigns', 'tp-donate' ),
 			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
 			'parent_item'       => __( 'Parent Campaign', 'tp-donate' ),
@@ -210,7 +210,7 @@ class DN_Post_Type
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'campaign_cat' ),
+			'rewrite'           => array( 'slug' => _x( 'campaign-cat', 'URL slug', 'tp-donate' ) ),
 		);
 
 		$args = apply_filters( 'donate_register_tax_capaign_cat', $args );
@@ -218,8 +218,8 @@ class DN_Post_Type
 
 		// Add new taxonomy, make it hierarchical (like tags)
 		$labels = array(
-			'name'              => _x( 'Campaign Tags', 'tp-donate', 'tp-donate' ),
-			'singular_name'     => _x( 'Campaign', 'tp-donate' ),
+			'name'              => _x( 'Campaign Tags', 'taxonomy general name', 'tp-donate' ),
+			'singular_name'     => _x( 'Campaign', 'taxonomy singular name', 'tp-donate' ),
 			'search_items'      => __( 'Search Campaigns Tag', 'tp-donate' ),
 			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
 			'parent_item'       => __( 'Parent Campaign Tag', 'tp-donate' ),
@@ -237,7 +237,7 @@ class DN_Post_Type
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'campaign_tag' ),
+			'rewrite'           => array( 'slug' => _x( 'campaign-tag', 'URL slug', 'tp-donate' ) ),
 		);
 
 		$args = apply_filters( 'donate_register_tax_capaign_tag', $args );

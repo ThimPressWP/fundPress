@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+
 abstract class DN_Setting_Base extends DN_Settings
 {
 	/**

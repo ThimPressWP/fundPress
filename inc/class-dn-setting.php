@@ -138,12 +138,10 @@ class DN_Settings
 	static function instance( $prefix = null, $id = null )
 	{
 
-		if( self::$_instance && ! empty( self::$_instance[ $prefix ] ) )
+		if( ! empty( self::$_instance[ $prefix ] ) )
 			return self::$_instance[ $prefix ];
 
-		$self = self::$_instance[ $prefix ] = new self( $prefix, $id );
-
-		return $self;
+		return self::$_instance[ $prefix ] = new self( $prefix, $id );
 
 	}
 

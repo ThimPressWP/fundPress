@@ -109,7 +109,6 @@ abstract class DN_MetaBox_Base
 			}
 			$html[] = '</ul>';
 
-
 			$html[] = '<div class="donate_metabox_setting_container">';
 			foreach( $this->_fields as $id => $group )
 			{

@@ -67,6 +67,15 @@
 							type: 'inline',
 							items: {
 								src: '#donate_hidden'
+							},
+							callbacks: {
+								open: function() {
+									var timeout = setTimeout(function(){
+										$('#donate_hidden input[name="donate_input_amount"]:first').focus();
+										$('#donate_hidden input[name="payment_method"]:first').attr('checked', true);
+										clearTimeout(timeout);
+									}, 100);
+							    }
 							}
 				        });
 					}
