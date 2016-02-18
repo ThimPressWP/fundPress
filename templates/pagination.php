@@ -3,7 +3,7 @@
  * Pagination - Show numbered pagination for catalog pages.
  *
  * @author 		ThimPress
- * @package 	Tp-hotel-booking/Templates
+ * @package 	Tp-donate/Templates
  * @version     0.9
  */
 
