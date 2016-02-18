@@ -4,7 +4,7 @@
  *
  * @author 		ThimPress
  * @package 	Tp-donate/Templates
- * @version     0.9
+ * @version     1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
