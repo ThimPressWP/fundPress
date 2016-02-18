@@ -322,3 +322,10 @@ if( ! function_exists( 'donate_get_campaign_percent' ) )
 		return round( ( $total / $goal ) * 100, donate_currency_decimal() );
 	}
 }
+
+add_action( 'campaign_after_archive_loop', 'donate_campaign_pagination_archive' );
+if ( ! function_exists( 'donate_campaign_pagination_archive' ) ) {
+	function donate_campaign_pagination_archive() {
+		donate_get_template( 'pagination.php' );
+	}
+}
