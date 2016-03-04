@@ -43,7 +43,7 @@ class DN_Setting_Checkout extends DN_Setting_Base
 									'title'	=> __( 'General settings', 'tp-donate' ),
 									'desc'	=> __( 'The following options affect how format are displayed list donate causes on the frontend.', 'tp-donate' ),
 									'fields'		=> array(
-		                                array(
+		                                	array(
 		                                        'type'      => 'select',
 		                                        'label'     => __( 'Environment', 'tp-donate' ),
 		                                        'desc'      => __( 'This controlls test or production mode', 'tp-donate' ),

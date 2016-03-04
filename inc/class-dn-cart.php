@@ -56,10 +56,12 @@ class DN_Cart
 		if( ! isset( $_GET[ 'remove_item' ] ) )
 			return;
 
-		$cart_item = sanitize_text_field( $_GET[ 'remove_item' ] );
-		$this->remove_cart_item( $cart_item );
-		// redirect url
-		wp_redirect( donate_cart_url() ); exit();
+		if ( is_page( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) ) ) {
+			$cart_item = sanitize_text_field( $_GET[ 'remove_item' ] );
+			$this->remove_cart_item( $cart_item );
+			// redirect url
+			wp_redirect( donate_cart_url() ); exit();
+		}
 	}
 
 	/**
