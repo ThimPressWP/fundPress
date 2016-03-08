@@ -210,6 +210,7 @@
 				val = first_name.val();
 			if( first_name.length === 1 && ( val === '' || new RegExp('^[a-zA-Z]{3,15}$').test( val ) === false ) )
 			{
+				first_name.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.first_name_invalid );
 			}
 
@@ -218,6 +219,7 @@
 				val = last_name.val();
 			if( last_name.length === 1 && ( val === '' || new RegExp('^[a-zA-Z]{3,15}$').test( val ) === false ) )
 			{
+				last_name.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.last_name_invalid );
 			}
 
@@ -225,6 +227,7 @@
 			var email = _form.find( 'input[name="email"]' );
 			if( email.length === 1 && ( email.val() === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test( email.val() ) === false ) )
 			{
+				email.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.email_invalid );
 			}
 
@@ -233,6 +236,7 @@
 			var reges = /^\d{10}$/;
 			if( phone.length === 1 && ( phone.val() === '' || reges.test( phone.val() ) === false ) )
 			{
+				phone.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.phone_number_invalid );
 			}
 
@@ -240,6 +244,7 @@
 			var payment_method = _form.find( 'input[name="payment_method"]' );
 			if( payment_method.length === 1 && payment_method.val() === '' )
 			{
+				payment_method.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.payment_method_invalid );
 			}
 
