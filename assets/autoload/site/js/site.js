@@ -288,7 +288,7 @@
 			_form.find( '.donate_button' ).addClass( 'donate_button_processing' );
 		},
 
-		afterAjax: function( _form)
+		afterAjax: function( _form )
 		{
 			if( typeof _form === 'undefined' )
 				return;
@@ -312,17 +312,17 @@
 					width: percent_width + '%'
 				});
 
-				if ( ( tootip_width / 2 + percent.outerWidth() ) > counter_width ) {
-					tootip.css({
-						left: ( counter_width - tootip_width )
-					});
-				} else if( tootip_width / 2 > percent.outerWidth() ) {
+				if( tootip_width / 2 >= percent.outerWidth() ) {
 					tootip.css({
 						left: 0
 					});
-				} else {
+				} else if( ( tootip_width / 2 + percent.outerWidth() ) <= counter_width ) {
 					tootip.css({
-						left: ( percent.outerWidth() - tootip_width / 2 )
+						left: percent.outerWidth() - tootip_width / 2
+					});
+				} else if ( ( tootip_width / 2 + percent.outerWidth() ) > counter_width ) {
+					tootip.css({
+						left: ( counter_width - tootip_width )
 					});
 				}
 			}
