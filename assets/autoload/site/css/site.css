@@ -602,3 +602,15 @@ body {
     margin-right: -100%;
     width: 70%;
 }
+/**
+ * pagination
+ */
+.donate-pagination{
+    clear: left;
+}
+.donate-pagination ul{
+    list-style: none;
+}
+.donate-pagination ul li{
+    display: inline-block;
+}
