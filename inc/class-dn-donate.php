@@ -81,7 +81,7 @@ class DN_Donate extends DN_Post_Base
 				// ignoire product_data key
 				$campaign = DN_Campaign::instance( $cart_content->product_id );
 				// convert campaign currency format
-				$campaign->set_meta( 'amount', donate_campaign_convert_amount( $cart_content->amount, $cart_content->currency, $campaign->get_meta( 'currency' ) ) );
+				// $campaign->set_meta( 'amount', donate_campaign_convert_amount( $cart_content->amount, $cart_content->currency, $campaign->get_meta( 'currency' ) ) );
 
 				// ralationship campagin id and donate
 				$campaign->set_meta( 'donate', $donate_id );

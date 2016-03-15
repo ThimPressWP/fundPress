@@ -75,7 +75,7 @@ abstract class DN_Post_Base
 	// set post meta
 	function set_meta( $key, $val = '', $unique = false )
 	{
-		if( $val )
+		if( $key )
 		{
 			add_post_meta( $this->ID, $this->meta_prefix . $key, $val, $unique );
 		}

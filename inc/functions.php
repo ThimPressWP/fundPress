@@ -585,7 +585,7 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 		}
 
 
-		return $amount * $rate;
+		return round( $amount * $rate, donate_currency_decimal() );
 
 	}
 

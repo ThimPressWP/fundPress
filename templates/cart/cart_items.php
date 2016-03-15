@@ -12,7 +12,7 @@ $cart_contents = donate()->cart->cart_contents;
 		<tr>
 			<td class="donate_action_remove">
 				<!--remove-->
-				<a href="<?php echo esc_attr( donate_cart_url() . '?remove_item=' . $cart_item_key ) ?>" id="<?php echo esc_attr( $cart_item_key ) ?>">X</a>
+				<a href="<?php echo esc_attr( donate_cart_url() . '?donate_remove_item=' . $cart_item_key ) ?>" id="<?php echo esc_attr( $cart_item_key ) ?>">X</a>
 			</td>
 			<td class="donate_cart_item_name">
 				<!--thumbnail-->
