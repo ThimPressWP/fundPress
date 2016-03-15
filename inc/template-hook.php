@@ -335,12 +335,12 @@ if( ! function_exists( 'donate_get_campaign_percent' ) )
 		}
 
 		$total = donate_total_campaign( $post_id );
-		if( ! $total )
-			return 0;
+
 		$goal = donate_goal_campagin( $post_id );
 
-		if( ! $goal )
+		if( ! $goal ) {
 			return 100;
+		}
 
 		return round( ( $total / $goal ) * 100, donate_currency_decimal() );
 	}
