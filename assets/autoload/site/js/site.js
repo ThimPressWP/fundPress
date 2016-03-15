@@ -212,6 +212,8 @@
 			{
 				first_name.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.first_name_invalid );
+			} else {
+				first_name.removeClass( 'donate_input_invalid' );
 			}
 
 			// lastname
@@ -221,6 +223,8 @@
 			{
 				last_name.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.last_name_invalid );
+			} else {
+				last_name.removeClass( 'donate_input_invalid' );
 			}
 
 			// email
@@ -229,6 +233,8 @@
 			{
 				email.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.email_invalid );
+			} else {
+				email.removeClass( 'donate_input_invalid' );
 			}
 
 			// phone
@@ -238,6 +244,8 @@
 			{
 				phone.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.phone_number_invalid );
+			} else {
+				phone.removeClass( 'donate_input_invalid' );
 			}
 
 			// payment method
@@ -246,6 +254,8 @@
 			{
 				payment_method.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.payment_method_invalid );
+			} else {
+				payment_method.removeClass( 'donate_input_invalid' );
 			}
 
 			return messages;

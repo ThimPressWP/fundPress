@@ -584,7 +584,6 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 			set_transient( $name, $rate, 12 * HOUR_IN_SECONDS );
 		}
 
-
 		return round( $amount * $rate, donate_currency_decimal() );
 
 	}
