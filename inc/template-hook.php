@@ -214,15 +214,15 @@ if( ! function_exists( 'donate_get_camgain_amount' ) )
 {
 	function donate_get_camgain_amount( $post )
 	{
-		$post->total = donate_total_campagin( $post->ID );
+		$post->total = donate_total_campaign( $post->ID );
 		return $post;
 	}
 }
 
 // get campaign total
-if( ! function_exists( 'donate_total_campagin' ) )
+if( ! function_exists( 'donate_total_campaign' ) )
 {
-	function donate_total_campagin( $post = null )
+	function donate_total_campaign( $post = null )
 	{
 		if( ! $post )
 		{
@@ -244,9 +244,9 @@ if( ! function_exists( 'donate_total_campagin' ) )
 
 		$query = $wpdb->prepare("
 				SELECT SUM( DISTINCT amount.meta_value ) AS raised FROM $wpdb->postmeta AS amount
-				RIGHT JOIN $wpdb->posts AS campaign ON amount.post_id = campaign.ID
+				LEFT JOIN $wpdb->posts AS campaign ON amount.post_id = campaign.ID
 				LEFT JOIN $wpdb->postmeta AS donate_meta ON donate_meta.post_id = campaign.ID
-				RIGHT JOIN $wpdb->posts AS donate ON donate.ID = donate_meta.meta_value
+				LEFT JOIN $wpdb->posts AS donate ON donate.ID = donate_meta.meta_value
 				WHERE campaign.ID = %s
 				AND campaign.post_type = %s
 				AND campaign.post_status = %s
@@ -311,7 +311,7 @@ if( ! function_exists( 'donate_get_campaign_percent' ) )
 			$post_id = $post->ID;
 		}
 
-		$total = donate_total_campagin( $post_id );
+		$total = donate_total_campaign( $post_id );
 		if( ! $total )
 			return 0;
 		$goal = donate_goal_campagin( $post_id );
