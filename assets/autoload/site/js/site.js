@@ -301,10 +301,30 @@
 			var percents = $( '.donate_counter_percent' );
 			for( var i = 0; i < percents.length; i++ )
 			{
-				var percent = $( percents[ i ] );
+				var percent = $( percents[ i ] ),
+					percent_width = percent.attr( 'data-percent' ),
+					counter = percent.parent( '.donate_counter:first' ),
+					counter_width = counter.outerWidth(),
+					tootip = percent.find( '.donate_percent_tooltip' ),
+					tootip_width = tootip.outerWidth();
+
 				percent.css({
-					width: percent.attr( 'data-percent' ) + '%'
-				})
+					width: percent_width + '%'
+				});
+
+				if ( ( tootip_width / 2 + percent.outerWidth() ) > counter_width ) {
+					tootip.css({
+						left: ( counter_width - tootip_width )
+					});
+				} else if( tootip_width / 2 > percent.outerWidth() ) {
+					tootip.css({
+						left: 0
+					});
+				} else {
+					tootip.css({
+						left: ( percent.outerWidth() - tootip_width / 2 )
+					});
+				}
 			}
 		},
 
