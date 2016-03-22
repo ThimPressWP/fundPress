@@ -92,15 +92,18 @@
 	display: inline-block;
     padding: 8px 10px;
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
-    color: #000;
+    color: #fff;
+}
+.donate-status.donate-cancelled{
+    background-color: #634A4A;
 }
 .donate-status.donate-pending{
     background-color: rgba(255, 47, 0, 0.82);
 }
 .donate-status.donate-processing{
-    background-color: rgba(239, 255, 0, 0.82);
+    background-color: rgb(255, 235, 0);
 }
 .donate-status.donate-completed{
     background-color: rgba(31, 241, 28, 0.82);

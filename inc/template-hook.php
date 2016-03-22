@@ -352,3 +352,36 @@ if ( ! function_exists( 'donate_campaign_pagination_archive' ) ) {
 		donate_get_template( 'pagination.php' );
 	}
 }
+
+add_action( 'donate_create_booking_donate', 'donate_change_order_donate', 10, 1 );
+add_action( 'donate_update_status', 'donate_change_order_donate', 10, 1 );
+if ( ! function_exists( 'donate_change_order_donate' ) ) {
+	// add schedule
+	function donate_change_order_donate( $donate_id ) {
+		$post_status = get_post_status( $donate_id );
+
+		if ( $post_status === 'donate-pending' ) {
+
+			wp_clear_scheduled_hook( 'donate_cancel_payment_order', array( $donate_id ) );
+	        $time = DN_Settings::instance()->checkout->get( 'cancel_payment', 12 ) * HOUR_IN_SECONDS;
+	        wp_schedule_single_event( time() + $time, 'donate_cancel_payment_order', array( $donate_id ) );
+
+		}
+	}
+}
+
+// cancel payment order
+add_action( 'donate_cancel_payment_order', 'donate_cancel_payment_order' );
+if ( ! function_exists( 'donate_cancel_payment_order' ) ) {
+
+	function donate_cancel_payment_order( $donate_id ) {
+		$post_status = get_post_status( $donate_id );
+
+		if ( $post_status === 'donate-pending' ) {
+	        wp_update_post( array(
+					'ID' 			=> $donate_id,
+					'post_status'	=> 'donate-cancelled'
+	        	) );
+		}
+	}
+}

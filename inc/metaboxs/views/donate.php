@@ -72,6 +72,24 @@
 					<?php echo donate_price( $donation->get_meta( 'total' ), $donation->get_meta( 'currency' ) ) ?>
 				</td>
 			</tr>
+			<tr>
+				<td><?php _e( 'Donor', 'tp-donate' ); ?></td>
+				<td>
+					<?php $donor_id = $this->get_field_value( 'donor_id' ); ?>
+					<a href="<?php echo get_edit_post_link( $donor_id ) ?>">
+						<?php $donor = DN_Donor::instance( $donor_id ); ?>
+						<?php printf( '%s %s', $donor->get_meta( 'first_name' ), $donor->get_meta( 'last_name' ) ) ?>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td><?php _e( 'Addition note', 'tp-donate' ); ?></td>
+				<td>
+					<?php global $post; $donate_id = $post->ID ?>
+					<?php $donation = DN_Donate::instance( $donate_id ); ?>
+					<?php printf( '%s', $donation->get_meta( 'addition' ) ) ?>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 

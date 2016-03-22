@@ -247,6 +247,18 @@ class DN_Post_Type
 	function register_post_status()
 	{
 		/**
+		 * cancelled payment
+		 */
+		$args = apply_filters( 'donate_register_post_status_cancel', array(
+			'label'                     => _x( 'Cancelled', 'Donate Status', 'tp-donate' ),
+			'public'                    => true,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>' ),
+		) );
+		register_post_status( 'donate-cancelled', $args );
+		/**
 		 * pending payment
 		 */
 		$args = apply_filters( 'donate_register_post_status_pending', array(
