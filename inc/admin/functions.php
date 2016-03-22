@@ -8,6 +8,7 @@ if( ! function_exists( 'donate_get_status_label' ) )
 	function donate_get_status_label( $post_id )
 	{
 		$status = array(
+				'donate-cancelled'	=> '<label class="donate-status donate-cancelled">'.__( 'Cancelled', 'tp-donate' ).'</span>',
 				'donate-pending'	=> '<label class="donate-status donate-pending">'.__( 'Pending', 'tp-donate' ).'</span>',
 				'donate-processing'	=> '<label class="donate-status donate-processing">'.__( 'Processing', 'tp-donate' ).'</span>',
 				'donate-completed'	=> '<label class="donate-status donate-completed">'.__( 'Completed', 'tp-donate' ).'</span>',

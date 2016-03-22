@@ -75,7 +75,7 @@ class DN_Setting_General extends DN_Setting_Base
 											),
 										'name'		=> 'currency',
 										'options'	=> donate_get_currencies(),
-										'default'	=> array()
+										'default'	=> 'USD'
 									),
 								array(
 										'type'		=> 'select',
@@ -126,7 +126,7 @@ class DN_Setting_General extends DN_Setting_Base
 												'min'	=> 0
 											),
 										'name'		=> 'currency_num_decimal',
-										'default'	=> '2'
+										'default'	=> '1'
 									)
 							)
 					)

@@ -57,6 +57,19 @@ class DN_Setting_Checkout extends DN_Setting_Base
 		                                                'production'          	=> __( 'Production', 'tp-donate' )
 		                                            )
 		                                    ),
+		                                	array(
+		                                        'type'      => 'input',
+		                                        'label'     => __( 'Cancel Pending Order', 'tp-donate' ),
+		                                        'desc'      => __( 'This controlls how many time cancel Pending Order status.', 'tp-donate' ),
+		                                        'atts'      => array(
+		                                                'id'    => 'cancel_order',
+		                                                'class' => 'cancel_order',
+		                                                'min'	=> 1,
+		                                                'type'	=> 'number'
+		                                            ),
+		                                        'name'      => 'cancel_order',
+		                                        'default' 	=> 12
+		                                    ),
 											array(
 													'type'		=> 'select',
 													'label'		=> __( 'Include lightbox', 'tp-donate' ),

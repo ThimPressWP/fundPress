@@ -34,11 +34,18 @@
 
 		<?php foreach ( $field['options'] as $key => $value ): ?>
 
+			<?php
+				$val = $this->get( $field['name'] );
+				if ( empty( $val ) && isset( $field['default'] ) ) {
+					$val = $field['default'];
+				}
+			?>
+
 			<?php if( $multiple ): ?>
 				<!--Multi select-->
-				<option value="<?php echo esc_attr( $key ) ?>"<?php echo in_array( $key, $this->get( $field['name'] ) ) ? ' selected="selected"' : ''  ?>><?php printf( '%s', $value ) ?></option>
+				<option value="<?php echo esc_attr( $key ) ?>"<?php echo in_array( $key, $val ) ? ' selected="selected"' : ''  ?>><?php printf( '%s', $value ) ?></option>
 			<?php else: ?>
-				<option value="<?php echo esc_attr( $key ) ?>"<?php echo $this->get( $field['name'] ) == $key ? ' selected="selected"' : ''  ?>><?php printf( '%s', $value ) ?></option>
+				<option value="<?php echo esc_attr( $key ) ?>"<?php echo $val == $key ? ' selected="selected"' : ''  ?>><?php printf( '%s', $value ) ?></option>
 			<?php endif; ?>
 
 		<?php endforeach; ?>

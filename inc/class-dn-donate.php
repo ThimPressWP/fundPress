@@ -43,8 +43,7 @@ class DN_Donate extends DN_Post_Base
 	function create_donate( $donor_id = null, $payment_method = null, $donate_system = false )
 	{
 		// donor_id
-		if( ! $donor_id )
-		{
+		if( ! $donor_id ) {
 			return new WP_Error( 'donor_error', __( 'Could not created donor.', 'tp-donate' ) );
 		}
 
@@ -94,7 +93,10 @@ class DN_Donate extends DN_Post_Base
 		add_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
 		add_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
 
-		return $donate_id;
+		// allow hook
+		do_action( 'donate_create_booking_donate', $donate_id );
+
+		return apply_filters( 'donate_create_booking_donate_result', $donate_id );
 
 	}
 
@@ -107,10 +109,10 @@ class DN_Donate extends DN_Post_Base
 
 		$old_status = get_post_status( $this->ID );
 
-		do_action( 'donate_update_status_' . $old_status . '_' . $status );
-		do_action( 'donate_update_status', $old_status, $status );
-
 		wp_update_post( array( 'ID' => $this->ID, 'post_status' => $status ) );
+
+		do_action( 'donate_update_status_' . $old_status . '_' . $status, $this->ID );
+		do_action( 'donate_update_status', $this->ID, $old_status, $status );
 
 		$this->send_email( $status );
 
@@ -119,8 +121,7 @@ class DN_Donate extends DN_Post_Base
 	// send email if status is completed
 	function send_email( $status )
 	{
-		if( $status === 'donate-completed' && $donor = $this->get_donor() )
-		{
+		if( $status === 'donate-completed' && $donor = $this->get_donor() ) {
 			DN_Email::instance()->send_email_donate_completed( $donor );
 		}
 	}
@@ -128,8 +129,9 @@ class DN_Donate extends DN_Post_Base
 	// get donor by donate id
 	function get_donor()
 	{
-		if( $this->donor )
+		if( $this->donor ) {
 			return $this->donor;
+		}
 
 		$donor_id = $this->get_meta( 'donor_id' );
 		if( ! $donor_id ) return;
@@ -140,21 +142,19 @@ class DN_Donate extends DN_Post_Base
 	// static function instead of new class
 	static function instance( $post = null )
 	{
-		if( ! $post )
+		if( ! $post ) {
 			return new self( $post );
+		}
 
 		if( is_numeric( $post ) )
 		{
 			$post = get_post( $post );
 			$id = $post->ID;
-		}
-		else if( $post instanceof WP_Post )
-		{
+		} else if( $post instanceof WP_Post ) {
 			$id = $post->ID;
 		}
 
-		if( ! empty( self::$_instances[ $id ] ) )
-		{
+		if( ! empty( self::$_instances[ $id ] ) ) {
 			return self::$_instances[ $id ];
 		}
 
