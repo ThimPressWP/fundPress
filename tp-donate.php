@@ -77,6 +77,8 @@ class ThimPress_Donate
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'uninstall' ) );
 
+		add_filter( 'script_loader_tag', array( $this, 'add_defer_attribute' , 10, 2 ) );
+
 		/**
 		 * text-domain append plugins_loaded hook
 		 */
@@ -309,6 +311,16 @@ class ThimPress_Donate
 				}
 			}
 		}
+
+	}
+
+	public function add_defer_attribute( $tag, $handle ) {
+
+		if ( strpos( $handle, 'tp-donate-' ) === 0 ) {
+			$tag = str_replace( ' src', ' defer="defer" src', $tag );
+		}
+
+	   	return $tag;
 
 	}
 
