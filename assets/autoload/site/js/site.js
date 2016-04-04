@@ -202,7 +202,10 @@
 
 			if( typeof _package.val() === 'undefined' && _amount.val() == '' )
 			{
+				_amount.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.amount_invalid );
+			} else {
+				_amount.removeClass( 'donate_input_invalid' );
 			}
 
 			// firstname
@@ -256,6 +259,15 @@
 				messages.push( thimpress_donate.l18n.payment_method_invalid );
 			} else {
 				payment_method.removeClass( 'donate_input_invalid' );
+			}
+
+			// address
+			var address = _form.find( '.address' ).val();
+			if ( address.trim() === '' ) {
+				address.addClass( 'donate_input_invalid' );
+				messages.push( thimpress_donate.l18n.address_invalid );
+			} else {
+				address.removeClass( 'donate_input_invalid' );
 			}
 
 			return messages;
