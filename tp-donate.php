@@ -77,7 +77,7 @@ class ThimPress_Donate
 		register_activation_hook( __FILE__, array( $this, 'install' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'uninstall' ) );
 
-		add_filter( 'script_loader_tag', array( $this, 'add_defer_attribute' , 10, 2 ) );
+		// add_filter( 'script_loader_tag', array( $this, 'add_defer_attribute' , 10, 2 ) );
 
 		/**
 		 * text-domain append plugins_loaded hook
