@@ -321,7 +321,7 @@
 					tootip_width = tootip.outerWidth();
 
 				percent.css({
-					width: percent_width + '%'
+					width: percent_width + 'px'
 				});
 
 				if( tootip_width / 2 >= percent.outerWidth() ) {
