@@ -330,7 +330,7 @@
 					});
 				} else if( ( tootip_width / 2 + percent.outerWidth() ) <= counter_width ) {
 					tootip.css({
-						left: percent.outerWidth() + tootip_width / 2
+						left: percent.outerWidth() - tootip_width / 2
 					});
 				} else if ( ( tootip_width / 2 + percent.outerWidth() ) > counter_width ) {
 					tootip.css({
