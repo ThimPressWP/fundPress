@@ -262,8 +262,8 @@
 			}
 
 			// address
-			var address = _form.find( '.address' ).val();
-			if ( address.trim() === '' ) {
+			var address = _form.find( '.address' );
+			if ( address.val().trim() === '' ) {
 				address.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.address_invalid );
 			} else {
@@ -321,7 +321,7 @@
 					tootip_width = tootip.outerWidth();
 
 				percent.css({
-					width: percent_width + 'px'
+					width: percent_width + '%'
 				});
 
 				if( tootip_width / 2 >= percent.outerWidth() ) {
@@ -330,7 +330,7 @@
 					});
 				} else if( ( tootip_width / 2 + percent.outerWidth() ) <= counter_width ) {
 					tootip.css({
-						left: percent.outerWidth() - tootip_width / 2
+						left: percent.outerWidth() + tootip_width / 2
 					});
 				} else if ( ( tootip_width / 2 + percent.outerWidth() ) > counter_width ) {
 					tootip.css({
