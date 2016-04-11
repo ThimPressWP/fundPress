@@ -19,7 +19,7 @@
 			this.donate_submit();
 
 			// load percent
-			// this.generate_percent();
+			this.generate_percent();
 		},
 
 		/**
@@ -349,10 +349,6 @@
 	});
 
 	$( window ).resize( function(){
-		DONATE_Site.generate_percent();
-	} );
-
-	$( window ).load( function(){
 		DONATE_Site.generate_percent();
 	} );
 
