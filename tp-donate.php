@@ -259,6 +259,7 @@ class ThimPress_Donate
 		wp_enqueue_script( 'jquery-ui-core' );
 
 		wp_register_script( 'thim_press_donate', TP_DONATE_LIB_URI . '/globals.js', array(), TP_DONATE_VER, true );
+		wp_register_script( 'thim_press_circles', TP_DONATE_LIB_URI . '/circles.min.js', array( 'jquery' ), TP_DONATE_VER, true );
 
 		/**
 		 * array render object script
@@ -311,6 +312,7 @@ class ThimPress_Donate
 				}
 			}
 		}
+		wp_enqueue_script( 'thim_press_circles' );
 
 	}
 

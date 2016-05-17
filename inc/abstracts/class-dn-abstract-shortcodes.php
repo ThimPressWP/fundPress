@@ -34,11 +34,13 @@ abstract class DN_Shortcode_Base
 	// add shortcode callback
 	public function add_shortcode( $atts, $content = null )
 	{
+		ob_start();
 		do_action( 'donate_before_wrap_shortcode', $this->_shortcodeName );
 
 		donate_get_template( 'shortcodes/' . $this->_template, $this->parses( $atts ) );
 
 		do_action( 'donate_after_wrap_shortcode', $this->_shortcodeName );
+		return ob_get_clean();
 	}
 
 	// add end wrap shortcode html
