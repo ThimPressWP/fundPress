@@ -50,12 +50,12 @@ class DN_Template {
         {
             $term   = get_queried_object();
 
-            $term->taxonomy = str_replace( 'dn_', '', $term->taxonomy );
+            $taxonomy = str_replace( 'dn_', '', $term->taxonomy );
 
-            $file = 'taxonomy-' . $term->taxonomy . '.php';
+            $file = 'taxonomy-' . $taxonomy . '.php';
 
-            $find[] = 'taxonomy-' . $term->taxonomy . '-' . $term->slug . '.php';
-            $find[] = donate_template_path() . '/' . 'taxonomy-' . $term->taxonomy . '-' . $term->slug . '.php';
+            $find[] = 'taxonomy-' . $taxonomy . '-' . $term->slug . '.php';
+            $find[] = donate_template_path() . '/' . 'taxonomy-' . $taxonomy . '-' . $term->slug . '.php';
             $find[] = $file;
             $find[] = donate_template_path() . '/' . $file;
         }
