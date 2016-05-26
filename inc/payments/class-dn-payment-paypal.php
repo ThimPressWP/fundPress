@@ -95,11 +95,11 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
             $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
 
-            if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 )
+            if( ! is_wp_error( $response ) )
             {
                 $body = wp_remote_retrieve_body( $response );
 
-                if( strtolower( $body ) === 'verified' )
+                if( ( wp_remote_retrieve_response_code( $response ) === 200 && strtolower( $body ) === 'verified' ) || strtolower( $pay_verify['payment_status'] ) === 'completed' )
                 {
                     // payment status
                     $payment_status = strtolower( $_POST['payment_status'] );
