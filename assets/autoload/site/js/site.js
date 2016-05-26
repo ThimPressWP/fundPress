@@ -263,7 +263,7 @@
 
 			// address
 			var address = _form.find( '.address' );
-			if ( address.val().trim() === '' ) {
+			if ( address.length === 1 && address.val().trim() === '' ) {
 				address.addClass( 'donate_input_invalid' );
 				messages.push( thimpress_donate.l18n.address_invalid );
 			} else {

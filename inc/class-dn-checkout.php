@@ -17,41 +17,50 @@ class DN_Checkout
 		// cart
 		$cart = donate()->cart;
 		// get donate_id from cart
-		if( ! $donor_id = $cart->donor_id )
-		{
+		$donor_id = $cart->donor_id;
+		if( ! $donor_id ) {
 			// create donor
 			$donor_id = DN_Donor::instance()->create_donor( $donor_info );
+		} else {
+			$donor = DN_Donor::instance( $donor_id )->update_donor( $donor_info );
 		}
 
 		// is return wp error
-		if( is_wp_error( $donor_id ) )
-		{
+		if( is_wp_error( $donor_id ) ) {
 			return array( 'status' => 'failed', 'message' => $donor_id->get_error_message() );
 		}
 
-		// update post meta
-		if( $amount )
-		{
+		// set cart information
+		$param = array(
+						'addtion_note'	=> $addition,
+						'donor_id'		=> $donor_id
+					);
+		// hook cart information
+		$param = apply_filters( 'donate_cart_information_data', $param );
+
+		// set cart info
+		$cart->set_cart_information( $param );
+
+		$donate_id = $cart->donate_id;
+		if ( ! $donate_id ) {
 			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method, $amount );
-			DN_Donate::instance( $donate_id )->update_meta( 'total', $amount );
+		} else {
+			$donate = DN_Donate::instance( $donate_id )->update_information( $donor_id, $payment_method, $amount );
 		}
-		// get donate_id from cart
-		else if( ! $donate_id = $cart->donate_id )
-		{
-			$donate_id = DN_Donate::instance()->create_donate( $donor_id, $payment_method, $amount );
+		// update post meta
+		if( $amount ) {
+			DN_Donate::instance( $donate_id )->update_meta( 'total', $amount );
 		}
 
 		// is wp error when create donate
-		if( is_wp_error( $donate_id ) )
-		{
+		if( is_wp_error( $donate_id ) ) {
 			return array( 'status' => 'failed', 'message' => $donate_id->get_error_message() );
 		}
 
 		// payments method is enable
 		$payments = donate_payments_enable();
 
-		if( ! array_key_exists( $payment_method, $payments ) )
-		{
+		if( ! array_key_exists( $payment_method, $payments ) ) {
 			// return error with message if payment method is not enable or not exists in system.
 			return array( 'status' => 'failed', 'message' => __( 'Invalid payment method. Please try again.', 'tp-donate' ) );
 		}

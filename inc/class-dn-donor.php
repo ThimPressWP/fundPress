@@ -71,24 +71,27 @@ class DN_Donor extends DN_Post_Base
 		if( ! $param )
 			return new WP_Error( 'donate_create_donor', __( 'Could not create new donor.', 'tp-donate' ) );
 
-		if( $donor_id = $this->donor_exists( $param['email'] ) )
-		{
-			return $donor_id;
-		}
-		else
+		$donor_id = $this->donor_exists( $param['email'] );
+		if ( ! $donor_id )
 		{
 			$donor_id = $this->create_post( array(
 					'post_title' 		=> 	sprintf( '%s %s', $param['first_name'], $param['last_name'] ),
 					'post_content'	 	=>	sprintf( '%s', $param[ 'email' ] ),
 					'post_exceprt'	 	=>	sprintf( '%s', $param[ 'email' ] )
 				) );
+		}
 
-			foreach ( $param as $meta_key => $value ) {
-				add_post_meta( $donor_id, $this->meta_prefix . $meta_key, $value );
-			}
+		foreach ( $param as $meta_key => $value ) {
+			update_post_meta( $donor_id, $this->meta_prefix . $meta_key, $value );
 		}
 
 		return $donor_id;
+	}
+
+	function update_donor( $param = array() ) {
+		foreach ( $param as $meta_key => $value ) {
+			update_post_meta( $this->ID, $this->meta_prefix . $meta_key, $value );
+		}
 	}
 
 	/**
