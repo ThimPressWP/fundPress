@@ -65,15 +65,15 @@ class DN_Donate extends DN_Post_Base
 		{
 			$this->donate_system = $donate_system;
 			// create donate without campaign
-			add_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
-			add_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
+			update_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
+			update_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
 		}
 		// get cart contents
 		else if( $cart_contents = $cart->cart_contents )
 		{
 			// create donate with cart_contents
-			add_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
-			add_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
+			update_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
+			update_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
 
 			// insert post meta
 			foreach ( $cart_contents as $cart_item_id => $cart_content ) {
@@ -84,20 +84,64 @@ class DN_Donate extends DN_Post_Base
 
 				// ralationship campagin id and donate
 				$campaign->set_meta( 'donate', $donate_id );
-				// add_post_meta( $cart_content->product_id , $this->meta_prefix . 'donate', $donate_id  );
+				// update_post_meta( $cart_content->product_id , $this->meta_prefix . 'donate', $donate_id  );
 			}
 		}
 
-		add_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
-		add_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
-		add_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
-		add_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
+		update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
+		update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
+		update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
+		update_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
 
 		// allow hook
 		do_action( 'donate_create_booking_donate', $donate_id );
 
 		return apply_filters( 'donate_create_booking_donate_result', $donate_id );
 
+	}
+
+	function update_information( $donor_id = null, $payment_method = null, $donate_system = false ) {
+		// cart
+		$cart = donate()->cart;
+
+		// remove donate with cart_contents
+		delete_post_meta( $this->ID, $this->meta_prefix . 'cart_contents' ); // cart contents meta donate
+		delete_post_meta( $this->ID, $this->meta_prefix . 'total' );
+		delete_post_meta( $this->ID, $this->meta_prefix . 'addition' );
+		delete_post_meta( $this->ID, $this->meta_prefix . 'currency' );
+		delete_post_meta( $this->ID, $this->meta_prefix . 'payment_method' );
+		delete_post_meta( $this->ID, $this->meta_prefix . 'donor_id' );
+
+		// create donate for symtem without campaign
+		if( $donate_system && is_numeric( $donate_system ) )
+		{
+			$this->donate_system = $donate_system;
+			// create donate without campaign
+			update_post_meta( $this->ID, $this->meta_prefix . 'amount_system', $donate_system );
+			update_post_meta( $this->ID, $this->meta_prefix . 'total', $donate_system );
+		}
+		// get cart contents
+		else if( $cart_contents = $cart->cart_contents )
+		{
+			// create donate with cart_contents
+			update_post_meta( $this->ID, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
+			update_post_meta( $this->ID, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
+
+			// insert post meta
+			foreach ( $cart_contents as $cart_item_id => $cart_content ) {
+				// ignoire product_data key
+				$campaign = DN_Campaign::instance( $cart_content->product_id );
+
+				// ralationship campagin id and donate
+				$campaign->set_meta( 'donate', $this->ID );
+			}
+		}
+
+		update_post_meta( $this->ID, $this->meta_prefix . 'addition', $cart->addtion_note );
+		update_post_meta( $this->ID, $this->meta_prefix . 'currency', donate_get_currency() );
+		update_post_meta( $this->ID, $this->meta_prefix . 'payment_method', $payment_method );
+		update_post_meta( $this->ID, $this->meta_prefix . 'donor_id', $donor_id );
+		return $this->ID;
 	}
 
 	// update status

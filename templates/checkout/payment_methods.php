@@ -12,12 +12,12 @@ $payments = donate_payments_enable();
 	<?php do_action( 'donate_before_payments_checkout' ); ?>
 
 	<div class="donate_payments">
-		<?php foreach( $payments as $key => $payment ) : ?>
+		<?php $i = 0; foreach( $payments as $key => $payment ) : ?>
 
 			<label class="payment_method" for="<?php echo esc_attr( $payment->_id ) ?>"><img width="115" height="50" src="<?php echo esc_attr( $payment->_icon ) ?>" /></label>
-			<input id="<?php echo esc_attr( $payment->_id ) ?>" type="radio" name="payment_method" value="<?php echo esc_attr( $payment->_id ) ?>"/>
+			<input id="<?php echo esc_attr( $payment->_id ) ?>" type="radio" name="payment_method" value="<?php echo esc_attr( $payment->_id ) ?>"<?php echo $i === 0 ? ' checked' : '' ?>/>
 
-		<?php endforeach; ?>
+		<?php $i++; endforeach; ?>
 	</div>
 
 	<?php do_action( 'donate_after_payments_checkout' ); ?>

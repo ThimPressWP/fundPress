@@ -46,6 +46,14 @@ class DN_Ajax
 		 */
 		$payments = array();
 		$payment_enable = donate_payments_enable();
+		foreach( $payment_enable as $key => $payment )
+		{
+			$payments[] = array(
+					'id'		=> $payment->_id,
+					'title'		=> $payment->_title,
+					'icon'		=> $payment->_icon
+				);
+		}
 		if( isset( $_POST[ 'campaign_id' ] ) && is_numeric( $_POST[ 'campaign_id' ] ) )
 		{
 			$campaign = get_post( $_POST[ 'campaign_id' ] );
@@ -77,16 +85,9 @@ class DN_Ajax
 			}
 
 			// load payments when checkout on lightbox setting isset yes
-			if( DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) === 'yes' )
+			if( DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) !== 'yes' )
 			{
-				foreach( $payment_enable as $key => $payment )
-				{
-					$payments[] = array(
-							'id'		=> $payment->_id,
-							'title'		=> $payment->_title,
-							'icon'		=> $payment->_icon
-						);
-				}
+				$payments = array();
 			}
 
 			$results = array(
@@ -101,14 +102,6 @@ class DN_Ajax
 		}
 		else // load form donate now button
 		{
-			foreach( $payment_enable as $key => $payment )
-			{
-				$payments[] = array(
-						'id'		=> $payment->_id,
-						'title'		=> $payment->_title,
-						'icon'		=> $payment->_icon
-					);
-			}
 
 			$results = array(
 				'status'				=> 'success',
@@ -247,12 +240,9 @@ class DN_Ajax
 				$errors[] = __( 'Invalid payment method. Please try again.', 'tp-donate' );
 
 			// failed if errors is not empty
-			if( ! empty( $errors ) )
-			{
+			if( ! empty( $errors ) ) {
 				$results = array( 'status' => 'failed', 'message' => $errors );
-			}
-			else
-			{
+			} else {
 				// payment method
 				$payment_method = sanitize_text_field( $_POST['payment_method'] );
 
@@ -267,7 +257,7 @@ class DN_Ajax
 				// alow hook to submit param donor
 				$params = apply_filters( 'donate_ajax_submit_donor', $params );
 				// addtional note
-				$addition_note	= isset( $_POST['addition_note'] ) ? sanitize_text_field( $_POST['addition_note'] ) : '';
+				$addition_note	= isset( $_POST['addition'] ) ? sanitize_text_field( $_POST['addition'] ) : '';
 
 				$checkout = new DN_Checkout();
 

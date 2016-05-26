@@ -1,6 +1,6 @@
 <?php
 /**
- * template shortcode [tp_donat]
+ * template shortcode [tp_donate]
  */
 ?>
 
