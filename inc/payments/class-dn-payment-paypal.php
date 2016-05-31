@@ -119,6 +119,8 @@ class DN_Payment_Palpal extends DN_Payment_Base{
                         $donate->update_status( $status );
                     }
                 }
+            } else {
+                var_dump($response); die();
             }
 
         }
