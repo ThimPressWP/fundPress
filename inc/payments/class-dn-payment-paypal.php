@@ -99,7 +99,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
                 'httpversion' => '1.1',
                 'compress'    => false,
                 'decompress'  => false,
-                'user-agent'  => 'HotelBooking'
+                'user-agent'  => 'Donation'
             );
             // $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
             $response = wp_safe_remote_post( $paypal_api_url, $params );
