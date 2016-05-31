@@ -72,7 +72,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
         // validate payment notify_url, update status
         if( ! empty( $_POST ) && isset( $_POST[ 'txn_type' ] ) && $_POST[ 'txn_type' ] === 'web_accept' )
-        {
+        {var_dump($_POST); die();
             if( ! isset( $_POST['payment_status'] ) )
                 return;
 
@@ -94,7 +94,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
             $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
-var_dump($response); die();
+
             if( ! is_wp_error( $response ) )
             {
                 $body = wp_remote_retrieve_body( $response );
