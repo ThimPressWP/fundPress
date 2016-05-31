@@ -72,7 +72,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
         // validate payment notify_url, update status
         if( ! empty( $_POST ) && isset( $_POST[ 'txn_type' ] ) && $_POST[ 'txn_type' ] === 'web_accept' )
-        {var_dump($_POST); die();
+        {
             if( ! isset( $_POST['payment_status'] ) )
                 return;
 
