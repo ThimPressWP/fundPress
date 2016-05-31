@@ -275,6 +275,7 @@ if( ! function_exists( 'donate_total_campaign' ) )
 					AND amount.meta_key = %s
 					AND donate_meta.meta_key = %s
 					AND c.meta_key = %s
+				GROUP BY donate.ID
 			", $post_id, 'dn_donate', 'donate-completed', 'dn_campaign', 'publish', 'thimpress_donate_total', 'thimpress_campaign_donate', 'thimpress_donate_currency' );
 
 		$total = 0;

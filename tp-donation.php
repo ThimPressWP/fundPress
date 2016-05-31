@@ -4,7 +4,7 @@
 	Plugin URI: http://thimpress.com/tp-donate
 	Description: Donate
 	Author: ThimPress
-	Version: 1.0.1
+	Version: 1.0.2
 	Author URI: http://thimpress.com
 */
 
@@ -18,7 +18,7 @@ define( 'TP_DONATE_INC', TP_DONATE_PATH . 'inc' );
 define( 'TP_DONATE_INC_URI', TP_DONATE_URI . '/inc' );
 define( 'TP_DONATE_ASSETS_URI', TP_DONATE_URI . '/assets' );
 define( 'TP_DONATE_LIB_URI', TP_DONATE_INC_URI . '/libraries' );
-define( 'TP_DONATE_VER', '1.0.1' );
+define( 'TP_DONATE_VER', '1.0.2' );
 
 // define meta post type
 define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
