@@ -94,7 +94,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
             $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
-var_dump( $response ); die();
+var_dump( $response );
             if( ! is_wp_error( $response ) )
             {
                 $body = wp_remote_retrieve_body( $response );
