@@ -93,13 +93,22 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
             $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
-            $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
+            $params = array(
+                'body'        => $pay_verify,
+                'timeout'     => 60,
+                'httpversion' => '1.1',
+                'compress'    => false,
+                'decompress'  => false,
+                'user-agent'  => 'HotelBooking'
+            );
+            // $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
+            $response = wp_safe_remote_post( $paypal_api_url, $params );
 
-            if( ! is_wp_error( $response ) )
+            if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 )
             {
                 $body = wp_remote_retrieve_body( $response );
 
-                if( ( wp_remote_retrieve_response_code( $response ) === 200 && strtolower( $body ) === 'verified' ) || strtolower( $pay_verify['payment_status'] ) === 'completed' )
+                if( strtolower( $body ) === 'verified' )
                 {
                     // payment status
                     $payment_status = strtolower( $_POST['payment_status'] );
