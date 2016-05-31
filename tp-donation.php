@@ -261,6 +261,9 @@ class ThimPress_Donate
 		wp_register_script( 'thim_press_donate', TP_DONATE_LIB_URI . '/globals.js', array(), TP_DONATE_VER, true );
 		wp_register_script( 'thim_press_circles', TP_DONATE_LIB_URI . '/circles.min.js', array( 'jquery' ), TP_DONATE_VER, true );
 
+		/* datetime picker */
+		wp_register_style( 'datetimepicker', TP_DONATE_LIB_URI . '/datetimepicker/jquery.datetimepicker.min.css' );
+		wp_register_script( 'datetimepicker', TP_DONATE_LIB_URI . '/datetimepicker/jquery.datetimepicker.full.min.js', array( 'jquery' ), TP_DONATE_VER, true );
 		/**
 		 * array render object script
 		 * @var array
@@ -279,7 +282,8 @@ class ThimPress_Donate
 		wp_enqueue_script( 'wp-util' );
 		if( is_admin() )
 		{
-
+			// wp_enqueue_style( 'datetimepicker' );
+			// wp_enqueue_script( 'datetimepicker' );
 			foreach ( $this->_assets[ 'admin' ] as $key => $files ) {
 				if( $key === 'css' )
 				{

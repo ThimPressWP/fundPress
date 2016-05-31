@@ -20,12 +20,11 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 */
 	public $_name = array();
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->_id = 'donate_setting_section';
 		$this->_title = __( 'Donate Settings', 'tp-donate' );
 		$this->_prefix = TP_DONATE_META_CAMPAGIN;
-		// $this->_layout = TP_DONATE_INC . '/metaboxs/views/donate-settings.php';
+		// $this->_layout = TP_DONATE_INC . '/metaboxs/views/campaign.php';
 		add_action( 'donate_metabox_setting_section', array( $this, 'donate_metabox_setting' ), 10, 1 );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
@@ -38,13 +37,12 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * load fields
 	 * @return array
 	 */
-	public function load_field()
-	{
+	public function load_field() {
 		return
 			array(
-				'goal_raised'	=> array(
-						'title'	=> __( 'Goal and Raised', 'tp-donate' ),
-					),
+				'general'	=> array(
+						'title'	=> __( 'General', 'tp-donate' ),
+				),
 
 				'compensate'	=> array(
 					'title'	=> __( 'Compensate', 'tp-donate' ),
@@ -57,91 +55,91 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * @param $id
 	 * @return
 	 */
-	public function donate_metabox_setting( $id )
-	{
+	public function donate_metabox_setting( $id ) {
 		$html = array();
 
 		global $post;
 		$currency = donate_get_currency();
-		if( $post && get_post_meta( $post->ID, $this->get_field_name( 'currency' ), true ) )
-		{
+		if( $post && get_post_meta( $post->ID, $this->get_field_name( 'currency' ), true ) ) {
 			$currency = get_post_meta( $post->ID, $this->get_field_name( 'currency' ), true );
 		}
 
-		$html[] = '<input type="hidden" name="' . $this->get_field_name( 'currency' ) . '" value="'.esc_attr( $currency ).'"/>';
-		if( $id === 'goal_raised' )
-		{
-			$html[] = '<div class="tool_box">';
-
-			$html[] = '<table>';
-			$html[] = '<tr>';
-			$html[] = '<th><label>'.sprintf( '%s(%s)', __( 'Goal', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
-			$html[] = '<input type="number" class="goal" name="'.$this->get_field_name( 'goal' ).'" value="'.$this->get_field_value( 'goal', 0 ).'" min="0"/></th>';
-			$html[] = '<td><label>'.sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
-			$html[] = '<input type="number" class="raised" name="'.$this->get_field_name( 'raised' ).'" value="'.donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency ).'" min="0" readonly/></td>';
-			$html[] = '</tr>';
-			$html[] = '</table>';
-
+		$html[] = '<input type="hidden" name="' . esc_attr( $this->get_field_name( 'currency' ) ) . '" value="'. esc_attr( $currency ) .'"/>';
+		if( $id === 'general' ) {
+			$html[] = '<div class="form-group">';
+			$html[] = 		'<p>';
+			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'goal' ) ) .'">'.sprintf( '%s(%s)', __( 'Goal', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
+			$html[]	=			'<input type="number" class="goal regular-text" name="'.$this->get_field_name( 'goal' ).'" id="'.$this->get_field_name( 'goal' ).'" value="'.$this->get_field_value( 'goal', 0 ).'" min="0"/></th>';
+			$html[] = 		'</p>';
+			$html[] = 		'<p>';
+			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'raised' ) ).'">'.sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
+			$html[]	=			'<input type="number" class="raised regular-text" name="'.$this->get_field_name( 'raised' ).'" id="'.$this->get_field_name( 'raised' ).'" value="'.donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency ).'" readonly/></th>';
+			$html[] = 		'</p>';
 			$html[] = '</div>';
-		}
-		else if( $id === 'compensate' )
-		{
-			$html[] = '<div class="tool_box">';
-			$html[] = '<label>'.__( 'Set compensate', 'tp-donate' );
-			$html[] = '<a href="#" class="button add_compensate">'.__( 'Add', 'tp-donate' ).'</a>';
-			$html[] = '</label>';
-			// $html[] = '</div>';
+			$html[] = '<div class="form-group">';
+			$html[] = 		'<p>';
+			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'start' ) ) .'">'.__( 'Start', 'tp-donate' ).'</label>';
+			$html[]	=			'<input type="text" class="start regular-text" name="'.$this->get_field_name( 'start' ).'" id="'.$this->get_field_name( 'start' ).'" value="'.$this->get_field_value( 'start' ).'" /></th>';
+			$html[] = 		'</p>';
+			$html[] = 		'<p>';
+			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'end' ) ).'">'.__( 'End', 'tp-donate' ).'</label>';
+			$html[]	=			'<input type="text" class="end regular-text" name="'.$this->get_field_name( 'end' ).'" id="'.$this->get_field_name( 'end' ).'" value="'.$this->get_field_value( 'end' ).'" /></th>';
+			$html[] = 		'</p>';
+			$html[] = '</div>';
 
-			if( $markers = $this->get_field_value( 'marker' ) )
-			{
-				if( ! empty( $markers ) )
-				{
-					foreach( $markers as $marker_id => $meta_val )
-					{
-						$html[] = '<div class="donate_metabox" data-compensate-id="'.$marker_id.'">';
-						$html[] = '<table>';
-						$html[] = '<tr>';
-						$html[] = '<th><label>'.sprintf( '%s(%s)', __( 'Marker', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
-						$html[] = '<input type="number" step="any" name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][amount]" value="'.esc_attr( $meta_val['amount'] ).'"/></th>';
-						$html[] = '<td><label>'.__( 'Description', 'tp-donate' ).'</label>';
-						$html[] = '<textarea name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][desc]">'.esc_textarea( $meta_val['desc'] ).'</textarea></td>';
-						$html[] = '<td><a href="#" class="remove" data-compensate-id="'.$marker_id.'">'.__( 'Remove', 'tp-donate' ).'</a></td>';
-						$html[] = '</tr>';
-						$html[] = '</table>';
+		} else if( $id === 'compensate' ) {
+
+			if( $markers = $this->get_field_value( 'marker' ) ) {
+				if( ! empty( $markers ) ) {
+					foreach( $markers as $marker_id => $meta_val ) {
+						$html[] = '<div class="form-group donate_metabox" data-compensate-id="'.esc_attr( $marker_id ).'">';
+						$html[] = 		'<div class="section">';
+						$html[] = 			'<p>';
+						$html[] = 				'<label>'.sprintf( '%s(%s)', __( 'Marker', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
+						$html[] = 				'<input type="number" step="any" name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][amount]" value="'.esc_attr( $meta_val['amount'] ).'"/>';
+						$html[] = 			'</p>';
+						$html[] = 			'<p>';
+						$html[] = 				'<label>'.__( 'Description', 'tp-donate' ).'</label>';
+						$html[] = 				'<textarea name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][desc]">'.esc_textarea( $meta_val['desc'] ).'</textarea>';
+						$html[] = 			'</p>';
+						$html[] = 			'<p>';
+						$html[] = 				'<a href="#" class="remove" data-compensate-id="{{ data.id }}">'.__( 'Remove', 'tp-donate' ).'</a>';
+						$html[] = 			'</p>';
+						$html[] = 		'</div>';
 						$html[] = '</div>';
 					}
 				}
 			}
-
+			$html[] = '<div class="form-group">';
+			$html[]	=		'<a href="#" class="button add_compensate">'.__( 'Add Compensate', 'tp-donate' ).'</a>';
 			$html[] = '</div>';
 		}
 
 		echo implode( '', $html );
 	}
 
-	public function admin_footer()
-	{
+	public function admin_footer(){
 		global $post;
 		if( $post && $post->post_type !== 'dn_campaign' )
 			return;
 
 		$html = '<script type="text/html" id="tmpl-compensate-layout">
-			<div class="donate_metabox" data-compensate-id="{{ data.id }}">
-				<table>
+			<div class="form-group donate_metabox" data-compensate-id="{{ data.id }}">
+				<div class="section">
 					<tr>
-						<th>
+						<p>
 							<label>'.sprintf( '%s(%s)', __( 'Marker', 'tp-donate' ), donate_get_currency_symbol() ).'</label>
 							<input type="number" step="any" name="'.$this->get_field_name( 'marker' ).'[{{ data.id }}][amount]" value="{{ data.amount }}" />
-						</th>
-						<td>
+						</p>
+						<p>
 							<label>'.__( 'Description', 'tp-donate' ).'</label>
 							<textarea name="'.$this->get_field_name( 'marker' ).'[{{ data.id }}][desc]">{{ data.desc }}</textarea>
-						</td>
-						<td>
+						</p>
+						<p>
 							<a href="#" class="remove" data-compensate-id="{{ data.id }}">'.__( 'Remove', 'tp-donate' ).'</a>
-						</td>
+						</p>
 					</tr>
-				</table>
+				</div>
 			</div>
 		</script>';
 
@@ -152,31 +150,27 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * ajax create compensate
 	 * @return
 	 */
-	function donate_remove_compensate()
-	{
-		if( ! isset( $_GET[ 'schema' ] ) || $_GET[ 'schema' ] !== 'donate-ajax' || empty( $_POST ) )
+	function donate_remove_compensate() {
+		if( ! isset( $_GET[ 'schema' ] ) || $_GET[ 'schema' ] !== 'donate-ajax' || empty( $_POST ) ) {
 			return;
+		}
 
 		if( ! isset( $_POST[ 'compensate_id' ] ) || ! isset( $_POST[ 'post_id' ] ) ) return;
 
 		$marker = $this->get_field_value( 'marker', $_POST[ 'post_id' ] );
 
-		if( empty( $marker ) )
-		{
+		if( empty( $marker ) ) {
 			wp_send_json( array( 'status' => 'success' ) ); die();
 		}
 
-		if( isset( $marker[ $_POST[ 'compensate_id' ] ] ) )
-		{
+		if( isset( $marker[ $_POST[ 'compensate_id' ] ] ) ) {
 			unset( $marker[ $_POST[ 'compensate_id' ] ] );
 		}
-		else
-		{
+		else {
 			wp_send_json( array( 'status' => 'success' ) ); die();
 		}
 
-		if ( $update = update_post_meta( $_POST[ 'post_id' ], $this->get_field_name( 'marker' ), $marker ) )
-		{
+		if ( $update = update_post_meta( $_POST[ 'post_id' ], $this->get_field_name( 'marker' ), $marker ) ) {
 			wp_send_json( array( 'status' => 'success' ) ); die();
 		}
 
@@ -187,8 +181,7 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * must login
 	 * @return null
 	 */
-	function mustLogin()
-	{
+	function mustLogin() {
 		_e( 'You must login', 'tp-donate' );
 	}
 

@@ -50,8 +50,9 @@ abstract class DN_MetaBox_Base
 
 	public function __construct()
 	{
-		if( ! $this->_id )
+		if( ! $this->_id ) {
 			return;
+		}
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'update' ), 10, 3 );

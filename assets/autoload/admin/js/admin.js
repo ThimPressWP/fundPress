@@ -6,7 +6,7 @@
 		init: function()
 		{
 			this.admin_setting_tab();
-			this.donate_meta_box();
+			this.donate_meta_box.init();
 			this.donate_lightbox();
 			// select2 js
 			$('.tp_donate_wrapper_content select').select2({
@@ -68,12 +68,15 @@
 			});
 		},
 
-		donate_meta_box: function()
-		{
-			/*
-			 * add new compensate
-			 */
-			$( document ).on( 'click', '.donate_metabox_setting_section .add_compensate', function(e){
+		donate_meta_box: {
+
+			init: function() {
+				$( document ).on( 'click', '.donate_metabox_setting_section .add_compensate', this.add_compensate );
+				$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', this.remove_compensate );
+				this.datetimepicker();
+			},
+
+			add_compensate: function( e ) {
 				e.preventDefault();
 
 				var _self = $(this),
@@ -82,21 +85,18 @@
 					_parent = _self.parents( '.donate_metabox_setting_section:first' ),
 					_template = wp.template('compensate-layout');
 
-				if( _section.length === 1 )
-				{
+				if( _section.length === 1 ) {
 					_id = _section.attr( 'data-compensate-id' );
 					_id = parseInt(_id) + 1;
 				}
 
-				_parent.append( _template({ id: _id }) );
+				_self.before( _template({ id: _id }) );
+			},
 
-			});
-
-			// remove package
-			$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', function( e ){
+			remove_compensate: function( e ) {
 				e.preventDefault();
 				var _self = $(this),
-					_record = _self.parents( 'tr:first' ),
+					_record = _self.parents( '.form-group:first' ),
 					_post_id = $( 'body' ).find( '#post_ID' ).val();
 
 				$.ajax({
@@ -112,27 +112,45 @@
 					}
 				}).done ( function( res ){
 
-					if( typeof res.status === 'undefined' )
+					if( typeof res.status === 'undefined' ) {
 						return;
-
-					if( res.status === 'success' )
-					{
-						_record.remove();
 					}
-					else if ( res.status === 'failed' && typeof res.message !== 'undefined' )
-					{
+
+					if( res.status === 'success' ) {
+						_record.remove();
+					} else if ( res.status === 'failed' && typeof res.message !== 'undefined' ) {
 						alert( res.message );
 					}
 
 				} ).fail( function(){
 
-				} )
-			});
+				} );
+			},
+
+			datetimepicker: function() {
+				var _start = $( 'input[name="thimpress_campaign_start"]' ),
+					_end = $( 'input[name="thimpress_campaign_end"]' );
+				_start.datetimepicker({
+					controlType: 'select',
+					oneLine: true,
+					timeFormat: 'hh:mm tt',
+					onSelect: function( date ) {
+						_end.datetimepicker( 'option', 'minDateTime', new Date( date ) );
+					}
+				});
+				_end.datetimepicker({
+					controlType: 'select',
+					oneLine: true,
+					timeFormat: 'hh:mm tt',
+					onSelect: function( date ) {
+						_start.datetimepicker( 'option', 'maxDateTime', new Date( date ) );
+					}
+				});
+			},
 
 		},
 
-		donate_lightbox: function()
-		{
+		donate_lightbox: function() {
 			var donate_lightbox = $( '#lightbox_checkout' ),
 				donate_redirect = $( '#donate_redirect' ),
 				tr_donate_redirect = donate_redirect.parents( 'tr:first' );
