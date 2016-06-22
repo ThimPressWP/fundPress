@@ -287,6 +287,8 @@ abstract class DN_MetaBox_Base
 					$val = trim( $val );
 				}
 				update_post_meta( $post_id, $key, $val );
+				do_action( 'donate_update_post_meta', $post_id, $key, $val );
+				do_action( 'donate_update_post_meta_' . $key, $post_id, $val );
 			}
 		}
 	}
@@ -295,9 +297,9 @@ abstract class DN_MetaBox_Base
 	 * delete meta post within post
 	 * @return
 	 */
-	public function delete( $post_id )
-	{
+	public function delete( $post_id ) {
 		delete_post_meta( $post_id, $this->_id );
 	}
+
 
 }

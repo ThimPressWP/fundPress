@@ -73,7 +73,7 @@
 			init: function() {
 				$( document ).on( 'click', '.donate_metabox_setting_section .add_compensate', this.add_compensate );
 				$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', this.remove_compensate );
-				this.datetimepicker();
+				this.datepicker();
 			},
 
 			add_compensate: function( e ) {
@@ -127,23 +127,22 @@
 				} );
 			},
 
-			datetimepicker: function() {
+			datepicker: function() {
 				var _start = $( 'input[name="thimpress_campaign_start"]' ),
 					_end = $( 'input[name="thimpress_campaign_end"]' );
-				_start.datetimepicker({
-					controlType: 'select',
-					oneLine: true,
-					timeFormat: 'hh:mm tt',
+
+				_start.datepicker({
+					maxDate       	: '+365D',
+					numberOfMonths	: 1,
 					onSelect: function( date ) {
-						_end.datetimepicker( 'option', 'minDateTime', new Date( date ) );
+						_end.datepicker( 'option', 'minDate', date );
 					}
 				});
-				_end.datetimepicker({
-					controlType: 'select',
-					oneLine: true,
-					timeFormat: 'hh:mm tt',
+				_end.datepicker({
+					maxDate       	: '+365D',
+					numberOfMonths	: 1,
 					onSelect: function( date ) {
-						_start.datetimepicker( 'option', 'maxDateTime', new Date( date ) );
+						_start.datepicker( 'option', 'maxDate', date );
 					}
 				});
 			},

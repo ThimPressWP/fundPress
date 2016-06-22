@@ -187,7 +187,7 @@ class ThimPress_Donate
 		}
 
 		$this->_include( 'inc/functions.php' );
-		$this->_include( 'inc/l18n.php' );
+		$this->_include( 'inc/i18n.php' );
 
 		$this->_include( 'inc/template-hook.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
@@ -259,29 +259,24 @@ class ThimPress_Donate
 		wp_register_script( 'thim_press_donate', TP_DONATE_LIB_URI . '/globals.js', array(), TP_DONATE_VER, true );
 		wp_register_script( 'thim_press_circles', TP_DONATE_LIB_URI . '/circles.min.js', array( 'jquery' ), TP_DONATE_VER, true );
 
-		/* datetime picker */
-		wp_register_style( 'datetimepicker', TP_DONATE_LIB_URI . '/datetimepicker/jquery.datetimepicker.min.css' );
-		wp_register_script( 'datetimepicker', TP_DONATE_LIB_URI . '/datetimepicker/jquery.datetimepicker.full.min.js', array( 'jquery' ), TP_DONATE_VER, true );
 		/**
 		 * array render object script
 		 * @var array
 		 */
 		$donate_settings = apply_filters( 'donate_localize_object_settings', array(
 				'settings'			=> DN_Settings::instance()->_options,
-				'l18n'				=> donate_18n_languages(),
+				'i18n'				=> donate_18n_languages(),
 				'ajaxurl'			=> admin_url( 'admin-ajax.php?schema=donate-ajax' ),
 				'nonce'				=> wp_create_nonce( 'thimpress_donate_nonce' ),
+				'date_format'		=> get_option( 'date_format', 'Y-m-d' ),
+				'time_format'		=> get_option( 'time_format', 'H:i:s' )
 			));
 
 		wp_localize_script( 'thim_press_donate', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
-
 		// Enqueued script with localized data.
 		wp_enqueue_script( 'thim_press_donate' );
 		wp_enqueue_script( 'wp-util' );
-		if( is_admin() )
-		{
-			// wp_enqueue_style( 'datetimepicker' );
-			// wp_enqueue_script( 'datetimepicker' );
+		if( is_admin() ) {
 			foreach ( $this->_assets[ 'admin' ] as $key => $files ) {
 				if( $key === 'css' )
 				{
@@ -295,9 +290,7 @@ class ThimPress_Donate
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			wp_enqueue_script( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/jquery.magnific-popup.min.js', array(), TP_DONATE_VER, true );
 			wp_enqueue_style( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/magnific-popup.css' );
 			foreach ( $this->_assets[ 'site' ] as $key => $files ) {
@@ -318,8 +311,7 @@ class ThimPress_Donate
 
 	}
 
-	function footer()
-	{ ?>
+	function footer() { ?>
 		<div class="donate_ajax_overflow">
 			<div class="donate_ajax_loading">
 				<span class="donate-1"></span>
@@ -337,13 +329,11 @@ class ThimPress_Donate
 	 * load options object class
 	 * @return object class
 	 */
-	public function options()
-	{
+	public function options() {
 		return DN_Settings::instance();
 	}
 
-	static function instance()
-	{
+	static function instance() {
 		if( ! self::$instance )
 		{
 			return self::$instance = new self();
@@ -356,8 +346,7 @@ class ThimPress_Donate
 
 ThimPress_Donate::instance();
 
-if( ! function_exists( 'donate' ) )
-{
+if( ! function_exists( 'donate' ) ) {
 	function donate()
 	{
 		return ThimPress_Donate::instance();

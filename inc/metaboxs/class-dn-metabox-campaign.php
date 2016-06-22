@@ -31,6 +31,9 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 		add_action( 'wp_ajax_donate_remove_compensate', array( $this, 'donate_remove_compensate' ) );
 		add_action( 'wp_ajax_nopriv_donate_remove_compensate', array( $this, 'mustLogin' ) );
 		parent::__construct();
+
+		/* update meta */
+		add_action( 'donate_update_post_meta', array( $this, 'update_meta_campaign' ), 10, 3 );
 	}
 
 	/**
@@ -66,6 +69,14 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 
 		$html[] = '<input type="hidden" name="' . esc_attr( $this->get_field_name( 'currency' ) ) . '" value="'. esc_attr( $currency ) .'"/>';
 		if( $id === 'general' ) {
+			$start = $this->get_field_value( 'start' );
+			if ( $start ) {
+				$start = date_i18n( get_option( 'date_format', 'Y-m-d', strtotime( $start ) ) );
+			}
+			$end = $this->get_field_value( 'end' );
+			if ( $end ) {
+				$end = date_i18n( get_option( 'date_format', 'Y-m-d', strtotime( $end ) ) );
+			}
 			$html[] = '<div class="form-group">';
 			$html[] = 		'<p>';
 			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'goal' ) ) .'">'.sprintf( '%s(%s)', __( 'Goal', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
@@ -79,11 +90,11 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 			$html[] = '<div class="form-group">';
 			$html[] = 		'<p>';
 			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'start' ) ) .'">'.__( 'Start', 'tp-donate' ).'</label>';
-			$html[]	=			'<input type="text" class="start regular-text" name="'.$this->get_field_name( 'start' ).'" id="'.$this->get_field_name( 'start' ).'" value="'.$this->get_field_value( 'start' ).'" /></th>';
+			$html[]	=			'<input type="text" class="start regular-text" name="'.$this->get_field_name( 'start' ).'" id="'.$this->get_field_name( 'start' ).'" value="'. $start .'" /></th>';
 			$html[] = 		'</p>';
 			$html[] = 		'<p>';
 			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'end' ) ).'">'.__( 'End', 'tp-donate' ).'</label>';
-			$html[]	=			'<input type="text" class="end regular-text" name="'.$this->get_field_name( 'end' ).'" id="'.$this->get_field_name( 'end' ).'" value="'.$this->get_field_value( 'end' ).'" /></th>';
+			$html[]	=			'<input type="text" class="end regular-text" name="'.$this->get_field_name( 'end' ).'" id="'.$this->get_field_name( 'end' ).'" value="'.$end.'" /></th>';
 			$html[] = 		'</p>';
 			$html[] = '</div>';
 
@@ -175,6 +186,23 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 		}
 
 		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Could not delete compensate. Plesae try again' ) ) ); die();
+	}
+
+	/* update meta campaign */
+	public function update_meta_campaign( $post_id, $name, $value ) {
+		switch ( $name ) {
+			case 'thimpress_campaign_start':
+				update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
+				break;
+
+			case 'thimpress_campaign_end':
+				update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
+				break;
+
+			default:
+				# code...
+				break;
+		}
 	}
 
 	/**

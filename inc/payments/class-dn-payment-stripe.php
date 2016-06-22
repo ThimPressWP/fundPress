@@ -318,7 +318,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         }
                         else
                         {
-                            DONATE_Site.generate_messages( form, thimpress_donate.l18n.amount_invalid );
+                            DONATE_Site.generate_messages( form, thimpress_donate.i18n.amount_invalid );
                             return;
                         }
                         // Open Checkout with further options

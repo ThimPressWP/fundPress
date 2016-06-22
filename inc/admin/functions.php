@@ -93,7 +93,6 @@ if( ! function_exists( 'donate_create_page' ) )
 
 }
 
-
 add_filter( 'post_row_actions', 'donate_post_row_actions', 10, 2 );
 if( ! function_exists( 'donate_post_row_actions' ) )
 {
@@ -105,4 +104,45 @@ if( ! function_exists( 'donate_post_row_actions' ) )
 		}
 		return $rows;
 	}
+}
+
+add_action( 'admin_notices', 'donate_print_admin_notices' );
+if ( ! function_exists( 'donate_print_admin_notices' ) ) {
+
+	function donate_print_admin_notices() {
+		$notices = get_option( 'donate_admin_notices', array() );
+		if ( $notices ) {
+			foreach( $notices as $type => $messages ) {
+				?>
+					<div class="notice <?php echo esc_attr( $type ); ?>">
+						<?php foreach ( $messages as $message ) : ?>
+							<p><?php printf( '%s', $message ) ?></p>
+						<?php endforeach; ?>
+					</div>
+				<?php
+			}
+		}
+		update_option( 'donate_admin_notices', array() );
+	}
+}
+
+if ( ! function_exists( 'donate_has_admin_notice' ) ) {
+
+	function donate_has_admin_notice( $type = 'error' ) {
+		$notices = get_option( 'donate_admin_notices', array() );
+		return isset( $notices[ $type ] ) && ! empty( $notices[ $type ] );
+	}
+}
+
+if ( ! function_exists( 'donate_add_admin_notices' ) ) {
+
+	function donate_add_admin_notices( $type = 'error', $message = '' ) {
+		$notices = get_option( 'donate_admin_notices', array() );
+		if ( ! isset( $notices[ $type ] ) ) {
+			$notices[ $type ] = array();
+		}
+		$notices[ $type ][] = $message;
+		update_option( 'donate_admin_notices', $notices );
+	}
+
 }

@@ -4,7 +4,7 @@ if( ! function_exists( 'donate_18n_languages' ) )
 {
 	function donate_18n_languages()
 	{
-		$l18n = array(
+		$i18n = array(
 
 				'amount_invalid'			=> __( 'Please enter donate amount.', 'tp-donate' ),
 				'email_invalid'				=> __( 'Please enter valid email. Eg: example@example.com', 'tp-donate' ),
@@ -14,6 +14,6 @@ if( ! function_exists( 'donate_18n_languages' ) )
 				'payment_method_invalid'	=> __( 'Please select payment method.', 'tp-donate' ),
 				'address_invalid'			=> __( 'Please enter your address.', 'tp-donate' )
 			);
-		return apply_filters( 'donate_l18n', $l18n );
+		return apply_filters( 'donate_i18n', $i18n );
 	}
 }

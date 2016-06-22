@@ -203,7 +203,7 @@
 			if( typeof _package.val() === 'undefined' && _amount.val() == '' )
 			{
 				_amount.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.amount_invalid );
+				messages.push( thimpress_donate.i18n.amount_invalid );
 			} else {
 				_amount.removeClass( 'donate_input_invalid' );
 			}
@@ -214,7 +214,7 @@
 			if( first_name.length === 1 && ( val === '' || new RegExp('^[a-zA-Z]{3,15}$').test( val ) === false ) )
 			{
 				first_name.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.first_name_invalid );
+				messages.push( thimpress_donate.i18n.first_name_invalid );
 			} else {
 				first_name.removeClass( 'donate_input_invalid' );
 			}
@@ -225,7 +225,7 @@
 			if( last_name.length === 1 && ( val === '' || new RegExp('^[a-zA-Z]{3,15}$').test( val ) === false ) )
 			{
 				last_name.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.last_name_invalid );
+				messages.push( thimpress_donate.i18n.last_name_invalid );
 			} else {
 				last_name.removeClass( 'donate_input_invalid' );
 			}
@@ -235,7 +235,7 @@
 			if( email.length === 1 && ( email.val() === '' || new RegExp('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$').test( email.val() ) === false ) )
 			{
 				email.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.email_invalid );
+				messages.push( thimpress_donate.i18n.email_invalid );
 			} else {
 				email.removeClass( 'donate_input_invalid' );
 			}
@@ -246,7 +246,7 @@
 			if( phone.length === 1 && ( phone.val() === '' || reges.test( phone.val() ) === false ) )
 			{
 				phone.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.phone_number_invalid );
+				messages.push( thimpress_donate.i18n.phone_number_invalid );
 			} else {
 				phone.removeClass( 'donate_input_invalid' );
 			}
@@ -256,7 +256,7 @@
 			if( payment_method.length === 1 && payment_method.val() === '' )
 			{
 				payment_method.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.payment_method_invalid );
+				messages.push( thimpress_donate.i18n.payment_method_invalid );
 			} else {
 				payment_method.removeClass( 'donate_input_invalid' );
 			}
@@ -265,7 +265,7 @@
 			var address = _form.find( '.address' );
 			if ( address.length === 1 && address.val().trim() === '' ) {
 				address.addClass( 'donate_input_invalid' );
-				messages.push( thimpress_donate.l18n.address_invalid );
+				messages.push( thimpress_donate.i18n.address_invalid );
 			} else {
 				address.removeClass( 'donate_input_invalid' );
 			}

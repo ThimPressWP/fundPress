@@ -199,7 +199,7 @@ class DN_Post_Type
 			'parent_item_colon' => __( 'Parent Campaign:', 'tp-donate' ),
 			'edit_item'         => __( 'Edit Campaign', 'tp-donate' ),
 			'update_item'       => __( 'Update Campaign', 'tp-donate' ),
-			'add_new_item'      => __( 'Add New Campaign', 'tp-donate' ),
+			'add_new_item'      => __( 'Add New Campaign Cat', 'tp-donate' ),
 			'new_item_name'     => __( 'New Campaign Name', 'tp-donate' ),
 			'menu_name'         => __( 'Categories', 'tp-donate' )
 		);
