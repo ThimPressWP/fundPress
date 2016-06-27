@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 
 class DN_Donor extends DN_Post_Base
 {

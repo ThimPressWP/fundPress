@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 	wp_editor(
 			$this->get( $field['name'] ),
 			$this->get_field_id( $field['name'] ),

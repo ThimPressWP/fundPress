@@ -1,3 +1,7 @@
+<?php
+if( ! defined( 'ABSPATH' ) ) exit();
+
+?>
 <div id="donate_hidden"></div>
 <script type="text/html" id="tmpl-donate-form-template">
 	<form action="<?php echo esc_attr( donate_redirect_url() ) ?>" method="POST" class="donate_form" id="donate_form">

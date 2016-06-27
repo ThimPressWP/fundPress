@@ -3,6 +3,7 @@
  * Template Single dn_campaign post type
  */
 
+if( ! defined( 'ABSPATH' ) ) exit();
 get_header( ); ?>
 
 	<?php

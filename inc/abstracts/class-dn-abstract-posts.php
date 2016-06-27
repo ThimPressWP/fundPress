@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 
 abstract class DN_Post_Base
 {
@@ -48,22 +49,25 @@ abstract class DN_Post_Base
 	 */
 	function __get( $key )
 	{
-		if( ! $this->post )
+		if( ! $this->post ) {
 			return;
+		}
 
-		if( ! $this->post->{$key} )
-			return;
+		if( $this->post->{$key} ) {
+			return $this->post->{$key};
+		}
 
-		return $this->post->{$key};
+		if ( metadata_exists( 'post', $this->ID, $this->meta_prefix . $key ) ) {
+			return $this->get_meta( $key );
+		}
 	}
 
 	// get post meta
 	function get_meta( $key, $unique = true )
 	{
-		if( $meta = get_post_meta( $this->ID, $this->meta_prefix . $key , $unique ) )
+		if( $meta = get_post_meta( $this->ID, $this->meta_prefix . $key , $unique ) ) {
 			return $meta;
-
-		return null;
+		}
 	}
 
 	// update post meta

@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 //// params default
 // array(
 // 	'type'		=> 'select',

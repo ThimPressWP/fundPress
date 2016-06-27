@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 
 /**
  * template hook function
@@ -321,17 +322,16 @@ if( ! function_exists( 'donate_get_campaign_percent' ) )
 {
 	function donate_get_campaign_percent( $post = null )
 	{
-		if( ! $post )
-		{
+		if( ! $post ) {
 			global $post;
 			$post_id = $post->ID;
 		}
 
-		if( is_numeric( $post ) )
+		if( is_numeric( $post ) ) {
 			$post_id = $post;
+		}
 
-		if( $post instanceof WP_Post )
-		{
+		if( $post instanceof WP_Post ) {
 			$post_id = $post->ID;
 		}
 
@@ -377,7 +377,6 @@ if ( ! function_exists( 'donate_cancel_payment_order' ) ) {
 
 	function donate_cancel_payment_order( $donate_id ) {
 		$post_status = get_post_status( $donate_id );
-
 		if ( $post_status === 'donate-pending' ) {
 	        wp_update_post( array(
 					'ID' 			=> $donate_id,

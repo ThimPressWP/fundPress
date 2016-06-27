@@ -8,6 +8,7 @@
  * @package 	tp-donate/templates
  * @version     1.0
  */
+if( ! defined( 'ABSPATH' ) ) exit();
 ?>
 
 <li class="campaign_entry">

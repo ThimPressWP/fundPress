@@ -2,6 +2,7 @@
 /**
  * Single Template
  */
+if( ! defined( 'ABSPATH' ) ) exit();
 ?>
 <article id="tp_donate-<?php the_ID(); ?>" <?php post_class('campaign_single'); ?>>
 

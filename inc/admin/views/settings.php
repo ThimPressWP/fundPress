@@ -1,5 +1,9 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
-<?php $donate_setting = apply_filters( 'donate_admin_settings', array() ); ?>
+$donate_setting = apply_filters( 'donate_admin_settings', array() ); ?>
 
 <?php if( $donate_setting ): ?>
 

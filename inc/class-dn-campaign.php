@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class DN_Campaign extends DN_Post_Base
 {
@@ -31,7 +32,7 @@ class DN_Campaign extends DN_Post_Base
 
 	public function __construct( $post )
 	{
-		$this->meta_prefix = TP_DONATE_META_CAMPAGIN;
+		$this->meta_prefix = TP_DONATE_META_CAMPAIGN;
 		parent::__construct( $post );
 	}
 

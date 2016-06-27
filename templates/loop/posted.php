@@ -2,6 +2,7 @@
 /**
  * Template Posted
  */
+if( ! defined( 'ABSPATH' ) ) exit();
 ?>
 
 <div class="donate_campaign_posted">

@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 // array(
 // 	'type'		=> 'multicheckbox',
 // 	'label'		=> __( 'Sex', 'tp-donate' ),

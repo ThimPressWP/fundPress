@@ -1,6 +1,6 @@
 <?php
-if( ! session_id() )
-{
+if( ! defined( 'ABSPATH' ) ) exit();
+if( ! session_id() ) {
     session_start();
 }
 

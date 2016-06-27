@@ -2,6 +2,7 @@
 /**
  * messages template
  */
+if( ! defined( 'ABSPATH' ) ) exit();
 ?>
 
 <div class="donate_form_error_messages active">

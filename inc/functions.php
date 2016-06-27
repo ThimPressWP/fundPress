@@ -808,3 +808,43 @@ if( ! function_exists( 'donate_amount_system' ) )
 		}
 	}
 }
+// date time format
+function donate_date_time_format_js() {
+	// set detault datetime format datepicker
+    $dateFormat = get_option( 'date_format' );
+
+    switch ( $dateFormat ) {
+    	case 'Y-m-d':
+    		$return = 'yy-mm-dd';
+    		break;
+
+    	case 'Y/m/d':
+    		$return = 'yy/mm/dd';
+    		break;
+
+    	case 'd/m/Y':
+    		$return = 'dd/mm/yy';
+    		break;
+
+    	case 'd-m-Y':
+    		$return = 'dd-mm-yy';
+    		break;
+
+    	case 'm/d/Y':
+    		$return = 'mm/dd/yy';
+    		break;
+
+    	case 'm-d-Y':
+    		$return = 'mm-dd-yy';
+    		break;
+
+    	case 'F j, Y':
+    		$return = 'MM dd, yy';
+    		break;
+
+    	default:
+    		$return = 'mm/dd/yy';
+    		break;
+    }
+    return $return;
+}
