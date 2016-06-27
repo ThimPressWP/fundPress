@@ -34,6 +34,7 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 
 		/* update meta */
 		add_action( 'donate_update_post_meta', array( $this, 'update_meta_campaign' ), 10, 3 );
+		add_action( 'donate_schedule_campaign_status', array( $this, 'update_campaign_status' ), 10, 3 );
 	}
 
 	/**
@@ -41,8 +42,7 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * @return array
 	 */
 	public function load_field() {
-		return
-			array(
+		return array(
 				'general'	=> array(
 						'title'	=> __( 'General', 'tp-donate' ),
 				),
@@ -71,11 +71,11 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 		if( $id === 'general' ) {
 			$start = $this->get_field_value( 'start' );
 			if ( $start ) {
-				$start = date_i18n( get_option( 'date_format', 'Y-m-d', strtotime( $start ) ) );
+				$start = date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $start ) );
 			}
 			$end = $this->get_field_value( 'end' );
 			if ( $end ) {
-				$end = date_i18n( get_option( 'date_format', 'Y-m-d', strtotime( $end ) ) );
+				$end = date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $end ) );
 			}
 			$html[] = '<div class="form-group">';
 			$html[] = 		'<p>';
@@ -100,25 +100,23 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 
 		} else if( $id === 'compensate' ) {
 
-			if( $markers = $this->get_field_value( 'marker' ) ) {
-				if( ! empty( $markers ) ) {
-					foreach( $markers as $marker_id => $meta_val ) {
-						$html[] = '<div class="form-group donate_metabox" data-compensate-id="'.esc_attr( $marker_id ).'">';
-						$html[] = 		'<div class="section">';
-						$html[] = 			'<p>';
-						$html[] = 				'<label>'.sprintf( '%s(%s)', __( 'Marker', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
-						$html[] = 				'<input type="number" step="any" name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][amount]" value="'.esc_attr( $meta_val['amount'] ).'"/>';
-						$html[] = 			'</p>';
-						$html[] = 			'<p>';
-						$html[] = 				'<label>'.__( 'Description', 'tp-donate' ).'</label>';
-						$html[] = 				'<textarea name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][desc]">'.esc_textarea( $meta_val['desc'] ).'</textarea>';
-						$html[] = 			'</p>';
-						$html[] = 			'<p>';
-						$html[] = 				'<a href="#" class="remove" data-compensate-id="{{ data.id }}">'.__( 'Remove', 'tp-donate' ).'</a>';
-						$html[] = 			'</p>';
-						$html[] = 		'</div>';
-						$html[] = '</div>';
-					}
+			if( ( $markers = $this->get_field_value( 'marker' ) ) && ! empty( $markers ) ) {
+				foreach( $markers as $marker_id => $meta_val ) {
+					$html[] = '<div class="form-group donate_metabox" data-compensate-id="'.esc_attr( $marker_id ).'">';
+					$html[] = 		'<div class="section">';
+					$html[] = 			'<p>';
+					$html[] = 				'<label>'.sprintf( '%s(%s)', __( 'Marker', 'tp-donate' ), donate_get_currency_symbol( $currency ) ).'</label>';
+					$html[] = 				'<input type="number" step="any" name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][amount]" value="'.esc_attr( $meta_val['amount'] ).'"/>';
+					$html[] = 			'</p>';
+					$html[] = 			'<p>';
+					$html[] = 				'<label>'.__( 'Description', 'tp-donate' ).'</label>';
+					$html[] = 				'<textarea name="'.$this->get_field_name( 'marker' ).'['.$marker_id.'][desc]">'.esc_textarea( $meta_val['desc'] ).'</textarea>';
+					$html[] = 			'</p>';
+					$html[] = 			'<p>';
+					$html[] = 				'<a href="#" class="remove" data-compensate-id="{{ data.id }}">'.__( 'Remove', 'tp-donate' ).'</a>';
+					$html[] = 			'</p>';
+					$html[] = 		'</div>';
+					$html[] = '</div>';
 				}
 			}
 			$html[] = '<div class="form-group">';
@@ -176,8 +174,7 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 
 		if( isset( $marker[ $_POST[ 'compensate_id' ] ] ) ) {
 			unset( $marker[ $_POST[ 'compensate_id' ] ] );
-		}
-		else {
+		} else {
 			wp_send_json( array( 'status' => 'success' ) ); die();
 		}
 
@@ -185,24 +182,21 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 			wp_send_json( array( 'status' => 'success' ) ); die();
 		}
 
-		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Could not delete compensate. Plesae try again' ) ) ); die();
+		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Could not delete compensate. Please try again.' ) ) ); die();
 	}
 
 	/* update meta campaign */
 	public function update_meta_campaign( $post_id, $name, $value ) {
-		switch ( $name ) {
-			case 'thimpress_campaign_start':
-				update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
-				break;
-
-			case 'thimpress_campaign_end':
-				update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
-				break;
-
-			default:
-				# code...
-				break;
+		if ( in_array( $name, array( 'thimpress_campaign_start', 'thimpress_campaign_end' ) ) ) {
+			update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
+			if ( $value ) {
+				wp_schedule_single_event( strtotime( $value ), 'donate_schedule_campaign_status', array( $post_id, $name, $value ) );
+			}
 		}
+	}
+
+	public function update_campaign_status( $post_id, $name, $value ) {
+
 	}
 
 	/**

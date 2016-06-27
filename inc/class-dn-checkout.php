@@ -1,12 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 class DN_Checkout
 {
-
-	function __construct()
-	{
-
-	}
 
 	/**
 	 * process checkout

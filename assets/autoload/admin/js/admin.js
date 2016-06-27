@@ -132,6 +132,7 @@
 					_end = $( 'input[name="thimpress_campaign_end"]' );
 
 				_start.datepicker({
+					dateFormat		: thimpress_donate.i18n.date_time_format,
 					maxDate       	: '+365D',
 					numberOfMonths	: 1,
 					onSelect: function( date ) {
@@ -139,6 +140,7 @@
 					}
 				});
 				_end.datepicker({
+					dateFormat		: thimpress_donate.i18n.date_time_format,
 					maxDate       	: '+365D',
 					numberOfMonths	: 1,
 					onSelect: function( date ) {

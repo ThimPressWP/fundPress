@@ -19,6 +19,9 @@ class DN_Post_Type
 		add_filter( 'manage_dn_donate_posts_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dn_donate_posts_custom_column', array( $this, 'columns' ), 10, 2 );
 
+		add_filter( 'manage_dn_campaign_posts_columns', array( $this, 'campaign_columns' ) );
+		add_action( 'manage_dn_campaign_posts_custom_column', array( $this, 'campaign_column_content' ), 10, 2 );
+
 		/**
 		 * register taxonomy
 		 */
@@ -54,6 +57,38 @@ class DN_Post_Type
 				break;
 			case 'donate_status':
 					echo donate_get_status_label( $post_id );
+				break;
+		}
+	}
+
+	function campaign_columns( $columns ) {
+		unset( $columns['date'] );
+		$columns[ 'start' ]	= apply_filters( 'donate_add_column_campaign_start_column', __( 'Start', 'tp-donate' ) );
+		$columns[ 'end' ]	= apply_filters( 'donate_add_column_campaign_end_column', __( 'End', 'tp-donate' ) );
+		$columns[ 'date' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Created At', 'tp-donate' ) );
+		$columns[ 'funded' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Founded', 'tp-donate' ) );
+		$columns[ 'backers' ] = apply_filters( 'donate_add_column_campaign_backer_column', __( 'Backers', 'tp-donate' ) );
+		return $columns;
+	}
+
+	function campaign_column_content( $column, $post_id ) {
+		$campaign = DN_Campaign::instance( $post_id );
+		switch ( $column ) {
+			case 'start':
+				$campaign->start ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->start ) ) ) : '';
+				break;
+			case 'end':
+				$campaign->end ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '';
+				break;
+			case 'funded':
+				$campaign->end ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '';
+				break;
+			case 'backers':
+				$campaign->end ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '';
+				break;
+
+			default:
+				# code...
 				break;
 		}
 	}
