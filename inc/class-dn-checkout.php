@@ -76,7 +76,7 @@ class DN_Checkout
 		$cart->set_cart_information( $param );
 
 		// payment method selected
-		$payment = $payments[ $payment_method  ];
+		$payment = $payments[ $payment_method ];
 
 		return $payment->process( $amount );
 

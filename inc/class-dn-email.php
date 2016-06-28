@@ -5,29 +5,6 @@ class DN_Email
 {
 	static $instance = null;
 
-	function __construct()
-	{
-		if( $this->is_enable() )
-		{
-			add_action( 'init', array( $this, 'init' ) );
-		}
-	}
-
-	function init()
-	{
-		// filter email setting
-		add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
-
-		// filter email from name
-		add_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
-
-		// filter content type
-		add_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
-
-		// filter charset
-		add_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
-	}
-
 	// set email from
 	function set_email_from( $email )
 	{
@@ -94,7 +71,25 @@ class DN_Email
 
 			$body = preg_replace( $replace, $replace_with, $body );
 
+			// filter email setting
+			add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
+			// filter email from name
+			add_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
+			// filter content type
+			add_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
+			// filter charset
+			add_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
+
 			wp_mail( $email, $subject, $body);
+
+			// filter email setting
+			remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
+			// filter email from name
+			remove_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
+			// filter content type
+			remove_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
+			// filter charset
+			remove_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
 		}
 	}
 

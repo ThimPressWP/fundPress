@@ -87,7 +87,7 @@ if( ! function_exists( 'donate_locate_template' ) )
             )
         );
 	    // Get default template
-	    if ( !$template ) {
+	    if ( ! $template ) {
 	        $template = $default_path . $template_name;
 	    }
 
@@ -778,15 +778,15 @@ if( ! function_exists( 'donate_amount_system' ) )
 		global $wpdb;
 
 		$query = $wpdb->prepare("
-				SELECT donate_system.meta_value AS amount, donate_cyrrency.meta_value AS currency
+				SELECT donate_system.meta_value AS amount, donate_currency.meta_value AS currency
 				FROM $wpdb->postmeta AS donate_system
 				INNER JOIN $wpdb->posts AS donation ON donation.ID = donate_system.post_id
-				INNER JOIN $wpdb->postmeta AS donate_cyrrency ON donate_cyrrency.post_id = donation.ID
+				INNER JOIN $wpdb->postmeta AS donate_currency ON donate_currency.post_id = donation.ID
 				WHERE
 					donation.post_type = %s
 					AND donation.post_status = %s
 					AND donate_system.meta_key = %s
-					AND donate_cyrrency.meta_key = %s
+					AND donate_currency.meta_key = %s
 				HAVING amount > 0
 			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'amount_system', TP_DONATE_META_DONATE . 'currency' );
 
@@ -808,6 +808,7 @@ if( ! function_exists( 'donate_amount_system' ) )
 		}
 	}
 }
+
 // date time format
 function donate_date_time_format_js() {
 	// set detault datetime format datepicker
@@ -847,4 +848,31 @@ function donate_date_time_format_js() {
     		break;
     }
     return $return;
+}
+
+function donate_get_campaign_days_to_go( $campaign_id = null ) {
+	if ( ! $campaign_id ) {
+		global $post;
+		$campaign_id = $post->ID;
+	}
+	if ( ! $campaign_id ) {
+		return false;
+	}
+
+	$campaign = DN_Campaign::instance( $campaign_id );
+
+	$current_time = current_time( 'timestamp' );
+	$start = $end = '';
+	if ( $campaign->start ) {
+		$start = strtotime( $campaign->start );
+	}
+	if ( $campaign->end ) {
+		$end = strtotime( $campaign->end );
+	}
+
+	if ( $current_time >= $end ) {
+		return 0;
+	}
+
+	return ceil( ( $end - $current_time ) / DAY_IN_SECONDS );
 }

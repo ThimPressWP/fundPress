@@ -43,62 +43,66 @@ class DN_Donate extends DN_Post_Base
 	// create new donate
 	function create_donate( $donor_id = null, $payment_method = null, $donate_system = false )
 	{
-		// donor_id
-		if( ! $donor_id ) {
-			return new WP_Error( 'donor_error', __( 'Could not created donor.', 'tp-donate' ) );
-		}
-
-		// create donate with cart contents
-		$donate_id = $this->create_post( array(
-				'post_title'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
-				'post_content'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
-				'post_excerpt'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
-				'post_status'	=> 'donate-pending'
-			) );
-		// update post with new title
-		wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
-
-		// cart
-		$cart = donate()->cart;
-
-		// create donate for symtem without campaign
-		if( $donate_system && is_numeric( $donate_system ) )
-		{
-			$this->donate_system = $donate_system;
-			// create donate without campaign
-			update_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
-			update_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
-		}
-		// get cart contents
-		else if( $cart_contents = $cart->cart_contents )
-		{
-			// create donate with cart_contents
-			update_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
-			update_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
-
-			// insert post meta
-			foreach ( $cart_contents as $cart_item_id => $cart_content ) {
-				// ignoire product_data key
-				$campaign = DN_Campaign::instance( $cart_content->product_id );
-				// convert campaign currency format
-				// $campaign->set_meta( 'amount', donate_campaign_convert_amount( $cart_content->amount, $cart_content->currency, $campaign->get_meta( 'currency' ) ) );
-
-				// ralationship campagin id and donate
-				$campaign->set_meta( 'donate', $donate_id );
-				// update_post_meta( $cart_content->product_id , $this->meta_prefix . 'donate', $donate_id  );
+		try {
+			// donor_id
+			if( ! $donor_id ) {
+				return new WP_Error( 'donor_error', __( 'Could not created donor.', 'tp-donate' ) );
 			}
+
+			// create donate with cart contents
+			$donate_id = $this->create_post( array(
+					'post_title'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+					'post_content'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+					'post_excerpt'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+					'post_status'	=> 'donate-pending'
+				) );
+			// update post with new title
+			wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
+
+			// cart
+			$cart = donate()->cart;
+
+			// create donate for symtem without campaign
+			if( $donate_system && is_numeric( $donate_system ) )
+			{
+				$this->donate_system = $donate_system;
+				// create donate without campaign
+				update_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
+				update_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
+			}
+			// get cart contents
+			else if( $cart_contents = $cart->cart_contents )
+			{
+				// create donate with cart_contents
+				update_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
+				update_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
+
+				// insert post meta
+				foreach ( $cart_contents as $cart_item_id => $cart_content ) {
+					// ignoire product_data key
+					$campaign = DN_Campaign::instance( $cart_content->product_id );
+					// convert campaign currency format
+					// $campaign->set_meta( 'amount', donate_campaign_convert_amount( $cart_content->amount, $cart_content->currency, $campaign->get_meta( 'currency' ) ) );
+
+					// ralationship campagin id and donate
+					$campaign->set_meta( 'donate', $donate_id );
+					// update_post_meta( $cart_content->product_id , $this->meta_prefix . 'donate', $donate_id  );
+				}
+			}
+
+			update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
+			update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
+			update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
+			update_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
+
+			// allow hook
+			do_action( 'donate_create_booking_donate', $donate_id );
+
+			return apply_filters( 'donate_create_booking_donate_result', $donate_id );
+
+		} catch ( Exception $e ) {
+			return new WP_Error( 'create-donate-error', $e->getMessage() );
 		}
-
-		update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
-		update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
-		update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
-		update_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
-
-		// allow hook
-		do_action( 'donate_create_booking_donate', $donate_id );
-
-		return apply_filters( 'donate_create_booking_donate_result', $donate_id );
-
 	}
 
 	function update_information( $donor_id = null, $payment_method = null, $donate_system = false ) {
@@ -191,8 +195,7 @@ class DN_Donate extends DN_Post_Base
 			return new self( $post );
 		}
 
-		if( is_numeric( $post ) )
-		{
+		if( is_numeric( $post ) ) {
 			$post = get_post( $post );
 			$id = $post->ID;
 		} else if( $post instanceof WP_Post ) {

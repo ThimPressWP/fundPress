@@ -63,12 +63,12 @@ class DN_Post_Type
 	}
 
 	function campaign_columns( $columns ) {
-		unset( $columns['date'] );
+		unset( $columns['date'], $columns['comments'], $columns['author'] );
 		$columns[ 'start' ]	= apply_filters( 'donate_add_column_campaign_start_column', __( 'Start', 'tp-donate' ) );
 		$columns[ 'end' ]	= apply_filters( 'donate_add_column_campaign_end_column', __( 'End', 'tp-donate' ) );
-		$columns[ 'date' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Created At', 'tp-donate' ) );
 		$columns[ 'funded' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Founded', 'tp-donate' ) );
-		$columns[ 'backers' ] = apply_filters( 'donate_add_column_campaign_backer_column', __( 'Backers', 'tp-donate' ) );
+		$columns[ 'donors' ] = apply_filters( 'donate_add_column_campaign_backer_column', __( 'Donors', 'tp-donate' ) );
+		$columns[ 'date' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Created At', 'tp-donate' ) );
 		return $columns;
 	}
 
@@ -82,9 +82,9 @@ class DN_Post_Type
 				$campaign->end ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '';
 				break;
 			case 'funded':
-				$campaign->end ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '';
+				$campaign->end ? printf( '%s', donate_get_campaign_percent() . '%' ) : '';
 				break;
-			case 'backers':
+			case 'donors':
 				$campaign->end ? printf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '';
 				break;
 
@@ -227,16 +227,16 @@ class DN_Post_Type
 	{
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
-			'name'              => _x( 'Campaign Categories', 'taxonomy general name', 'tp-donate' ),
-			'singular_name'     => _x( 'Campaign', 'taxonomy singular name', 'tp-donate' ),
+			'name'              => _x( 'Categories', 'taxonomy general name', 'tp-donate' ),
+			'singular_name'     => _x( 'Category', 'taxonomy singular name', 'tp-donate' ),
 			'search_items'      => __( 'Search Campaigns', 'tp-donate' ),
 			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
-			'parent_item'       => __( 'Parent Campaign', 'tp-donate' ),
-			'parent_item_colon' => __( 'Parent Campaign:', 'tp-donate' ),
-			'edit_item'         => __( 'Edit Campaign', 'tp-donate' ),
-			'update_item'       => __( 'Update Campaign', 'tp-donate' ),
-			'add_new_item'      => __( 'Add New Campaign Cat', 'tp-donate' ),
-			'new_item_name'     => __( 'New Campaign Name', 'tp-donate' ),
+			'parent_item'       => __( 'Parent Category', 'tp-donate' ),
+			'parent_item_colon' => __( 'Parent Category:', 'tp-donate' ),
+			'edit_item'         => __( 'Edit Category', 'tp-donate' ),
+			'update_item'       => __( 'Update Category', 'tp-donate' ),
+			'add_new_item'      => __( 'Add New Category', 'tp-donate' ),
+			'new_item_name'     => __( 'New Category', 'tp-donate' ),
 			'menu_name'         => __( 'Categories', 'tp-donate' )
 		);
 
@@ -254,16 +254,16 @@ class DN_Post_Type
 
 		// Add new taxonomy, make it hierarchical (like tags)
 		$labels = array(
-			'name'              => _x( 'Campaign Tags', 'taxonomy general name', 'tp-donate' ),
-			'singular_name'     => _x( 'Campaign', 'taxonomy singular name', 'tp-donate' ),
-			'search_items'      => __( 'Search Campaigns Tag', 'tp-donate' ),
-			'all_items'         => __( 'All Campaigns', 'tp-donate' ),
-			'parent_item'       => __( 'Parent Campaign Tag', 'tp-donate' ),
-			'parent_item_colon' => __( 'Parent Campaign Tag:', 'tp-donate' ),
-			'edit_item'         => __( 'Edit Campaign Tag', 'tp-donate' ),
-			'update_item'       => __( 'Update Campaign Tag', 'tp-donate' ),
-			'add_new_item'      => __( 'Add New Campaign Tag', 'tp-donate' ),
-			'new_item_name'     => __( 'New Campaign Tag Name', 'tp-donate' ),
+			'name'              => _x( 'Tags', 'taxonomy general name', 'tp-donate' ),
+			'singular_name'     => _x( 'Tag', 'taxonomy singular name', 'tp-donate' ),
+			'search_items'      => __( 'Search Tag', 'tp-donate' ),
+			'all_items'         => __( 'All Tags', 'tp-donate' ),
+			'parent_item'       => __( 'Parent Tag', 'tp-donate' ),
+			'parent_item_colon' => __( 'Parent Tag:', 'tp-donate' ),
+			'edit_item'         => __( 'Edit Tag', 'tp-donate' ),
+			'update_item'       => __( 'Update Tag', 'tp-donate' ),
+			'add_new_item'      => __( 'Add New Tag', 'tp-donate' ),
+			'new_item_name'     => __( 'New Tag', 'tp-donate' ),
 			'menu_name'         => __( 'Tags', 'tp-donate' )
 		);
 

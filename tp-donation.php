@@ -334,8 +334,7 @@ class ThimPress_Donate
 	}
 
 	static function instance() {
-		if( ! self::$instance )
-		{
+		if( ! self::$instance ) {
 			return self::$instance = new self();
 		}
 
@@ -352,3 +351,6 @@ if( ! function_exists( 'donate' ) ) {
 		return ThimPress_Donate::instance();
 	}
 }
+
+
+// var_dump( maybe_unserialize( get_post_meta( 5024, 'thimpress_donate_cart_contents', true ) ) ); die();
