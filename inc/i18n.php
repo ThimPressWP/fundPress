@@ -1,4 +1,5 @@
 <?php
+if( ! defined( 'ABSPATH' ) ) exit();
 
 if( ! function_exists( 'donate_18n_languages' ) )
 {

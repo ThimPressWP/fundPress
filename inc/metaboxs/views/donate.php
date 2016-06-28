@@ -1,7 +1,14 @@
-<?php $cart_contents = $this->get_field_value( 'cart_contents' ); ?>
-<?php global $post; ?>
-<?php $donation = DN_Donate::instance( $post->ID ) ?>
+<?php
+if( ! defined( 'ABSPATH' ) ) exit();
 
+$cart_contents = $this->get_field_value( 'cart_contents' );
+global $post;
+$donation = DN_Donate::instance( $post->ID );
+?>
+
+<style type="text/css">
+	#post-body-content{ display: none; }
+</style>
 <?php if( $cart_contents ): ?>
 	<table>
 		<thead>

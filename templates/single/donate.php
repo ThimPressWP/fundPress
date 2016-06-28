@@ -1,4 +1,7 @@
+<?php
+if( ! defined( 'ABSPATH' ) ) exit();
 
+?>
 <!-- Overlay -->
 <div class="campaign_thumbnail_overlay">
 
