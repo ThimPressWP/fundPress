@@ -55,7 +55,8 @@ class DN_Setting_Checkout extends DN_Setting_Base
 		                                        'options'   => array(
 		                                                'test'              	=> __( 'Test', 'tp-donate' ),
 		                                                'production'          	=> __( 'Production', 'tp-donate' )
-		                                            )
+		                                            ),
+		                                        'default' 	=> 'test'
 		                                    ),
 		                                	array(
 		                                        'type'      => 'input',
@@ -71,66 +72,71 @@ class DN_Setting_Checkout extends DN_Setting_Base
 		                                        'default' 	=> 12
 		                                    ),
 											array(
-													'type'		=> 'select',
-													'label'		=> __( 'Include lightbox', 'tp-donate' ),
-													'desc'		=> __( 'This controlls include payment lightbox donate form and not using Cart or Checkout page', 'tp-donate' ),
-													'atts'		=> array(
-															'id'	=> 'lightbox_checkout',
-															'class'	=> 'lightbox_checkout'
-														),
-													'name'		=> 'lightbox_checkout',
-													'options'	=> array(
-															'no'				=> __( 'No', 'tp-donate' ),
-															'yes'				=> __( 'Yes', 'tp-donate' )
-														)
-												),
+												'type'		=> 'select',
+												'label'		=> __( 'Include lightbox', 'tp-donate' ),
+												'desc'		=> __( 'This controlls include payment lightbox donate form and not using Cart or Checkout page', 'tp-donate' ),
+												'atts'		=> array(
+														'id'	=> 'lightbox_checkout',
+														'class'	=> 'lightbox_checkout'
+													),
+												'name'		=> 'lightbox_checkout',
+												'options'	=> array(
+														'no'				=> __( 'No', 'tp-donate' ),
+														'yes'				=> __( 'Yes', 'tp-donate' )
+													),
+	                                        	'default' 	=> 'no'
+											),
 											array(
-													'type'		=> 'select',
-													'label'		=> __( 'Donate redirect.', 'tp-donate' ),
-													'desc'		=> __( 'This controlls redirect page on donate submit?', 'tp-donate' ),
-													'atts'		=> array(
-															'id'	=> 'donate_redirect',
-															'class'	=> 'donate_redirect'
-														),
-													'name'		=> 'donate_redirect',
-													'options'	=> array(
-															'cart'				=> __( 'Cart', 'tp-donate' ),
-															'checkout'			=> __( 'Checkout', 'tp-donate' )
-														)
-												),
+												'type'		=> 'select',
+												'label'		=> __( 'Donate redirect.', 'tp-donate' ),
+												'desc'		=> __( 'This controlls redirect page on donate submit?', 'tp-donate' ),
+												'atts'		=> array(
+														'id'	=> 'donate_redirect',
+														'class'	=> 'donate_redirect'
+													),
+												'name'		=> 'donate_redirect',
+												'options'	=> array(
+														'cart'				=> __( 'Cart', 'tp-donate' ),
+														'checkout'			=> __( 'Checkout', 'tp-donate' )
+													),
+	                                        	'default' 	=> 'checkout'
+											),
 											array(
-													'type'		=> 'select',
-													'label'		=> __( 'Cart page', 'tp-donate' ),
-													'desc'		=> __( 'This controlls set Cart page', 'tp-donate' ),
-													'atts'		=> array(
-															'id'	=> 'cart_page',
-															'class'	=> 'cart_page'
-														),
-													'name'		=> 'cart_page',
-													'options'	=> donate_get_pages_setting()
-												),
+												'type'		=> 'select',
+												'label'		=> __( 'Cart page', 'tp-donate' ),
+												'desc'		=> __( 'This controlls set Cart page', 'tp-donate' ),
+												'atts'		=> array(
+														'id'	=> 'cart_page',
+														'class'	=> 'cart_page'
+													),
+												'name'		=> 'cart_page',
+												'options'	=> donate_get_pages_setting(),
+	                                        	'default' 	=> ''
+											),
 											array(
-													'type'		=> 'select',
-													'label'		=> __( 'Checkout page', 'tp-donate' ),
-													'desc'		=> __( 'This controlls set Checkout page', 'tp-donate' ),
-													'atts'		=> array(
-															'id'	=> 'checkout_page',
-															'class'	=> 'checkout_page'
-														),
-													'name'		=> 'checkout_page',
-													'options'	=> donate_get_pages_setting()
-												),
+												'type'		=> 'select',
+												'label'		=> __( 'Checkout page', 'tp-donate' ),
+												'desc'		=> __( 'This controlls set Checkout page', 'tp-donate' ),
+												'atts'		=> array(
+														'id'	=> 'checkout_page',
+														'class'	=> 'checkout_page'
+													),
+												'name'		=> 'checkout_page',
+												'options'	=> donate_get_pages_setting(),
+	                                        	'default' 	=> ''
+											),
 											array(
-													'type'		=> 'select',
-													'label'		=> __( 'Terms and Conditions page', 'tp-donate' ),
-													'desc'		=> __( 'This controlls set Terms and Conditions page', 'tp-donate' ),
-													'atts'		=> array(
-															'id'	=> 'term_condition_page',
-															'class'	=> 'term_condition_page'
-														),
-													'name'		=> 'term_condition_page',
-													'options'	=> donate_get_pages_setting()
-												)
+												'type'		=> 'select',
+												'label'		=> __( 'Terms and Conditions page', 'tp-donate' ),
+												'desc'		=> __( 'This controlls set Terms and Conditions page', 'tp-donate' ),
+												'atts'		=> array(
+														'id'	=> 'term_condition_page',
+														'class'	=> 'term_condition_page'
+													),
+												'name'		=> 'term_condition_page',
+												'options'	=> donate_get_pages_setting(),
+	                                        	'default' 	=> ''
+											)
 									)
 							),
 
@@ -150,7 +156,8 @@ class DN_Setting_Checkout extends DN_Setting_Base
 												'options'	=> array(
 														'yes'			=> __( 'Yes', 'tp-donate' ),
 														'no'			=> __( 'No', 'tp-donate' )
-													)
+													),
+	                                        	'default' 	=> 'yes'
 											),
 										// array(
 										// 		'type'		=> 'select',

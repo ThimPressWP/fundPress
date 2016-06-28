@@ -1,5 +1,4 @@
 <?php
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
@@ -44,8 +43,7 @@ abstract class DN_Setting_Base extends DN_Settings
 
 	public function __construct()
 	{
-		if( is_admin() )
-		{
+		if( is_admin() ) {
 			add_filter( 'donate_admin_settings', array( $this, 'add_tab' ), $this->_position, 1 );
 			add_action( 'donate_admin_setting_' . $this->_id . '_content', array( $this, 'layout' ), $this->_position, 1 );
 		}
@@ -54,7 +52,7 @@ abstract class DN_Setting_Base extends DN_Settings
 		add_filter( 'donate_settings_field', array( $this, 'settings' ) );
 	}
 
-	function settings( $settings )
+	public function settings( $settings )
 	{
 		$settings[ $this->_id ] = $this;
 		return $settings;
@@ -268,7 +266,6 @@ abstract class DN_Setting_Base extends DN_Settings
 					}
 					else if( isset( $field[ 'name' ], $field[ 'type' ] ) )
 					{
-
 						$html[] = '<tr>';
 
 						// label

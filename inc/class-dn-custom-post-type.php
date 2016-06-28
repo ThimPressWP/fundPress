@@ -38,7 +38,7 @@ class DN_Post_Type
 	 * add_columns to donate post type admin
 	 * @param array
 	 */
-	function add_columns( $columns )
+	public function add_columns( $columns )
 	{
 		$columns[ 'donate_payment_method' ] = apply_filters( 'donate_add_column_donate_payment_method', sprintf( '%s', __( 'Payment Method', 'tp-donate' ) ) );
 		$columns[ 'donate_status' ] = apply_filters( 'donate_add_column_donate_status', sprintf( '%s', __( 'Status', 'tp-donate' ) ) );
@@ -46,7 +46,7 @@ class DN_Post_Type
 	}
 
 	// add columns
-	function columns( $column, $post_id )
+	public function columns( $column, $post_id )
 	{
 		switch ( $column ) {
 			case 'donate_payment_method':
@@ -62,7 +62,7 @@ class DN_Post_Type
 		}
 	}
 
-	function campaign_columns( $columns ) {
+	public function campaign_columns( $columns ) {
 		unset( $columns['date'], $columns['comments'], $columns['author'] );
 		$columns[ 'start' ]	= apply_filters( 'donate_add_column_campaign_start_column', __( 'Start', 'tp-donate' ) );
 		$columns[ 'end' ]	= apply_filters( 'donate_add_column_campaign_end_column', __( 'End', 'tp-donate' ) );
@@ -72,7 +72,7 @@ class DN_Post_Type
 		return $columns;
 	}
 
-	function campaign_column_content( $column, $post_id ) {
+	public function campaign_column_content( $column, $post_id ) {
 		$campaign = DN_Campaign::instance( $post_id );
 		switch ( $column ) {
 			case 'start':
@@ -280,7 +280,7 @@ class DN_Post_Type
 		register_taxonomy( 'dn_campaign_tag', array( 'dn_campaign' ), $args );
 	}
 
-	function register_post_status()
+	public function register_post_status()
 	{
 		/**
 		 * cancelled payment
@@ -308,7 +308,7 @@ class DN_Post_Type
 		register_post_status( 'donate-pending', $args );
 
 		/**
-		 * pending payment
+		 * processing payment
 		 */
 		$args = apply_filters( 'donate_register_post_status_processing', array(
 			'label'                     => _x( 'Processing', 'Donate Status', 'tp-donate' ),
@@ -321,7 +321,7 @@ class DN_Post_Type
 		register_post_status( 'donate-processing', $args );
 
 		/**
-		 * pending payment
+		 * completed payment
 		 */
 		$args = apply_filters( 'donate_register_post_status_completed', array(
 			'label'                     => _x( 'Completed', 'Donate Status', 'tp-donate' ),

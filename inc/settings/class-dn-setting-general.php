@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 class DN_Setting_General extends DN_Setting_Base
 {
@@ -32,9 +35,6 @@ class DN_Setting_General extends DN_Setting_Base
 		return
 			array(
 				array(
-						'title'	=> __( '1' ),
-					),
-				array(
 						'title'	=> __( 'Currency settings', 'tp-donate' ),
 						'desc'	=> __( 'The following options affect how prices are displayed on the frontend.', 'tp-donate' ),
 						'fields'		=> array(
@@ -63,7 +63,7 @@ class DN_Setting_General extends DN_Setting_Base
 												'google'		=> 'http://google.com/finance',
 												'yahoo'			=> 'http://finance.yahoo.com'
 											),
-										'default'	=> array()
+										'default'	=> 'google'
 									),
 								array(
 										'type'		=> 'select',
@@ -92,7 +92,7 @@ class DN_Setting_General extends DN_Setting_Base
 												'left_space'	=> __( 'Left with space', 'tp-donate' ) . ' ' . '(£ 99.99)',
 												'right_space'	=> __( 'Right with space', 'tp-donate' ) . ' ' . '(99.99 £)',
 											),
-										'default'	=> array()
+										'default'	=> 'left'
 									),
 								array(
 										'type'		=> 'input',
@@ -126,7 +126,7 @@ class DN_Setting_General extends DN_Setting_Base
 												'min'	=> 0
 											),
 										'name'		=> 'currency_num_decimal',
-										'default'	=> '1'
+										'default'	=> '2'
 									)
 							)
 					)

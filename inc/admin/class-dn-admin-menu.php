@@ -34,7 +34,7 @@ class DN_Admin_Menu
 		$menus = apply_filters( 'donate_admnin_menus', $this->_menus );
 		foreach( $menus as $menu )
 		{
-			call_user_func_array( 'add_submenu_page', $menu);
+			call_user_func_array( 'add_submenu_page', $menu );
 		}
 	}
 

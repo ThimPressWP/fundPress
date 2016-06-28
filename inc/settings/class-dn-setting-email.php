@@ -48,7 +48,7 @@ class DN_Setting_Email extends DN_Setting_Base
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
 											),
-										'default'	=> array()
+                                    	'default' 	=> 'yes'
 									),
 								array(
 										'type'		=> 'input',
@@ -61,7 +61,7 @@ class DN_Setting_Email extends DN_Setting_Base
 												'type'			=> 'text'
 											),
 										'name'		=> 'from_name',
-										'default'	=> ''
+										'default'	=> get_option( 'blogname' )
 									),
 								array(
 										'type'		=> 'input',
@@ -74,7 +74,7 @@ class DN_Setting_Email extends DN_Setting_Base
 												'type'			=> 'text'
 											),
 										'name'		=> 'admin_email',
-										'default'	=> ''
+										'default'	=> get_option( 'admin_email' )
 									),
 								array(
 										'type'		=> 'editor',
@@ -88,7 +88,8 @@ class DN_Setting_Email extends DN_Setting_Base
 												'cols'			=> 50,
 												'rows'			=> 20
 											),
-										'name'		=> 'email_template'
+										'name'		=> 'email_template',
+										'default'	=> ''
 									)
 							)
 					)

@@ -24,10 +24,11 @@ class DN_Settings
 	 */
 	static $_instance = null;
 
-	function __construct( $prefix = null, $id = null )
+	public function __construct( $prefix = null, $id = null )
 	{
-		if( $prefix )
+		if( $prefix ) {
 			$this->_prefix = $prefix;
+		}
 
 		$this->_id = $id;
 
@@ -39,7 +40,7 @@ class DN_Settings
 		add_action( 'admin_init', array( $this, 'register_setting' ) );
 	}
 
-	function __get( $id = null )
+	public function __get( $id = null )
 	{
 		$settings = apply_filters( 'donate_settings_field', array() );
 		if( array_key_exists( $id, $settings ) )
@@ -64,12 +65,12 @@ class DN_Settings
 	 * register option page
 	 * @return
 	 */
-	function register_options_page()
+	public function register_options_page()
 	{
 		donate()->_include( 'inc/admin/views/settings.php' );
 	}
 
-	function register_setting()
+	public function register_setting()
 	{
 		register_setting( $this->_prefix, $this->_prefix );
 	}
@@ -107,8 +108,9 @@ class DN_Settings
 	 */
 	public function get_field_id( $name = null, $default = null )
 	{
-		if( ! $this->_prefix || ! $name )
+		if( ! $this->_prefix || ! $name ) {
 			return;
+		}
 
 		return $this->_prefix . '_' . $name;
 
@@ -121,8 +123,9 @@ class DN_Settings
 	 */
 	public function get( $name = null, $default = null )
 	{
-		if( ! $this->_options )
+		if( ! $this->_options ) {
 			$this->_options = $this->options();
+		}
 
 		if( $name && isset( $this->_options[ $name ] ) )
 			return $this->_options[ $name ];

@@ -6,7 +6,7 @@ class DN_Email
 	static $instance = null;
 
 	// set email from
-	function set_email_from( $email )
+	private function set_email_from( $email )
 	{
 		if( $donate_email = DN_Settings::instance()->email->get( 'admin_email' ) )
 		{
@@ -17,7 +17,7 @@ class DN_Email
 	}
 
 	// set email name header
-	function set_email_name( $name )
+	private function set_email_name( $name )
 	{
 		if( $donate_name = DN_Settings::instance()->email->get( 'from_name' ) )
 		{
@@ -27,19 +27,19 @@ class DN_Email
 	}
 
 	// filter content type
-	function email_content_type( $type )
+	private function email_content_type( $type )
 	{
 		return 'text/html';
 	}
 
 	// filter charset
-	function email_charset( $chartset )
+	private function email_charset( $chartset )
 	{
 		return 'UTF-8';
 	}
 
 	// send email donate completed
-	function send_email_donate_completed( $donor = null )
+	public function send_email_donate_completed( $donor = null )
 	{
 		if( $this->is_enable() !== true )
 			return;
@@ -93,7 +93,7 @@ class DN_Email
 		}
 	}
 
-	function is_enable()
+	public function is_enable()
 	{
 		if( DN_Settings::instance()->email->get( 'enable', 'yes' ) === 'yes' )
 		{
@@ -102,7 +102,7 @@ class DN_Email
 	}
 
 	// instance
-	static function instance()
+	public static function instance()
 	{
 		if( ! self::$instance )
 		{

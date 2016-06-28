@@ -61,7 +61,8 @@ class DN_Setting_Donate extends DN_Setting_Base
 										'options'	=> array(
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
-											)
+											),
+                                    	'default' 	=> 'yes'
 									),
 								array(
 										'type'		=> 'select',
@@ -75,7 +76,8 @@ class DN_Setting_Donate extends DN_Setting_Base
 										'options'	=> array(
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
-											)
+											),
+                                    	'default' 	=> 'yes'
 									)
 							)
 					),
@@ -96,7 +98,8 @@ class DN_Setting_Donate extends DN_Setting_Base
 										'options'	=> array(
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
-											)
+											),
+                                    	'default' 	=> 'yes'
 									),
 								array(
 										'type'		=> 'select',
@@ -110,7 +113,8 @@ class DN_Setting_Donate extends DN_Setting_Base
 										'options'	=> array(
 												'yes'			=> __( 'Yes', 'tp-donate' ),
 												'no'			=> __( 'No', 'tp-donate' )
-											)
+											),
+                                    	'default' 	=> 'yes'
 									)
 							)
 					)

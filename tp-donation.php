@@ -95,6 +95,7 @@ class ThimPress_Donate
 	public function install()
 	{
 		$this->_include( 'inc/install.php' );
+		DN_Install::init();
 	}
 
 	/**
