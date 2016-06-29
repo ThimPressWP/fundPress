@@ -1,9 +1,12 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 /**
  * Adds Foo_Widget widget.
  */
-class Donate_Widget extends WP_Widget {
+class DN_Widget_Button extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
@@ -68,7 +71,3 @@ class Donate_Widget extends WP_Widget {
 	}
 
 }
-
-add_action( 'widgets_init', function(){
-	register_widget( 'Donate_Widget' );
-} );

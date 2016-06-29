@@ -49,6 +49,10 @@ abstract class DN_MetaBox_Base
 	 */
 	public $_screen = array( 'dn_campaign' );
 
+	public $_context = 'normal';
+
+	public $_priority = 'high';
+
 	public function __construct()
 	{
 		if( ! $this->_id ) {
@@ -71,8 +75,8 @@ abstract class DN_MetaBox_Base
 				$this->_title,
 				array( $this, 'render' ),
 				$post_type,
-				'normal',
-				'high'
+				$this->_context,
+				$this->_priority
 			);
         }
 	}
@@ -298,9 +302,6 @@ abstract class DN_MetaBox_Base
 	 * delete meta post within post
 	 * @return
 	 */
-	public function delete( $post_id ) {
-		delete_post_meta( $post_id, $this->_id );
-	}
-
+	public function delete( $post_id ) {}
 
 }

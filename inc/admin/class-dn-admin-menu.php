@@ -23,7 +23,7 @@ class DN_Admin_Menu
 	}
 
 	// add admin menu callback
-	function admin_menu()
+	public function admin_menu()
 	{
 		$donate_menu = apply_filters( 'donation_menu_title', __( 'TP Donate', 'tp-donate' ) );
 		add_menu_page( $donate_menu, $donate_menu, 'manage_options', 'tp_donate', null, 'dashicons-admin-site', 9 );
@@ -42,7 +42,7 @@ class DN_Admin_Menu
 	 * add menu item
 	 * @param $params
 	 */
-	function add_menu( $params )
+	public function add_menu( $params )
 	{
 		$this->_menus[] = $params;
 	}
@@ -51,7 +51,7 @@ class DN_Admin_Menu
 	 * instance
 	 * @return object class
 	 */
-	static function instance()
+	public static function instance()
 	{
 		if( self::$_instance )
 			return self::$_instance;

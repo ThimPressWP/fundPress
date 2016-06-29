@@ -40,10 +40,8 @@ class DN_MetaBox_Donor extends DN_MetaBox_Base
 		$this->_id = 'donate_donor_info_section';
 		$this->_title = __( 'Donor Information', 'tp-donate' );
 		$this->_prefix = TP_DONATE_META_DONOR;
-		$this->_layout = TP_DONATE_INC . '/metaboxs/views/donor.php';
+		$this->_layout = TP_DONATE_INC . '/admin/metaboxes/views/donor.php';
 		parent::__construct();
 	}
 
 }
-
-new DN_MetaBox_Donor();

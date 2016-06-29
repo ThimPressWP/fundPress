@@ -1,7 +1,7 @@
 <?php
 if( ! defined( 'ABSPATH' ) ) exit();
 
-class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
+class DN_MetaBox_Campaign extends DN_MetaBox_Base
 {
 	/**
 	 * id of the meta box
@@ -25,7 +25,6 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 		$this->_id = 'donate_setting_section';
 		$this->_title = __( 'Donate Settings', 'tp-donate' );
 		$this->_prefix = TP_DONATE_META_CAMPAIGN;
-		// $this->_layout = TP_DONATE_INC . '/metaboxs/views/campaign.php';
 		add_action( 'donate_metabox_setting_section', array( $this, 'donate_metabox_setting' ), 10, 1 );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
@@ -160,7 +159,7 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * ajax create compensate
 	 * @return
 	 */
-	function donate_remove_compensate() {
+	public function donate_remove_compensate() {
 		if( ! isset( $_GET[ 'schema' ] ) || $_GET[ 'schema' ] !== 'donate-ajax' || empty( $_POST ) ) {
 			return;
 		}
@@ -183,7 +182,7 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 			wp_send_json( array( 'status' => 'success' ) ); die();
 		}
 
-		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Could not delete compensate. Please try again.' ) ) ); die();
+		wp_send_json( array( 'status' => 'failed', 'message' => __( 'Could not delete compensate. Please try again.', 'tp-donate' ) ) ); die();
 	}
 
 	/* update meta campaign */
@@ -204,10 +203,8 @@ class DN_MetaBox_Campaign_Settings extends DN_MetaBox_Base
 	 * must login
 	 * @return null
 	 */
-	function mustLogin() {
+	public function mustLogin() {
 		_e( 'You must login', 'tp-donate' );
 	}
 
 }
-
-new DN_MetaBox_Campaign_Settings();

@@ -59,9 +59,9 @@ class ThimPress_Donate
 	public $cart = null;
 
 	// instance
-	static $instance = null;
+	public static $instance = null;
 
-	function __construct()
+	public function __construct()
 	{
 
 		$this->includes();
@@ -172,25 +172,23 @@ class ThimPress_Donate
 	public function includes()
 	{
 		$this->load_assets();
-
+		$this->_include( 'inc/class-dn-autoloader.php' );
 		$this->_include( 'inc/class-dn-setting.php' );
 
-		$paths = array( 'abstracts', 'settings', 'shortcodes', 'widgets', 'metaboxs' );
+		$paths = array( 'abstracts', 'settings', 'shortcodes' );
 		$this->autoload( $paths );
 
-		if( is_admin() )
-		{
-			$this->_include( 'inc/admin/functions.php' );
-
-			foreach ( (array)glob( TP_DONATE_INC . '/admin/class-dn-admin-*.php' ) as $key => $file) {
-				$this->_include( $file );
-			}
+		if( is_admin() ) {
+			$this->_include( 'inc/admin/class-dn-admin.php' );
 		}
 
 		$this->_include( 'inc/functions.php' );
+		/* metaboxes */
+		$this->_include( 'inc/widget-functions.php' );
 		$this->_include( 'inc/i18n.php' );
 
 		$this->_include( 'inc/template-hook.php' );
+		$this->_include( 'inc/widgets/widget-functions.php' );
 		$this->_include( 'inc/class-dn-custom-post-type.php' );
 
 		// sessions libraries
@@ -211,12 +209,12 @@ class ThimPress_Donate
 
 	}
 
-	function autoload( $paths = array() )
+	public function autoload( $paths = array() )
 	{
 		foreach ($paths as $key => $path) {
 			$real_path = TP_DONATE_INC . '/' . $path;
 			$path = substr( $path, 0, -1 );
-			foreach ( (array)glob( $real_path . '/class-dn-'. $path .'-*.php' ) as $key => $file) {
+			foreach ( (array)glob( $real_path . '/class-dn-'. $path .'-*.php' ) as $key => $file ) {
 				$this->_include( $file );
 			}
 		}
@@ -312,7 +310,7 @@ class ThimPress_Donate
 
 	}
 
-	function footer() { ?>
+	public function footer() { ?>
 		<div class="donate_ajax_overflow">
 			<div class="donate_ajax_loading">
 				<span class="donate-1"></span>
@@ -352,6 +350,3 @@ if( ! function_exists( 'donate' ) ) {
 		return ThimPress_Donate::instance();
 	}
 }
-
-
-// var_dump( maybe_unserialize( get_post_meta( 5024, 'thimpress_donate_cart_contents', true ) ) ); die();
