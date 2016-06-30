@@ -94,6 +94,7 @@ class DN_Donate extends DN_Post_Base
 			update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
 			update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
 			update_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
+			update_post_meta( $donate_id, $this->meta_prefix . 'user_id', get_current_user_id() );
 
 			// allow hook
 			do_action( 'donate_create_booking_donate', $donate_id );

@@ -810,6 +810,17 @@ if( ! function_exists( 'donate_amount_system' ) )
 	}
 }
 
+if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
+	function donate_get_donor_fullname( $donate_id = null ) {
+		if ( ! $donate_id ) return;
+		$donate = DN_Donate::instance( $donate_id );
+		$donor_id = $donate->donor_id;
+		if ( ! $donate_id ) return;
+		$donor = DN_Donor::instance( $donor_id );
+		return sprintf( '%s %s', $donor->first_name, $donor->last_name );
+	}
+}
+
 // date time format
 function donate_date_time_format_js() {
 	// set detault datetime format datepicker
@@ -851,6 +862,7 @@ function donate_date_time_format_js() {
     return $return;
 }
 
+/* count campaign day*/
 function donate_get_campaign_days_to_go( $campaign_id = null ) {
 	if ( ! $campaign_id ) {
 		global $post;
@@ -876,4 +888,20 @@ function donate_get_campaign_days_to_go( $campaign_id = null ) {
 	}
 
 	return ceil( ( $end - $current_time ) / DAY_IN_SECONDS );
+}
+
+if ( ! function_exists( 'donate_get_donors' ) ) {
+	/* get total donor donated */
+	function donate_get_donors( $donate_id = null ) {
+		if ( ! $donate_id ) { return 0; }
+		global $wpdb;
+		$sql = $wpdb->prepare("
+				SELECT IFNULL( COUNT( donor.meta_value ), 0 ) FROM $wpdb->postmeta AS donor
+					lEFT JOIN $wpdb->posts AS donate ON donor.post_id = donate.ID AND donor.meta_key = %s
+				WHERE donate.post_type = %s
+					AND donate.ID = %d
+				GROUP BY donor.meta_value
+			", 'thimpress_donate_donor_id', 'dn_donate', $donate_id );
+		return apply_filters( 'donate_get_donors_count', absint( $wpdb->get_var( $sql ) ), $donate_id );
+	}
 }
