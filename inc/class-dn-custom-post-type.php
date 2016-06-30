@@ -19,6 +19,10 @@ class DN_Post_Type
 		// custom post type admin column
 		add_filter( 'manage_dn_donate_posts_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_dn_donate_posts_custom_column', array( $this, 'columns' ), 10, 2 );
+		add_filter( 'manage_edit-dn_donate_sortable_columns', array( $this, 'donate_sortable_columns' ) );
+		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
+		/* sortable order donate column */
+		add_filter( 'request', array( $this, 'request_query' ) );
 
 		add_filter( 'manage_dn_campaign_posts_columns', array( $this, 'campaign_columns' ) );
 		add_action( 'manage_dn_campaign_posts_custom_column', array( $this, 'campaign_column_content' ), 10, 2 );
@@ -40,7 +44,12 @@ class DN_Post_Type
 	 */
 	public function add_columns( $columns )
 	{
-		$columns[ 'donate_payment_method' ] = apply_filters( 'donate_add_column_donate_payment_method', sprintf( '%s', __( 'Payment Method', 'tp-donate' ) ) );
+		unset( $columns[ 'title' ], $columns[ 'author' ], $columns[ 'date' ] );
+		$columns[ 'donate_title' ] = apply_filters( 'donate_add_column_donate_title', sprintf( '%s', __( 'Donate', 'tp-donate' ) ) );
+		$columns[ 'donate_user' ] = apply_filters( 'donate_add_column_donate_user', sprintf( '%s', __( 'User', 'tp-donate' ) ) );
+		$columns[ 'donate_date' ] = apply_filters( 'donate_add_column_donate_date', sprintf( '%s', __( 'Date', 'tp-donate' ) ) );
+		$columns[ 'donate_total' ] = apply_filters( 'donate_add_column_donate_total', sprintf( '%s', __( 'Total', 'tp-donate' ) ) );
+		$columns[ 'donate_payment_method' ] = apply_filters( 'donate_add_column_donate_payment_method', sprintf( '%s', __( 'Method', 'tp-donate' ) ) );
 		$columns[ 'donate_status' ] = apply_filters( 'donate_add_column_donate_status', sprintf( '%s', __( 'Status', 'tp-donate' ) ) );
 		return $columns;
 	}
@@ -48,9 +57,29 @@ class DN_Post_Type
 	// add columns
 	public function columns( $column, $post_id )
 	{
+		$donate = DN_Donate::instance( $post_id );
 		switch ( $column ) {
+			case 'donate_title':
+				$title = '<a href="'. get_edit_post_link( $post_id ) .'">';
+				$title .= '<strong>#' . $post_id . '</strong>';
+				$title .= '</a>';
+				printf( __( '%s <small>by</small> %s', 'tp-donate' ), $title, '<a href="'. get_edit_post_link( $donate->donor_id ) .'"><strong>' . donate_get_donor_fullname( $post_id ) . '</strong></a>' );
+				break;
+			case 'donate_date':
+				printf( '%s', date_i18n( get_option( 'date_format' ), strtotime( get_post_field( 'post_date', $post_id ) ) ) );
+				break;
+			case 'donate_total':
+				printf( '%s', donate_price( $donate->total, $donate->currency ) );
+				break;
+			case 'donate_user':
+				if ( $donate->user_id ) {
+					$user = get_userdata( $donate->user_id );
+					printf( '<a href="%s">%s</a>', get_edit_user_link( $donate->user_id ), $user->user_login );
+				} else {
+					_e( 'Guest', 'tp-donate' );
+				}
+				break;
 			case 'donate_payment_method':
-					$donate = DN_Donate::instance( $post_id );
 					$payment = $donate->get_meta( 'payment_method' );
 					$payments_enable = donate_payment_gateways();
 					if( array_key_exists( $payment, $payments_enable ) )
@@ -60,6 +89,46 @@ class DN_Post_Type
 					echo donate_get_status_label( $post_id );
 				break;
 		}
+	}
+
+	/* add sortable column link order donate */
+	public function donate_sortable_columns( $columns ) {
+		$custom = array(
+			'donate_title' 	=> 'ID',
+			'donate_total' 	=> 'donate_total',
+			'donate_date'  	=> 'date'
+		);
+		unset( $columns['comments'] );
+
+		return wp_parse_args( $custom, $columns );
+	}
+
+	/* restrict post type */
+	public function restrict_manage_posts( $post_type ) {
+		if ( $post_type !== 'dn_donate' ) return;
+		?>
+			
+		<?php
+	}
+
+	/* sortable order donate column */
+	public function request_query( $vars ) {
+
+		if ( ! is_admin() && ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'dn_donate' ) {
+			return $vars;
+		}
+
+		if ( ! isset( $_GET['orderby'] ) || ! isset( $_GET['order'] ) ) {
+			return $vars;
+		}
+
+		if (  $_GET['orderby'] === 'donate_total' ) {
+			$vars = array_merge( $vars, array(
+							'meta_key'  => TP_DONATE_META_DONATE . 'total',
+							'orderby'   => 'meta_value_num'
+						) );
+		}
+		return $vars;
 	}
 
 	public function campaign_columns( $columns ) {
@@ -282,10 +351,11 @@ class DN_Post_Type
 
 	public function register_post_status()
 	{
+		global $donate_statuses;
 		/**
 		 * cancelled payment
 		 */
-		$args = apply_filters( 'donate_register_post_status_cancel', array(
+		$donate_statuses[ 'donate-cancelled' ] = apply_filters( 'donate_register_post_status_cancel', array(
 			'label'                     => _x( 'Cancelled', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -293,11 +363,11 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>' ),
 		) );
-		register_post_status( 'donate-cancelled', $args );
+		// register_post_status( 'donate-cancelled', $args );
 		/**
 		 * pending payment
 		 */
-		$args = apply_filters( 'donate_register_post_status_pending', array(
+		$donate_statuses[ 'donate-pending' ] = apply_filters( 'donate_register_post_status_pending', array(
 			'label'                     => _x( 'Pending', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -305,12 +375,11 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
 		) );
-		register_post_status( 'donate-pending', $args );
-
+		// register_post_status( 'donate-pending', $args );
 		/**
 		 * processing payment
 		 */
-		$args = apply_filters( 'donate_register_post_status_processing', array(
+		$donate_statuses[ 'donate-processing' ] = apply_filters( 'donate_register_post_status_processing', array(
 			'label'                     => _x( 'Processing', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -318,12 +387,11 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>' ),
 		) );
-		register_post_status( 'donate-processing', $args );
-
+		// register_post_status( 'donate-processing', $args );
 		/**
 		 * completed payment
 		 */
-		$args = apply_filters( 'donate_register_post_status_completed', array(
+		$donate_statuses[ 'donate-completed' ] = apply_filters( 'donate_register_post_status_completed', array(
 			'label'                     => _x( 'Completed', 'Donate Status', 'tp-donate' ),
 			'public'                    => true,
 			'exclude_from_search'       => false,
@@ -331,7 +399,24 @@ class DN_Post_Type
 			'show_in_admin_status_list' => true,
 			'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>' ),
 		) );
-		register_post_status( 'donate-completed', $args );
+		// register_post_status( 'donate-completed', $args );
+		/**
+		 * refunded payment
+		 */
+		$donate_statuses[ 'donate-refunded' ] = apply_filters( 'donate_register_post_status_refunded', array(
+			'label'                     => _x( 'Refunded', 'Donate Status', 'tp-donate' ),
+			'public'                    => true,
+			'exclude_from_search'       => false,
+			'show_in_admin_all_list'    => true,
+			'show_in_admin_status_list' => true,
+			'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>' ),
+		) );
+		// register_post_status( 'donate-refuned', $args );
+
+		$donate_statuses = apply_filters( 'donate_payment_status', $donate_statuses );
+		foreach( $donate_statuses as $status => $args ) {
+			register_post_status( $status, $args );
+		}
 	}
 
 }

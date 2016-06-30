@@ -1,3 +1,16 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
+global $post;
+$donor = DN_Donor::instance( $post->Id );
+$donateds = $donor->get_donated();
+?>
+<style type="text/css">
+	#post-body-content{
+		display: none;
+	}
+</style>
 <table>
 	<thead>
 		<tr>
@@ -12,7 +25,6 @@
 	<tbody>
 		<tr>
 			<th>
-				<?php global $post; ?>
 				<?php printf( '%s', donate_generate_post_key( $post->ID ) ) ?>
 			</th>
 			<td>
@@ -33,12 +45,6 @@
 		</tr>
 	</tbody>
 </table>
-
-<?php
-	$donor = DN_Donor::instance( $post->Id );
-	$donateds = $donor->get_donated();
-?>
-
 <?php if( $donateds ): ?>
 	<h3><?php _e( 'Donated', 'tp-donate' ) ?></h3>
 

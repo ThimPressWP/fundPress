@@ -810,6 +810,17 @@ if( ! function_exists( 'donate_amount_system' ) )
 	}
 }
 
+if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
+	function donate_get_donor_fullname( $donate_id = null ) {
+		if ( ! $donate_id ) return;
+		$donate = DN_Donate::instance( $donate_id );
+		$donor_id = $donate->donor_id;
+		if ( ! $donate_id ) return;
+		$donor = DN_Donor::instance( $donor_id );
+		return sprintf( '%s %s', $donor->first_name, $donor->last_name );
+	}
+}
+
 // date time format
 function donate_date_time_format_js() {
 	// set detault datetime format datepicker

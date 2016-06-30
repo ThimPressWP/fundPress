@@ -44,6 +44,24 @@ class DN_MetaBox_Donate_Action extends DN_MetaBox_Base {
 		$this->_prefix = TP_DONATE_META_DONATE;
 		$this->_layout = TP_DONATE_INC . '/admin/metaboxes/views/donate-action.php';
 		parent::__construct();
+		add_action( 'donate_update_post_meta', array( $this, 'update_status' ), 10, 3 );
+	}
 
+	/**
+	 * update function
+	 * @param  $post_id
+	 * @param  $post
+	 * @param  $update
+	 * @return null
+	 */
+	public function update_status( $post_id, $post, $update )
+	{
+		remove_action( 'donate_update_post_meta', array( $this, 'update_status' ), 10, 3 );
+		$status = isset( $_POST['donate_payment_status'] ) ? sanitize_text_field( $_POST['donate_payment_status'] ) : '';
+		if ( ! $status || get_post_type( $post_id ) !== 'dn_donate' ) { return; }
+
+		$donate = DN_Donate::instance( $post_id );
+		$donate->update_status( $status );
+		add_action( 'donate_update_post_meta', array( $this, 'update_status' ), 10, 3 );
 	}
 }
