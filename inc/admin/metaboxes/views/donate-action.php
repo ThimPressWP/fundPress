@@ -12,6 +12,7 @@ global $donate_statuses;
 	}
 	#donate_action #major-publishing-actions{
 		overflow: hidden;
+		padding: 10px;
 	}
 	#donate_action .inside .section{
 		padding: 0 10px 10px 10px;
@@ -28,7 +29,7 @@ global $donate_statuses;
 	<div id="donate-user" class="section">
 		<label for="<?php echo esc_attr( $this->get_field_name( 'user_id' ) ) ?>"><?php _e( 'User', 'tp-donate' ); ?></label>
 		<select name="<?php echo esc_attr( $this->get_field_name( 'user_id' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'user_id' ) ) ?>">
-			<option value="0"><?php _e( 'Select User', 'tp-donate' ); ?></option>
+			<option value="0"><?php _e( 'Guest', 'tp-donate' ); ?></option>
 			<?php foreach( get_users() as $user ) : ?>
 				<option value="<?php echo esc_attr( $user->ID ); ?>"<?php selected( $this->get_field_value( 'user_id' ), $user->ID ) ?>><?php printf( '(#%s)%s', $user->ID, $user->user_email ); ?></option>
 			<?php endforeach; ?>

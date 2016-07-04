@@ -96,17 +96,6 @@ if( ! function_exists( 'donate_locate_template' ) )
 	    return apply_filters( 'donate_locate_template', $template, $template_name, $template_path );
 	}
 }
-
-if ( ! function_exists( 'is_event_taxonomy' ) ) {
-
-    /**
-     * Returns true when viewing a room taxonomy archive.
-     * @return bool
-     */
-    function is_event_taxonomy() {
-        return is_tax( get_object_taxonomies( 'tp_event' ) );
-    }
-}
 /**
  * donate payments
  */
@@ -701,19 +690,15 @@ if( ! function_exists( 'donate_add_notice' ) )
 		if( ! $notice_key || ! $message )
 			return;
 
-		if( ! isset( $_SESSION[ 'donate_messages' ] ) )
-		{
+		if( ! isset( $_SESSION[ 'donate_messages' ] ) ) {
 			$_SESSION[ 'donate_messages' ] = array();
-			$_SESSION[ 'donate_messages' ][ 'errors' ] = array();
+			$_SESSION[ 'donate_messages' ][ 'error' ] = array();
 			$_SESSION[ 'donate_messages' ][ 'success' ] = array();
 		}
 
-		if( $notice_key === 'errors' )
-		{
-			$_SESSION[ 'donate_messages' ][ 'errors' ][] = sprintf( '%s', $message );
-		}
-		else
-		{
+		if( $notice_key === 'error' ) {
+			$_SESSION[ 'donate_messages' ][ 'error' ][] = sprintf( '%s', $message );
+		} else {
 			$_SESSION[ 'donate_messages' ][ 'success' ][] = sprintf( '%s', $message );
 		}
 
@@ -735,16 +720,19 @@ if( ! function_exists( 'donate_has_notice' ) )
 /**
  * show message
  */
-if( ! function_exists( 'donate_notice_display' ) )
+if( ! function_exists( 'donate_print_notices' ) )
 {
-	function donate_notice_display()
+	function donate_print_notices()
 	{
-		if( empty( $_SESSION[ 'donate_messages' ] ) )
+		if( empty( $_SESSION[ 'donate_messages' ] ) ) {
 			return;
+		}
 
 		if( isset( $_SESSION[ 'donate_messages' ] ) )
 		{
+			ob_start();
 			donate_get_template( 'messages.php', array( 'messages' => $_SESSION[ 'donate_messages' ] ) );
+			echo ob_get_clean();
 			unset( $_SESSION[ 'donate_messages' ] );
 		}
 	}

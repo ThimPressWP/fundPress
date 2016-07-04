@@ -24,7 +24,7 @@ class DN_MetaBox_Donate_Action extends DN_MetaBox_Base {
 	public $_prefix = null;
 
 	/**
-	 * screen post, page, tp_event
+	 * screen post, page
 	 * @var array
 	 */
 	public $_screen = array( 'dn_donate' );

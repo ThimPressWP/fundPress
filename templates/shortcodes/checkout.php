@@ -5,15 +5,12 @@ if( ! defined( 'ABSPATH' ) ) exit();
  */
 
 // display message
-echo donate_notice_display();
+donate_print_notices();
 
-if( donate()->cart->is_empty() )
-{
+if( donate()->cart->is_empty() ) {
 	// empty cart
 	donate_get_template( 'cart/empty.php' );
-}
-else
-{
+} else {
 	// cart is not empty
 	donate_get_template( 'checkout/checkout.php' );
 }

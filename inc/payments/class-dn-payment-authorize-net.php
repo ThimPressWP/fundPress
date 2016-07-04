@@ -76,10 +76,10 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
             return;
 
         if( isset( $_POST['x_response_reason_text'] ) )
-            donate_add_notice( $_POST['x_response_reason_text'] );
+            donate_add_notice( 'error', $_POST['x_response_reason_text'] );
 
         $code = 0;
-        if( isset( $_POST['x_response_code'] ) && array_key_exists( (int)$_POST['x_response_code'], $this->_messages) )
+        if( isset( $_POST['x_response_code'] ) && array_key_exists( (int)$_POST['x_response_code'], $this->_messages ) )
             $code = (int)$_POST['x_response_code'];
 
         $amout = 0;
@@ -92,21 +92,17 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
         $id = (int)$_POST['x_invoice_num'];
         $donation = DN_Donate::instance( $id );
 
-        if( $code === 1 )
-        {
+        if( $code === 1 ) {
             if( (float)$donation->get_meta( 'total' ) === (float)$amout )
                 $status = 'donate-completed';
             else
                 $status = 'donate-processing';
-        }
-        else
-        {
+        } else {
             $status = 'donate-pending';
         }
 
         $donation->update_status( $status );
-        if( in_array( $status, array( 'donate-completed', 'donate-pending' ) ) )
-        {
+        if( in_array( $status, array( 'donate-completed', 'donate-pending' ) ) ) {
             donate()->cart->remove_cart();
         }
         ob_end_clean();

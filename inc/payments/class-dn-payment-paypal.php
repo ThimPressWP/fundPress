@@ -58,15 +58,12 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             if( ! isset( $_GET[ 'donate-paypal-nonce' ] ) || ! wp_verify_nonce( $_GET[ 'donate-paypal-nonce' ], 'donate-paypal-nonce' ) )
                 return;
 
-            if( $_GET[ 'donate-paypal-payment' ] === 'completed' )
-            {
+            if( $_GET[ 'donate-paypal-payment' ] === 'completed' ) {
                 $this->completed_process_message();
 
                 DN_Cart::instance()->remove_cart();
-            }
-            else if( $_GET[ 'donate-paypal-payment' ] === 'cancel' )
-            {
-                donate_add_notice( 'errors', __( 'Donate is cancel.', 'tp-donate' ) );
+            } else if( $_GET[ 'donate-paypal-payment' ] === 'cancel' ) {
+                donate_add_notice( 'error', __( 'Donate is cancel.', 'tp-donate' ) );
             }
             // redirect
             $url = add_query_arg( array(  'donate-paypal-nonce' => $_GET[ 'donate-paypal-nonce' ]  ), donate_checkout_url() );

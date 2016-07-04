@@ -4,7 +4,8 @@ if( ! defined( 'ABSPATH' ) ) exit();
 $cart_contents = $this->get_field_value( 'cart_contents' );
 global $post;
 $donation = DN_Donate::instance( $post->ID );
-$currency = $donation->currency? $donation->currency : donate_get_currency();
+$currency = $donation->currency ? $donation->currency : donate_get_currency();
+var_dump( $cart_contents );
 ?>
 
 <style type="text/css">
@@ -17,7 +18,7 @@ $currency = $donation->currency? $donation->currency : donate_get_currency();
 				<th><?php _e( 'Campaign ID', 'tp-donate' ); ?></th>
 				<th><?php _e( 'Campaign Title', 'tp-donate' ); ?></th>
 				<th><?php _e( 'Compensate', 'tp-donate' ); ?></th>
-				<th><?php _e( 'Donation amount', 'tp-donate' ); ?></th>
+				<th><?php _e( 'Donation Amount', 'tp-donate' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -38,13 +39,13 @@ $currency = $donation->currency? $donation->currency : donate_get_currency();
 				</tr>
 			<?php endforeach; ?>
 			<tr>
-				<td><?php _e( 'Addition note', 'tp-donate' ); ?></td>
+				<td><?php _e( 'Addition Note', 'tp-donate' ); ?></td>
 				<td colspan="3">
 					<?php printf( '%s', $donation->addition ) ?>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3"><?php _e( 'Total amount', 'tp-donate' ); ?></td>
+				<td colspan="3"><?php _e( 'Total Amount', 'tp-donate' ); ?></td>
 				<td>
 					<?php printf( '%s', donate_price( $donation->total, $currency ) ) ?>
 				</td>
@@ -54,7 +55,7 @@ $currency = $donation->currency? $donation->currency : donate_get_currency();
 				<td>
 					<?php $donor_id = $this->get_field_value( 'donor_id' ); ?>
 					<a href="<?php echo get_edit_post_link( $donor_id ) ?>">
-						<?php printf( '%s', donate_get_donor_fullname( $post->ID ) ) ?>
+						<?php printf( '%s', donate_get_donor_fullname( $donation->ID ) ) ?>
 					</a>
 				</td>
 			</tr>
@@ -67,7 +68,7 @@ $currency = $donation->currency? $donation->currency : donate_get_currency();
 		<tbody>
 			<tr>
 				<th>
-					<?php _e( 'Donate for system', 'tp-donate' ); ?>
+					<?php _e( 'Donate For System', 'tp-donate' ); ?>
 				</th>
 				<td>
 					<?php echo donate_price( $donation->get_meta( 'total' ), $currency ) ?>
@@ -78,12 +79,12 @@ $currency = $donation->currency? $donation->currency : donate_get_currency();
 				<td>
 					<?php $donor_id = $this->get_field_value( 'donor_id' ); ?>
 					<a href="<?php echo get_edit_post_link( $donor_id ) ?>">
-						<?php printf( '%s', donate_get_donor_fullname( $post->ID ) ) ?>
+						<?php printf( '%s', donate_get_donor_fullname( $donation->ID ) ) ?>
 					</a>
 				</td>
 			</tr>
 			<tr>
-				<td><?php _e( 'Addition note', 'tp-donate' ); ?></td>
+				<td><?php _e( 'Addition Note', 'tp-donate' ); ?></td>
 				<td>
 					<?php printf( '%s', $donation->get_meta( 'addition' ) ) ?>
 				</td>

@@ -34,124 +34,92 @@ class DN_Donate extends DN_Post_Base
 	 */
 	public $post_type = 'dn_donate';
 
-	public function __construct( $post )
-	{
+	public function __construct( $post ) {
 		$this->meta_prefix = TP_DONATE_META_DONATE;
 		parent::__construct( $post );
 	}
 
 	// create new donate
-	function create_donate( $donor_id = null, $payment_method = null, $donate_system = false )
-	{
-		try {
-			// donor_id
-			if( ! $donor_id ) {
-				return new WP_Error( 'donor_error', __( 'Could not created donor.', 'tp-donate' ) );
-			}
-
-			// create donate with cart contents
-			$donate_id = $this->create_post( array(
-					'post_title'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
-					'post_content'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
-					'post_excerpt'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
-					'post_status'	=> 'donate-pending'
-				) );
-			// update post with new title
-			wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
-
-			// cart
-			$cart = donate()->cart;
-
-			// create donate for symtem without campaign
-			if( $donate_system && is_numeric( $donate_system ) )
-			{
-				$this->donate_system = $donate_system;
-				// create donate without campaign
-				update_post_meta( $donate_id, $this->meta_prefix . 'amount_system', $donate_system );
-				update_post_meta( $donate_id, $this->meta_prefix . 'total', $donate_system );
-			}
-			// get cart contents
-			else if( $cart_contents = $cart->cart_contents )
-			{
-				// create donate with cart_contents
-				update_post_meta( $donate_id, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
-				update_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
-
-				// insert post meta
-				foreach ( $cart_contents as $cart_item_id => $cart_content ) {
-					// ignoire product_data key
-					$campaign = DN_Campaign::instance( $cart_content->product_id );
-					// convert campaign currency format
-					// $campaign->set_meta( 'amount', donate_campaign_convert_amount( $cart_content->amount, $cart_content->currency, $campaign->get_meta( 'currency' ) ) );
-
-					// ralationship campagin id and donate
-					$campaign->set_meta( 'donate', $donate_id );
-					// update_post_meta( $cart_content->product_id , $this->meta_prefix . 'donate', $donate_id  );
-				}
-			}
-
-			update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
-			update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
-			update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
-			update_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
-			update_post_meta( $donate_id, $this->meta_prefix . 'user_id', get_current_user_id() );
-
-			// allow hook
-			do_action( 'donate_create_booking_donate', $donate_id );
-
-			return apply_filters( 'donate_create_booking_donate_result', $donate_id );
-
-		} catch ( Exception $e ) {
-			return new WP_Error( 'create-donate-error', $e->getMessage() );
+	public function create_donate( $donor_id = null, $payment_method = null ) {
+		// donor_id
+		if( ! $donor_id ) {
+			return new WP_Error( 'donor_error', __( 'Could not created donor.', 'tp-donate' ) );
 		}
+
+		// create donate with cart contents
+		$donate_id = $this->create_post( array(
+				'post_title'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+				'post_content'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+				'post_excerpt'	=> sprintf( '%s - %s', current_time( 'mysql' ), $donor_id ),
+				'post_status'	=> 'donate-pending'
+			) );
+		// update post with new title
+		wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
+
+		// cart
+		$cart = donate()->cart;
+
+		update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
+		update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
+		update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
+		update_post_meta( $donate_id, $this->meta_prefix . 'donor_id', $donor_id );
+		update_post_meta( $donate_id, $this->meta_prefix . 'user_id', get_current_user_id() );
+
+		// allow hook
+		do_action( 'donate_create_booking_donate', $donate_id );
+
+		return apply_filters( 'donate_create_booking_donate_result', $donate_id );
 	}
 
-	function update_information( $donor_id = null, $payment_method = null, $donate_system = false ) {
+	/* update donate_awaiting_payment */
+	public function update_information( $donor_id = null, $payment_method = null ) {
 		// cart
 		$cart = donate()->cart;
 
 		// remove donate with cart_contents
-		delete_post_meta( $this->ID, $this->meta_prefix . 'cart_contents' ); // cart contents meta donate
 		delete_post_meta( $this->ID, $this->meta_prefix . 'total' );
 		delete_post_meta( $this->ID, $this->meta_prefix . 'addition' );
 		delete_post_meta( $this->ID, $this->meta_prefix . 'currency' );
 		delete_post_meta( $this->ID, $this->meta_prefix . 'payment_method' );
 		delete_post_meta( $this->ID, $this->meta_prefix . 'donor_id' );
 
-		// create donate for symtem without campaign
-		if( $donate_system && is_numeric( $donate_system ) )
-		{
-			$this->donate_system = $donate_system;
-			// create donate without campaign
-			update_post_meta( $this->ID, $this->meta_prefix . 'amount_system', $donate_system );
-			update_post_meta( $this->ID, $this->meta_prefix . 'total', $donate_system );
-		}
-		// get cart contents
-		else if( $cart_contents = $cart->cart_contents )
-		{
-			// create donate with cart_contents
-			update_post_meta( $this->ID, $this->meta_prefix . 'cart_contents', $cart_contents ); // cart contents meta donate
-			update_post_meta( $this->ID, $this->meta_prefix . 'total', $cart->cart_total_include_tax );
-
-			// insert post meta
-			foreach ( $cart_contents as $cart_item_id => $cart_content ) {
-				// ignoire product_data key
-				$campaign = DN_Campaign::instance( $cart_content->product_id );
-
-				// ralationship campagin id and donate
-				$campaign->set_meta( 'donate', $this->ID );
-			}
-		}
-
+		/* update new information */
 		update_post_meta( $this->ID, $this->meta_prefix . 'addition', $cart->addtion_note );
 		update_post_meta( $this->ID, $this->meta_prefix . 'currency', donate_get_currency() );
 		update_post_meta( $this->ID, $this->meta_prefix . 'payment_method', $payment_method );
 		update_post_meta( $this->ID, $this->meta_prefix . 'donor_id', $donor_id );
+		update_post_meta( $this->ID, $this->meta_prefix . 'user_id', get_current_user_id() );
 		return $this->ID;
 	}
 
+	/* remove all donate items */
+	public function remove_donate_items() {
+		global $wpdb;
+		$wpdb->query( $wpdb->prepare( "DELETE FROM itemmeta USING {$wpdb->prefix}postmeta itemmeta INNER JOIN {$wpdb->prefix}posts items WHERE itemmeta.post_id = items.ID AND items.ID = %d AND items.post_type = %s", $this->ID, 'dn_donate' ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}posts WHERE ID = %d AND post_type = %s", $this->ID, 'dn_donate' ) );
+	}
+
+	/* add donate item */
+	public function add_donate_item( $campaign_id = null, $title = '', $total = 0 ) {
+		if ( ! $this->ID ) return;
+		$item_id = wp_insert_post(array(
+			'post_type'		=> 'dn_donate_item',
+			'post_parent'	=> $this->ID
+		));
+
+		update_post_meta( $item_id, 'campaign_id', absint( $campaign_id ) );
+		update_post_meta( $item_id, 'title', $title );
+		update_post_meta( $item_id, 'campaign_id', floatval( $total ) );
+
+		// ignoire product_data key
+		$campaign = DN_Campaign::instance( $campaign_id );
+		// ralationship campagin id and donate
+		$campaign->set_meta( 'donate', $this->ID );
+		return $item_id;
+	}
+
 	// update status
-	function update_status( $status = 'donate-processing' )
+	public function update_status( $status = 'donate-processing' )
 	{
 
 		if( ! $this->ID )
@@ -169,7 +137,7 @@ class DN_Donate extends DN_Post_Base
 	}
 
 	// send email if status is completed
-	function send_email( $status )
+	public function send_email( $status )
 	{
 		if( $status === 'donate-completed' && $donor = $this->get_donor() ) {
 			DN_Email::instance()->send_email_donate_completed( $donor );
@@ -177,7 +145,7 @@ class DN_Donate extends DN_Post_Base
 	}
 
 	// get donor by donate id
-	function get_donor()
+	public function get_donor()
 	{
 		if( $this->donor ) {
 			return $this->donor;
@@ -190,7 +158,7 @@ class DN_Donate extends DN_Post_Base
 	}
 
 	// static function instead of new class
-	static function instance( $post = null )
+	public static function instance( $post = null )
 	{
 		if( ! $post ) {
 			return new self( $post );

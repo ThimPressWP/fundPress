@@ -114,7 +114,7 @@ class DN_Post_Type
 	/* sortable order donate column */
 	public function request_query( $vars ) {
 
-		if ( ! is_admin() && ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'dn_donate' ) {
+		if ( ! is_admin() || ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'dn_donate' ) {
 			return $vars;
 		}
 
@@ -133,8 +133,8 @@ class DN_Post_Type
 
 	public function campaign_columns( $columns ) {
 		unset( $columns['date'], $columns['comments'], $columns['author'] );
-		$columns[ 'start' ]	= apply_filters( 'donate_add_column_campaign_start_column', __( 'Start', 'tp-donate' ) );
-		$columns[ 'end' ]	= apply_filters( 'donate_add_column_campaign_end_column', __( 'End', 'tp-donate' ) );
+		$columns[ 'start' ]	= apply_filters( 'donate_add_column_campaign_start_column', __( 'Start Date', 'tp-donate' ) );
+		$columns[ 'end' ]	= apply_filters( 'donate_add_column_campaign_end_column', __( 'End Date', 'tp-donate' ) );
 		$columns[ 'funded' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Founded', 'tp-donate' ) );
 		// $columns[ 'donors' ] = apply_filters( 'donate_add_column_campaign_backer_column', __( 'Donors', 'tp-donate' ) );
 		$columns[ 'date' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Created At', 'tp-donate' ) );
@@ -247,6 +247,46 @@ class DN_Post_Type
 
 		$args = apply_filters( 'donate_register_post_type_donate', $args );
 		register_post_type( 'dn_donate', $args );
+
+		$labels = array(
+			'name'               => _x( 'Donate Item', 'post type general name', 'tp-donate' ),
+			// 'singular_name'      => _x( 'Donate', 'post type singular name', 'tp-donate' ),
+			// 'menu_name'          => _x( 'Donates', 'add new on admin bar', 'tp-donate' ),
+			// 'name_admin_bar'     => _x( 'Donate', 'admin menu', 'tp-donate' ),
+			// 'add_new'            => _x( 'Add Donate', 'dn_donate', 'tp-donate' ),
+			// 'add_new_item'       => __( 'Add New Donate', 'tp-donate' ),
+			// 'new_item'           => __( 'New Donate', 'tp-donate' ),
+			// 'edit_item'          => __( 'Edit Donate', 'tp-donate' ),
+			// 'view_item'          => __( 'View Donate', 'tp-donate' ),
+			// 'all_items'          => __( 'Donates', 'tp-donate' ),
+			// 'search_items'       => __( 'Search Donates', 'tp-donate' ),
+			// 'parent_item_colon'  => __( 'Parent Donates:', 'tp-donate' ),
+			// 'not_found'          => __( 'No donates found.', 'tp-donate' ),
+			// 'not_found_in_trash' => __( 'No donates found in Trash.', 'tp-donate' )
+		);
+
+		$args = array(
+			'labels'             => $labels,
+            'description'        => __( 'Donate Item', 'tp-donate' ),
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => false,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => _x( 'donate-item', 'URL slug', 'tp-donate' ) ),
+			'capability_type'    => 'post',
+			'has_archive'        => false,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'author' ),
+			'capabilities' => array(
+				'create_posts'       => false,
+			),
+			'map_meta_cap' => true
+		);
+
+		$args = apply_filters( 'donate_register_post_type_donate', $args );
+		register_post_type( 'dn_donate_item', $args );
 	}
 
 	// register post type donor

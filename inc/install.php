@@ -3,17 +3,31 @@ if( ! defined( 'ABSPATH' ) ) exit();
 
 class DN_Install {
 
+    private static $update_db = array(
+            '1.0.3' => 'inc/admin/upgrade/upgrade_1.0.3.php'
+        );
+
     public static $options = array();
 
     /* init */
     public static function init() {
 
+        if ( ! defined( 'TP_DONATE_INSTALLING' ) ) {
+            define( 'TP_DONATE_INSTALLING', true );
+        }
+
         /* create tables */
         self::create_tables();
+        self::create_pages();
 
         /* default option */
         self::default_options();
-        self::create_pages();
+
+        /* upgrade database */
+        self::upgrade_database();
+
+        /* source version */
+        update_option( 'thimpress_donate_version', TP_DONATE_VER );
     }
 
     /* create tables */
@@ -23,7 +37,6 @@ class DN_Install {
 
     /* default options */
     public static function default_options() {
-
         update_option( 'thimpress_donate', array_merge( self::$options, get_option( 'thimpress_donate', array() ) ) );
     }
 
@@ -83,6 +96,10 @@ class DN_Install {
             );
         }
 
+        if ( ! function_exists( 'donate_create_page' ) ) {
+            ThimPress_Donate::instance()->_include( 'inc/admin/functions.php' );
+        }
+
         if( $pages && function_exists( 'donate_create_page' ) )
         {
             foreach ( $pages as $key => $page ) {
@@ -94,4 +111,26 @@ class DN_Install {
             self::$options = array_merge( self::$options, $options );
         }
     }
+
+    /* upgrade database order */
+    public static function upgrade_database() {
+        delete_option( 'thimpress_donate_version' );
+        $current_verion = get_option( 'thimpress_donate_version', null );
+        if ( $current_verion && $current_verion >= max( array_keys( self::$update_db ) ) ) return;
+
+        foreach ( self::$update_db as $ver => $file ) {
+            if ( version_compare( $current_verion, $ver, '<' ) ) {
+                ThimPress_Donate::instance()->_include( $file );
+            }
+        }
+    }
+
+    /* uninstall hook action */
+    public static function uninstall() {
+
+    }
 }
+
+// active plugin
+register_activation_hook( TP_DONATE_FILE, array( 'DN_Install', 'init' ) );
+register_deactivation_hook( TP_DONATE_FILE, array( 'DN_Install', 'uninstall' ) );

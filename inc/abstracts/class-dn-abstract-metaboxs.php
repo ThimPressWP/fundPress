@@ -44,7 +44,7 @@ abstract class DN_MetaBox_Base
 	protected $_fields = array();
 
 	/**
-	 * screen post, page, tp_event
+	 * screen post, page, tp_donate
 	 * @var array
 	 */
 	public $_screen = array( 'dn_campaign' );

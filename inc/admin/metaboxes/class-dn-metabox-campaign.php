@@ -89,11 +89,11 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base
 			$html[] = '</div>';
 			$html[] = '<div class="form-group">';
 			$html[] = 		'<p>';
-			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'start' ) ) .'">'.__( 'Start', 'tp-donate' ).'</label>';
+			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'start' ) ) .'">'.__( 'Start Date', 'tp-donate' ).'</label>';
 			$html[]	=			'<input type="text" class="start regular-text" name="'.$this->get_field_name( 'start' ).'" id="'.$this->get_field_name( 'start' ).'" value="'. $start .'" /></th>';
 			$html[] = 		'</p>';
 			$html[] = 		'<p>';
-			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'end' ) ).'">'.__( 'End', 'tp-donate' ).'</label>';
+			$html[]	=			'<label for="'. esc_attr( $this->get_field_name( 'end' ) ).'">'.__( 'End Date', 'tp-donate' ).'</label>';
 			$html[]	=			'<input type="text" class="end regular-text" name="'.$this->get_field_name( 'end' ).'" id="'.$this->get_field_name( 'end' ).'" value="'.$end.'" /></th>';
 			$html[] = 		'</p>';
 			$html[] = '</div>';
@@ -188,6 +188,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base
 	/* update meta campaign */
 	public function update_meta_campaign( $post_id, $name, $value ) {
 		if ( in_array( $name, array( 'thimpress_campaign_start', 'thimpress_campaign_end' ) ) ) {
+			if ( ! $value ) return;
 			update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
 			if ( $value ) {
 				wp_schedule_single_event( strtotime( $value ), 'donate_schedule_campaign_status', array( $post_id, $name, $value ) );

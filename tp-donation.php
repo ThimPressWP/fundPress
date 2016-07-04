@@ -4,7 +4,7 @@
 	Plugin URI: http://thimpress.com/tp-donate
 	Description: Donate
 	Author: ThimPress
-	Version: 1.0.2
+	Version: 1.0.3
 	Author URI: http://thimpress.com
 */
 
@@ -12,13 +12,14 @@ if( ! defined( 'ABSPATH' ) ) exit();
 
 if( defined( 'TP_DONATE_PATH' ) ) return;
 
+define( 'TP_DONATE_FILE', __FILE__ );
 define( 'TP_DONATE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'TP_DONATE_URI', plugins_url( '', __FILE__ ) );
 define( 'TP_DONATE_INC', TP_DONATE_PATH . 'inc' );
 define( 'TP_DONATE_INC_URI', TP_DONATE_URI . '/inc' );
 define( 'TP_DONATE_ASSETS_URI', TP_DONATE_URI . '/assets' );
 define( 'TP_DONATE_LIB_URI', TP_DONATE_INC_URI . '/libraries' );
-define( 'TP_DONATE_VER', '1.0.2' );
+define( 'TP_DONATE_VER', '1.0.3' );
 
 // define meta post type
 define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
@@ -58,6 +59,9 @@ class ThimPress_Donate
 	 */
 	public $cart = null;
 
+	/* checkout */
+	public $checkout = null;
+
 	// instance
 	public static $instance = null;
 
@@ -68,14 +72,11 @@ class ThimPress_Donate
 
 		$GLOBALS[ 'dn_settings' ] = $this->options = DN_Settings::instance();
 
-		$this->cart = DN_Cart::instance();
+		// $this->cart = DN_Cart::instance();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueues' ) );
 		add_action( 'wp_footer', array( $this, 'footer' ) );
-		// active plugin
-		register_activation_hook( __FILE__, array( $this, 'install' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'uninstall' ) );
 
 		/**
 		 * text-domain append plugins_loaded hook
@@ -85,26 +86,14 @@ class ThimPress_Donate
 
 	// plugins loaded hook
 	public function plugins_loaded() {
+		/* load text domain */
 		$this->load_textdomain();
-	}
 
-	/**
-	 * install plugin options, define v.v.
-	 * @return null
-	 */
-	public function install()
-	{
-		$this->_include( 'inc/install.php' );
-		DN_Install::init();
-	}
+		/* cart */
+		$this->cart = DN_Cart::instance();
 
-	/**
-	 * uninstall plugin
-	 * @return null
-	 */
-	public function uninstall()
-	{
-		$this->_include( 'inc/uninstall.php' );
+		/* checkout */
+		$this->checkout = DN_Checkout::instance();
 	}
 
 	/**
@@ -206,6 +195,7 @@ class ThimPress_Donate
 		$this->_include( 'inc/class-dn-ajax.php' );
 
 		$this->autoload( array( 'products', 'payments' ) );
+		$this->_include( 'inc/install.php' );
 
 	}
 
@@ -350,3 +340,4 @@ if( ! function_exists( 'donate' ) ) {
 		return ThimPress_Donate::instance();
 	}
 }
+donate_add_notice( 'success', 'xxxxxxxxxxxxx' );
