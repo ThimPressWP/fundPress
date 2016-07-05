@@ -893,3 +893,9 @@ if ( ! function_exists( 'donate_get_donors' ) ) {
 		return apply_filters( 'donate_get_donors_count', absint( $wpdb->get_var( $sql ) ), $donate_id );
 	}
 }
+
+if ( ! function_exists( 'donate_is_ajax_request' ) ) {
+	function donate_is_ajax_request() {
+		return defined( 'DOING_AJAX' ) && DOING_AJAX === TRUE;
+	}
+}

@@ -29,7 +29,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
      */
     public $_title = null;
 
-    function __construct()
+    public function __construct()
     {
         $this->_title = __( 'Paypal', 'tp-donate' );
 
@@ -51,7 +51,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
     }
 
     // callback
-    function payment_validation()
+    public function payment_validation()
     {
         if( isset( $_GET[ 'donate-paypal-payment' ] ) && $_GET[ 'donate-paypal-payment' ] )
         {
@@ -120,7 +120,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
                     }
                 }
             } else {
-                var_dump($response); die();
+                // var_dump($response); die();
             }
 
         }
@@ -183,17 +183,14 @@ class DN_Payment_Palpal extends DN_Payment_Base{
      * get_item_name
      * @return string
      */
-    function get_item_name()
+    public function get_item_name()
     {
         $description = array();
-        if ( $cart_items = donate()->cart->cart_contents )
-        {
+        if ( $cart_items = donate()->cart->cart_contents ) {
             foreach ( $cart_items as $cart_item_key => $cart_item ) {
                 $description[] = sprintf( '%s(%s)', $cart_item->product_data->post_title, donate_price( $cart_item->amount, $cart_item->currency ) );
             }
-        }
-        else
-        {
+        } else {
             $description[] = sprintf( '%s %s - %s', __( 'Donate for', 'tp-donate' ), get_bloginfo( 'name' ), get_bloginfo( 'description' ) );
         }
 
@@ -204,7 +201,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
      * checkout url
      * @return url string
      */
-    function checkout_url( $amount = false )
+    public function checkout_url( $donate = null )
     {
         // cart
         $cart = donate()->cart;
@@ -212,13 +209,9 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         // create nonce
         $nonce = wp_create_nonce( 'donate-paypal-nonce' );
 
-        $email = DN_Donor::instance( $cart->donor_id )->get_meta( 'email' );
+        $email = $donate->get_donor()->email;
 
-        $total = $cart->cart_total;
-        if( $amount )
-        {
-            $total = (float)$amount;
-        }
+        $total = floatval( $donate->total );
 
         // query post
         $query = array(
@@ -236,7 +229,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             'no_shipping'   => '1',
             'return'        => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
             'cancel_return' => add_query_arg( array( 'donate-paypal-payment' => 'cancel', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
-            'custom'        => json_encode( array( 'donate_id' => $cart->donate_id, 'donor_id' => $cart->donor_id ) )
+            'custom'        => json_encode( array( 'donate_id' => $donate->ID, 'donor_id' => $donate->donor_id ) )
         );
 
         // allow hook paypal param
@@ -247,8 +240,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
     public function process( $amount = false )
     {
-        if( ! $this->paypal_email )
-        {
+        if( ! $this->paypal_email ) {
             return array(
                 'status'        => 'failed',
                 'message'       => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'tp-donate' )

@@ -133,7 +133,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     }
 
     // process
-    function process( $amount = false )
+    function process( $donate = false )
     {
         if( ! $this->secret_key || ! $this->publish_key )
         {
@@ -148,9 +148,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
 
         $token = $_POST[ 'id' ];
 
-        $cart = donate()->cart;
-
-        $donor = DN_Donor::instance( $cart->donor_id );
+        $donor = DN_Donor::instance( $donate->donor_id );
 
         $customer_id = $donor->get_meta( 'stripe_id' );
 
@@ -173,11 +171,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
             $donor->set_meta( 'stripe_id', $customer_id );
         }
 
-        $total = $cart->cart_total;
-        if( $amount )
-        {
-            $total = (float)$amount;
-        }
+        $total = $donate->total;
 
         $params = array(
                 'amount'        => round( $total * 100 ),
@@ -186,7 +180,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                 'description'   => sprintf(
                     __( '%s - donate %s', 'tp-hotel-booking' ),
                     esc_html( get_bloginfo( 'name' ) ),
-                    donate_generate_post_key( $cart->donate_id )
+                    donate_generate_post_key( $donate->id )
                 )
             );
         // create charges
@@ -194,7 +188,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
 
         if( $response && ! is_wp_error( $response ) && $response->id )
         {
-            $donate = DN_Donate::instance( $cart->donate_id );
+            $donate = DN_Donate::instance( $donate->id );
             $donate->update_status( 'donate-completed' );
 
             // notice message completed
@@ -383,7 +377,3 @@ class DN_Payment_Stripe extends DN_Payment_Base{
 }
 
 new DN_Payment_Stripe();
-
-// add_action( 'init', function(){
-//     donate()->cart->remove_cart(); die();
-// } );

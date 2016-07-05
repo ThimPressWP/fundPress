@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
+}
 
 class DN_Ajax
 {
@@ -20,8 +23,7 @@ class DN_Ajax
 				return;
 
 			add_action( 'wp_ajax_' . $action, array( $this, $action ) );
-			if( $nopriv )
-			{
+			if( $nopriv ) {
 				add_action( 'wp_ajax_nopriv_' . $action, array( $this, $action ) );
 			}
 
@@ -123,7 +125,7 @@ class DN_Ajax
 			wp_send_json( array( 'status' => 'failed', 'message' => array( __( 'Could not do action.', 'tp-donate' ) ) ) );
 
 		/* process checkout */
-		ThimPress_Donate::instance()->process_checkout();
+		ThimPress_Donate::instance()->checkout->process_checkout();
 		die( 0 );
 	}
 

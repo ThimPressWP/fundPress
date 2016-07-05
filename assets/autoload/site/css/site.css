@@ -370,6 +370,9 @@ body {
 /**
  * message error form
  */
+.donation-messages{
+    padding: 10px;
+}
 .donate_form_error_messages{
     text-align: left;
     background-color: #f1eedc;
@@ -383,6 +386,7 @@ body {
 .donate_form_success_messages{
     text-align: left;
     background-color: #b3efec;
+    color: #31708f;
     border-left: 3px solid #54b0dc;
     transition: all 0.3;
     -moz-transition: all 0.3;
@@ -393,7 +397,7 @@ body {
 .donate-line-message{
     text-align: left;
     font-size: 11px;
-    color: #666;
+    color: #515151;
     margin-bottom: 3px;
     padding: 8px 10px;
 }

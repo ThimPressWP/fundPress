@@ -162,7 +162,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
             );
     }
 
-    function checkout_args( $amount = false )
+    function checkout_args( $donate = null )
     {
         if( ! $this->_transaction_key )
             return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'tp-donate' ) );
@@ -171,11 +171,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
         $donation = DN_Donate::instance( $cart->donate_id );
         $donor = DN_Donor::instance( $cart->donor_id );
 
-        $total = $cart->cart_total;
-        if( $amount )
-        {
-            $total = (float)$amount;
-        }
+        $total = $donate->total;
 
         $time = time();
         if ( function_exists( 'hash_hmac' ) )
@@ -235,14 +231,14 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
     }
 
     // process
-    function process( $amount = false )
+    function process( $donate = null )
     {
         return array(
                 'status'    => 'success',
                 'form'      => true,
                 'submit_text'   => __( 'Redirect to Authorize.Net', 'tp-donate' ),
                 'url'       => $this->api_endpoint,
-                'args'      => $this->checkout_args( $amount )
+                'args'      => $this->checkout_args( $donate )
             );
     }
 

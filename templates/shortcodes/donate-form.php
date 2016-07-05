@@ -31,7 +31,6 @@ if( ! defined( 'ABSPATH' ) ) exit();
 	        <!--End Hidden field-->
 
 			<!--If payment is true, display input donate amount-->
-
 	        <?php if ( $payments || ! $campaign_id ) : ?>
 
 	        	<!--Compensates of campaign ID-->

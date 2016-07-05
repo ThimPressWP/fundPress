@@ -199,6 +199,7 @@ class ThimPress_Donate
 
 	}
 
+	/* autoload folder */
 	public function autoload( $paths = array() )
 	{
 		foreach ($paths as $key => $path) {
@@ -219,15 +220,12 @@ class ThimPress_Donate
 	{
 		if( ! $file ) return;
 
-		if( is_array( $file ) )
-		{
+		if( is_array( $file ) ) {
 			foreach ($file as $key => $f) {
 				if( file_exists( TP_DONATE_PATH . $f ) )
 					require_once TP_DONATE_PATH . $f;
 			}
-		}
-		else
-		{
+		} else {
 			if( file_exists( TP_DONATE_PATH . $file ) )
 				require_once TP_DONATE_PATH . $file;
 			elseif ( file_exists($file) )
@@ -322,7 +320,7 @@ class ThimPress_Donate
 		return DN_Settings::instance();
 	}
 
-	static function instance() {
+	public static function instance() {
 		if( ! self::$instance ) {
 			return self::$instance = new self();
 		}
@@ -335,9 +333,7 @@ class ThimPress_Donate
 ThimPress_Donate::instance();
 
 if( ! function_exists( 'donate' ) ) {
-	function donate()
-	{
+	function donate() {
 		return ThimPress_Donate::instance();
 	}
 }
-donate_add_notice( 'success', 'xxxxxxxxxxxxx' );
