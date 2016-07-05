@@ -134,9 +134,6 @@
 						beforeSend: function()
 						{
 							TP_Donate_Global.beforeAjax();
-							_message.slideUp( 400, function(){
-								$(this).remove();
-							});
 						}
 					}).done( function( res ){
 						TP_Donate_Global.afterAjax();
@@ -151,9 +148,7 @@
 								var html = [];
 								html.push( '<form id="donate_form_instead" action="'+res.url+'" method="POST">' )
 								$.each( args, function( name, value ){
-
 									html.push( '<input type="hidden" name="'+name+'" value="'+value+'" />' );
-
 								});
 								html.push( '<button type="submit" class="donate-redirecting">'+res.submit_text+'</button>' );
 								html.push( '</form>' );
@@ -164,6 +159,9 @@
 							window.location.href = res.url;
 						} else if( res.status === 'failed' && typeof res.message !== 'undefined' ) {
 							DONATE_Site.generate_messages( res.message );
+							$( 'body, html' ).animate({
+								scrollTop: $( '.donation-messages' ).offset().top
+							});
 						}
 					});
 				}
@@ -190,7 +188,12 @@
 
 		generate_messages: function( messages )
 		{
-			$( '.donate_form' ).prepend( messages );
+			var form = $( '.donate_form_layout' );
+			if ( form.find( '.donation-messages' ).length === 1 ) {
+				$( '.donation-messages' ).replaceWith( messages );
+			} else {
+				form.prepend( messages );
+			}
 		},
 
 		beforeAjax: function( _form )

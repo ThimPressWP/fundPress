@@ -59,6 +59,7 @@ class DN_Donate extends DN_Post_Base
 		// cart
 		$cart = donate()->cart;
 
+		update_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total );
 		update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
 		update_post_meta( $donate_id, $this->meta_prefix . 'currency', donate_get_currency() );
 		update_post_meta( $donate_id, $this->meta_prefix . 'payment_method', $payment_method );
@@ -82,8 +83,10 @@ class DN_Donate extends DN_Post_Base
 		delete_post_meta( $this->ID, $this->meta_prefix . 'currency' );
 		delete_post_meta( $this->ID, $this->meta_prefix . 'payment_method' );
 		delete_post_meta( $this->ID, $this->meta_prefix . 'donor_id' );
+		delete_post_meta( $this->ID, $this->meta_prefix . 'user_id' );
 
 		/* update new information */
+		update_post_meta( $this->ID, $this->meta_prefix . 'total', $cart->cart_total );
 		update_post_meta( $this->ID, $this->meta_prefix . 'addition', $cart->addtion_note );
 		update_post_meta( $this->ID, $this->meta_prefix . 'currency', donate_get_currency() );
 		update_post_meta( $this->ID, $this->meta_prefix . 'payment_method', $payment_method );
@@ -95,8 +98,8 @@ class DN_Donate extends DN_Post_Base
 	/* remove all donate items */
 	public function remove_donate_items() {
 		global $wpdb;
-		$wpdb->query( $wpdb->prepare( "DELETE FROM itemmeta USING {$wpdb->prefix}postmeta itemmeta INNER JOIN {$wpdb->prefix}posts items WHERE itemmeta.post_id = items.ID AND items.ID = %d AND items.post_type = %s", $this->ID, 'dn_donate' ) );
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}posts WHERE ID = %d AND post_type = %s", $this->ID, 'dn_donate' ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM itemmeta USING {$wpdb->prefix}postmeta itemmeta INNER JOIN {$wpdb->prefix}posts items WHERE itemmeta.post_id = items.ID AND items.ID = %d AND items.post_type = %s", $this->ID, 'dn_donate_item' ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}posts WHERE post_parent = %d AND post_type = %s", $this->ID, 'dn_donate_item' ) );
 	}
 
 	/* add donate item */

@@ -52,14 +52,12 @@ class DN_Checkout {
 				}
 
 				if( $amount == 0 ) {
-					throw new Exception( sprintf( '%s %s', __( 'Can not donate amount zero point.', 'tp-donate' ), donate_price( 0 ) ) );
+					throw new Exception( sprintf( '%s', __( 'Please enter donation amount.', 'tp-donate' ) ) );
 				}
 				// add to cart param
 				$cart_params = apply_filters( 'donate_add_to_cart_item_params', array(
-
 						'product_id'		=> $campaign->ID,
 						'currency'			=> donate_get_currency()
-
 					) );
 
 				// add to cart
@@ -72,15 +70,15 @@ class DN_Checkout {
 			}
 
 			// process checkout
+			$donate_system = false;
 			if( isset( $this->posted[ 'payment_process' ] ) && $this->posted[ 'payment_process' ] ) {
-				$donate_system = false;
 				if( isset( $this->posted[ 'donate_system' ] ) && $this->posted[ 'donate_system' ] == 1 ) {
 					$donate_system = true;
 				}
 
 				/* donate total */
 				if( ( $donate_system === false && DN_Cart::instance()->cart_total == 0 ) || ( $donate_system === true  && $amount <= 0 ) ) {
-					donate_add_notice( 'error', sprintf( '%s %s', __( 'Can not donate amount zero point.', 'tp-donate' ), donate_price( 0 ) ) );
+					donate_add_notice( 'error', sprintf( '%s %s', __( 'Please enter donation amount.', 'tp-donate' ), donate_price( 0 ) ) );
 				}
 
 				/* VALIDATE POST FIELDS */
@@ -93,7 +91,7 @@ class DN_Checkout {
 				}
 
 				if ( ! isset( $this->posted['email'] ) || trim( $this->posted['email'] ) === '' || ! filter_var( $this->posted['email'], FILTER_VALIDATE_EMAIL ) ) {
-					donate_add_notice( 'error', __( '<strong>Last Name</strong> is a required field.', 'tp-donate' ) );
+					donate_add_notice( 'error', __( '<strong>Email</strong> is a required field.', 'tp-donate' ) );
 				}
 
 				if ( ! isset( $this->posted['phone'] ) || trim( $this->posted['phone'] ) === '' ) {
@@ -128,11 +126,11 @@ class DN_Checkout {
 				// failed if errors is not empty
 				if( ! donate_has_notice( 'error' ) ) {
 					$params = array(
-							'first_name'		=> isset( $this->posted['first_name'] ) 	? sanitize_text_field( $this->posted['first_name'] ) 	: __( 'No First Name', 'tp-donate' ),
+							'first_name'		=> isset( $this->posted['first_name'] ) ? sanitize_text_field( $this->posted['first_name'] ) 	: __( 'No First Name', 'tp-donate' ),
 							'last_name'			=> isset( $this->posted['last_name'] ) 	? sanitize_text_field( $this->posted['last_name'] ) 	: __( 'No Last Name', 'tp-donate' ),
 							'email'				=> isset( $this->posted['email'] ) 		? sanitize_text_field( $this->posted['email'] ) 		: false,
 							'phone'				=> isset( $this->posted['phone'] ) 		? sanitize_text_field( $this->posted['phone'] ) 		: '',
-							'address'			=> isset( $this->posted['address'] ) 		? sanitize_text_field( $this->posted['address'] ) 		: ''
+							'address'			=> isset( $this->posted['address'] ) 	? sanitize_text_field( $this->posted['address'] ) 		: ''
 						);
 
 					// alow hook to submit param donor
@@ -168,7 +166,7 @@ class DN_Checkout {
 					$cart->set_cart_information( $param );
 
 					$donate_id = $cart->donate_id;
-					if ( $donate_id ) {
+					if ( $donate_id && get_post( $donate_id ) ) {
 						$donate = DN_Donate::instance( $donate_id );
 						$donate_id = $donate->update_information( $donor_id, $payment_method );
 						/* remove all old donate items */
@@ -179,9 +177,10 @@ class DN_Checkout {
 
 					/* donate */
 					$donate = DN_Donate::instance( $donate_id );
-					$donate->update_meta( 'total', $amount );
+
 					// update post meta
-					if( $amount ) {
+					if( $donate_system && $amount ) {
+						$donate->update_meta( 'total', $amount );
 						$donate->update_meta( 'amount_system', $amount );
 					} else if ( $cart_contents = $cart->cart_contents ){
 						foreach ( $cart_contents as $cart_content ) {
@@ -202,7 +201,6 @@ class DN_Checkout {
 								);
 					// hook cart information
 					$param = apply_filters( 'donate_cart_information_data', $param );
-
 					// set cart info
 					$cart->set_cart_information( $param );
 

@@ -373,10 +373,14 @@ body {
 .donation-messages{
     padding: 10px;
 }
-.donate_form_error_messages{
+#donate_hidden .donation-messages{
+    padding: 0;
+}
+#donate_hidden .donate_form_error_messages{
     text-align: left;
     background-color: #f1eedc;
     border-left: 3px solid #de8d27;
+    padding: 0;
     transition: all 0.3;
     -moz-transition: all 0.3;
     -webkit-transition: all 0.3;
