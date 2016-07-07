@@ -180,8 +180,10 @@ class DN_Checkout {
 					// update post meta
 					if( $donate_system && $amount ) {
 						$donate->update_meta( 'total', $amount );
-						$donate->update_meta( 'amount_system', $amount );
+						$donate->update_meta( 'type', 'sytem' );
+						// $donate->update_meta( 'amount_system', $amount );
 					} else if ( $cart_contents = $cart->cart_contents ){
+						$donate->update_meta( 'type', 'campaign' );
 						foreach ( $cart_contents as $cart_content ) {
 							$donate->add_donate_item( $cart_content->campaign_id, get_the_title( $cart_content->campaign_id ), $cart_content->total );
 						}

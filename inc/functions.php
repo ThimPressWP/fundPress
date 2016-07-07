@@ -511,8 +511,7 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 	{
 
 		// currency setting
-		if( ! $to )
-		{
+		if( ! $to ) {
 			$to = donate_get_currency();
 		}
 
@@ -521,8 +520,7 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 
 		$name = 'donate_rate_' . $from . '_' . $to;
 
-		if( false === ( $rate = get_transient( $name ) ) )
-		{
+		if( false === ( $rate = get_transient( $name ) ) ) {
 			$type = DN_Settings::instance()->general->get( 'aggregator', 'yahoo' );
 
 			switch ( $type ) {
@@ -546,7 +544,7 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 
 				case 'google':
 					# code...
-					$amount = urlencode(1);
+					$amount = urlencode( 1 );
 	                $from_Currency = urlencode( $from );
 	                $to_Currency = urlencode( $to );
 	                $url = "http://www.google.com/finance/converter?a=$amount&from=$from_Currency&to=$to_Currency";
@@ -559,10 +557,10 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 
 	                preg_match_all('/<span class=bld>(.*?)<\/span>/s', $html, $matches);
 
-	                if ( isset($matches[1][0]) ) {
+	                if ( isset( $matches[1], $matches[1][0] ) ) {
 	                    $rate = floatval($matches[1][0]);
 	                } else {
-	                    $rate = sprintf( __("no data for %s", 'tp-hotel-booking'), $to );
+	                    $rate = sprintf( __("no data for %s", 'tp-donate'), $to );
 	                }
 					break;
 

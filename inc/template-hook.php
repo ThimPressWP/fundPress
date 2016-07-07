@@ -293,8 +293,7 @@ if( ! function_exists( 'donate_goal_campagin' ) )
 {
 	function donate_goal_campagin( $post = null )
 	{
-		if( ! $post )
-		{
+		if( ! $post ) {
 			global $post;
 			$post_id = $post->ID;
 		}
@@ -302,18 +301,14 @@ if( ! function_exists( 'donate_goal_campagin' ) )
 		if( is_numeric( $post ) )
 			$post_id = $post;
 
-		if( $post instanceof WP_Post )
-		{
+		if( $post instanceof WP_Post ){
 			$post_id = $post->ID;
 		}
 
 		$campaign = DN_Campaign::instance( $post_id );
-		if( ! $goal = $campaign->get_meta( 'goal' ) )
-		{
-			$goal = 0;
-		}
+
 		// convert to current currency settings
-		return donate_campaign_convert_amount( $goal, $campaign->get_meta( 'currency' ), donate_get_currency() );
+		return donate_campaign_convert_amount( floatval( $campaign->goal ), $campaign->currency, donate_get_currency() );
 	}
 
 }

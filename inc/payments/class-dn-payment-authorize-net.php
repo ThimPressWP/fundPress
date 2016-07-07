@@ -57,10 +57,10 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base{
         parent::__construct();
 
         $this->_messages = array(
-                1 => __( 'This transaction has been approved.', 'tp-hotel-booking' ),
-                2 => __( 'This transaction has been declined.', 'tp-hotel-booking' ),
-                3 => __( 'There has been an error processing this transaction.', 'tp-hotel-booking' ),
-                4 => __( ' This transaction is being held for review.', 'tp-hotel-booking' )
+                1 => __( 'This transaction has been approved.', 'tp-donate' ),
+                2 => __( 'This transaction has been declined.', 'tp-donate' ),
+                3 => __( 'There has been an error processing this transaction.', 'tp-donate' ),
+                4 => __( ' This transaction is being held for review.', 'tp-donate' )
             );
 
         add_action( 'init', array( $this, 'verify' ) );

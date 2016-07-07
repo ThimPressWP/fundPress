@@ -1,7 +1,7 @@
 <?php
 if( ! defined( 'ABSPATH' ) ) exit();
 
-$cart_contents = $this->get_field_value( 'cart_contents' );
+// $cart_contents = $this->get_field_value( 'cart_contents' );
 global $post;
 $donation = DN_Donate::instance( $post->ID );
 $currency = $donation->currency ? $donation->currency : donate_get_currency();
@@ -37,7 +37,8 @@ $currency = $donation->currency ? $donation->currency : donate_get_currency();
 					<ins><?php echo donate_price( $item->total, $donation->currency ) ?></ins>
 				</td>
 				<td class="action">
-					x
+					<a href="#" data-item-id="<?php echo esc_attr( $item->id ); ?>" class="remove"><i class="icon-cross"></i></a>
+					<a href="#" data-item-id="<?php echo esc_attr( $item->id ); ?>" class="edit"><i class="icon-pencil"></i></a>
 				</td>
 			</tr>
 		<?php endforeach; ?>

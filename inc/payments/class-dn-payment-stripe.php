@@ -163,7 +163,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
 
             if( is_wp_error( $response ) && ! $response->id )
             {
-                return array( 'status' => 'failed', 'message' => sprintf( __( '%s. Please try again', 'tp-hotel-booking' ), $response->get_error_message() ) );
+                return array( 'status' => 'failed', 'message' => sprintf( __( '%s. Please try again', 'tp-donate' ), $response->get_error_message() ) );
             }
 
             $customer_id = $response->id;
@@ -178,7 +178,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                 'currency'      => donate_get_currency(),
                 'customer'      => $customer_id,
                 'description'   => sprintf(
-                    __( '%s - donate %s', 'tp-hotel-booking' ),
+                    __( '%s - donate %s', 'tp-donate' ),
                     esc_html( get_bloginfo( 'name' ) ),
                     donate_generate_post_key( $donate->id )
                 )

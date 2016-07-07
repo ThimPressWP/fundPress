@@ -130,7 +130,7 @@ class DN_Donate extends DN_Post_Base
 		if( ! $this->id )
 			return;
 
-		if ( strpos( 'donate-', $status ) !== 0 ) {
+		if ( strpos( $status, 'donate-' ) !== 0 ) {
 			$status = 'donate-' . $status;
 		}
 
