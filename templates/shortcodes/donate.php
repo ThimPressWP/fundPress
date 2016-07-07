@@ -16,8 +16,8 @@ if( ! defined( 'ABSPATH' ) ) exit();
 				<?php foreach( donate()->cart->cart_contents as $cart_key => $cart_content ) : ?>
 
 					<li>
-						<a class="<?php echo esc_attr( get_permalink( $cart_content->product_id ) ) ?>">
-							<?php echo get_the_post_thumbnail( $cart_content->product_id, 'thumbnail' ); ?>
+						<a class="<?php echo esc_attr( get_permalink( $cart_content->campaign_id ) ) ?>">
+							<?php echo get_the_post_thumbnail( $cart_content->campaign_id, 'thumbnail' ); ?>
 							<?php printf( '%s', $cart_content->product_data->post_title ) ?>
 						</a>
 					</li>

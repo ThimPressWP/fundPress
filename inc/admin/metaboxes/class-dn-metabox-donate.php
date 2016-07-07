@@ -38,7 +38,7 @@ class DN_MetaBox_Donate extends DN_MetaBox_Base
 	public function __construct()
 	{
 		$this->_id = 'donate_donate_info_section';
-		$this->_title = __( 'Donate Information', 'tp-donate' );
+		$this->_title = __( 'Donate Details', 'tp-donate' );
 		$this->_prefix = TP_DONATE_META_DONATE;
 		$this->_layout = TP_DONATE_INC . '/admin/metaboxes/views/donate.php';
 		parent::__construct();

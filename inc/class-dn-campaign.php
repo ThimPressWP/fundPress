@@ -8,7 +8,7 @@ class DN_Campaign extends DN_Post_Base
 	 * ID of Post
 	 * @var null
 	 */
-	public $ID = null;
+	public $id = null;
 
 	/**
 	 * post
@@ -42,7 +42,7 @@ class DN_Campaign extends DN_Post_Base
 	 */
 	public function get_compensate()
 	{
-		return get_post_meta( $this->ID, $this->meta_prefix . 'marker', true );
+		return get_post_meta( $this->id, $this->meta_prefix . 'marker', true );
 	}
 
 	/**
@@ -52,9 +52,9 @@ class DN_Campaign extends DN_Post_Base
 	public function get_currency()
 	{
 		$currency = donate_get_currency();
-		if( get_post_meta( $this->ID, $this->meta_prefix . 'currency', true ) )
+		if( get_post_meta( $this->id, $this->meta_prefix . 'currency', true ) )
 		{
-			$currency = get_post_meta( $this->ID, $this->meta_prefix . 'currency', true );
+			$currency = get_post_meta( $this->id, $this->meta_prefix . 'currency', true );
 		}
 		return $currency;
 	}

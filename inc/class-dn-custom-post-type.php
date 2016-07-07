@@ -45,12 +45,13 @@ class DN_Post_Type
 	public function add_columns( $columns )
 	{
 		unset( $columns[ 'title' ], $columns[ 'author' ], $columns[ 'date' ] );
-		$columns[ 'donate_title' ] = apply_filters( 'donate_add_column_donate_title', sprintf( '%s', __( 'Donate', 'tp-donate' ) ) );
-		$columns[ 'donate_user' ] = apply_filters( 'donate_add_column_donate_user', sprintf( '%s', __( 'User', 'tp-donate' ) ) );
-		$columns[ 'donate_date' ] = apply_filters( 'donate_add_column_donate_date', sprintf( '%s', __( 'Date', 'tp-donate' ) ) );
-		$columns[ 'donate_total' ] = apply_filters( 'donate_add_column_donate_total', sprintf( '%s', __( 'Total', 'tp-donate' ) ) );
-		$columns[ 'donate_payment_method' ] = apply_filters( 'donate_add_column_donate_payment_method', sprintf( '%s', __( 'Method', 'tp-donate' ) ) );
-		$columns[ 'donate_status' ] = apply_filters( 'donate_add_column_donate_status', sprintf( '%s', __( 'Status', 'tp-donate' ) ) );
+		$columns[ 'donate_title' ] = apply_filters( 'donate_add_column_donate_title', __( 'Donate', 'tp-donate' ) );
+		$columns[ 'donate_user' ] = apply_filters( 'donate_add_column_donate_user', __( 'User', 'tp-donate' ) );
+		$columns[ 'donate_type' ] = apply_filters( 'donate_add_column_donate_type', __( 'Type', 'tp-donate' ) );
+		$columns[ 'donate_date' ] = apply_filters( 'donate_add_column_donate_date', __( 'Date', 'tp-donate' ) );
+		$columns[ 'donate_total' ] = apply_filters( 'donate_add_column_donate_total', __( 'Total', 'tp-donate' ) );
+		$columns[ 'donate_payment_method' ] = apply_filters( 'donate_add_column_donate_payment_method', __( 'Method', 'tp-donate' ) );
+		$columns[ 'donate_status' ] = apply_filters( 'donate_add_column_donate_status', __( 'Status', 'tp-donate' ) );
 		return $columns;
 	}
 
@@ -60,24 +61,31 @@ class DN_Post_Type
 		$donate = DN_Donate::instance( $post_id );
 		switch ( $column ) {
 			case 'donate_title':
-				$title = '<a href="'. get_edit_post_link( $post_id ) .'">';
-				$title .= '<strong>#' . $post_id . '</strong>';
-				$title .= '</a>';
-				printf( __( '%s <small>by</small> %s', 'tp-donate' ), $title, '<a href="'. get_edit_post_link( $donate->donor_id ) .'"><strong>' . donate_get_donor_fullname( $post_id ) . '</strong></a>' );
+					$title = '<a href="'. get_edit_post_link( $post_id ) .'">';
+					$title .= '<strong>#' . $post_id . '</strong>';
+					$title .= '</a>';
+					printf( __( '%s <small>by</small> %s', 'tp-donate' ), $title, '<a href="'. get_edit_post_link( $donate->donor_id ) .'"><strong>' . donate_get_donor_fullname( $post_id ) . '</strong></a>' );
 				break;
 			case 'donate_date':
-				printf( '%s', date_i18n( get_option( 'date_format' ), strtotime( get_post_field( 'post_date', $post_id ) ) ) );
+					printf( '%s', date_i18n( get_option( 'date_format' ), strtotime( get_post_field( 'post_date', $post_id ) ) ) );
 				break;
 			case 'donate_total':
-				printf( '%s', donate_price( $donate->total, $donate->currency ) );
+					printf( '%s', donate_price( $donate->total, $donate->currency ) );
 				break;
 			case 'donate_user':
-				if ( $donate->user_id ) {
-					$user = get_userdata( $donate->user_id );
-					printf( '<a href="%s">%s</a>', get_edit_user_link( $donate->user_id ), $user->user_login );
-				} else {
-					_e( 'Guest', 'tp-donate' );
-				}
+					if ( $donate->user_id ) {
+						$user = get_userdata( $donate->user_id );
+						printf( '<a href="%s">%s</a>', get_edit_user_link( $donate->user_id ), $user->user_login );
+					} else {
+						_e( 'Guest', 'tp-donate' );
+					}
+				break;
+			case 'donate_type':
+					if ( $donate->type === 'system' ) {
+						_e( 'Donate For System', 'tp-donate' );
+					} else {
+						_e( 'Donate For Campaign', 'tp-donate' );
+					}
 				break;
 			case 'donate_payment_method':
 					$payment = $donate->get_meta( 'payment_method' );

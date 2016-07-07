@@ -64,7 +64,7 @@ class DN_Ajax
 				wp_send_json( array( 'status' => 'failed', 'message' => __( 'Campaign is not exists in our system.', 'tp-donate' ) ) );
 			}
 
-			$campaign_id = $campaign->ID;
+			$campaign_id = $campaign->id;
 			$campaign = DN_Campaign::instance( $campaign );
 
 			$compensates = array();
@@ -91,8 +91,8 @@ class DN_Ajax
 
 			$results = array(
 				'status'				=> 'success',
-				'campaign_id'			=> $campaign->ID,
-				'campaign_title'		=> get_the_title( $campaign->ID ),
+				'campaign_id'			=> $campaign->id,
+				'campaign_title'		=> $campaign->get_title(),
 				'compensates'			=> $compensates,
 				'currency'				=> donate_get_currency(),
 				'currency_symbol'		=> donate_get_currency_symbol(),

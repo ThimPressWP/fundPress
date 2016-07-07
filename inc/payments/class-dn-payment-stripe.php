@@ -38,7 +38,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
      */
     public $_title = null;
 
-    function __construct()
+    public function __construct()
     {
         $this->_title = __( 'Stripe', 'tp-donate' );
 
@@ -133,7 +133,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     }
 
     // process
-    function process( $donate = false )
+    public function process( $donate = false )
     {
         if( ! $this->secret_key || ! $this->publish_key )
         {
@@ -209,7 +209,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     }
 
     // stripe request
-    function stripe_request( $api = 'charges', $params = array() )
+    public function stripe_request( $api = 'charges', $params = array() )
     {
         $response = wp_remote_post( $this->api_endpoint . '/' . $api, array(
                 'method'        => 'POST',
@@ -245,7 +245,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     }
 
     // enquene script
-    function enqueue_script()
+    public function enqueue_script()
     {
         if( ! $this->is_enable )
             return;
@@ -265,7 +265,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
     }
 
     // process script
-    function process_script_js()
+    public function process_script_js()
     { ?>
     <script type="text/javascript">
 
@@ -276,8 +276,7 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                 load_form: function( form )
                 {
                     var pl_key = 'pk_test_HHukcwWCsD7qDFWKKpKdJeOT';
-                    if ( typeof Donate_Stripe_Settings !== 'undefined' && Donate_Stripe_Settings.Publish_Key )
-                    {
+                    if ( typeof Donate_Stripe_Settings !== 'undefined' && Donate_Stripe_Settings.Publish_Key ) {
                         pl_key = Donate_Stripe_Settings.Publish_Key;
 
                         var handler = StripeCheckout.configure({
@@ -301,21 +300,15 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                             _package = form.find( 'input[name="donate_input_amount_package"]:checked' ).val(),
                             currency = form.find('input[name="currency"]').val();
 
-                        if( amount_hidden.length == 1 )
-                        {
+                        if( amount_hidden.length == 1 ) {
                             amount = amount_hidden.val().trim();
-                        }
-                        else if( custom != '' )
-                        {
+                        } else if( custom != '' ) {
                             amount = custom;
-                        }
-                        else if( _package != '' )
-                        {
+                        } else if( _package != '' ) {
                             amount = _package;
-                        }
-                        else
-                        {
-                            DONATE_Site.generate_messages( form, thimpress_donate.i18n.amount_invalid );
+                        } else {
+                            var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + thimpress_donate.i18n.amount_invalid + '</p></div></div>';
+                            DONATE_Site.generate_messages( html );
                             return;
                         }
                         // Open Checkout with further options
@@ -325,10 +318,9 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                             currency    : currency,
                             amount      : amount * 100
                         });
-                    }
-                    else
-                    {
-                        DONATE_Site.generate_messages( form, Donate_Stripe_Settings.key_missing );
+                    } else {
+                        var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + Donate_Stripe_Settings.key_missing + '</p></div></div>';
+                        DONATE_Site.generate_messages( html );
                     }
                 },
 
@@ -349,21 +341,19 @@ class DN_Payment_Stripe extends DN_Payment_Base{
                         type      : 'POST',
                         beforeSend: function () {
                             TP_Donate_Global.beforeAjax( form );
-                            // DONATE_Site.beforeAjax( form );
                         }
                     }).done(function (res) {
-                        // DONATE_Site.beforeAjax( form );
                         TP_Donate_Global.afterAjax( form );
-                        if (typeof res.status !== 'undefined' && res.status == 'success') {
-                            if ( typeof res.url !== 'undefined' )
+                        if ( typeof res.status !== 'undefined' && res.status == 'success' ) {
+                            if ( typeof res.url !== 'undefined' ) {
                                 window.location.href = res.url;
+                            }
+                        } else if ( typeof res.message !== 'undefined' ) {
+                            var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + res.message + '</p></div></div>';
+                            DONATE_Site.generate_messages( html );
                         }
-                        else if ( typeof res.message !== 'undefined' ) {
-                            DONATE_Site.generate_messages( form, res.message );
-                        }
-                    }).fail(function () {
+                    }).fail( function () {
                         TP_Donate_Global.afterAjax( form );
-                        // DONATE_Site.beforeAjax( form );
                     });
                 }
 

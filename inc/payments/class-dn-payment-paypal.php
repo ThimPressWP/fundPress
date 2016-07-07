@@ -229,7 +229,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             'no_shipping'   => '1',
             'return'        => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
             'cancel_return' => add_query_arg( array( 'donate-paypal-payment' => 'cancel', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
-            'custom'        => json_encode( array( 'donate_id' => $donate->ID, 'donor_id' => $donate->donor_id ) )
+            'custom'        => json_encode( array( 'donate_id' => $donate->id, 'donor_id' => $donate->donor_id ) )
         );
 
         // allow hook paypal param

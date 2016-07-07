@@ -8,7 +8,7 @@ class DN_Donor extends DN_Post_Base
 	 * ID of Post
 	 * @var null
 	 */
-	public $ID = null;
+	public $id = null;
 
 	/**
 	 * post
@@ -91,7 +91,7 @@ class DN_Donor extends DN_Post_Base
 
 	function update_donor( $param = array() ) {
 		foreach ( $param as $meta_key => $value ) {
-			update_post_meta( $this->ID, $this->meta_prefix . $meta_key, $value );
+			update_post_meta( $this->id, $this->meta_prefix . $meta_key, $value );
 		}
 	}
 
@@ -106,7 +106,7 @@ class DN_Donor extends DN_Post_Base
 			'orderby'          => 'date',
 			'order'            => 'DESC',
 			'meta_key'         => 'thimpress_donate_donor_id',
-			'meta_value'       => $this->ID,
+			'meta_value'       => $this->id,
 			'post_type'        => 'dn_donate',
 			'post_status'      => array( 'donate-pending', 'donate-processing', 'donate-completed' )
 		);

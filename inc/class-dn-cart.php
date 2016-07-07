@@ -13,9 +13,7 @@ class DN_Cart
 	/** @var null **/
 	public $sessions = null;
 
-	public $cart_total_include_tax = 0;
 	public $cart_total 			= 0;
-	public $cart_total_exclude_tax = 0;
 	public $cart_items_count 	= 0;
 
 	/**
@@ -36,7 +34,7 @@ class DN_Cart
 	 */
 	static $_instance = null;
 
-	function __construct()
+	public function __construct()
 	{
 		// load cart items
 		$this->sessions = DN_Sessions::instance( 'thimpress_donate_cart', true );
@@ -52,7 +50,7 @@ class DN_Cart
 	}
 
 	// process remove, update cart
-	function process_cart()
+	public function process_cart()
 	{
 		if( ! isset( $_GET[ 'donate_remove_item' ] ) )
 			return;
@@ -67,23 +65,23 @@ class DN_Cart
 	 * get list cart item
 	 * @return array
 	 */
-	function get_cart()
+	public function get_cart()
 	{
 		$cart_items = array();
 
 		if( $this->sessions && $this->sessions->session )
 		{
 			foreach ( $this->sessions->session as $cart_item_id => $cart_param ) {
-				$param = new stdClass();
 
-				// each all cart_param and add to cart_items
-				foreach ( $cart_param as $key => $value ) {
-					$param->{ $key } = $value;
-				}
-
-				if( $param->product_id )
+				if( isset( $cart_param['campaign_id'] ) && $cart_param['campaign_id'] )
 				{
-					$param->product_data = get_post( $param->product_id );
+					$param = new stdClass();
+					// each all cart_param and add to cart_items
+					foreach ( $cart_param as $key => $value ) {
+						$param->{ $key } = $value;
+					}
+
+					$param->product_data = get_post( $param->campaign_id );
 
 					$post_type = $param->product_data->post_type;
 					$product_class = 'DN_Product_' . ucfirst( str_replace( 'dn_', '', $post_type) );
@@ -98,17 +96,11 @@ class DN_Cart
 					$product = new $param->product_class;
 
 					// amount include tax
-					$param->amount_include_tax = $param->amount; //$product->amount_include_tax();
+					$param->total = floatval( $param->amount );
 
-					// amount exclude tax
-					$param->amount_exclude_tax = $param->amount; //$product->amount_exclude_tax();
-
-					// amount tax
-					$param->tax = $param->amount_include_tax - $param->amount_exclude_tax;
+					// add to cart_items
+					$cart_items[ $cart_item_id ] = $param;
 				}
-
-				// add to cart_items
-				$cart_items[ $cart_item_id ] = $param;
 			}
 		}
 
@@ -117,35 +109,29 @@ class DN_Cart
 
 	/**
 	 * add to cart
-	 * @param integer  $post_id
+	 * @param integer  $campaign_id
 	 * @param array   $param
 	 * @param integer $qty
 	 */
-	function add_to_cart( $post_id, $params = array(), $qty = 1, $amount = 0, $asc = false )
+	public function add_to_cart( $campaign_id = null, $params = array(), $qty = 1, $amount = 0, $asc = false )
 	{
+		 $params = array_merge( array( 'campaign_id' => $campaign_id ), $params );
 		// generate cart item id by param
 		$cart_item_id = $this->generate_cart_id( $params );
 
-		if( in_array( $cart_item_id, $this->cart_contents ) )
-		{
-			if( $qty == 0 )
-			{
+		if( in_array( $cart_item_id, $this->cart_contents ) ) {
+			if( $qty == 0 ) {
 				// remove item when qty = 0
 				return $this->remove_cart_item( $cart_item_id );
 			}
 
-			if( $asc === false )
-			{
+			if( $asc === false ) {
 				// remove item when is not asc
 				$this->remove_cart_item( $cart_item_id );
-			}
-			else
-			{
+			} else {
 				$params[ 'quantity' ] = $this->cart_contents[ 'quantity' ] + $qty;
 			}
-		}
-		else
-		{
+		} else {
 			$params[ 'quantity' ] = 1;
 		}
 
@@ -167,51 +153,48 @@ class DN_Cart
 	}
 
 	// refresh all
-	function refresh()
+	public function refresh()
 	{
 		// refresh cart_contents
 		$this->cart_contents = $this->get_cart();
 
 		// refresh cart_totals
-		$this->cart_total_include_tax = $this->cart_total = $this->cart_total_include_tax();
-
-		// refresh cart_totals_exclude_tax
-		$this->cart_totals_exclude_tax = $this->cart_total_exclude_tax();
+		$this->cart_total = $this->get_total();
 
 		// refresh cart_items_count
 		$this->cart_items_count = count( $this->cart_contents );
 	}
 
 	// cart totals
-	function cart_total_include_tax()
+	public function get_total()
 	{
 		$total = 0;
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
-			$total = $total + $cart_item->amount_include_tax;
+			$total = $total + $cart_item->total;
 		}
 		// return total cart include tax
 		return apply_filters( 'donate_cart_totals_include_tax', $total );
 	}
 
 	// set total
-	function set_total()
+	public function set_total()
 	{
-		return $this->cart_total_include_tax = $this->cart_total = apply_filters( 'donate_cart_set_total', 0 );
+		return $this->cart_total = apply_filters( 'donate_cart_set_total', 0 );
 	}
 
 	// cart exclude tax
-	function cart_total_exclude_tax()
+	public function cart_total_exclude_tax()
 	{
 		$total = 0;
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
-			$total = $total + $cart_item->amount_exclude_tax;
+			$total = $total + $cart_item->total;
 		}
 		// return total cart exclude tax
 		return apply_filters( 'donate_cart_exclude_totals', $total );
 	}
 
 	// cart tax
-	function cart_taxs()
+	public function cart_taxs()
 	{
 		$total = 0;
 		foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
@@ -224,7 +207,7 @@ class DN_Cart
 	/**
 	 * get cart item
 	 */
-	function get_cart_item( $item_key = null )
+	public function get_cart_item( $item_key = null )
 	{
 		if( $item_key && isset( $this->cart_contents[ $item_key ] ) )
 			return $this->cart_contents[ $item_key ];
@@ -235,12 +218,11 @@ class DN_Cart
 	/**
 	 * get cart item
 	 */
-	function remove_cart_item( $item_key = null )
+	public function remove_cart_item( $item_key = null )
 	{
 		do_action( 'donate_remove_cart_item', $item_key );
 
-		if( isset( $this->cart_contents[ $item_key ] ) )
-		{
+		if( isset( $this->cart_contents[ $item_key ] ) ) {
 			unset( $this->cart_contents[ $item_key ] );
 		}
 		$this->sessions->set( $item_key, null );
@@ -252,7 +234,7 @@ class DN_Cart
 	}
 
 	// set cart information. donor_id. donate_id. addtion_note
-	function set_cart_information( $info = array() )
+	public function set_cart_information( $info = array() )
 	{
 		$info = wp_parse_args( $info, array(
 				'addtion_note'	=> $this->donate_info->get( 'addtion_note' ),
@@ -267,7 +249,7 @@ class DN_Cart
 	}
 
 	// get cart information
-	function get_cart_information( $key = null )
+	public function get_cart_information( $key = null )
 	{
 		$infos = array(
 				'addtion_note',
@@ -280,7 +262,7 @@ class DN_Cart
 	}
 
 	// destroy cart
-	function remove_cart()
+	public function remove_cart()
 	{
 		// remove
 		$this->cart_contents = array();
@@ -294,7 +276,7 @@ class DN_Cart
 	}
 
 	// return is empty
-	function is_empty()
+	public function is_empty()
 	{
 		return $this->is_empty = ! empty( $this->cart_contents ) ? false : true;
 	}
@@ -303,18 +285,15 @@ class DN_Cart
 	 * generate cart item key
 	 * @return string
 	 */
-	function generate_cart_id( $params = array() )
+	public function generate_cart_id( $params = array() )
 	{
 
 		$html = array();
 		ksort( $params );
 		foreach ( $params as $key => $value ) {
-			if( is_array( $value ) )
-			{
+			if( is_array( $value ) ) {
 				$html[] = $key . donate_array_to_string( $value );
-			}
-			else
-			{
+			} else {
 				$html[] = $key . $value;
 			}
 		}
@@ -333,4 +312,3 @@ class DN_Cart
 	}
 
 }
-// var_dump(DN_Cart::instance()->cart_contents); die();

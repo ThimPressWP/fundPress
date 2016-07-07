@@ -1,5 +1,6 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
+defined('ABSPATH') or die("Cannot access pages directly.");   
+
 if( ! session_id() ) {
     session_start();
 }
@@ -25,7 +26,7 @@ class DN_Sessions
 	 */
 	public $prefix = null;
 
-	function __construct( $prefix = '', $remember = true )
+	public function __construct( $prefix = '', $remember = true )
 	{
 		if( ! $prefix )
 			return;
@@ -44,7 +45,7 @@ class DN_Sessions
 	 * load all with prefix
 	 * @return
 	 */
-	function load()
+	public function load()
 	{
 		if( isset( $_SESSION[ $this->prefix ] ) )
 		{
@@ -59,7 +60,7 @@ class DN_Sessions
 	}
 
 	// remove session
-	function remove()
+	public function remove()
 	{
 		if( isset( $_SESSION[ $this->prefix ] ) )
 		{
@@ -78,19 +79,16 @@ class DN_Sessions
 	 * @param $key
 	 * @param $value
 	 */
-	function set( $name = '', $value = null )
+	public function set( $name = '', $value = null )
 	{
 		if( ! $name )
 			return;
 
 		$time = time();
-		if( ! $value )
-		{
+		if( ! $value ) {
 			unset( $this->session[ $name ] );
 			$time = $time - $this->live_item;
-		}
-		else
-		{
+		} else {
 			$this->session[ $name ] = $value;
 			$time = $time + $this->live_item;
 		}
@@ -108,7 +106,7 @@ class DN_Sessions
 	 * @param  $key
 	 * @return anythings
 	 */
-	function get( $name = null, $default = null )
+	public function get( $name = null, $default = null )
 	{
 		if( ! $name )
 			return $default;

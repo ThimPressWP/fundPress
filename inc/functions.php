@@ -899,3 +899,9 @@ if ( ! function_exists( 'donate_is_ajax_request' ) ) {
 		return defined( 'DOING_AJAX' ) && DOING_AJAX === TRUE;
 	}
 }
+
+if ( ! function_exists( 'donate_get_donate_items' ) ) {
+	function donate_get_donate_items( $donate_id ) {
+		return DN_Donate::instance( $donate_id )->get_items();
+	}
+}

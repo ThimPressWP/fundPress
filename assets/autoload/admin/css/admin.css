@@ -111,7 +111,68 @@
 .donate_metabox_setting_section textarea{
 	width: 100%;
 }
-
+#donate_donate_info_section .inside{
+	margin: 0;
+	padding: 0;
+}
+.donate_items{
+	border-collapse: collapse;
+	width: 100%;
+}
+.donate_items *{
+	color: #999;
+}
+.donate_items thead th{
+    background-color: #f8f8f8;
+    font-weight: 400;
+    font-size: 13px;
+}
+.donate_items th,
+.donate_items tr{
+	border-bottom: 1px solid #f8f8f8;
+}
+.donate_items td{
+	border: none;
+}
+.donate_items .campaign{
+	text-align: left;
+	border-right: 1px solid #f8f8f8;
+}
+.donate_items .action{
+	width: 1%;
+	border-left: 1px solid #f8f8f8;
+}
+.donate_items .amount{
+	text-align: center;;
+}
+.donate_items .total,
+.donate_items .donor{
+	text-align: right;
+	border-right: 1px solid #f8f8f8;
+	color: #666;
+}
+.donate_items tbody *,
+.donate_items tfoot *{
+	color: #666;
+	font-size: 12px;
+}
+.donate_items .thumb{
+	width: 1%;
+}
+.addition{
+	width: 100%;
+}
+.donate_addition{
+	overflow: hidden;
+}
+.donate_addition label{
+	display: inline-block;
+	margin: 10px;
+}
+.donate_items tfoot .amount ins{
+	color: #000;
+	font-weight: 600;
+}
 /**
  * donor metabox
  */
@@ -119,8 +180,7 @@
 #donate_donor_info_section td,
 #donate_donate_info_section th,
 #donate_donate_info_section td{
-	padding: 10px;
-	border: 1px solid #dedede;
+	padding: 12px;
 }
 .column-start,
 .column-end,

@@ -138,8 +138,9 @@
 					}).done( function( res ){
 						TP_Donate_Global.afterAjax();
 
-						if( typeof res.status === 'undefined' )
+						if( typeof res.status === 'undefined' ) {
 							return;
+						}
 
 						if( typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true ) {
 							// process with authorize.net SIM payment

@@ -8,7 +8,7 @@ abstract class DN_Post_Base
 	 * ID of Post
 	 * @var null
 	 */
-	protected $ID = null;
+	public $id = null;
 
 	/**
 	 * post
@@ -28,7 +28,7 @@ abstract class DN_Post_Base
 	 */
 	protected $post_type = null;
 
-	function __construct( $post = null )
+	public function __construct( $post = null )
 	{
 		if( is_numeric( $post ) )
 			$this->post = get_post( $post );
@@ -36,9 +36,8 @@ abstract class DN_Post_Base
 		if( $post instanceof WP_Post )
 			$this->post = $post;
 
-		if( $this->post )
-		{
-			$this->ID = $this->post->ID;
+		if( $this->post ) {
+			$this->id = $this->post->ID;
 		}
 	}
 
@@ -47,7 +46,7 @@ abstract class DN_Post_Base
 	 * @param $key
 	 * @return *
 	 */
-	function __get( $key )
+	public function __get( $key )
 	{
 		if( ! $this->post ) {
 			return;
@@ -57,30 +56,35 @@ abstract class DN_Post_Base
 			return $this->post->{$key};
 		}
 
-		if ( metadata_exists( 'post', $this->ID, $this->meta_prefix . $key ) ) {
+		if ( metadata_exists( 'post', $this->id, $this->meta_prefix . $key ) ) {
 			return $this->get_meta( $key );
 		}
 	}
 
 	// get post meta
-	function get_meta( $key, $unique = true )
+	public function get_meta( $key, $unique = true )
 	{
-		if( $meta = get_post_meta( $this->ID, $this->meta_prefix . $key , $unique ) ) {
+		if( $meta = get_post_meta( $this->id, $this->meta_prefix . $key , $unique ) ) {
 			return $meta;
 		}
 	}
 
+	/* get campaign title */
+	public function get_title() {
+		return get_the_title( $this->id );
+	}
+
 	// update post meta
-	function update_meta( $key, $value )
+	public function update_meta( $key, $value )
 	{
-		update_post_meta( $this->ID, $this->meta_prefix . $key , $value );
+		update_post_meta( $this->id, $this->meta_prefix . $key , $value );
 	}
 
 	// set post meta
-	function set_meta( $key, $val = '', $unique = false )
+	public function set_meta( $key, $val = '', $unique = false )
 	{
 		if( $key ) {
-			update_post_meta( $this->ID, $this->meta_prefix . $key, $val, $unique );
+			update_post_meta( $this->id, $this->meta_prefix . $key, $val, $unique );
 		}
 	}
 
@@ -89,7 +93,7 @@ abstract class DN_Post_Base
 	 * @param  array  $args
 	 * @return
 	 */
-	function create_post( $args = array() )
+	public function create_post( $args = array() )
 	{
 		$default = array(
 			'post_title'	=> '',

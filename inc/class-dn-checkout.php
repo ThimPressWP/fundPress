@@ -39,11 +39,11 @@ class DN_Checkout {
 				if( ! $campaign || $campaign->post_type !== 'dn_campaign' ) {
 					donate_add_notice( 'error', __( 'Campaign is invalid.', 'tp-donate' ) );
 				}
+				$campaign = DN_Campaign::instance( $campaign );
 
 				if( ! $amount && isset( $this->posted[ 'donate_input_amount_package' ] ) ) {
 					$compensate_id = sanitize_text_field( $this->posted[ 'donate_input_amount_package' ] );
 					// Campaign
-					$campaign = DN_Campaign::instance( $campaign );
 					$compensates = $campaign->get_compensate();
 
 					if( isset( $compensates[ $compensate_id ], $compensates[ $compensate_id ]['amount'] ) ) {
@@ -56,12 +56,11 @@ class DN_Checkout {
 				}
 				// add to cart param
 				$cart_params = apply_filters( 'donate_add_to_cart_item_params', array(
-						'product_id'		=> $campaign->ID,
 						'currency'			=> donate_get_currency()
 					) );
 
 				// add to cart
-				$cart_item_id = donate()->cart->add_to_cart( $campaign->ID, $cart_params, 1, $amount );
+				$cart_item_id = donate()->cart->add_to_cart( $campaign->id, $cart_params, 1, $amount );
 				if( ! $cart_item_id || is_wp_error( $cart_item_id ) ) {
 					// failed
 					throw new Exception( __( 'Something went wrong, could not add to cart item. Please try again.', 'tp-donate' ) );
@@ -184,7 +183,7 @@ class DN_Checkout {
 						$donate->update_meta( 'amount_system', $amount );
 					} else if ( $cart_contents = $cart->cart_contents ){
 						foreach ( $cart_contents as $cart_content ) {
-							$donate->add_donate_item( $cart_content->product_id, get_the_title( $cart_content->product_id ), $cart_content->amount_exclude_tax );
+							$donate->add_donate_item( $cart_content->campaign_id, get_the_title( $cart_content->campaign_id ), $cart_content->total );
 						}
 					}
 
