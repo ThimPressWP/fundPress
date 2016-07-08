@@ -198,13 +198,16 @@ class ThimPress_Donate
 		$this->_include( 'inc/install.php' );
 
 		/* load vendors */
-		$this->_include( 'inc/vendors/cmb2/init.php' );
+		if ( ! defined( 'CMB2_LOADED' ) ) {
+			add_filter( 'cmb2_meta_box_url', array( $this, 'cmb2_meta_box_url' ) );
+			$this->_include( 'inc/vendors/cmb2/init.php' );
+		}
 	}
 
 	/* autoload folder */
 	public function autoload( $paths = array() )
 	{
-		foreach ($paths as $key => $path) {
+		foreach ( $paths as $key => $path ) {
 			$real_path = TP_DONATE_INC . '/' . $path;
 			$path = substr( $path, 0, -1 );
 			foreach ( (array)glob( $real_path . '/class-dn-'. $path .'-*.php' ) as $key => $file ) {
@@ -320,6 +323,11 @@ class ThimPress_Donate
 	 */
 	public function options() {
 		return DN_Settings::instance();
+	}
+
+	public function cmb2_meta_box_url( $url ) {
+		$url = TP_DONATE_INC_URI . '/vendors/cmb2/';
+		return $url;
 	}
 
 	public static function instance() {

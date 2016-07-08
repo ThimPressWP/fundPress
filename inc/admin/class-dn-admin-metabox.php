@@ -16,7 +16,6 @@ class DN_Admin_Metabox {
 	public static function add_meta_boxes() {
 		new DN_MetaBox_Campaign();
 		new DN_MetaBox_Donate();
-		new DN_MetaBox_Donor();
 		new DN_MetaBox_Donate_Action();
 	}
 

@@ -477,24 +477,52 @@ class DN_Post_Type
 		$prefix = TP_DONATE_META_DONOR;
 		$cmb = new_cmb2_box( array(
 	        'id'           => 'donor_info',
-	        'title'        => 'Donor Info',
+	        'title'        => __( 'Donor Info', 'tp-donate' ),
 	        'object_types' => array( 'dn_donor' ), // post type
-	        'context'      => 'advanced', //  'normal', 'advanced', or 'side'
+	        'context'      => 'normal', //  'normal', 'advanced', or 'side'
 	        'priority'     => 'high',  //  'high', 'core', 'default' or 'low'
 	        'show_names'   => true, // Show field names on the left
 	    ) );
 
-		/**
-		 * Options fields ids only need
-		 * to be unique within this option group.
-		 * Prefix is not needed.
-		 */
+	    $cmb->add_field( array(
+		    'name' => sprintf( __( 'Donor ID #%s', 'tp-donate' ), $cmb->object_id ),
+		    'type' => 'title',
+		    'id'   => 'wiki_test_title'
+		) );
+
 		$cmb->add_field( array(
-			'name'    => __( 'Site Background Color', 'cmb2' ),
-			'desc'    => __( 'field description (optional)', 'cmb2' ),
-			'id'      => 'bg_color',
-			'type'    => 'colorpicker',
-			'default' => '#ffffff',
+			'name'    => __( 'First Name', 'tp-donate' ),
+			'desc'    => __( 'Enter First Name (required)', 'tp-donate' ),
+			'id'      => $prefix . 'first_name',
+			'type'    => 'text'
+		) );
+
+		$cmb->add_field( array(
+			'name'    => __( 'Last Name', 'tp-donate' ),
+			'desc'    => __( 'Enter Last Name (required)', 'tp-donate' ),
+			'id'      => $prefix . 'last_name',
+			'type'    => 'text'
+		) );
+
+		$cmb->add_field( array(
+			'name'    => __( 'Email', 'tp-donate' ),
+			'desc'    => __( 'Enter Email (required)', 'tp-donate' ),
+			'id'      => $prefix . 'email',
+			'type'    => 'text_email'
+		) );
+
+		$cmb->add_field( array(
+			'name'    => __( 'Address', 'tp-donate' ),
+			'desc'    => __( 'Enter Address (required)', 'tp-donate' ),
+			'id'      => $prefix . 'address',
+			'type'    => 'textarea_small'
+		) );
+
+		$cmb->add_field( array(
+			'name'    => __( 'Phone Num.', 'tp-donate' ),
+			'desc'    => __( 'Enter Phone Number (required)', 'tp-donate' ),
+			'id'      => $prefix . 'phone',
+			'type'    => 'text'
 		) );
 	}
 
