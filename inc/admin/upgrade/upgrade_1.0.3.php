@@ -7,10 +7,24 @@ global $wpdb;
 $sql = $wpdb->prepare("
 		SELECT post.ID FROM $wpdb->posts AS post WHERE post.post_type = %s
 	", 'dn_donate' );
-$donated = $wpdb->get_results( $sql );
+$donates = $wpdb->get_col( $sql );
 
-if ( ! $donated ) return;
-
-foreach( $donated as $donate ) {
-	var_dump($donate); die();
+foreach( $donates as $donate_id ) {
+	$donate = DN_Donate::instance( $donate_id );
+	if ( $donate->cart_contents ) {
+		$donate->update_meta( 'type', 'campaign' );
+		$donate->remove_donate_items();
+		foreach ( $donate->cart_contents as $content ) {
+			$item_id = wp_insert_post( array(
+				'post_type'		=> 'dn_donate_item',
+				'post_parent'	=> $donate_id,
+				'post_status'	=> 'publish'
+			));
+			update_post_meta( $item_id, 'campaign_id', absint( $donate_id ) );
+			update_post_meta( $item_id, 'title', $content->product_data->post_title );
+			update_post_meta( $item_id, 'total', $content->amount );
+		}
+	} else {
+		$donate->update_meta( 'type', 'system' );
+	}
 }

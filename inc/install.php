@@ -114,7 +114,7 @@ class DN_Install {
 
     /* upgrade database order */
     public static function upgrade_database() {
-        delete_option( 'thimpress_donate_version' );
+        // delete_option( 'thimpress_donate_version' );
         $current_verion = get_option( 'thimpress_donate_version', null );
         if ( $current_verion && $current_verion >= max( array_keys( self::$update_db ) ) ) return;
 

@@ -769,13 +769,16 @@ if( ! function_exists( 'donate_amount_system' ) )
 				FROM $wpdb->postmeta AS donate_system
 				INNER JOIN $wpdb->posts AS donation ON donation.ID = donate_system.post_id
 				INNER JOIN $wpdb->postmeta AS donate_currency ON donate_currency.post_id = donation.ID
+				INNER JOIN $wpdb->postmeta AS donate_type ON donate_type.post_id = donation.ID
 				WHERE
 					donation.post_type = %s
 					AND donation.post_status = %s
 					AND donate_system.meta_key = %s
 					AND donate_currency.meta_key = %s
+					AND donate_type.meta_key = %s
+					AND donate_type.meta_value = %s
 				HAVING amount > 0
-			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'amount_system', TP_DONATE_META_DONATE . 'currency' );
+			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'total', TP_DONATE_META_DONATE . 'currency', TP_DONATE_META_DONATE . 'type', 'system' );
 
 		if( $results = $wpdb->get_results( $query ) )
 		{
@@ -807,6 +810,13 @@ if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
 	}
 }
 
+if ( ! function_exists( 'donate_get_donor_email' ) ) {
+	function donate_get_donor_email( $donate_id = null ) {
+		if ( ! $donate_id ) return;
+		$donate = DN_Donate::instance( $donate_id );
+		return $donate->get_donor()->email;
+	}
+}
 // date time format
 function donate_date_time_format_js() {
 	// set detault datetime format datepicker

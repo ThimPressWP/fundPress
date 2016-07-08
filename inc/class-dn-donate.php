@@ -106,7 +106,7 @@ class DN_Donate extends DN_Post_Base
 	public function add_donate_item( $campaign_id = null, $title = '', $total = 0 ) {
 		if ( ! $this->id ) return;
 
-		$item_id = wp_insert_post(array(
+		$item_id = wp_insert_post( array(
 			'post_type'		=> 'dn_donate_item',
 			'post_parent'	=> $this->id,
 			'post_status'	=> 'publish'

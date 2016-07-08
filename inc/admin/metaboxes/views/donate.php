@@ -53,7 +53,7 @@ $currency = $donation->currency ? $donation->currency : donate_get_currency();
 			<td colspan="1" class="amount">
 				<?php $donor_id = $donation->donor_id; ?>
 				<a href="<?php echo get_edit_post_link( $donor_id ) ?>">
-					<?php printf( '%s', donate_get_donor_fullname( $donation->id ) ) ?>
+					<?php printf( '%s(%s)', donate_get_donor_fullname( $donation->id ), donate_get_donor_email( $donation->id ) ) ?>
 				</a>
 			</td>
 		</tr>
