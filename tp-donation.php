@@ -197,6 +197,8 @@ class ThimPress_Donate
 		$this->autoload( array( 'products', 'payments' ) );
 		$this->_include( 'inc/install.php' );
 
+		/* load vendors */
+		$this->_include( 'inc/vendors/cmb2/init.php' );
 	}
 
 	/* autoload folder */

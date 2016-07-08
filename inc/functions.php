@@ -803,9 +803,8 @@ if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
 	function donate_get_donor_fullname( $donate_id = null ) {
 		if ( ! $donate_id ) return;
 		$donate = DN_Donate::instance( $donate_id );
-		$donor_id = $donate->donor_id;
 		if ( ! $donate_id ) return;
-		$donor = DN_Donor::instance( $donor_id );
+		$donor = $donate->get_donor();
 		return sprintf( '%s %s', $donor->first_name, $donor->last_name );
 	}
 }

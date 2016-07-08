@@ -36,6 +36,9 @@ class DN_Post_Type
 		 * post status
 		 */
 		add_action( 'init', array( $this, 'register_post_status' ) );
+
+		/* cmb2 */
+		add_action( 'cmb2_init', array( $this, 'donor_meta_info' ) );
 	}
 
 	/**
@@ -467,6 +470,32 @@ class DN_Post_Type
 		foreach( $donate_statuses as $status => $args ) {
 			register_post_status( $status, $args );
 		}
+	}
+
+	/* Donor information */
+	public function donor_meta_info() {
+		$prefix = TP_DONATE_META_DONOR;
+		$cmb = new_cmb2_box( array(
+	        'id'           => 'donor_info',
+	        'title'        => 'Donor Info',
+	        'object_types' => array( 'dn_donor' ), // post type
+	        'context'      => 'advanced', //  'normal', 'advanced', or 'side'
+	        'priority'     => 'high',  //  'high', 'core', 'default' or 'low'
+	        'show_names'   => true, // Show field names on the left
+	    ) );
+
+		/**
+		 * Options fields ids only need
+		 * to be unique within this option group.
+		 * Prefix is not needed.
+		 */
+		$cmb->add_field( array(
+			'name'    => __( 'Site Background Color', 'cmb2' ),
+			'desc'    => __( 'field description (optional)', 'cmb2' ),
+			'id'      => 'bg_color',
+			'type'    => 'colorpicker',
+			'default' => '#ffffff',
+		) );
 	}
 
 }
