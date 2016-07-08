@@ -26,6 +26,10 @@ class DN_Post_Type
 
 		add_filter( 'manage_dn_campaign_posts_columns', array( $this, 'campaign_columns' ) );
 		add_action( 'manage_dn_campaign_posts_custom_column', array( $this, 'campaign_column_content' ), 10, 2 );
+		add_filter( 'manage_edit-dn_donor_sortable_columns', array( $this, 'donor_sortable_columns' ) );
+
+		add_filter( 'manage_dn_donor_posts_columns', array( $this, 'donor_columns' ) );
+		add_action( 'manage_dn_donor_posts_custom_column', array( $this, 'donor_column_content' ), 10, 2 );
 
 		/**
 		 * register taxonomy
@@ -122,22 +126,58 @@ class DN_Post_Type
 		<?php
 	}
 
+	public function donor_sortable_columns( $columns ) {
+		$custom = array(
+			'donor_fullname' 	=> 'full_name',
+			'donor_email' 		=> 'email',
+			'donor_phone'  		=> 'phone'
+		);
+		unset( $columns['comments'] );
+
+		return wp_parse_args( $custom, $columns );
+	}
+
 	/* sortable order donate column */
 	public function request_query( $vars ) {
 
-		if ( ! is_admin() || ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'dn_donate' ) {
+		if ( ! is_admin() || ! isset( $_GET['post_type'] ) || ! in_array( $_GET['post_type'], array( 'dn_donate', 'dn_donor' ) ) ) {
 			return $vars;
 		}
-
+		$post_type = sanitize_text_field( $_GET['post_type'] );
 		if ( ! isset( $_GET['orderby'] ) || ! isset( $_GET['order'] ) ) {
 			return $vars;
 		}
+		if ( $post_type === 'dn_donate' ) {
+			if (  $_GET['orderby'] === 'donate_total' ) {
+				$vars = array_merge( $vars, array(
+								'meta_key'  => TP_DONATE_META_DONATE . 'total',
+								'orderby'   => 'meta_value'
+							) );
+			}
+		}
 
-		if (  $_GET['orderby'] === 'donate_total' ) {
-			$vars = array_merge( $vars, array(
-							'meta_key'  => TP_DONATE_META_DONATE . 'total',
-							'orderby'   => 'meta_value_num'
-						) );
+		if ( $post_type === 'dn_donor' ) {
+			if (  $_GET['orderby'] === 'full_name' ) {
+				$vars = array_merge( $vars, array(
+								'meta_key'  => TP_DONATE_META_DONOR . 'first_name',
+								'orderby'   => 'meta_value',
+								'order'		=> $_GET['order']
+							) );
+			}
+			if (  $_GET['orderby'] === 'email' ) {
+				$vars = array_merge( $vars, array(
+								'meta_key'  => TP_DONATE_META_DONOR . 'email',
+								'orderby'   => 'meta_value',
+								'order'		=> $_GET['order']
+							) );
+			}
+			if (  $_GET['orderby'] === 'phone' ) {
+				$vars = array_merge( $vars, array(
+								'meta_key'  => TP_DONATE_META_DONOR . 'phone',
+								'orderby'   => 'meta_value',
+								'order'		=> $_GET['order']
+							) );
+			}
 		}
 		return $vars;
 	}
@@ -469,6 +509,39 @@ class DN_Post_Type
 		$donate_statuses = apply_filters( 'donate_payment_status', $donate_statuses );
 		foreach( $donate_statuses as $status => $args ) {
 			register_post_status( $status, $args );
+		}
+	}
+
+	public function donor_columns( $columns ) {
+		unset( $columns['title'], $columns['author'], $columns['date'] );
+
+		$columns['donor_fullname'] 	= __( 'Full Name', 'tp-donate' );
+		$columns['donor_email'] 	= __( 'Email', 'tp-donate' );
+		$columns['donor_address'] 	= __( 'Address', 'tp-donate' );
+		$columns['donor_phone'] 	= __( 'Phone', 'tp-donate' );
+		$columns['date']			= __( 'Date', 'tp-donate' );
+		return $columns;
+	}
+
+	public function donor_column_content( $column, $post_id ) {
+		$donor = DN_Donor::instance( $post_id );
+		switch ( $column ) {
+			case 'donor_email':
+					printf( '<a href="mailto:%1$s">%1$s</a>', $donor->email );
+				break;
+			case 'donor_fullname':
+					printf( '<a href="%s">%s</a>', get_edit_post_link( $donor->id ), $donor->get_fullname() );
+				break;
+			case 'donor_address':
+					printf( '%s', $donor->address );
+				break;
+			case 'donor_phone':
+					printf( '%s', $donor->phone );
+				break;
+			
+			default:
+				# code...
+				break;
 		}
 	}
 

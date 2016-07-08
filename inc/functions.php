@@ -780,9 +780,9 @@ if( ! function_exists( 'donate_amount_system' ) )
 				HAVING amount > 0
 			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'total', TP_DONATE_META_DONATE . 'currency', TP_DONATE_META_DONATE . 'type', 'system' );
 
+		$total = 0;
 		if( $results = $wpdb->get_results( $query ) )
 		{
-			$total = 0;
 			foreach ( $results as $key => $donate ) {
 
 				if( ! $donate->amount )
@@ -794,8 +794,8 @@ if( ! function_exists( 'donate_amount_system' ) )
 
 				$total = $total + donate_campaign_convert_amount( $donate->amount, $currency );
 			}
-			return $total;
 		}
+		return $total;
 	}
 }
 
