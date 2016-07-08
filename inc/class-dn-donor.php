@@ -41,7 +41,7 @@ class DN_Donor extends DN_Post_Base
 	 * @param string email
 	 * @return boolean
 	 */
-	function donor_exists( $email = null )
+	public function donor_exists( $email = null )
 	{
 		if( ! $email )
 			return new WP_Error( 'donate_create_donor', __( 'Could not create new donor with empty email.', 'tp-donate' ) );
@@ -67,7 +67,7 @@ class DN_Donor extends DN_Post_Base
 	}
 
 	// create new donor
-	function create_donor( $param = null )
+	public function create_donor( $param = null )
 	{
 		if( ! $param )
 			return new WP_Error( 'donate_create_donor', __( 'Could not create new donor.', 'tp-donate' ) );
@@ -89,7 +89,7 @@ class DN_Donor extends DN_Post_Base
 		return $donor_id;
 	}
 
-	function update_donor( $param = array() ) {
+	public function update_donor( $param = array() ) {
 		foreach ( $param as $meta_key => $value ) {
 			update_post_meta( $this->id, $this->meta_prefix . $meta_key, $value );
 		}
@@ -99,7 +99,7 @@ class DN_Donor extends DN_Post_Base
 	 * get all donated of donor
 	 * @return posts
 	 */
-	function get_donated()
+	public function get_donated()
 	{
 		$args = array(
 			'posts_per_page'   => -1,
@@ -113,6 +113,10 @@ class DN_Donor extends DN_Post_Base
 		$posts_array = get_posts( $args );
 		wp_reset_postdata();
 		return $posts_array;
+	}
+
+	public function get_fullname() {
+		return sprintf( '%s %s', $this->first_name, $this->last_name );
 	}
 
 	// static function instead of new class
