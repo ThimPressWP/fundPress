@@ -20,12 +20,10 @@
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
 .icon-pencil:before {
     content: "\e905";
 }
@@ -208,13 +206,6 @@
 .addition{
 	width: 100%;
 }
-.donate_addition{
-	overflow: hidden;
-}
-.donate_addition label{
-	display: inline-block;
-	margin: 10px;
-}
 .donate_items tfoot .amount ins{
 	color: #000;
 	font-weight: 600;
@@ -233,9 +224,18 @@
 .column-funded{
 	text-align: center !important;
 }
+#donate_donate_info_section label {
+	padding: 5px 10px !important;
+}
+#thimpress_donate_type{
+	width: 200px;
+}
 /**
  * donate status
  */
+ #donate_action label{
+ 	font-weight: 600;
+ }
 .donate-status{
     display: inline-block;
     padding: 5px;
@@ -260,4 +260,13 @@
 }
 .donate-status.donate-refunded{
 	background-color: #d47f3c;
+}
+/* donate notes */
+#donate_note label{
+	display: block;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+#donate_note textarea{
+	width: 100%;
 }

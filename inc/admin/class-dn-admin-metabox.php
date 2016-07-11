@@ -17,6 +17,7 @@ class DN_Admin_Metabox {
 		new DN_MetaBox_Campaign();
 		new DN_MetaBox_Donate();
 		new DN_MetaBox_Donate_Action();
+		new DN_MetaBox_Donate_Note();
 	}
 
 	/* remove metaboxes */

@@ -74,6 +74,8 @@
 				$( document ).on( 'click', '.donate_metabox_setting_section .add_compensate', this.add_compensate );
 				$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', this.remove_compensate );
 				this.datepicker();
+
+				$( document ).on( 'change', '#thimpress_donate_type', this.donate_type_on_change );
 			},
 
 			add_compensate: function( e ) {
@@ -147,6 +149,11 @@
 						_start.datepicker( 'option', 'maxDate', date );
 					}
 				});
+			},
+
+			donate_type_on_change: function( e ) {
+				e.preventDefault();
+				console.log(1);
 			},
 
 		},
