@@ -74,6 +74,9 @@
 				$( document ).on( 'click', '.donate_metabox_setting_section .add_compensate', this.add_compensate );
 				$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', this.remove_compensate );
 				this.datepicker();
+
+				// $( '.donate_type_hidden' ).appendTo( '#donate_donate_info_section .hndle span' );
+				// $( '#donate_donate_info_section .hndle span .donate_type_hidden' ).removeClass( 'hide-if-js' );
 			},
 
 			add_compensate: function( e ) {

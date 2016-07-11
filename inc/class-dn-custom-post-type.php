@@ -187,7 +187,6 @@ class DN_Post_Type
 		$columns[ 'start' ]	= apply_filters( 'donate_add_column_campaign_start_column', __( 'Start Date', 'tp-donate' ) );
 		$columns[ 'end' ]	= apply_filters( 'donate_add_column_campaign_end_column', __( 'End Date', 'tp-donate' ) );
 		$columns[ 'funded' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Founded', 'tp-donate' ) );
-		// $columns[ 'donors' ] = apply_filters( 'donate_add_column_campaign_backer_column', __( 'Donors', 'tp-donate' ) );
 		$columns[ 'date' ] = apply_filters( 'donate_add_column_campaign_publish_column', __( 'Created At', 'tp-donate' ) );
 		return $columns;
 	}
