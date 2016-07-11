@@ -153,7 +153,11 @@
 
 			donate_type_on_change: function( e ) {
 				e.preventDefault();
-				console.log(1);
+				var _self = $( this ),
+					_type = _self.val(),
+					_section = $( '#section_' + _type );
+
+				$( '.donate_section_type' ).toggleClass( 'hide-if-js' );
 			},
 
 		},

@@ -799,6 +799,17 @@ if( ! function_exists( 'donate_amount_system' ) )
 	}
 }
 
+if ( ! function_exists( 'donate_get_donors' ) ) {
+	function donate_get_donors() {
+		global $wpdb;
+		$sql = $wpdb->prepare( "
+				SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
+			", 'dn_donor', 'publish' );
+
+		return $wpdb->get_col( $sql );
+	}
+}
+
 if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
 	function donate_get_donor_fullname( $donate_id = null ) {
 		if ( ! $donate_id ) return;

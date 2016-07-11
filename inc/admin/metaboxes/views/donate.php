@@ -4,7 +4,7 @@ if( ! defined( 'ABSPATH' ) ) exit();
 global $post;
 $donation = DN_Donate::instance( $post->ID );
 $currency = $donation->currency ? $donation->currency : donate_get_currency();
-
+$donor_id = $donation->donor_id;
 ?>
 
 <style type="text/css">
@@ -13,6 +13,8 @@ $currency = $donation->currency ? $donation->currency : donate_get_currency();
 
 <div class="cmb2-wrap">
 	<div class="cmb-field-list">
+
+		<!-- donate type -->
 		<div class="cmb-row">
 			<div class="cmb-th">
 				<label for="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>"><?php _e( 'Donate Type', 'tp-donate' ); ?></label>
@@ -25,8 +27,28 @@ $currency = $donation->currency ? $donation->currency : donate_get_currency();
 				<p class="cmb2-metabox-description"><?php _e( 'Select donate type, donate for <i>Campaign</i> or <i>System</i>', 'tp-donate' ); ?></p>
 			</div>
 		</div>
+		<!-- end donate type -->
 
-		<div class="donate_section_type <?php echo $this->get_field_value( 'type' ) !== 'campaign' ? '' : 'hide-if-js' ?>" id="section_campaign">
+		<!-- donor -->
+		<div class="cmb-row">
+			<div class="cmb-th">
+				<label for="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>"><?php _e( 'Donor', 'tp-donate' ); ?></label>
+			</div>
+			<div class="cmb-td">
+				<select name="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>">
+					<?php foreach ( donate_get_donors() as $id ) : ?>
+						<?php $donor = DN_Donor::instance( $id ); ?>
+						<option value="<?php echo esc_attr( $id ); ?>"<?php selected( $donor_id, $id ); ?>>
+							<?php printf( '%s(%s)', $donor->get_fullname(), $donor->email ) ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+				<p class="cmb2-metabox-description"><?php _e( 'Select donor.', 'tp-donate' ); ?></p>
+			</div>
+		</div>
+		<!-- end donor -->
+
+		<div class="donate_section_type<?php echo $this->get_field_value( 'type' ) !== 'campaign' ? '' : ' hide-if-js' ?>" id="section_campaign">
 			<!-- hide-if-js -->
 			<table class="donate_items" cellpadding="0" cellspacing="0">
 				<thead>
@@ -76,7 +98,7 @@ $currency = $donation->currency ? $donation->currency : donate_get_currency();
 				</tfoot>
 			</table>
 		</div>
-		<div class="donate_section_type <?php echo $this->get_field_value( 'type' ) !== 'sytem' ? '' : 'hide-if-js' ?>" id="section_system">
+		<div class="donate_section_type<?php echo $this->get_field_value( 'type' ) !== 'sytem' ? '' : ' hide-if-js' ?>" id="section_system">
 			<div class="cmb-row">
 				<div class="cmb-th">
 					<label for="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>"><?php _e( 'Total', 'tp-donate' ); ?></label>
