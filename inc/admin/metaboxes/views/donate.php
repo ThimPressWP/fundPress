@@ -86,15 +86,6 @@ $donor_id = $donation->donor_id;
 						<td colspan="2" class="total"><?php _e( 'Total', 'tp-donate' ); ?></td>
 						<td colspan="1" class="amount"><ins><?php echo donate_price( $donation->total, $donation->currency ) ?></ins></td>
 					</tr>
-					<tr>
-						<td colspan="2" class="donor"><?php _e( 'Donor', 'tp-donate' ); ?></td>
-						<td colspan="1" class="amount">
-							<?php $donor_id = $donation->donor_id; ?>
-							<a href="<?php echo get_edit_post_link( $donor_id ) ?>">
-								<?php printf( '%s(%s)', donate_get_donor_fullname( $donation->id ), donate_get_donor_email( $donation->id ) ) ?>
-							</a>
-						</td>
-					</tr>
 				</tfoot>
 			</table>
 		</div>
