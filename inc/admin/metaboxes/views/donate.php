@@ -4,7 +4,6 @@ if( ! defined( 'ABSPATH' ) ) exit();
 global $post;
 $donation = DN_Donate::instance( $post->ID );
 $currency = $donation->currency ? $donation->currency : donate_get_currency();
-
 ?>
 
 <style type="text/css">
