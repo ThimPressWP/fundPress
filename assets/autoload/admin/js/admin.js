@@ -75,7 +75,11 @@
 				$( document ).on( 'click', '.donate_metabox_setting_container .donate_metabox .remove', this.remove_compensate );
 				this.datepicker();
 
+				/* change donate type */
 				$( document ).on( 'change', '#thimpress_donate_type', this.donate_type_on_change );
+
+				/* edit donate item */
+				$( document ).on( 'click', '.donate_items .edit', this.edit_donate_item );
 			},
 
 			add_compensate: function( e ) {
@@ -160,6 +164,18 @@
 				$( '.donate_section_type' ).toggleClass( 'hide-if-js' );
 			},
 
+			edit_donate_item: function( e ) {
+				e.preventDefault();
+				var _self = $( this ),
+					_data_id = _self.attr( 'data-item-id' ),
+					_item = _self.parents( '.item' ),
+					_edit_tr = _item.parent().find( '.edit[data-id="'+_data_id+'"]' );
+
+				_item.toggleClass( 'hide-if-js' );
+				_edit_tr.toggleClass( 'hide-if-js' );
+				return false;
+			},
+
 		},
 
 		donate_lightbox: function() {
@@ -175,12 +191,9 @@
 			donate_lightbox.on( 'change', function(e){
 				e.preventDefault();
 
-				if( $(this).val() === 'yes' )
-				{
+				if( $(this).val() === 'yes' ) {
 					tr_donate_redirect.hide();
-				}
-				else
-				{
+				} else {
 					tr_donate_redirect.show();
 				}
 			});

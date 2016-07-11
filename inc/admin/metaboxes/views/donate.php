@@ -5,6 +5,7 @@ global $post;
 $donation = DN_Donate::instance( $post->ID );
 $currency = $donation->currency ? $donation->currency : donate_get_currency();
 $donor_id = $donation->donor_id;
+
 ?>
 
 <style type="text/css">
@@ -48,7 +49,8 @@ $donor_id = $donation->donor_id;
 		</div>
 		<!-- end donor -->
 
-		<div class="donate_section_type<?php echo $this->get_field_value( 'type' ) !== 'campaign' ? '' : ' hide-if-js' ?>" id="section_campaign">
+		<!-- donate for campaign -->
+		<div class="donate_section_type<?php echo $this->get_field_value( 'type' ) !== 'campaign' ? ' hide-if-js' : '' ?>" id="section_campaign">
 			<!-- hide-if-js -->
 			<table class="donate_items" cellpadding="0" cellspacing="0">
 				<thead>
@@ -60,7 +62,7 @@ $donor_id = $donation->donor_id;
 				</thead>
 				<tbody>
 					<?php foreach ( $donation->get_items() as $item ) : ?>
-						<tr>
+						<tr class="item" data-id="<?php echo esc_attr( $item->id ); ?>">
 							<td class="thumb">
 								<a href="<?php echo get_edit_post_link( $item->campaign_id ) ?>">
 									<img src="<?php get_the_post_thumbnail_url( $item->campaign_id ) ?>" width="40" height="40" />
@@ -79,6 +81,19 @@ $donor_id = $donation->donor_id;
 								<a href="#" data-item-id="<?php echo esc_attr( $item->id ); ?>" class="edit"><i class="icon-pencil"></i></a>
 							</td>
 						</tr>
+						<tr class="edit hide-if-js" data-id="<?php echo esc_attr( $item->id ); ?>">
+							<td class="campaign" colspan="2">
+								<select name="donate_item[]">
+									
+								</select>
+							</td>
+							<td class="amount">
+								<input type="number" step="any" min="0" name="donate_item[]" value="<?php echo esc_attr( $item->total ); ?>" />
+							</td>
+							<td class="action">
+								<a href="#" data-item-id="<?php echo esc_attr( $item->id ); ?>" class="remove"><i class="icon-cross"></i></a>
+							</td>
+						</tr>
 					<?php endforeach; ?>
 				</tbody>
 				<tfoot>
@@ -89,16 +104,20 @@ $donor_id = $donation->donor_id;
 				</tfoot>
 			</table>
 		</div>
-		<div class="donate_section_type<?php echo $this->get_field_value( 'type' ) !== 'sytem' ? '' : ' hide-if-js' ?>" id="section_system">
+		<!-- end donate for campaign -->
+
+		<!-- donate for system -->
+		<div class="donate_section_type<?php echo $this->get_field_value( 'type' ) !== 'system' ? ' hide-if-js' : '' ?>" id="section_system">
 			<div class="cmb-row">
 				<div class="cmb-th">
 					<label for="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>"><?php _e( 'Total', 'tp-donate' ); ?></label>
 				</div>
 				<div class="cmb-td">
 					<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>" step="any" min="0" value="<?php echo esc_attr( $donation->total ); ?>"/>
-					<p class="cmb2-metabox-description"><?php _e( 'Donate Total', 'tp-donate' ); ?></p>
+					<p class="cmb2-metabox-description"><?php printf( __( 'Donate Total(%s)', 'tp-donate' ), donate_get_currency_symbol( $donation->currency ) ); ?></p>
 				</div>
 			</div>
 		</div>
+		<!-- end donate for system -->
 	</div>
 </div>

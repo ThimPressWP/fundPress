@@ -810,6 +810,17 @@ if ( ! function_exists( 'donate_get_donors' ) ) {
 	}
 }
 
+if ( ! function_exists( 'donate_get_campaigns' ) ) {
+	function donate_get_campaigns() {
+		global $wpdb;
+		$sql = $wpdb->prepare( "
+				SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
+			", 'dn_campaign', 'publish' );
+
+		return $wpdb->get_col( $sql );
+	}
+}
+
 if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
 	function donate_get_donor_fullname( $donate_id = null ) {
 		if ( ! $donate_id ) return;
