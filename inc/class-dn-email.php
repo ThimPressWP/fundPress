@@ -1,116 +1,106 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
 
-class DN_Email
-{
-	static $instance = null;
+if ( !defined( 'ABSPATH' ) )
+    exit();
 
-	// set email from
-	private function set_email_from( $email )
-	{
-		if( $donate_email = DN_Settings::instance()->email->get( 'admin_email' ) )
-		{
-			return $donate_email;
-		}
+class DN_Email {
 
-		return $email;
-	}
+    static $instance = null;
 
-	// set email name header
-	private function set_email_name( $name )
-	{
-		if( $donate_name = DN_Settings::instance()->email->get( 'from_name' ) )
-		{
-			return sanitize_title( $donate_name );
-		}
-		return $name;
-	}
+    // set email from
+    private function set_email_from( $email ) {
+        if ( $donate_email = DN_Settings::instance()->email->get( 'admin_email' ) ) {
+            return $donate_email;
+        }
 
-	// filter content type
-	private function email_content_type( $type )
-	{
-		return 'text/html';
-	}
+        return $email;
+    }
 
-	// filter charset
-	private function email_charset( $chartset )
-	{
-		return 'UTF-8';
-	}
+    // set email name header
+    private function set_email_name( $name ) {
+        if ( $donate_name = DN_Settings::instance()->email->get( 'from_name' ) ) {
+            return sanitize_title( $donate_name );
+        }
+        return $name;
+    }
 
-	// send email donate completed
-	public function send_email_donate_completed( $donor = null )
-	{
-		if( $this->is_enable() !== true )
-			return;
+    // filter content type
+    private function email_content_type( $type ) {
+        return 'text/html';
+    }
 
-		// email template
-		$email_template = DN_Settings::instance()->email->get( 'email_template' );
-		$email = $donor->get_meta( 'email' );
-		if( $email && $email_template )
-		{
-			$subject = __( 'Donate completed', 'tp-donate' );
+    // filter charset
+    private function email_charset( $chartset ) {
+        return 'UTF-8';
+    }
 
-			$body = $email_template;
+    // send email donate completed
+    public function send_email_donate_completed( $donor = null ) {
+        if ( $this->is_enable() !== true )
+            return;
 
-			$replace = array(
-					'/\[(.*?)donor_first_name(.*?)\]/i',
-					'/\[(.*?)donor_last_name(.*?)\]/i',
-					'/\[(.*?)donor_phone(.*?)\]/i',
-					'/\[(.*?)donor_email(.*?)\]/i',
-					'/\[(.*?)donor_address(.*?)\]/i'
-				);
+        // email template
+        $email_template = DN_Settings::instance()->email->get( 'email_template' );
+        $email = $donor->get_meta( 'email' );
+        if ( $email && $email_template ) {
+            $subject = __( 'Donate completed', 'tp-donate' );
 
-			$replace_with = array(
-					$donor->get_meta( 'first_name' ),
-					$donor->get_meta( 'last_name' ),
-					$donor->get_meta( 'phone' ),
-					$donor->get_meta( 'email' ),
-					$donor->get_meta( 'address' )
-				);
+            $body = $email_template;
 
-			$body = preg_replace( $replace, $replace_with, $body );
+            $replace = array(
+                '/\[(.*?)donor_first_name(.*?)\]/i',
+                '/\[(.*?)donor_last_name(.*?)\]/i',
+                '/\[(.*?)donor_phone(.*?)\]/i',
+                '/\[(.*?)donor_email(.*?)\]/i',
+                '/\[(.*?)donor_address(.*?)\]/i'
+            );
 
-			// filter email setting
-			add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
-			// filter email from name
-			add_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
-			// filter content type
-			add_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
-			// filter charset
-			add_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
+            $replace_with = array(
+                $donor->get_meta( 'first_name' ),
+                $donor->get_meta( 'last_name' ),
+                $donor->get_meta( 'phone' ),
+                $donor->get_meta( 'email' ),
+                $donor->get_meta( 'address' )
+            );
 
-			wp_mail( $email, $subject, $body);
+            $body = preg_replace( $replace, $replace_with, $body );
 
-			// filter email setting
-			remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
-			// filter email from name
-			remove_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
-			// filter content type
-			remove_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
-			// filter charset
-			remove_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
-		}
-	}
+            // filter email setting
+            add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
+            // filter email from name
+            add_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
+            // filter content type
+            add_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
+            // filter charset
+            add_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
 
-	public function is_enable()
-	{
-		if( DN_Settings::instance()->email->get( 'enable', 'yes' ) === 'yes' )
-		{
-			return true;
-		}
-	}
+            wp_mail( $email, $subject, $body );
 
-	// instance
-	public static function instance()
-	{
-		if( ! self::$instance )
-		{
-			return self::$instance = new self();
-		}
+            // filter email setting
+            remove_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
+            // filter email from name
+            remove_filter( 'wp_mail_from_name', array( $this, 'set_email_name' ) );
+            // filter content type
+            remove_filter( 'wp_mail_content_type', array( $this, 'email_content_type' ) );
+            // filter charset
+            remove_filter( 'wp_mail_charset', array( $this, 'email_charset' ) );
+        }
+    }
 
-		return self::$instance;
-	}
+    public function is_enable() {
+        if ( DN_Settings::instance()->email->get( 'enable', 'yes' ) === 'yes' ) {
+            return true;
+        }
+    }
+
+    // instance
+    public static function instance() {
+        if ( !self::$instance ) {
+            return self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
 
 }
 

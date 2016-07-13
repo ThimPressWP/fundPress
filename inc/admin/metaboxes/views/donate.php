@@ -1,5 +1,6 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
+if ( !defined( 'ABSPATH' ) )
+    exit();
 
 global $post;
 $donation = DN_Donate::instance( $post->ID );
@@ -10,135 +11,135 @@ $type = $this->get_field_value( 'type', 'system' );
 ?>
 
 <style type="text/css">
-	#post-body-content{ display: none; }
+    #post-body-content{ display: none; }
 </style>
 
 <div class="cmb2-wrap">
-	<div class="cmb-field-list">
+    <div class="cmb-field-list">
 
-		<!-- donate type -->
-		<div class="cmb-row">
-			<div class="cmb-th">
-				<label for="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>"><?php _e( 'Donate Type', 'tp-donate' ); ?></label>
-			</div>
-			<div class="cmb-td">
-				<select name="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>">
-					<option value="system"<?php selected( $donation->type, 'system' ); ?>><?php _e( 'System', 'tp-donate' ); ?></option>
-					<option value="campaign"<?php selected( $donation->type, 'campaign' ); ?>><?php _e( 'Campaign', 'tp-donate' ); ?></option>
-				</select>
-				<p class="cmb2-metabox-description"><?php _e( 'Select donate type, donate for <i>Campaign</i> or <i>System</i>', 'tp-donate' ); ?></p>
-			</div>
-		</div>
-		<!-- end donate type -->
+        <!-- donate type -->
+        <div class="cmb-row">
+            <div class="cmb-th">
+                <label for="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>"><?php _e( 'Donate Type', 'tp-donate' ); ?></label>
+            </div>
+            <div class="cmb-td">
+                <select name="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'type' ) ) ?>">
+                    <option value="system"<?php selected( $donation->type, 'system' ); ?>><?php _e( 'System', 'tp-donate' ); ?></option>
+                    <option value="campaign"<?php selected( $donation->type, 'campaign' ); ?>><?php _e( 'Campaign', 'tp-donate' ); ?></option>
+                </select>
+                <p class="cmb2-metabox-description"><?php _e( 'Select donate type, donate for <i>Campaign</i> or <i>System</i>', 'tp-donate' ); ?></p>
+            </div>
+        </div>
+        <!-- end donate type -->
 
-		<!-- donor -->
-		<div class="cmb-row">
-			<div class="cmb-th">
-				<label for="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>"><?php _e( 'Donor', 'tp-donate' ); ?></label>
-			</div>
-			<div class="cmb-td">
-				<select name="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>">
-					<option><?php _e( '----------------------------', 'tp-donate' ); ?></option>
-					<?php foreach ( donate_get_donors() as $id ) : ?>
-						<?php $donor = DN_Donor::instance( $id ); ?>
-						<option value="<?php echo esc_attr( $id ); ?>"<?php selected( $donor_id, $id ); ?>>
-							<?php printf( '%s(%s)', $donor->get_fullname(), $donor->email ) ?>
-						</option>
-					<?php endforeach; ?>
-				</select>
-				<p class="cmb2-metabox-description"><?php _e( 'Select donor.', 'tp-donate' ); ?></p>
-			</div>
-		</div>
-		<!-- end donor -->
+        <!-- donor -->
+        <div class="cmb-row">
+            <div class="cmb-th">
+                <label for="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>"><?php _e( 'Donor', 'tp-donate' ); ?></label>
+            </div>
+            <div class="cmb-td">
+                <select name="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>">
+                    <option><?php _e( '----------------------------', 'tp-donate' ); ?></option>
+                    <?php foreach ( donate_get_donors() as $id ) : ?>
+                            <?php $donor = DN_Donor::instance( $id ); ?>
+                        <option value="<?php echo esc_attr( $id ); ?>"<?php selected( $donor_id, $id ); ?>>
+                        <?php printf( '%s(%s)', $donor->get_fullname(), $donor->email ) ?>
+                        </option>
+<?php endforeach; ?>
+                </select>
+                <p class="cmb2-metabox-description"><?php _e( 'Select donor.', 'tp-donate' ); ?></p>
+            </div>
+        </div>
+        <!-- end donor -->
 
-		<!-- donate for campaign -->
-		<div class="donate_section_type<?php echo $type !== 'campaign' ? ' hide-if-js' : '' ?>" id="section_campaign">
-			<!-- hide-if-js -->
-			<table class="donate_items" cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th class="campaign"><?php _e( 'Campaign', 'tp-donate' ); ?></th>
-						<th class="amount"><?php _e( 'Amount', 'tp-donate' ); ?></th>
-						<th class="action"><?php _e( 'Action', 'tp-donate' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if ( $items = $donation->get_items() ) : ?>
-						<?php foreach ( $items as $k => $item ) : ?>
-							<tr class="item" data-id="<?php echo esc_attr( $item->id ); ?>">
-								<td class="campaign">
-									<?php if ( $campaigns = donate_get_campaigns() ) : ?>
-										<select name="donate_item[<?php echo esc_attr( $k ); ?>][campaign_id]">
-											<optgroup label="<?php _e( 'Select Campaign', 'tp-donate' ); ?>">
-												<option value=""><?php _e( '-----------------------', 'tp-donate' ); ?></option>
-												<?php foreach ( $campaigns as $campaign_id ) : ?>
-													<option value="<?php echo esc_attr( $campaign_id ); ?>"<?php selected( $item->campaign_id, $campaign_id ); ?>><?php printf( '%s', get_the_title( $campaign_id ) ) ?></option>
-												<?php endforeach; ?>
-											</optgroup>
-										</select>
-									<?php endif; ?>
-								</td>
-								<td class="amount">
-									<input type="number" step="any" name="donate_item[<?php echo esc_attr( $k ); ?>][amount]" value="<?php echo esc_attr( $item->total ); ?>" class="donate_item_total" />
-								</td>
-								<td class="action">
-									<input type="hidden" name="donate_item[<?php echo esc_attr( $k ); ?>][item_id]" value="<?php echo esc_attr( $item->id ); ?>" />
-									<a href="#" data-item-id="<?php echo esc_attr( $item->id ); ?>" class="remove"><i class="icon-cross"></i></a>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</tbody>
-				<tfoot data-currency="<?php echo esc_attr( donate_get_currency_symbol( $donation->currency ) ); ?>">
-					<tr class="item">
-						<td class="campaign" colspan="3" style="text-align: center;">
-							<a href="#" class="button donate_add_campaign"><?php _e( 'Add Campaign', 'tp-donate' ); ?></a>
-						</td>
-					</tr>
-					<tr>
-						<td class="total"><?php printf( __( 'Total(%s)', 'tp-donate' ), donate_get_currency_symbol( $donation->currency ) ); ?></td>
-						<td class="amount"><ins><?php printf( '%s', $donation->total ) ?></ins></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-		<!-- end donate for campaign -->
+        <!-- donate for campaign -->
+        <div class="donate_section_type<?php echo $type !== 'campaign' ? ' hide-if-js' : '' ?>" id="section_campaign">
+            <!-- hide-if-js -->
+            <table class="donate_items" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="campaign"><?php _e( 'Campaign', 'tp-donate' ); ?></th>
+                        <th class="amount"><?php _e( 'Amount', 'tp-donate' ); ?></th>
+                        <th class="action"><?php _e( 'Action', 'tp-donate' ); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ( $items = $donation->get_items() ) : ?>
+    <?php foreach ( $items as $k => $item ) : ?>
+                            <tr class="item" data-id="<?php echo esc_attr( $item->id ); ?>">
+                                <td class="campaign">
+        <?php if ( $campaigns = donate_get_campaigns() ) : ?>
+                                        <select name="donate_item[<?php echo esc_attr( $k ); ?>][campaign_id]">
+                                            <optgroup label="<?php _e( 'Select Campaign', 'tp-donate' ); ?>">
+                                                <option value=""><?php _e( '-----------------------', 'tp-donate' ); ?></option>
+                                                <?php foreach ( $campaigns as $campaign_id ) : ?>
+                                                    <option value="<?php echo esc_attr( $campaign_id ); ?>"<?php selected( $item->campaign_id, $campaign_id ); ?>><?php printf( '%s', get_the_title( $campaign_id ) ) ?></option>
+            <?php endforeach; ?>
+                                            </optgroup>
+                                        </select>
+        <?php endif; ?>
+                                </td>
+                                <td class="amount">
+                                    <input type="number" step="any" name="donate_item[<?php echo esc_attr( $k ); ?>][amount]" value="<?php echo esc_attr( $item->total ); ?>" class="donate_item_total" />
+                                </td>
+                                <td class="action">
+                                    <input type="hidden" name="donate_item[<?php echo esc_attr( $k ); ?>][item_id]" value="<?php echo esc_attr( $item->id ); ?>" />
+                                    <a href="#" data-item-id="<?php echo esc_attr( $item->id ); ?>" class="remove"><i class="icon-cross"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+<?php endif; ?>
+                </tbody>
+                <tfoot data-currency="<?php echo esc_attr( donate_get_currency_symbol( $donation->currency ) ); ?>">
+                    <tr class="item">
+                        <td class="campaign" colspan="3" style="text-align: center;">
+                            <a href="#" class="button donate_add_campaign"><?php _e( 'Add Campaign', 'tp-donate' ); ?></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="total"><?php printf( __( 'Total(%s)', 'tp-donate' ), donate_get_currency_symbol( $donation->currency ) ); ?></td>
+                        <td class="amount"><ins><?php printf( '%s', $donation->total ) ?></ins></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- end donate for campaign -->
 
-		<!-- donate for system -->
-		<div class="donate_section_type<?php echo $type !== 'system' ? ' hide-if-js' : '' ?>" id="section_system">
-			<div class="cmb-row">
-				<div class="cmb-th">
-					<label for="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>"><?php _e( 'Total', 'tp-donate' ); ?></label>
-				</div>
-				<div class="cmb-td">
-					<input type="number" name="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>" step="any" min="0" value="<?php echo esc_attr( $donation->total ); ?>"/>
-					<p class="cmb2-metabox-description"><?php printf( __( 'Donate Total(%s)', 'tp-donate' ), donate_get_currency_symbol( $donation->currency ) ); ?></p>
-				</div>
-			</div>
-		</div>
-		<!-- end donate for system -->
-	</div>
+        <!-- donate for system -->
+        <div class="donate_section_type<?php echo $type !== 'system' ? ' hide-if-js' : '' ?>" id="section_system">
+            <div class="cmb-row">
+                <div class="cmb-th">
+                    <label for="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>"><?php _e( 'Total', 'tp-donate' ); ?></label>
+                </div>
+                <div class="cmb-td">
+                    <input type="number" name="<?php echo esc_attr( $this->get_field_name( 'total' ) ) ?>" step="any" min="0" value="<?php echo esc_attr( $donation->total ); ?>"/>
+                    <p class="cmb2-metabox-description"><?php printf( __( 'Donate Total(%s)', 'tp-donate' ), donate_get_currency_symbol( $donation->currency ) ); ?></p>
+                </div>
+            </div>
+        </div>
+        <!-- end donate for system -->
+    </div>
 </div>
 <script type="text/html" id="tmpl-donate-template-campaign-item">
-	<tr class="item">
-		<td class="campaign">
-			<?php if ( $campaigns = donate_get_campaigns() ) : ?>
-				<select name="donate_item[{{ data.unique_id }}][campaign_id]">
-					<optgroup label="<?php _e( 'Select Campaign', 'tp-donate' ); ?>">
-						<option value=""><?php _e( '-----------------------', 'tp-donate' ); ?></option>
-						<?php foreach ( $campaigns as $campaign_id ) : ?>
-							<option value="<?php echo esc_attr( $campaign_id ); ?>"><?php printf( '%s', get_the_title( $campaign_id ) ) ?></option>
-						<?php endforeach; ?>
-					</optgroup>
-				</select>
-			<?php endif; ?>
-		</td>
-		<td class="amount">
-			<input type="number" step="any" name="donate_item[{{ data.unique_id }}][amount]" value=""  class="donate_item_total" />
-		</td>
-		<td class="action">
-			<input type="hidden" name="donate_item[{{ data.unique_id }}][item_id]" value="" />
-			<a href="#" data-item-id="" class="remove"><i class="icon-cross"></i></a>
-		</td>
-	</tr>
+    <tr class="item">
+        <td class="campaign">
+<?php if ( $campaigns = donate_get_campaigns() ) : ?>
+                <select name="donate_item[{{ data.unique_id }}][campaign_id]">
+                    <optgroup label="<?php _e( 'Select Campaign', 'tp-donate' ); ?>">
+                        <option value=""><?php _e( '-----------------------', 'tp-donate' ); ?></option>
+                        <?php foreach ( $campaigns as $campaign_id ) : ?>
+                            <option value="<?php echo esc_attr( $campaign_id ); ?>"><?php printf( '%s', get_the_title( $campaign_id ) ) ?></option>
+    <?php endforeach; ?>
+                    </optgroup>
+                </select>
+<?php endif; ?>
+        </td>
+        <td class="amount">
+            <input type="number" step="any" name="donate_item[{{ data.unique_id }}][amount]" value=""  class="donate_item_total" />
+        </td>
+        <td class="action">
+            <input type="hidden" name="donate_item[{{ data.unique_id }}][item_id]" value="" />
+            <a href="#" data-item-id="" class="remove"><i class="icon-cross"></i></a>
+        </td>
+    </tr>
 </script>

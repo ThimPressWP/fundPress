@@ -1,25 +1,23 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
+
+if ( !defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
 /**
  * Class DN_Payment_Palpal
  */
-class DN_Payment_Palpal extends DN_Payment_Base{
+class DN_Payment_Palpal extends DN_Payment_Base {
 
     /**
      * id of payment
      * @var null
      */
     public $_id = 'paypal';
-
     // email
     protected $paypal_email = null;
-
     // url
     protected $paypal_url = null;
-
     // payment url
     protected $paypal_payment_url = null;
 
@@ -29,8 +27,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
      */
     public $_title = null;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->_title = __( 'Paypal', 'tp-donate' );
 
         $this->paypal_url = 'https://www.sandbox.paypal.com/';
@@ -38,52 +35,49 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         $this->paypal_email = DN_Settings::instance()->checkout->get( 'paypal_sanbox_email' );
 
         // production environment
-        if( DN_Settings::instance()->checkout->get( 'environment' ) === 'production' )
-        {
+        if ( DN_Settings::instance()->checkout->get( 'environment' ) === 'production' ) {
             $this->paypal_url = 'https://www.paypal.com/';
             $this->paypal_payment_url = 'https://www.paypal.com/cgi-bin/webscr';
             $this->paypal_email = DN_Settings::instance()->checkout->get( 'paypal_email' );
         }
 
         // init process
-        add_action( 'init', array( $this, 'payment_validation'), 99 );
+        add_action( 'init', array( $this, 'payment_validation' ), 99 );
         parent::__construct();
     }
 
     // callback
-    public function payment_validation()
-    {
-        if( isset( $_GET[ 'donate-paypal-payment' ] ) && $_GET[ 'donate-paypal-payment' ] )
-        {
-            if( ! isset( $_GET[ 'donate-paypal-nonce' ] ) || ! wp_verify_nonce( $_GET[ 'donate-paypal-nonce' ], 'donate-paypal-nonce' ) )
+    public function payment_validation() {
+        if ( isset( $_GET['donate-paypal-payment'] ) && $_GET['donate-paypal-payment'] ) {
+            if ( !isset( $_GET['donate-paypal-nonce'] ) || !wp_verify_nonce( $_GET['donate-paypal-nonce'], 'donate-paypal-nonce' ) )
                 return;
 
-            if( $_GET[ 'donate-paypal-payment' ] === 'completed' ) {
+            if ( $_GET['donate-paypal-payment'] === 'completed' ) {
                 $this->completed_process_message();
 
                 DN_Cart::instance()->remove_cart();
-            } else if( $_GET[ 'donate-paypal-payment' ] === 'cancel' ) {
+            } else if ( $_GET['donate-paypal-payment'] === 'cancel' ) {
                 donate_add_notice( 'error', __( 'Donate is cancel.', 'tp-donate' ) );
             }
             // redirect
-            $url = add_query_arg( array(  'donate-paypal-nonce' => $_GET[ 'donate-paypal-nonce' ]  ), donate_checkout_url() );
-            wp_redirect( $url ); exit();
+            $url = add_query_arg( array( 'donate-paypal-nonce' => $_GET['donate-paypal-nonce'] ), donate_checkout_url() );
+            wp_redirect( $url );
+            exit();
         }
 
         // validate payment notify_url, update status
-        if( ! empty( $_POST ) && isset( $_POST[ 'txn_type' ] ) && $_POST[ 'txn_type' ] === 'web_accept' )
-        {
-            if( ! isset( $_POST['payment_status'] ) )
+        if ( !empty( $_POST ) && isset( $_POST['txn_type'] ) && $_POST['txn_type'] === 'web_accept' ) {
+            if ( !isset( $_POST['payment_status'] ) )
                 return;
 
-            if( empty( $_POST['custom'] ) )
+            if ( empty( $_POST['custom'] ) )
                 return;
 
             // transaction object
             $transaction_subject = stripcslashes( $_POST['custom'] );
             $transaction_subject = json_decode( $transaction_subject );
 
-            if( ! $donate_id =  $transaction_subject->donate_id )
+            if ( !$donate_id = $transaction_subject->donate_id )
                 return;
 
             $donate = DN_Donate::instance( $donate_id );
@@ -94,27 +88,24 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             $paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
             $params = array(
-                'body'        => $pay_verify,
-                'timeout'     => 60,
+                'body' => $pay_verify,
+                'timeout' => 60,
                 'httpversion' => '1.1',
-                'compress'    => false,
-                'decompress'  => false,
-                'user-agent'  => 'Donation'
+                'compress' => false,
+                'decompress' => false,
+                'user-agent' => 'Donation'
             );
             // $response = wp_remote_post( $paypal_api_url, array( 'body' => $pay_verify ) );
             $response = wp_safe_remote_post( $paypal_api_url, $params );
 
-            if( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 )
-            {
+            if ( !is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
                 $body = wp_remote_retrieve_body( $response );
 
-                if( strtolower( $body ) === 'verified' )
-                {
+                if ( strtolower( $body ) === 'verified' ) {
                     // payment status
                     $payment_status = strtolower( $_POST['payment_status'] );
 
-                    if( in_array( $payment_status, array( 'pending', 'completed' ) ) )
-                    {
+                    if ( in_array( $payment_status, array( 'pending', 'completed' ) ) ) {
                         $status = 'donate-completed';
                         $donate->update_status( $status );
                     }
@@ -122,69 +113,64 @@ class DN_Payment_Palpal extends DN_Payment_Base{
             } else {
                 // var_dump($response); die();
             }
-
         }
-
     }
 
     /**
      * fields settings
      * @return array
      */
-    public function fields()
-    {
-        return  array(
-                    'title'     => $this->_title, // tab title
-                    'fields'    => array(
-                            'fields'        => array(
-                                array(
-                                        'type'      => 'select',
-                                        'label'     => __( 'Enable', 'tp-donate' ),
-                                        'desc'      => __( 'This controlls enable payment method', 'tp-donate' ),
-                                        'atts'      => array(
-                                                'id'    => 'paypal_enable',
-                                                'class' => 'paypal_enable'
-                                            ),
-                                        'name'      => 'paypal_enable',
-                                        'options'   => array(
-                                                'no'                => __( 'No', 'tp-donate' ),
-                                                'yes'               => __( 'Yes', 'tp-donate' )
-                                            )
-                                    ),
-                                array(
-                                        'type'      => 'input',
-                                        'label'     => __( 'Paypal email', 'tp-donate' ),
-                                        'desc'      => __( 'Production environment', 'tp-donate' ),
-                                        'atts'      => array(
-                                                'id'    => 'paypal_email',
-                                                'class' => 'paypal_email',
-                                                'type'  => 'text'
-                                            ),
-                                        'name'      => 'paypal_email'
-                                    ),
-                                array(
-                                        'type'      => 'input',
-                                        'label'     => __( 'Paypal sandbox email', 'tp-donate' ),
-                                        'desc'      => __( 'Test environment', 'tp-donate' ),
-                                        'atts'      => array(
-                                                'id'    => 'paypal_sanbox_email',
-                                                'class' => 'paypal_sanbox_email',
-                                                'type'  => 'text'
-                                            ),
-                                        'name'      => 'paypal_sanbox_email'
-                                    )
-                            ),
-
-                )
-            );
+    public function fields() {
+        return array(
+            'title' => $this->_title, // tab title
+            'fields' => array(
+                'fields' => array(
+                    array(
+                        'type' => 'select',
+                        'label' => __( 'Enable', 'tp-donate' ),
+                        'desc' => __( 'This controlls enable payment method', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'paypal_enable',
+                            'class' => 'paypal_enable'
+                        ),
+                        'name' => 'paypal_enable',
+                        'options' => array(
+                            'no' => __( 'No', 'tp-donate' ),
+                            'yes' => __( 'Yes', 'tp-donate' )
+                        )
+                    ),
+                    array(
+                        'type' => 'input',
+                        'label' => __( 'Paypal email', 'tp-donate' ),
+                        'desc' => __( 'Production environment', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'paypal_email',
+                            'class' => 'paypal_email',
+                            'type' => 'text'
+                        ),
+                        'name' => 'paypal_email'
+                    ),
+                    array(
+                        'type' => 'input',
+                        'label' => __( 'Paypal sandbox email', 'tp-donate' ),
+                        'desc' => __( 'Test environment', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'paypal_sanbox_email',
+                            'class' => 'paypal_sanbox_email',
+                            'type' => 'text'
+                        ),
+                        'name' => 'paypal_sanbox_email'
+                    )
+                ),
+            )
+        );
     }
 
     /**
      * get_item_name
      * @return string
      */
-    public function get_item_name()
-    {
+    public function get_item_name() {
         $description = array();
         if ( $cart_items = donate()->cart->cart_contents ) {
             foreach ( $cart_items as $cart_item_key => $cart_item ) {
@@ -201,8 +187,7 @@ class DN_Payment_Palpal extends DN_Payment_Base{
      * checkout url
      * @return url string
      */
-    public function checkout_url( $donate = null )
-    {
+    public function checkout_url( $donate = null ) {
         // cart
         $cart = donate()->cart;
 
@@ -215,21 +200,21 @@ class DN_Payment_Palpal extends DN_Payment_Base{
 
         // query post
         $query = array(
-            'cmd'           => '_xclick',
-            'amount'        => $total,
-            'quantity'      => '1',
-            'business'      => $this->paypal_email, // business email paypal
-            'item_name'     => $this->get_item_name(),
+            'cmd' => '_xclick',
+            'amount' => $total,
+            'quantity' => '1',
+            'business' => $this->paypal_email, // business email paypal
+            'item_name' => $this->get_item_name(),
             'currency_code' => donate_get_currency(),
-            'notify_url'    => donate_checkout_url(),
-            'no_note'       => '1',
-            'shipping'      => '0',
-            'email'         => $email,
-            'rm'            => '2',
-            'no_shipping'   => '1',
-            'return'        => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
+            'notify_url' => donate_checkout_url(),
+            'no_note' => '1',
+            'shipping' => '0',
+            'email' => $email,
+            'rm' => '2',
+            'no_shipping' => '1',
+            'return' => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
             'cancel_return' => add_query_arg( array( 'donate-paypal-payment' => 'cancel', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
-            'custom'        => json_encode( array( 'donate_id' => $donate->id, 'donor_id' => $donate->donor_id ) )
+            'custom' => json_encode( array( 'donate_id' => $donate->id, 'donor_id' => $donate->donor_id ) )
         );
 
         // allow hook paypal param
@@ -238,18 +223,17 @@ class DN_Payment_Palpal extends DN_Payment_Base{
         return $this->paypal_payment_url . '?' . http_build_query( $query );
     }
 
-    public function process( $amount = false )
-    {
-        if( ! $this->paypal_email ) {
+    public function process( $amount = false ) {
+        if ( !$this->paypal_email ) {
             return array(
-                'status'        => 'failed',
-                'message'       => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'tp-donate' )
+                'status' => 'failed',
+                'message' => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'tp-donate' )
             );
         }
         return array(
-                'status'    => 'success',
-                'url'       => $this->checkout_url( $amount )
-            );
+            'status' => 'success',
+            'url' => $this->checkout_url( $amount )
+        );
     }
 
 }

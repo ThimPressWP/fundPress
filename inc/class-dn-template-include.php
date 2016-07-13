@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -17,7 +17,7 @@ class DN_Template {
      */
     public function __construct() {
         // template include
-        add_filter('template_include', array($this, 'template_loader'));
+        add_filter( 'template_include', array( $this, 'template_loader' ) );
     }
 
     /**
@@ -25,30 +25,24 @@ class DN_Template {
      * @param  [type] $template [description]
      * @return [type]           [description]
      */
-    public function template_loader($template)
-    {
+    public function template_loader( $template ) {
         $post_type = get_post_type();
 
         $file = '';
         $find = array();
-        if( $post_type !== 'dn_campaign' )
+        if ( $post_type !== 'dn_campaign' )
             return $template;
 
-        if( is_post_type_archive( 'dn_campaign' ) )
-        {
+        if ( is_post_type_archive( 'dn_campaign' ) ) {
             $file = 'archive-campaign.php';
             $find[] = $file;
             $find[] = donate_template_path() . '/' . $file;
-        }
-        else if( is_single() )
-        {
+        } else if ( is_single() ) {
             $file = 'single-campaign.php';
             $find[] = $file;
             $find[] = donate_template_path() . '/' . $file;
-        }
-        else if( is_tax( 'dn_campaign_cat' ) || is_tax( 'dn_campaign_tag' ) )
-        {
-            $term   = get_queried_object();
+        } else if ( is_tax( 'dn_campaign_cat' ) || is_tax( 'dn_campaign_tag' ) ) {
+            $term = get_queried_object();
 
             $taxonomy = str_replace( 'dn_', '', $term->taxonomy );
 
@@ -60,14 +54,12 @@ class DN_Template {
             $find[] = donate_template_path() . '/' . $file;
         }
 
-        if( $file )
-        {
+        if ( $file ) {
             $find[] = donate_template_path() . $file;
             $hb_template = untrailingslashit( TP_DONATE_PATH ) . '/templates/' . $file;
             $template = locate_template( array_unique( $find ) );
 
-            if( ! $template && file_exists( $hb_template ) )
-            {
+            if ( !$template && file_exists( $hb_template ) ) {
                 $template = $hb_template;
             }
         }

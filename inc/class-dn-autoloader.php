@@ -1,11 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit();
+
+if ( !defined( 'ABSPATH' ) ) {
+    exit();
 }
 
 class DN_Autoloader {
 
-	/**
+    /**
      * Path to the inc directory
      * @var string
      */
@@ -39,11 +40,11 @@ class DN_Autoloader {
     public function autoload( $class ) {
         $class = strtolower( $class );
 
-        $file  = $this->get_file_name_from_class( $class );
-        $path  = $this->include_path;
+        $file = $this->get_file_name_from_class( $class );
+        $path = $this->include_path;
         // payments
         if ( strpos( $class, 'dn_payment_' ) === 0 ) {
-            $path = $this->include_path . 'payments/' . substr( str_replace( '_', '-', $class), 19 ) . '/';
+            $path = $this->include_path . 'payments/' . substr( str_replace( '_', '-', $class ), 19 ) . '/';
         }
 
         // widgets

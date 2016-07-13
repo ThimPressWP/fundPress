@@ -1,8 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit();
+
+if ( !defined( 'ABSPATH' ) ) {
+    exit();
 }
 
-add_action( 'widgets_init', function(){
-	register_widget( 'DN_Widget_Button' );
+add_action( 'widgets_init', function() {
+    register_widget( 'DN_Widget_Button' );
 } );

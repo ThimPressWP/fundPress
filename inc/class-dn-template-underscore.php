@@ -1,27 +1,25 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
 
-class DN_Template_Underscore
-{
+if ( !defined( 'ABSPATH' ) )
+    exit();
 
-	function __construct()
-	{
+class DN_Template_Underscore {
 
-		/**
-		 * load form
-		 */
-		add_action( 'wp_footer', array( $this, 'campaign_form' ) );
+    function __construct() {
 
-	}
+        /**
+         * load form
+         */
+        add_action( 'wp_footer', array( $this, 'campaign_form' ) );
+    }
 
-	/**
-	 * form
-	 * @return js template
-	 */
-	function campaign_form()
-	{
-		donate_get_template( 'donate-form.php' );
-	}
+    /**
+     * form
+     * @return js template
+     */
+    function campaign_form() {
+        donate_get_template( 'donate-form.php' );
+    }
 
 }
 
