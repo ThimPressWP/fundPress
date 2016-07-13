@@ -803,7 +803,7 @@ if ( ! function_exists( 'donate_get_donors' ) ) {
 	function donate_get_donors() {
 		global $wpdb;
 		$sql = $wpdb->prepare( "
-				SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
+				SELECT DISTINCT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
 			", 'dn_donor', 'publish' );
 
 		return $wpdb->get_col( $sql );
@@ -826,8 +826,7 @@ if ( ! function_exists( 'donate_get_donor_fullname' ) ) {
 		if ( ! $donate_id ) return;
 		$donate = DN_Donate::instance( $donate_id );
 		if ( ! $donate_id ) return;
-		$donor = $donate->get_donor();
-		return sprintf( '%s %s', $donor->first_name, $donor->last_name );
+		return ( $donor = $donate->get_donor() ) ? $donor->get_fullname() : '';
 	}
 }
 
@@ -838,6 +837,7 @@ if ( ! function_exists( 'donate_get_donor_email' ) ) {
 		return $donate->get_donor()->email;
 	}
 }
+
 // date time format
 function donate_date_time_format_js() {
 	// set detault datetime format datepicker

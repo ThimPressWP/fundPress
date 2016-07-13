@@ -79,7 +79,16 @@
 				$( document ).on( 'change', '#thimpress_donate_type', this.donate_type_on_change );
 
 				/* edit donate item */
-				$( document ).on( 'click', '.donate_items .edit', this.edit_donate_item );
+				$( document ).on( 'click', '.donate_add_campaign', this.add_campain );
+				/* remove donate item */
+				$( document ).on( 'click', '.donate_items .remove', this.remove_campaign );
+
+				/* on change total campaign item */
+				$( document ).on( 'change', '.donate_item_total', function( e ){
+					e.preventDefault();
+					DONATE_Admin.donate_meta_box.calculator();
+					return false;
+				} );
 			},
 
 			add_compensate: function( e ) {
@@ -162,18 +171,40 @@
 					_section = $( '#section_' + _type );
 
 				$( '.donate_section_type' ).toggleClass( 'hide-if-js' );
+				DONATE_Admin.donate_meta_box.calculator();
 			},
 
-			edit_donate_item: function( e ) {
+			add_campain: function( e ) {
+				e.preventDefault();
+				var template = wp.template( 'donate-template-campaign-item' )({
+					unique_id: Math.random().toString(36).substring(7)
+				});
+				$( '.donate_items tbody' ).append( template );
+				return false;
+			},
+
+			remove_campaign: function( e ) {
 				e.preventDefault();
 				var _self = $( this ),
-					_data_id = _self.attr( 'data-item-id' ),
-					_item = _self.parents( '.item' ),
-					_edit_tr = _item.parent().find( '.edit[data-id="'+_data_id+'"]' );
+					_tr = _self.parents( 'tr:first' );
+					_tr.remove();
 
-				_item.toggleClass( 'hide-if-js' );
-				_edit_tr.toggleClass( 'hide-if-js' );
+				DONATE_Admin.donate_meta_box.calculator();
 				return false;
+			},
+
+			calculator: function() {
+				var items = $( '.donate_item_total' ),
+					total = 0,
+					foot = $( '.donate_items tfoot' ),
+					currency = foot.attr( 'data-currency' );
+				for( var i = 0; i < items.length; i++ ) {
+					var item = $( items[i] ),
+						item_total = parseFloat( item.val() );
+					total += item_total;
+				}
+
+				foot.find( '.amount ins' ).html( total );
 			},
 
 		},

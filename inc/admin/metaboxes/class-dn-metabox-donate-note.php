@@ -44,6 +44,14 @@ class DN_MetaBox_Donate_Note extends DN_MetaBox_Base {
 		$this->_prefix = TP_DONATE_META_DONATE;
 		$this->_layout = TP_DONATE_INC . '/admin/metaboxes/views/donate-note.php';
 		parent::__construct();
+		add_action( 'donate_process_update_dn_donate_meta', array( $this, 'update_donate_note' ) );
+	}
+
+	public function update_donate_note( $post_id ) {
+		if ( ! isset( $_POST['thimpress_donate_addition'] ) ) {
+			return;
+		}
+		update_post_meta( $post_id, 'thimpress_donate_addition', $_POST['thimpress_donate_addition'] );
 	}
 
 }
