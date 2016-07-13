@@ -56,6 +56,9 @@ class DN_MetaBox_Donate_Action extends DN_MetaBox_Base {
 	 */
 	public function update_status( $post_id )
 	{
+		if ( isset( $_POST['thimpress_donate_user_id'] ) ) {
+			update_post_meta( $post_id, 'thimpress_donate_user_id', absint( $_POST['thimpress_donate_user_id'] ) );
+		}
 		remove_action( 'donate_process_update_dn_donate_meta', array( $this, 'update_status' ), 10, 3 );
 		$status = isset( $_POST['donate_payment_status'] ) ? sanitize_text_field( $_POST['donate_payment_status'] ) : '';
 		$donate = DN_Donate::instance( $post_id );
