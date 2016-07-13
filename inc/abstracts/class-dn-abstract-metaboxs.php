@@ -60,7 +60,6 @@ abstract class DN_MetaBox_Base
 		}
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-		add_action( 'save_post', array( $this, 'update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'delete' ) );
 	}
 
@@ -218,14 +217,16 @@ abstract class DN_MetaBox_Base
 	 * @param  string $name
 	 * @return field value
 	 */
-	public function get_field_value( $name = '', $post_id = null )
+	public function get_field_value( $name = '', $default = false )
 	{
-		if( ! $post_id )
-		{
-			global $post;
-			$post_id = $post->ID;
+		global $post;
+		$post_id = $post->ID;
+		$value = get_post_meta( $post_id, $this->_prefix . $name, true );
+		if ( ! $value && $default ) {
+			$value = $default;
 		}
-		return get_post_meta( $post_id, $this->_prefix . $name, true );
+
+		return $value;
 	}
 
 	/**
@@ -266,36 +267,6 @@ abstract class DN_MetaBox_Base
 	public function get( $name = '' )
 	{
 		return $this->get_field_value( $name );
-	}
-
-	/**
-	 * update function
-	 * @param  $post_id
-	 * @param  $post
-	 * @param  $update
-	 * @return null
-	 */
-	public function update( $post_id, $post, $update )
-	{
-		if( ! isset( $_POST ) )
-			return;
-
-		if( ! isset( $_POST[ 'thimpress_donate_metabox' ] ) || ! wp_verify_nonce( $_POST[ 'thimpress_donate_metabox' ], 'thimpress_donate' ) )
-			return;
-
-		if( ! in_array( $post->post_type, $this->_screen ) )
-			return;
-
-		foreach ( $_POST as $key => $val ) {
-			if( strpos( $key, $this->_prefix ) === 0 ) {
-				if( is_string( $val ) ) {
-					$val = trim( $val );
-				}
-				update_post_meta( $post_id, $key, $val );
-				do_action( 'donate_update_post_meta', $post_id, $key, $val );
-				do_action( 'donate_update_post_meta_' . $key, $post_id, $val );
-			}
-		}
 	}
 
 	/**

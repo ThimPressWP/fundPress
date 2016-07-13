@@ -23,7 +23,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base
 
 	public function __construct() {
 		$this->_id = 'donate_setting_section';
-		$this->_title = __( 'Donate Settings', 'tp-donate' );
+		$this->_title = __( 'Campaign Settings', 'tp-donate' );
 		$this->_prefix = TP_DONATE_META_CAMPAIGN;
 		add_action( 'donate_metabox_setting_section', array( $this, 'donate_metabox_setting' ), 10, 1 );
 		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
@@ -33,7 +33,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base
 		parent::__construct();
 
 		/* update meta */
-		add_action( 'donate_update_post_meta', array( $this, 'update_meta_campaign' ), 10, 3 );
+		add_action( 'donate_process_update_dn_campaign_meta', array( $this, 'update_meta_campaign' ), 10, 3 );
 		add_action( 'donate_schedule_campaign_status', array( $this, 'update_campaign_status' ), 10, 3 );
 	}
 
@@ -166,7 +166,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base
 
 		if( ! isset( $_POST[ 'compensate_id' ] ) || ! isset( $_POST[ 'post_id' ] ) ) return;
 
-		$marker = $this->get_field_value( 'marker', $_POST[ 'post_id' ] );
+		$marker = $this->get_field_value( 'marker' );
 
 		if( empty( $marker ) ) {
 			wp_send_json( array( 'status' => 'success' ) ); die();
@@ -186,12 +186,20 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base
 	}
 
 	/* update meta campaign */
-	public function update_meta_campaign( $post_id, $name, $value ) {
-		if ( in_array( $name, array( 'thimpress_campaign_start', 'thimpress_campaign_end' ) ) ) {
-			if ( ! $value ) return;
-			update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
-			if ( $value ) {
-				wp_schedule_single_event( strtotime( $value ), 'donate_schedule_campaign_status', array( $post_id, $name, $value ) );
+	public function update_meta_campaign( $post_id, $post, $update ) {
+		if ( ! isset( $_POST ) || empty( $_POST ) ) { return; }
+		foreach( $_POST as $name => $value ) {
+			if ( strpos( $name, $this->_prefix ) !== 0 ) {
+				continue;
+			}
+			if ( in_array( $name, array( 'thimpress_campaign_start', 'thimpress_campaign_end' ) ) ) {
+				if ( ! $value ) continue;
+				update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
+				if ( $value ) {
+					wp_schedule_single_event( strtotime( $value ), 'donate_schedule_campaign_status', array( $post_id, $name, $value ) );
+				}
+			} else {
+				update_post_meta( $post_id, $name, $value );
 			}
 		}
 	}

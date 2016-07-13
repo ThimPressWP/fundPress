@@ -290,7 +290,7 @@ class DN_Post_Type
 			'menu_position'      => null,
 			'supports'           => array( 'author' ),
 			'capabilities' => array(
-				'create_posts'       => false,
+				// 'create_posts'       => false,
 			),
 			'map_meta_cap' => true
 		);
