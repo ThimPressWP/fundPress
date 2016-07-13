@@ -453,12 +453,9 @@ if( ! function_exists( 'donate_redirect_url' ) )
 	{
 		$rediect = DN_Settings::instance()->checkout->get( 'donate_redirect', 'checkout' );
 
-		if( $rediect === 'checkout' )
-		{
+		if( $rediect === 'checkout' ) {
 			return donate_checkout_url();
-		}
-		else if( $rediect === 'cart' )
-		{
+		} else if( $rediect === 'cart' ) {
 			return donate_cart_url();
 		}
 	}
@@ -468,8 +465,7 @@ if( ! function_exists( 'donate_redirect_url' ) )
 // checkout url
 if( ! function_exists( 'donate_checkout_url' ) )
 {
-	function donate_checkout_url()
-	{
+	function donate_checkout_url() {
 		return get_permalink( DN_Settings::instance()->checkout->get( 'checkout_page', 1 ) );
 	}
 }
@@ -477,16 +473,14 @@ if( ! function_exists( 'donate_checkout_url' ) )
 // cart url
 if( ! function_exists( 'donate_cart_url' ) )
 {
-	function donate_cart_url()
-	{
+	function donate_cart_url() {
 		return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
 	}
 }
 // term & conditions url
 if( ! function_exists( 'donate_term_condition_url' ) )
 {
-	function donate_term_condition_url()
-	{
+	function donate_term_condition_url() {
 		$page_id = DN_Settings::instance()->checkout->get( 'term_condition_page', 1 );
 
 		if( ! $page_id ) return;
@@ -507,8 +501,7 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 	 * @param  string  $currency currency  of campaign
 	 * @return integer $amount
 	 */
-	function donate_campaign_convert_amount( $amount = 1, $from = '', $to = '' )
-	{
+	function donate_campaign_convert_amount( $amount = 1, $from = '', $to = '' ) {
 
 		// currency setting
 		if( ! $to ) {
@@ -573,7 +566,6 @@ if( ! function_exists( 'donate_campaign_convert_amount' ) )
 		}
 
 		return round( $amount * $rate, donate_currency_decimal() );
-
 	}
 
 	/**
