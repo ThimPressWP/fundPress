@@ -562,7 +562,6 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
 
         return round( $amount * $rate, donate_currency_decimal() );
     }
-
     /**
      * get rate of currency
      * @param  string $from
