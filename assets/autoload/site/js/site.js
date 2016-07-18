@@ -127,6 +127,7 @@
                     }).done(function (res) {
                         TP_Donate_Global.afterAjax();
 
+//                        TP_Donate_Global.doAction( 'donate_submit_submit_form_completed', res, _form );return;
                         if( typeof res.status === 'undefined' ) {
                             return;
                         }
@@ -217,11 +218,21 @@
                     });
                 }
             }
-        },
+        }
     };
 
     $(document).ready(function () {
         DONATE_Site.init();
+
+        /**
+         * Test hook
+         */
+//        TP_Donate_Global.addAction( 'donate_submit_submit_form_completed', 'jjjjjjjjjjjjjjjjjjj', 10, 1);
+//        window.jjjjjjjjjjjjjjjjjjj = function ( res, _form ){
+//            console.debug( res );
+//            console.debug( _form ); return;
+//        }
+//        TP_Donate_Global.removeAction( 'donate_submit_submit_form_completed', 'jjjjjjjjjjjjjjjjjjj', 10, 1);
     });
 
     $(window).resize(function () {

@@ -5,13 +5,18 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 class DN_Checkout {
-    /* posted $_POST */
-
+    /**
+     *
+     * @var type null or array
+     */
     private $posted = null;
 
     /* instance */
     public static $instance = null;
 
+    /*
+     * Constructor
+     */
     public function __construct() {
         
     }
@@ -239,8 +244,10 @@ class DN_Checkout {
         }
     }
 
-    /* instance */
-
+    /**
+     * 
+     * @return type DN_Checkout object
+     */
     public static function instance() {
         if ( !self::$instance ) {
             self::$instance = new self();
