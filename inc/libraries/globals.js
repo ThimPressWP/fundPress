@@ -35,7 +35,7 @@
         },
         doHook: function ( hookType, action, args ) {
             args = Array.prototype.slice.call( args, 1 );
-            var value = null;
+            var value = args[0];
             if ( undefined != this.hooks[hookType][action] ) {
                 var hooks = this.hooks[hookType][action];
                 hooks.sort( function ( a, b ) {

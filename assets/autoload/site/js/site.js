@@ -127,7 +127,7 @@
                     } ).done( function ( res ) {
                         TP_Donate_Global.afterAjax();
 
-                        res = TP_Donate_Global.applyFilters( 'donate_submit_submit_form_completed', res ); return;
+                        res = TP_Donate_Global.applyFilters( 'donate_submit_submit_form_completed', res );
                         if ( typeof res.status === 'undefined' ) {
                             return;
                         }
@@ -223,18 +223,6 @@
 
     $( document ).ready( function () {
         DONATE_Site.init();
-
-        /**
-         * Test hook
-         */
-        TP_Donate_Global.addFilter( 'donate_submit_submit_form_completed', function ( res ) {
-            res = 2;
-            return res;
-        }, 10, 1 );
-        TP_Donate_Global.addFilter( 'donate_submit_submit_form_completed', function ( res ) {
-            console.debug( res );
-            return res;
-        }, 11, 1 );
     } );
 
     $( window ).resize( function () {
