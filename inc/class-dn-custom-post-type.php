@@ -92,7 +92,7 @@ class DN_Post_Type {
                 }
                 break;
             case 'donate_payment_method':
-                $payment = $donate->get_meta( 'payment_method' );
+                $payment = $donate->payment_method;
                 $payments_enable = donate_payment_gateways();
                 if ( array_key_exists( $payment, $payments_enable ) )
                     echo $payments_enable[$payment]->_title;
@@ -107,9 +107,9 @@ class DN_Post_Type {
 
     public function donate_sortable_columns( $columns ) {
         $custom = array(
-            'donate_title' => 'ID',
-            'donate_total' => 'donate_total',
-            'donate_date' => 'date'
+            'donate_title'  => 'ID',
+            'donate_total'  => 'donate_total',
+            'donate_date'   => 'date'
         );
         unset( $columns['comments'] );
 

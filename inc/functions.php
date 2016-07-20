@@ -105,7 +105,7 @@ if ( !function_exists( 'donate_locate_template' ) ) {
 if ( !function_exists( 'donate_payment_gateways' ) ) {
 
     function donate_payment_gateways() {
-        return apply_filters( 'donate_payment_gateways', array() );
+        return ThimPress_Donate::instance()->payment_gateways->load_payment_gateways();
     }
 
 }
@@ -115,7 +115,7 @@ if ( !function_exists( 'donate_payment_gateways' ) ) {
 if ( !function_exists( 'donate_payments_enable' ) ) {
 
     function donate_payments_enable() {
-        return apply_filters( 'donate_payment_gateways_enable', array() );
+        return ThimPress_Donate::instance()->payment_gateways->get_payment_available();
     }
 
 }
@@ -562,6 +562,7 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
 
         return round( $amount * $rate, donate_currency_decimal() );
     }
+
     /**
      * get rate of currency
      * @param  string $from

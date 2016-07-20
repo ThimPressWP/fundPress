@@ -115,8 +115,8 @@ if( ! defined( 'ABSPATH' ) ) exit();
 				<?php if ( $payments ) : $i = 0; foreach( donate_payments_enable() as $payment ) : ?>
 					<div class="donate_payment_method">
 
-		        		<label class="payment_method" for="payment_method_<?php echo esc_attr( $payment->_id ); ?>"><img width="115" height="50" src="<?php echo esc_attr( $payment->_icon ); ?>" /></label>
-	        			<input id="payment_method_<?php echo esc_attr( $payment->_id ); ?>" type="radio" name="payment_method" value="<?php echo esc_attr( $payment->_id ); ?>"<?php echo $i === 0 ? ' checked' : '' ?>/>
+		        		<label class="payment_method" for="payment_method_<?php echo esc_attr( $payment->id ); ?>"><img width="115" height="50" src="<?php echo esc_attr( $payment->_icon ); ?>" /></label>
+	        			<input id="payment_method_<?php echo esc_attr( $payment->id ); ?>" type="radio" name="payment_method" value="<?php echo esc_attr( $payment->id ); ?>"<?php echo $i === 0 ? ' checked' : '' ?>/>
 
 	        		</div>
 				<?php $i++; endforeach; endif; ?>

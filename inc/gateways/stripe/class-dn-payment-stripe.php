@@ -1,0 +1,349 @@
+<?php
+
+if ( !defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+
+/**
+ * Class DN_Payment_Stripe
+ */
+class DN_Payment_Stripe extends DN_Payment_Base {
+
+    /**
+     * id of payment
+     * @var null
+     */
+    public $id = 'stripe';
+
+    /**
+     * secret key
+     * @var null
+     */
+    protected $secret_key = null;
+
+    /**
+     * publish key
+     * @var null
+     */
+    protected $publish_key = null;
+
+    /**
+     * api endpoint
+     * @var string
+     */
+    protected $api_endpoint = 'https://api.stripe.com/v1';
+
+    /**
+     * payment title
+     * @var null
+     */
+    public $_title = null;
+
+    public function __construct() {
+        $this->_title = __( 'Stripe', 'tp-donate' );
+
+        $checkout = DN_Settings::instance()->checkout;
+        $this->secret_key = $checkout->get( 'stripe_test_secret_key' );
+        $this->publish_key = $checkout->get( 'stripe_test_publish_key' );
+
+        // production environment
+        if ( $checkout->get( 'environment' ) === 'production' ) {
+            $this->secret_key = $checkout->get( 'stripe_live_secret_key' );
+            $this->publish_key = $checkout->get( 'stripe_live_publish_key' );
+        }
+        parent::__construct();
+
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
+        add_action( 'wp_footer', array( $this, 'process_script_js' ) );
+    }
+
+    /**
+     * fields settings
+     * @return array
+     */
+    public function fields() {
+        return array(
+            'title' => $this->_title, // tab title
+            'fields' => array(
+                'fields' => array(
+                    array(
+                        'type' => 'select',
+                        'label' => __( 'Enable', 'tp-donate' ),
+                        'desc' => __( 'This controlls enable payment method', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'stripe_enable',
+                            'class' => 'stripe_enable'
+                        ),
+                        'name' => 'stripe_enable',
+                        'options' => array(
+                            'no' => __( 'No', 'tp-donate' ),
+                            'yes' => __( 'Yes', 'tp-donate' )
+                        )
+                    ),
+                    array(
+                        'type' => 'input',
+                        'label' => __( 'Test Secret Key', 'tp-donate' ),
+                        'desc' => __( 'Test environment', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'stripe_test_secret_key',
+                            'class' => 'stripe_test_secret_key',
+                            'type' => 'text'
+                        ),
+                        'name' => 'stripe_test_secret_key'
+                    ),
+                    array(
+                        'type' => 'input',
+                        'label' => __( 'Test Publish Key', 'tp-donate' ),
+                        'desc' => __( 'Test environment', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'stripe_test_publish_key',
+                            'class' => 'stripe_test_publish_key',
+                            'type' => 'text'
+                        ),
+                        'name' => 'stripe_test_publish_key'
+                    ),
+                    array(
+                        'type' => 'input',
+                        'label' => __( 'Live Secret Key', 'tp-donate' ),
+                        'desc' => __( 'Production environment', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'stripe_live_secret_key',
+                            'class' => 'stripe_live_secret_key',
+                            'type' => 'text'
+                        ),
+                        'name' => 'stripe_live_secret_key'
+                    ),
+                    array(
+                        'type' => 'input',
+                        'label' => __( 'Live Publish Key', 'tp-donate' ),
+                        'desc' => __( 'Production environment', 'tp-donate' ),
+                        'atts' => array(
+                            'id' => 'stripe_live_publish_key',
+                            'class' => 'stripe_live_publish_key',
+                            'type' => 'text'
+                        ),
+                        'name' => 'stripe_live_publish_key'
+                    ),
+                )
+            )
+        );
+    }
+
+    // process
+    public function process( $donate = false ) {
+        if ( !$this->secret_key || !$this->publish_key ) {
+            return array(
+                'status' => 'failed',
+                'message' => __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.' )
+            );
+        }
+
+        if ( !isset( $_POST['id'] ) )
+            return array( 'status' => 'failed', 'message' => __( 'Token is invalid', 'tp-donate' ) );
+
+        $token = $_POST['id'];
+
+        $donor = DN_Donor::instance( $donate->donor_id );
+
+        $customer_id = $donor->get_meta( 'stripe_id' );
+
+        if ( !$customer_id ) {
+            $params = array(
+                'description' => sprintf( '%s %s', __( 'Donor for', 'tp-donate' ), $donor->get_meta( 'email' ) ),
+                'source' => $token
+            );
+            // create customer
+            $response = $this->stripe_request( 'customers', $params );
+
+            if ( is_wp_error( $response ) && !$response->id ) {
+                return array( 'status' => 'failed', 'message' => sprintf( __( '%s. Please try again', 'tp-donate' ), $response->get_error_message() ) );
+            }
+
+            $customer_id = $response->id;
+
+            $donor->set_meta( 'stripe_id', $customer_id );
+        }
+
+        $total = $donate->total;
+
+        $params = array(
+            'amount' => round( $total * 100 ),
+            'currency' => donate_get_currency(),
+            'customer' => $customer_id,
+            'description' => sprintf(
+                    __( '%s - donate %s', 'tp-donate' ), esc_html( get_bloginfo( 'name' ) ), donate_generate_post_key( $donate->id )
+            )
+        );
+        // create charges
+        $response = $this->stripe_request( 'charges', $params );
+
+        if ( $response && !is_wp_error( $response ) && $response->id ) {
+            $donate = DN_Donate::instance( $donate->id );
+            $donate->update_status( 'donate-completed' );
+
+            // notice message completed
+            $this->completed_process_message();
+
+            $return = array(
+                'status' => 'success',
+                'url' => donate_checkout_url()
+            );
+            // remove cart
+            DN_Cart::instance()->remove_cart();
+        } else {
+            $return = array( 'result' => 'failed', 'message' => __( 'Connect Stripe has error. Please try again!', 'tp-donate' ) );
+        }
+        return $return;
+    }
+
+    // stripe request
+    public function stripe_request( $api = 'charges', $params = array() ) {
+        $response = wp_remote_post( $this->api_endpoint . '/' . $api, array(
+            'method' => 'POST',
+            'headers' => array(
+                'Authorization' => 'Basic ' . base64_encode( $this->secret_key . ':' )
+            ),
+            'body' => $params,
+            'timeout' => 70,
+            'sslverify' => false,
+            'user-agent' => 'Donate ' . TP_DONATE_VER
+        ) );
+
+        if ( !is_wp_error( $response ) ) {
+            $body = wp_remote_retrieve_body( $response );
+            if ( $body )
+                $body = json_decode( $body );
+
+            if ( !empty( $body->error ) ) {
+                return new WP_Error( 'stripe_error', $body->error->message );
+            }
+
+            if ( empty( $body->id ) ) {
+                return new WP_Error( 'stripe_error', __( 'Stripe Process went wrong', 'tp-donate' ) );
+            }
+
+            return $body;
+        }
+
+        return new WP_Error( 'stripe_error', $response->get_error_message() );
+    }
+
+    // enquene script
+    public function enqueue_script() {
+        if ( !$this->is_enable )
+            return;
+
+        $stripe = apply_filters( 'donate_stripe_payment_object', array(
+            'Secret_Key' => $this->secret_key,
+            'Publish_Key' => $this->publish_key,
+            'key_missing' => __( 'Stripe key is expired. Please contact administrator to do this payment gateway', 'tp-donate' )
+                ) );
+
+        wp_register_script( 'donate_payment_stripe', 'https://js.stripe.com/v2/', array(), TP_DONATE_VER, true );
+        wp_register_script( 'donate_payment_stripe_checkout', TP_DONATE_LIB_URI . '/stripe/checkout.js', array(), TP_DONATE_VER, true );
+        wp_localize_script( 'donate_payment_stripe', 'Donate_Stripe_Settings', $stripe );
+
+        wp_enqueue_script( 'donate_payment_stripe' );
+        wp_enqueue_script( 'donate_payment_stripe_checkout' );
+    }
+
+    // process script
+    public function process_script_js() {
+        ?>
+        <script type="text/javascript">
+
+//            (function ($) {
+//
+//                Donate_Stripe_Payment = {
+//                    load_form: function (form) {
+//                        var pl_key = 'pk_test_HHukcwWCsD7qDFWKKpKdJeOT';
+//                        if( typeof Donate_Stripe_Settings !== 'undefined' && Donate_Stripe_Settings.Publish_Key ) {
+//                            pl_key = Donate_Stripe_Settings.Publish_Key;
+//
+//                            var handler = StripeCheckout.configure({
+//                                key: pl_key,
+//                                image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+//                                locale: 'auto',
+//                                token: function (token) {
+//                                    // Use the token to create the charge with a server-side script.
+//                                    // You can access the token ID with `token.id`
+//                                    Donate_Stripe_Payment.stripe_payment_process(form, token);
+//                                }
+//                            });
+//
+//                            var first_name = form.find('input[name="first_name"]').val().trim();
+//                            last_name = form.find('input[name="last_name"]').val().trim(),
+//                                    email = form.find('input[name="email"]').val().trim(),
+//                                    amount_hidden = form.find('input[name="amount"]'),
+//                                    amount = 0,
+//                                    custom = form.find('input[name="donate_input_amount"]').val(),
+//                                    _package = form.find('input[name="donate_input_amount_package"]:checked').val(),
+//                                    currency = form.find('input[name="currency"]').val();
+//
+//                            if( amount_hidden.length == 1 ) {
+//                                amount = amount_hidden.val().trim();
+//                            } else if( custom != '' ) {
+//                                amount = custom;
+//                            } else if( _package != '' ) {
+//                                amount = _package;
+//                            } else {
+//                                var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + thimpress_donate.i18n.amount_invalid + '</p></div></div>';
+//                                DONATE_Site.generate_messages(html);
+//                                return;
+//                            }
+//                            // Open Checkout with further options
+//                            handler.open({
+//                                name: first_name + ' ' + last_name,
+//                                description: email,
+//                                currency: currency,
+//                                amount: amount * 100
+//                            });
+//                        } else {
+//                            var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + Donate_Stripe_Settings.key_missing + '</p></div></div>';
+//                            DONATE_Site.generate_messages(html);
+//                        }
+//                    },
+//                    stripe_payment_process: function (form, token) {
+//                        var data = {};
+//                        var payment_data = form.serializeArray();
+//
+//                        $.each(payment_data, function (index, obj) {
+//                            data[obj.name] = obj.value;
+//                        });
+//
+//                        $.extend(token, data);
+//
+//                        $.ajax({
+//                            url: thimpress_donate.ajaxurl,
+//                            data: token,
+//                            type: 'POST',
+//                            beforeSend: function () {
+//                                TP_Donate_Global.beforeAjax(form);
+//                            }
+//                        }).done(function (res) {
+//                            TP_Donate_Global.afterAjax(form);
+//                            if( typeof res.status !== 'undefined' && res.status == 'success' ) {
+//                                if( typeof res.url !== 'undefined' ) {
+//                                    window.location.href = res.url;
+//                                }
+//                            } else if( typeof res.message !== 'undefined' ) {
+//                                var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + res.message + '</p></div></div>';
+//                                DONATE_Site.generate_messages(html);
+//                            }
+//                        }).fail(function () {
+//                            TP_Donate_Global.afterAjax(form);
+//                        });
+//                    }
+//
+//                }
+//
+//            })(jQuery);
+
+        </script>
+    <?php
+
+    }
+
+}
+
+new DN_Payment_Stripe();

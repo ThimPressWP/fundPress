@@ -46,7 +46,7 @@ class DN_Ajax {
         $payment_enable = donate_payments_enable();
         foreach ( $payment_enable as $key => $payment ) {
             $payments[] = array(
-                'id' => $payment->_id,
+                'id' => $payment->id,
                 'title' => $payment->_title,
                 'icon' => $payment->_icon
             );

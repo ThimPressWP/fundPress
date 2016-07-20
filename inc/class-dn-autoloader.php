@@ -42,9 +42,10 @@ class DN_Autoloader {
 
         $file = $this->get_file_name_from_class( $class );
         $path = $this->include_path;
-        // payments
+        // gateways
         if ( strpos( $class, 'dn_payment_' ) === 0 ) {
-            $path = $this->include_path . 'payments/' . substr( str_replace( '_', '-', $class ), 19 ) . '/';
+            $payment = substr( str_replace( '_', '-', $class ), strlen( 'dn_payment_' ) );
+            $path = $this->include_path . 'gateways/' . $payment . '/';
         }
 
         // widgets

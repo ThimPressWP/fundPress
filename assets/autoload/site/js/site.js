@@ -5,78 +5,107 @@
      * @type Object
      */
     DONATE_Site = {
+        /**
+         * 
+         * @returns document
+         */
+        $doc: null,
         init: function () {
             /**
-             * load form action
+             * document
              */
-            this.load_donate_form();
+            this.$doc = $( document );
 
             /* validate checkout form */
             this.validate_checkout_form();
 
             /**
+             * percent count campaign donated
+             */
+            this.generate_percent();
+            /**
+             * load form action
+             */
+            this.$doc.on( 'click', '.donate_load_form, .donate_button_title', this.load_donate_form );
+            /**
              * submit on lightbox
              */
-            this.donate_submit();
-
-            // load percent
-            this.generate_percent();
+            this.$doc.on( 'submit', '.donate_form', this.donate_submit );
+            
+            /**
+             * add hook
+             */
+            this.hooks.init();
+        },
+        
+        /**
+         * hooks
+         */
+        hooks: {
+            init: function(){
+                TP_Donate_Global.addAction( 'donate_submit_submited_form_completed', this.submited );
+            },
+            
+            submited: function( res ) {
+                if ( res.status === 'success' && typeof res.url !== 'undefined' ) {
+                    window.location.href = res.url;
+                } else if ( res.status === 'failed' && typeof res.message !== 'undefined' ) {
+                    DONATE_Site.generate_messages( res.message );
+                    $( 'body, html' ).animate( {
+                        scrollTop: $( '.donation-messages' ).offset().top
+                    } );
+                }
+            },
         },
         /**
          * load donate form
          * @return null
          */
-        load_donate_form: function () {
-            /*
-             * load form on click
-             */
-            $( document ).on( 'click', '.donate_load_form, .donate_button_title', function ( event ) {
-                event.preventDefault();
+        load_donate_form: function ( event ) {
+            event.preventDefault();
 
-                var _self = $( this ),
-                        _campaign_id = _self.attr( 'data-campaign-id' ),
-                        _data = {
-                            action: 'donate_load_form',
-                            nonce: thimpress_donate.nonce
-                        };
+            var _self = $( this ),
+                    _campaign_id = _self.attr( 'data-campaign-id' ),
+                    _data = {
+                        action: 'donate_load_form',
+                        nonce: thimpress_donate.nonce
+                    };
 
-                if ( typeof _campaign_id !== 'undefined' ) {
-                    _data.campaign_id = _campaign_id;
+            if ( typeof _campaign_id !== 'undefined' ) {
+                _data.campaign_id = _campaign_id;
+            }
+
+            $.ajax( {
+                url: thimpress_donate.ajaxurl,
+                type: 'POST',
+                data: _data,
+                beforeSend: function () {
+                    TP_Donate_Global.beforeAjax();
                 }
+            } ).done( function ( res ) {
+                TP_Donate_Global.afterAjax();
 
-                $.ajax( {
-                    url: thimpress_donate.ajaxurl,
-                    type: 'POST',
-                    data: _data,
-                    beforeSend: function () {
-                        TP_Donate_Global.beforeAjax();
-                    }
-                } ).done( function ( res ) {
-                    TP_Donate_Global.afterAjax();
+                if ( typeof res.status !== 'undefined' && res.status === 'success' ) {
+                    var _tmpl = wp.template( 'donate-form-template' );
 
-                    if ( typeof res.status !== 'undefined' && res.status === 'success' ) {
-                        var _tmpl = wp.template( 'donate-form-template' );
+                    $( '#donate_hidden' ).addClass( 'active' ).html( _tmpl( res ) );
 
-                        $( '#donate_hidden' ).addClass( 'active' ).html( _tmpl( res ) );
-
-                        $.magnificPopup.open( {
-                            type: 'inline',
-                            items: {
-                                src: '#donate_hidden'
-                            },
-                            callbacks: {
-                                open: function () {
-                                    var timeout = setTimeout( function () {
-                                        $( '#donate_hidden input[name="donate_input_amount"]:first' ).focus();
-                                        $( '#donate_hidden input[name="payment_method"]:first' ).attr( 'checked', true );
-                                        clearTimeout( timeout );
-                                    }, 100 );
-                                }
+                    $.magnificPopup.open( {
+                        type: 'inline',
+                        items: {
+                            src: '#donate_hidden'
+                        },
+                        callbacks: {
+                            open: function () {
+                                var timeout = setTimeout( function () {
+                                    $( '#donate_hidden input[name="donate_input_amount"]:first' ).focus();
+                                    $( '#donate_hidden input[name="payment_method"]:first' ).attr( 'checked', true );
+                                    clearTimeout( timeout );
+                                }, 100 );
                             }
-                        } );
-                    }
-
-                } );
+                        }
+                    } );
+                }
 
             } );
 
@@ -100,65 +129,65 @@
                 } );
             }
         },
-        donate_submit: function () {
-            $( document ).on( 'submit', '.donate_form', function ( e ) {
-                e.preventDefault();
+        /**
+         * submit form action
+         * @param {type} e
+         * @returns {Boolean}
+         */
+        donate_submit: function ( e ) {
+            e.preventDefault();
 
-                var _form = $( this ),
-                        _layout = _form.find( '.donate_form_layout' ),
-                        _message = _form.find( '.donation-messages' );
+            var _form = $( this ),
+                    _layout = _form.find( '.donate_form_layout' ),
+                    _message = _form.find( '.donation-messages' );
 
-                // remove old message error
-                _form.find( '.donate_form_error_messages' ).remove();
-                // invalid fields
-                if ( _form.find( 'input[name="payment_method"]:checked' ).val() === 'stripe' ) {
-                    Donate_Stripe_Payment.load_form( _form );
-                } else {
-                    // process ajax
-                    var _data = _form.serializeArray( _form );
+            // remove old message error
+            _form.find( '.donate_form_error_messages' ).remove();
+            // invalid fields
+            if ( _form.find( 'input[name="payment_method"]:checked' ).val() === 'stripe' ) {
+                Donate_Stripe_Payment.load_form( _form );
+            } else {
+                // process ajax
+                var _data = _form.serializeArray( _form );
 
-                    $.ajax( {
-                        url: thimpress_donate.ajaxurl,
-                        type: 'POST',
-                        data: _data,
-                        beforeSend: function () {
-                            TP_Donate_Global.beforeAjax();
-                        }
-                    } ).done( function ( res ) {
-                        TP_Donate_Global.afterAjax();
+                $.ajax( {
+                    url: thimpress_donate.ajaxurl,
+                    type: 'POST',
+                    data: _data,
+                    beforeSend: function () {
+                        TP_Donate_Global.beforeAjax();
+                    }
+                } ).done( function ( res ) {
+                    TP_Donate_Global.afterAjax();
 
-                        res = TP_Donate_Global.applyFilters( 'donate_submit_submit_form_completed', res );
-                        if ( typeof res.status === 'undefined' ) {
-                            return;
-                        }
+                    res = TP_Donate_Global.applyFilters( 'donate_submit_submited_form_results', res );
+                    if ( typeof res.status === 'undefined' ) {
+                        return;
+                    }
 
-                        if ( typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true ) {
-                            // process with authorize.net SIM payment
-                            var args = res.args;
-                            if ( Object.keys( args ).length !== 0 ) {
-                                var html = [ ];
-                                html.push( '<form id="donate_form_instead" action="' + res.url + '" method="POST">' )
-                                $.each( args, function ( name, value ) {
-                                    html.push( '<input type="hidden" name="' + name + '" value="' + value + '" />' );
-                                } );
-                                html.push( '<button type="submit" class="donate-redirecting">' + res.submit_text + '</button>' );
-                                html.push( '</form>' );
-                                _form.replaceWith( html.join( '' ) );
-                                $( '#donate_form_instead' ).submit();
-                            }
-                        } else if ( res.status === 'success' && typeof res.url !== 'undefined' ) {
-                            window.location.href = res.url;
-                        } else if ( res.status === 'failed' && typeof res.message !== 'undefined' ) {
-                            DONATE_Site.generate_messages( res.message );
-                            $( 'body, html' ).animate( {
-                                scrollTop: $( '.donation-messages' ).offset().top
+                    if ( res ) {
+                        TP_Donate_Global.doAction( 'donate_submit_submited_form_completed', res );
+                    }
+
+                    if ( typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true ) {
+                        // process with authorize.net SIM payment
+                        var args = res.args;
+                        if ( Object.keys( args ).length !== 0 ) {
+                            var html = [ ];
+                            html.push( '<form id="donate_form_instead" action="' + res.url + '" method="POST">' )
+                            $.each( args, function ( name, value ) {
+                                html.push( '<input type="hidden" name="' + name + '" value="' + value + '" />' );
                             } );
+                            html.push( '<button type="submit" class="donate-redirecting">' + res.submit_text + '</button>' );
+                            html.push( '</form>' );
+                            _form.replaceWith( html.join( '' ) );
+                            $( '#donate_form_instead' ).submit();
                         }
-                    } );
-                }
+                    }
+                } );
+            }
 
-                return false;
-            } );
+            return false;
         },
         donate_on_lightbox: function () {
             if ( typeof thimpress_donate.settings !== 'undefined' &&

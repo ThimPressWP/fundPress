@@ -62,6 +62,12 @@ class ThimPress_Donate {
 
     /* checkout */
     public $checkout = null;
+    
+    /**
+     * payments object
+     * @var type object
+     */
+    public $payment_gateways = null;
     // instance
     public static $instance = null;
 
@@ -90,6 +96,10 @@ class ThimPress_Donate {
 
         /* cart */
         $this->cart = DN_Cart::instance();
+        /**
+         * payment gateway instance object
+         */
+        $this->payment_gateways = DN_Payment_Gateways::instance();
 
         /* checkout */
         $this->checkout = DN_Checkout::instance();
@@ -183,12 +193,13 @@ class ThimPress_Donate {
         $this->_include( 'inc/class-dn-donate.php' );
         $this->_include( 'inc/class-dn-donor.php' );
         $this->_include( 'inc/class-dn-email.php' );
+        $this->_include( 'inc/class-dn-payment-gateways.php' );
 
         $this->_include( 'inc/class-dn-template-include.php' );
         $this->_include( 'inc/class-dn-template-underscore.php' );
         $this->_include( 'inc/class-dn-ajax.php' );
 
-        $this->autoload( array( 'products', 'payments' ) );
+        $this->autoload( array( 'products' ) );
         $this->_include( 'inc/install.php' );
 
         /* load vendors */
@@ -314,6 +325,11 @@ class ThimPress_Donate {
         return DN_Settings::instance();
     }
 
+    /**
+     * Filter cmb2 meta box url
+     * @param string $url
+     * @return string
+     */
     public function cmb2_meta_box_url( $url ) {
         $url = TP_DONATE_INC_URI . '/vendors/cmb2/';
         return $url;
