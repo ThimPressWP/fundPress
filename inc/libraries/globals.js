@@ -11,10 +11,10 @@
             this.addHook( 'filter', action, callback, priority, context );
         },
         doAction: function ( action ) {
-            this.doHook( 'action', action, null, arguments );
+            this.doHook( 'action', action, arguments );
         },
-        applyFilters: function ( action, value ) {
-            return this.doHook( 'filter', action, value, arguments );
+        applyFilters: function ( action ) {
+            return this.doHook( 'filter', action, arguments );
         },
         removeAction: function ( action, callback, priority, context ) {
             this.removeHook( 'action', action, callback, priority, context );
@@ -33,8 +33,9 @@
             }
             this.hooks[hookType][action].push( {callback: callback, priority: priority, context: context} );
         },
-        doHook: function ( hookType, action, value, args ) {
+        doHook: function ( hookType, action, args ) {
             args = Array.prototype.slice.call( args, 1 );
+            var value = null;
             if ( undefined != this.hooks[hookType][action] ) {
                 var hooks = this.hooks[hookType][action];
                 hooks.sort( function ( a, b ) {
@@ -48,7 +49,8 @@
                     if ( 'action' == hookType ) {
                         hook.callback.apply( hook.context, args );
                     } else {
-                        value = hook.callback.apply( hook.context, value, args );
+                        args.unshift( value );
+                        value = hook.callback.apply( hook.context, args );
                     }
                 }
             }
