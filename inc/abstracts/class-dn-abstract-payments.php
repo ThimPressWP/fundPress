@@ -23,11 +23,11 @@ abstract class DN_Payment_Base {
      * icon url
      * @var null
      */
-    public $_icon = null;
+    public $icon = null;
 
     function __construct() {
         add_action( 'init', array( $this, 'init' ) );
-        $this->_icon = TP_DONATE_INC_URI . '/gateways/' . $this->id . '/' . $this->id . '.png';
+//        $this->icon = TP_DONATE_INC_URI . '/gateways/' . $this->id . '/' . $this->id . '.png';
         $this->is_enable();
     }
 
@@ -39,6 +39,10 @@ abstract class DN_Payment_Base {
              */
             add_filter( 'donate_admin_setting_fields', array( $this, 'generate_fields' ), 10, 2 );
         }
+    }
+    
+    public function get_title() {
+        return $this->_title;
     }
 
     /**
@@ -97,6 +101,14 @@ abstract class DN_Payment_Base {
             return $this->is_enable = true;
         }
         return $this->is_enable = false;
+    }
+    
+    /**
+     * 
+     * @return type html or null
+     */
+    public function checkout_form() {
+        return null;
     }
 
     /**

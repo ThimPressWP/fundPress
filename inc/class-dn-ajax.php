@@ -48,7 +48,7 @@ class DN_Ajax {
             $payments[] = array(
                 'id' => $payment->id,
                 'title' => $payment->_title,
-                'icon' => $payment->_icon
+                'icon' => $payment->icon
             );
         }
         if ( isset( $_POST['campaign_id'] ) && is_numeric( $_POST['campaign_id'] ) ) {

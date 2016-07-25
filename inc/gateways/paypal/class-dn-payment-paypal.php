@@ -5,9 +5,9 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class DN_Payment_Palpal
+ * Class DN_Payment_Paypal
  */
-class DN_Payment_Palpal extends DN_Payment_Base {
+class DN_Payment_Paypal extends DN_Payment_Base {
 
     /**
      * id of payment
@@ -33,6 +33,7 @@ class DN_Payment_Palpal extends DN_Payment_Base {
         $this->paypal_url = 'https://www.sandbox.paypal.com/';
         $this->paypal_payment_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
         $this->paypal_email = DN_Settings::instance()->checkout->get( 'paypal_sanbox_email' );
+        $this->icon = 'icon-paypal';
 
         // production environment
         if ( DN_Settings::instance()->checkout->get( 'environment' ) === 'production' ) {
@@ -237,4 +238,4 @@ class DN_Payment_Palpal extends DN_Payment_Base {
 
 }
 
-new DN_Payment_Palpal();
+new DN_Payment_Paypal();
