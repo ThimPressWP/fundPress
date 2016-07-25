@@ -23,6 +23,11 @@
              * percent count campaign donated
              */
             this.generate_percent();
+
+            /**
+             * payment gateways tabs
+             */
+            this.$doc.on( 'click', '.donate_payments li a', this.payment_gateway_tab );
             /**
              * load form action
              */
@@ -31,22 +36,20 @@
              * submit on lightbox
              */
             this.$doc.on( 'submit', '.donate_form', this.donate_submit );
-            
+
             /**
              * add hook
              */
             this.hooks.init();
         },
-        
         /**
          * hooks
          */
         hooks: {
-            init: function(){
+            init: function () {
                 TP_Donate_Global.addAction( 'donate_submit_submited_form_completed', this.submited );
             },
-            
-            submited: function( res ) {
+            submited: function ( res ) {
                 if ( res.status === 'success' && typeof res.url !== 'undefined' ) {
                     window.location.href = res.url;
                 } else if ( res.status === 'failed' && typeof res.message !== 'undefined' ) {
@@ -55,7 +58,32 @@
                         scrollTop: $( '.donation-messages' ).offset().top
                     } );
                 }
-            },
+            }
+        },
+        /**
+         * payment gateways change toggle
+         * @param {type} e
+         * @returns {Boolean}
+         */
+        payment_gateway_tab: function ( e ) {
+            e.preventDefault();
+            var _this = $( this ),
+                    _li_target = _this.parents( 'li:first' ),
+                    _payment = _this.attr( 'data-payment-id' ),
+                    _input_payment = $( 'input[name="payment_method"]' ),
+                    _target = _this.attr( 'href' ),
+                    _gateways = $( '.payment-method' );
+            if ( _li_target.hasClass( 'active' ) ) {
+                return false;
+            }
+
+            _input_payment.val( _payment );
+            _this.parents( '.donate_payments:first' ).find( 'li' ).removeClass( 'active' );
+            _li_target.addClass( 'active' );
+            _gateways.slideUp( 400, function () {
+                $( _target ).slideDown();
+            } );
+            return false;
         },
         /**
          * load donate form
@@ -143,49 +171,48 @@
 
             // remove old message error
             _form.find( '.donate_form_error_messages' ).remove();
-            // invalid fields
-            if ( _form.find( 'input[name="payment_method"]:checked' ).val() === 'stripe' ) {
-                Donate_Stripe_Payment.load_form( _form );
-            } else {
-                // process ajax
-                var _data = _form.serializeArray( _form );
+            // invalid fields process ajax
+            var _data = _form.serializeArray( _form );
 
-                $.ajax( {
-                    url: thimpress_donate.ajaxurl,
-                    type: 'POST',
-                    data: _data,
-                    beforeSend: function () {
-                        TP_Donate_Global.beforeAjax();
-                    }
-                } ).done( function ( res ) {
-                    TP_Donate_Global.afterAjax();
-
-                    res = TP_Donate_Global.applyFilters( 'donate_submit_submited_form_results', res );
-                    if ( typeof res.status === 'undefined' ) {
-                        return;
-                    }
-
-                    if ( res ) {
-                        TP_Donate_Global.doAction( 'donate_submit_submited_form_completed', res );
-                    }
-
-                    if ( typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true ) {
-                        // process with authorize.net SIM payment
-                        var args = res.args;
-                        if ( Object.keys( args ).length !== 0 ) {
-                            var html = [ ];
-                            html.push( '<form id="donate_form_instead" action="' + res.url + '" method="POST">' )
-                            $.each( args, function ( name, value ) {
-                                html.push( '<input type="hidden" name="' + name + '" value="' + value + '" />' );
-                            } );
-                            html.push( '<button type="submit" class="donate-redirecting">' + res.submit_text + '</button>' );
-                            html.push( '</form>' );
-                            _form.replaceWith( html.join( '' ) );
-                            $( '#donate_form_instead' ).submit();
-                        }
-                    }
-                } );
+            if ( ! TP_Donate_Global.applyFilters( 'donate_before_submit_form', _data ) ) {
+                return;
             }
+
+            $.ajax( {
+                url: thimpress_donate.ajaxurl,
+                type: 'POST',
+                data: _data,
+                beforeSend: function () {
+                    TP_Donate_Global.beforeAjax();
+                }
+            } ).done( function ( res ) {
+                TP_Donate_Global.afterAjax();
+
+                res = TP_Donate_Global.applyFilters( 'donate_submit_submited_form_results', res );
+                if ( typeof res.status === 'undefined' ) {
+                    return;
+                }
+
+                if ( res ) {
+                    TP_Donate_Global.doAction( 'donate_submit_submited_form_completed', res );
+                }
+
+                if ( typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true ) {
+                    // process with authorize.net SIM payment
+                    var args = res.args;
+                    if ( Object.keys( args ).length !== 0 ) {
+                        var html = [ ];
+                        html.push( '<form id="donate_form_instead" action="' + res.url + '" method="POST">' )
+                        $.each( args, function ( name, value ) {
+                            html.push( '<input type="hidden" name="' + name + '" value="' + value + '" />' );
+                        } );
+                        html.push( '<button type="submit" class="donate-redirecting">' + res.submit_text + '</button>' );
+                        html.push( '</form>' );
+                        _form.replaceWith( html.join( '' ) );
+                        $( '#donate_form_instead' ).submit();
+                    }
+                }
+            } );
 
             return false;
         },

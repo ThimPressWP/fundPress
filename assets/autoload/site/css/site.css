@@ -1,3 +1,36 @@
+/* FONT ICON */
+@font-face {
+    font-family: 'icomoon';
+    src:    url('../../../fonts/icomoon.eot?ghlwnz');
+    src:    url('../../../fonts/icomoon.eot?ghlwnz#iefix') format('embedded-opentype'),
+        url('../../../fonts/icomoon.ttf?ghlwnz') format('truetype'),
+        url('../../../fonts/icomoon.woff?ghlwnz') format('woff'),
+        url('../../../fonts/icomoon.svg?ghlwnz#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.icon-credit-card:before {
+    content: "\e93f";
+}
+.icon-text-color:before {
+    content: "\ea6d";
+}
+.icon-paypal:before {
+    content: "\ead8";
+}
 body {
     font-size: 14px;
     font-family: 'Lucida Grande', Helvetica, Arial, sans-serif;
@@ -366,6 +399,75 @@ body {
 .donate_payments,
 .donate_payment_button_process{
     padding: 10px;
+}
+.donate_payments ul{
+    list-style: none;
+    margin: 0;
+    border-bottom: 1px solid #eee;
+}
+.donate_payments ul li{
+    font-size: 13px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+    -moz-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+}
+.donate_payments ul li a{
+    color: #666;
+    padding: 10px 20px;
+    display: block;
+}
+.donate_payments ul li.active{
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.donate_payments ul li.active:before{
+    position: absolute;
+    content: '';
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background-color: #666;
+}
+.donate_payments ul li.active a{
+    color: #000;
+    font-weight: 500;
+}
+.donate_payments .payment-method{
+    display: none;
+    padding: 20px;
+    background-color: rgba(223, 223, 223, 0.16);
+    border-radius: 3px;
+    margin-top: 20px;
+}
+.donate_payments .payment-method.active{
+    display: block;
+}
+.donate_payments .payment-method .description{
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+.donate_payments .payment-method label{
+    font-size: 14px;
+    font-weight: 600;
+}
+#donate-stripe-form{
+    overflow: hidden;
+    margin: 0px -15px;
+}
+#donate-stripe-form .donate_field{
+    width: 33.33333333%;
+    float: left;
+    padding: 0 15px;
 }
 /**
  * message error form

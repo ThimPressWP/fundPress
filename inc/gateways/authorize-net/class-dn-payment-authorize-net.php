@@ -41,13 +41,13 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
      */
     public $_title = null;
 
-    function __construct() {
+    public function __construct() {
         $this->_title = __( 'AuthorizeNet', 'tp-donate' );
 
         $checkout = DN_Settings::instance()->checkout;
         $this->_api_login_id = $checkout->get( 'authorize_api_login_id' );
         $this->_transaction_key = $checkout->get( 'authorize_transaction_key' );
-
+        $this->icon = 'icon-text-color';
         // production environment
         if ( $checkout->get( 'environment' ) === 'production' ) {
             $this->api_endpoint = 'https://secure.authorize.net/gateway/transact.dll';
@@ -64,7 +64,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
         add_action( 'init', array( $this, 'verify' ) );
     }
 
-    function verify() {
+    public function verify() {
         ob_start();
         if ( !isset( $_POST ) )
             return;
@@ -159,7 +159,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
         );
     }
 
-    function checkout_args( $donate = null ) {
+    public function checkout_args( $donate = null ) {
         if ( !$this->_transaction_key )
             return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'tp-donate' ) );
 
@@ -222,7 +222,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
     }
 
     // process
-    function process( $donate = null ) {
+    public function process( $donate = null ) {
         return array(
             'status' => 'success',
             'form' => true,

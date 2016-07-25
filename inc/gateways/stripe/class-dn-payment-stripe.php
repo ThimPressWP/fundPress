@@ -45,7 +45,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
         $checkout = DN_Settings::instance()->checkout;
         $this->secret_key = $checkout->get( 'stripe_test_secret_key' );
         $this->publish_key = $checkout->get( 'stripe_test_publish_key' );
-
+        $this->icon = 'icon-credit-card';
         // production environment
         if ( $checkout->get( 'environment' ) === 'production' ) {
             $this->secret_key = $checkout->get( 'stripe_live_secret_key' );
@@ -134,7 +134,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
         if ( !$this->secret_key || !$this->publish_key ) {
             return array(
                 'status' => 'failed',
-                'message' => __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.' )
+                'message' => __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.', 'tp-donate' )
             );
         }
 
@@ -207,7 +207,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             'timeout' => 70,
             'sslverify' => false,
             'user-agent' => 'Donate ' . TP_DONATE_VER
-        ) );
+                ) );
 
         if ( !is_wp_error( $response ) ) {
             $body = wp_remote_retrieve_body( $response );
@@ -228,6 +228,15 @@ class DN_Payment_Stripe extends DN_Payment_Base {
         return new WP_Error( 'stripe_error', $response->get_error_message() );
     }
 
+    /**
+     * payment checkout form
+     */
+    public function checkout_form() {
+        ob_start();
+        require_once TP_DONATE_INC . '/gateways/stripe/checkout-form.php';
+        return ob_get_clean();
+    }
+
     // enquene script
     public function enqueue_script() {
         if ( !$this->is_enable )
@@ -239,108 +248,118 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             'key_missing' => __( 'Stripe key is expired. Please contact administrator to do this payment gateway', 'tp-donate' )
                 ) );
 
-        wp_register_script( 'donate_payment_stripe', 'https://js.stripe.com/v2/', array(), TP_DONATE_VER, true );
-        wp_register_script( 'donate_payment_stripe_checkout', TP_DONATE_LIB_URI . '/stripe/checkout.js', array(), TP_DONATE_VER, true );
+        wp_register_script( 'donate_payment_stripe', TP_DONATE_INC_URI . '/gateways/stripe/jquery.payment.min.js', array(), TP_DONATE_VER, true );
         wp_localize_script( 'donate_payment_stripe', 'Donate_Stripe_Settings', $stripe );
 
         wp_enqueue_script( 'donate_payment_stripe' );
-        wp_enqueue_script( 'donate_payment_stripe_checkout' );
     }
 
     // process script
     public function process_script_js() {
         ?>
         <script type="text/javascript">
+            ( function ( $ ) {
+                window.Donate_Stripe_Payment = {
+                    init: function () {
+                        TP_Donate_Global.addFilter( 'donate_before_submit_form', this.before_submit_checkout );
+                    },
+                    before_submit_checkout: function ( data ) {
+                        console.debug( data );
 
-//            (function ($) {
-//
-//                Donate_Stripe_Payment = {
-//                    load_form: function (form) {
-//                        var pl_key = 'pk_test_HHukcwWCsD7qDFWKKpKdJeOT';
-//                        if( typeof Donate_Stripe_Settings !== 'undefined' && Donate_Stripe_Settings.Publish_Key ) {
-//                            pl_key = Donate_Stripe_Settings.Publish_Key;
-//
-//                            var handler = StripeCheckout.configure({
-//                                key: pl_key,
-//                                image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-//                                locale: 'auto',
-//                                token: function (token) {
-//                                    // Use the token to create the charge with a server-side script.
-//                                    // You can access the token ID with `token.id`
-//                                    Donate_Stripe_Payment.stripe_payment_process(form, token);
-//                                }
-//                            });
-//
-//                            var first_name = form.find('input[name="first_name"]').val().trim();
-//                            last_name = form.find('input[name="last_name"]').val().trim(),
-//                                    email = form.find('input[name="email"]').val().trim(),
-//                                    amount_hidden = form.find('input[name="amount"]'),
-//                                    amount = 0,
-//                                    custom = form.find('input[name="donate_input_amount"]').val(),
-//                                    _package = form.find('input[name="donate_input_amount_package"]:checked').val(),
-//                                    currency = form.find('input[name="currency"]').val();
-//
-//                            if( amount_hidden.length == 1 ) {
-//                                amount = amount_hidden.val().trim();
-//                            } else if( custom != '' ) {
-//                                amount = custom;
-//                            } else if( _package != '' ) {
-//                                amount = _package;
-//                            } else {
-//                                var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + thimpress_donate.i18n.amount_invalid + '</p></div></div>';
-//                                DONATE_Site.generate_messages(html);
-//                                return;
-//                            }
-//                            // Open Checkout with further options
-//                            handler.open({
-//                                name: first_name + ' ' + last_name,
-//                                description: email,
-//                                currency: currency,
-//                                amount: amount * 100
-//                            });
-//                        } else {
-//                            var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + Donate_Stripe_Settings.key_missing + '</p></div></div>';
-//                            DONATE_Site.generate_messages(html);
-//                        }
-//                    },
-//                    stripe_payment_process: function (form, token) {
-//                        var data = {};
-//                        var payment_data = form.serializeArray();
-//
-//                        $.each(payment_data, function (index, obj) {
-//                            data[obj.name] = obj.value;
-//                        });
-//
-//                        $.extend(token, data);
-//
-//                        $.ajax({
-//                            url: thimpress_donate.ajaxurl,
-//                            data: token,
-//                            type: 'POST',
-//                            beforeSend: function () {
-//                                TP_Donate_Global.beforeAjax(form);
-//                            }
-//                        }).done(function (res) {
-//                            TP_Donate_Global.afterAjax(form);
-//                            if( typeof res.status !== 'undefined' && res.status == 'success' ) {
-//                                if( typeof res.url !== 'undefined' ) {
-//                                    window.location.href = res.url;
-//                                }
-//                            } else if( typeof res.message !== 'undefined' ) {
-//                                var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + res.message + '</p></div></div>';
-//                                DONATE_Site.generate_messages(html);
-//                            }
-//                        }).fail(function () {
-//                            TP_Donate_Global.afterAjax(form);
-//                        });
-//                    }
-//
-//                }
-//
-//            })(jQuery);
+                        return false;
+                    },
+                };
+            } )( jQuery );
+
+        //            (function ($) {
+        //
+        //                Donate_Stripe_Payment = {
+        //                    load_form: function (form) {
+        //                        var pl_key = 'pk_test_HHukcwWCsD7qDFWKKpKdJeOT';
+        //                        if( typeof Donate_Stripe_Settings !== 'undefined' && Donate_Stripe_Settings.Publish_Key ) {
+        //                            pl_key = Donate_Stripe_Settings.Publish_Key;
+        //
+        //                            var handler = StripeCheckout.configure({
+        //                                key: pl_key,
+        //                                image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        //                                locale: 'auto',
+        //                                token: function (token) {
+        //                                    // Use the token to create the charge with a server-side script.
+        //                                    // You can access the token ID with `token.id`
+        //                                    Donate_Stripe_Payment.stripe_payment_process(form, token);
+        //                                }
+        //                            });
+        //
+        //                            var first_name = form.find('input[name="first_name"]').val().trim();
+        //                            last_name = form.find('input[name="last_name"]').val().trim(),
+        //                                    email = form.find('input[name="email"]').val().trim(),
+        //                                    amount_hidden = form.find('input[name="amount"]'),
+        //                                    amount = 0,
+        //                                    custom = form.find('input[name="donate_input_amount"]').val(),
+        //                                    _package = form.find('input[name="donate_input_amount_package"]:checked').val(),
+        //                                    currency = form.find('input[name="currency"]').val();
+        //
+        //                            if( amount_hidden.length == 1 ) {
+        //                                amount = amount_hidden.val().trim();
+        //                            } else if( custom != '' ) {
+        //                                amount = custom;
+        //                            } else if( _package != '' ) {
+        //                                amount = _package;
+        //                            } else {
+        //                                var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + thimpress_donate.i18n.amount_invalid + '</p></div></div>';
+        //                                DONATE_Site.generate_messages(html);
+        //                                return;
+        //                            }
+        //                            // Open Checkout with further options
+        //                            handler.open({
+        //                                name: first_name + ' ' + last_name,
+        //                                description: email,
+        //                                currency: currency,
+        //                                amount: amount * 100
+        //                            });
+        //                        } else {
+        //                            var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + Donate_Stripe_Settings.key_missing + '</p></div></div>';
+        //                            DONATE_Site.generate_messages(html);
+        //                        }
+        //                    },
+        //                    stripe_payment_process: function (form, token) {
+        //                        var data = {};
+        //                        var payment_data = form.serializeArray();
+        //
+        //                        $.each(payment_data, function (index, obj) {
+        //                            data[obj.name] = obj.value;
+        //                        });
+        //
+        //                        $.extend(token, data);
+        //
+        //                        $.ajax({
+        //                            url: thimpress_donate.ajaxurl,
+        //                            data: token,
+        //                            type: 'POST',
+        //                            beforeSend: function () {
+        //                                TP_Donate_Global.beforeAjax(form);
+        //                            }
+        //                        }).done(function (res) {
+        //                            TP_Donate_Global.afterAjax(form);
+        //                            if( typeof res.status !== 'undefined' && res.status == 'success' ) {
+        //                                if( typeof res.url !== 'undefined' ) {
+        //                                    window.location.href = res.url;
+        //                                }
+        //                            } else if( typeof res.message !== 'undefined' ) {
+        //                                var html = '<div class="donation-messages"><div class="donate_form_error_messages active"><p>' + res.message + '</p></div></div>';
+        //                                DONATE_Site.generate_messages(html);
+        //                            }
+        //                        }).fail(function () {
+        //                            TP_Donate_Global.afterAjax(form);
+        //                        });
+        //                    }
+        //
+        //                }
+        //
+        //            })(jQuery);
 
         </script>
-    <?php
+        <?php
 
     }
 
