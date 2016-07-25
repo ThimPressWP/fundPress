@@ -269,6 +269,9 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                         return false;
                     },
                 };
+                $( document ).ready(function(){
+                    Donate_Stripe_Payment.init();
+                });
             } )( jQuery );
 
         //            (function ($) {
