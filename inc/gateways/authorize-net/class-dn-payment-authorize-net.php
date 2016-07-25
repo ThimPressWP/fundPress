@@ -233,5 +233,3 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
     }
 
 }
-
-new DN_Payment_Authorize_Net();

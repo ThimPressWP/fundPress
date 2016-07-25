@@ -261,6 +261,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             ( function ( $ ) {
                 window.Donate_Stripe_Payment = {
                     init: function () {
+                        console.debug( 1 );
                         TP_Donate_Global.addFilter( 'donate_before_submit_form', this.before_submit_checkout );
                     },
                     before_submit_checkout: function ( data ) {
@@ -368,4 +369,3 @@ class DN_Payment_Stripe extends DN_Payment_Base {
 
 }
 
-new DN_Payment_Stripe();

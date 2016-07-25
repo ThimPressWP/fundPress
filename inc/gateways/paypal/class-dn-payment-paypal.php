@@ -237,5 +237,3 @@ class DN_Payment_Paypal extends DN_Payment_Base {
     }
 
 }
-
-new DN_Payment_Paypal();
