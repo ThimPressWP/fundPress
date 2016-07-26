@@ -1,5 +1,6 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
+if ( !defined( 'ABSPATH' ) )
+    exit();
 
 /**
  * Cart is empty
@@ -7,7 +8,7 @@ if( ! defined( 'ABSPATH' ) ) exit();
 ?>
 
 <div class="donate_messages">
-	<span class="empty_cart">
-		<?php _e( 'You have no donate item!', 'tp-donate' ) ?>
-	</span>
+    <span class="empty_cart">
+        <?php _e( 'You have no donate item!', 'tp-donate' ) ?>
+    </span>
 </div>

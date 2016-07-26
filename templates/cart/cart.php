@@ -3,6 +3,7 @@ if( ! defined( 'ABSPATH' ) ) exit();
 /**
  * Cart is not empty
  */
+donate_print_notices();
 ?>
 <form class="donate_cart" action="<?php echo esc_attr( donate_cart_url() ) ?>">
 

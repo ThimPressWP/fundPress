@@ -271,10 +271,11 @@ body {
     margin: 0;
     line-height: 1;
 }
-.donate_form .donate_donor_info .donate_field .validated{
+.donate_field .validated{
     border: 1px solid #51af21;
 }
-.donate_form .donate_donor_info .donate_field .donate_input_invalid{
+.donate_field .donate_input_invalid,
+.donate_field .error{
     border: 1px solid #de8d27;
 }
 #donate_hidden .description{

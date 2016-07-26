@@ -234,24 +234,6 @@ if ( !function_exists( 'donate_total_campaign' ) ) {
 
         global $wpdb;
 
-        // $query = $wpdb->prepare("
-        // 		SELECT SUM( DISTINCT amount.meta_value ) AS raised FROM $wpdb->postmeta AS amount
-        // 		LEFT JOIN $wpdb->posts AS campaign ON amount.post_id = campaign.ID
-        // 		LEFT JOIN $wpdb->postmeta AS donate_meta ON donate_meta.post_id = campaign.ID
-        // 		LEFT JOIN $wpdb->posts AS donate ON donate.ID = donate_meta.meta_value
-        // 		WHERE campaign.ID = %s
-        // 		AND campaign.post_type = %s
-        // 		AND campaign.post_status = %s
-        // 		AND amount.meta_key = %s
-        // 			AND donate.post_type = %s
-        // 			AND donate_meta.meta_key = %s
-        // 			AND donate.post_status = %s
-        // 	", $post_id, 'dn_campaign', 'publish', 'thimpress_campaign_amount', 'dn_donate', 'thimpress_campaign_donate', 'donate-completed' );
-        // if( $query = $wpdb->get_row( $query, OBJECT ) )
-        // {
-        // 	return round( $query->raised, 2 );
-        // }
-
         $query = $wpdb->prepare( "
 				SELECT amount.meta_value AS raised, c.meta_value as currency FROM $wpdb->postmeta AS amount
 					LEFT JOIN $wpdb->posts AS donate ON amount.post_id = donate.ID

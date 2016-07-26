@@ -931,3 +931,26 @@ if ( !function_exists( 'donate_get_donate_items' ) ) {
     }
 
 }
+
+if ( !function_exists( 'donate_get_thankyou_link' ) ) {
+
+    function donate_get_thankyou_link( $donate_id = null ) {
+        return add_query_arg( array(
+            'thank-you' => 1,
+            'donate-id' => $donate_id
+                ), donate_checkout_url() );
+    }
+
+}
+
+if ( !function_exists( 'donate_is_thankyou_page' ) ) {
+
+    function donate_is_thankyou_page() {
+        global $post;
+        $checkout_page_id = DN_Settings::instance()->checkout->get( 'checkout_page', 1 );
+        if ( $post->ID == $checkout_page_id && !empty( $_GET['thank-you'] ) && !empty( $_GET['donate-id'] ) ) {
+            return true;
+        }
+    }
+
+}

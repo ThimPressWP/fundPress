@@ -149,9 +149,9 @@
                     var input = $( this );
                     if ( input.hasClass( 'required' ) ) {
                         if ( input.val() === '' || ( input.hasClass( 'email' ) && new RegExp( '^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+@[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$' ).test( input.val() ) === false ) ) {
-                            input.removeClass( 'validated' ).addClass( 'donate_input_invalid' );
+                            input.removeClass( 'validated' ).addClass( 'donate_input_invalid' ).addClass( 'error' );
                         } else {
-                            input.removeClass( 'donate_input_invalid' ).addClass( 'validated' );
+                            input.removeClass( 'donate_input_invalid' ).removeClass( 'error' ).addClass( 'validated' );
                         }
                     }
                 } );
@@ -174,7 +174,7 @@
             // invalid fields process ajax
             var _data = _form.serializeArray( _form );
 
-            if ( ! TP_Donate_Global.applyFilters( 'donate_before_submit_form', _data ) ) {
+            if ( !TP_Donate_Global.applyFilters( 'donate_before_submit_form', _data ) ) {
                 return;
             }
 

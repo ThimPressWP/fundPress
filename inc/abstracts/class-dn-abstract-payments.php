@@ -49,7 +49,7 @@ abstract class DN_Payment_Base {
      * payment process
      * @return null
      */
-    protected function process( $amount = false ) {
+    protected function process( $donate = false, $posted = null ) {
         
     }
 

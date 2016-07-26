@@ -188,8 +188,6 @@ class DN_Payment_Paypal extends DN_Payment_Base {
      * @return url string
      */
     public function checkout_url( $donate = null ) {
-        // cart
-        $cart = donate()->cart;
 
         // create nonce
         $nonce = wp_create_nonce( 'donate-paypal-nonce' );
@@ -212,7 +210,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
             'email' => $email,
             'rm' => '2',
             'no_shipping' => '1',
-            'return' => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
+            'return' => add_query_arg( array( 'donate-paypal-payment' => 'completed', 'donate-paypal-nonce' => $nonce ), donate_get_thankyou_link( $donate->id ) ),
             'cancel_return' => add_query_arg( array( 'donate-paypal-payment' => 'cancel', 'donate-paypal-nonce' => $nonce ), donate_checkout_url() ),
             'custom' => json_encode( array( 'donate_id' => $donate->id, 'donor_id' => $donate->donor_id ) )
         );
@@ -223,7 +221,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
         return $this->paypal_payment_url . '?' . http_build_query( $query );
     }
 
-    public function process( $amount = false ) {
+    public function process( $donate = false, $posted = array() ) {
         if ( !$this->paypal_email ) {
             return array(
                 'status' => 'failed',
@@ -232,7 +230,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
         }
         return array(
             'status' => 'success',
-            'url' => $this->checkout_url( $amount )
+            'url' => $this->checkout_url( $donate )
         );
     }
 

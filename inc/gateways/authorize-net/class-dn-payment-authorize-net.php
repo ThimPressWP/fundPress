@@ -159,23 +159,22 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
         );
     }
 
-    public function checkout_args( $donate = null ) {
+    public function checkout_args( $donate = null, $posted = array() ) {
         if ( !$this->_transaction_key )
             return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'tp-donate' ) );
 
-        $cart = donate()->cart;
-        $donation = DN_Donate::instance( $cart->donate_id );
-        $donor = DN_Donor::instance( $cart->donor_id );
+        $donation = DN_Donate::instance( $donate->id );
+        $donor = DN_Donor::instance( $donate->donor_id );
 
         $total = $donate->total;
 
         $time = time();
         if ( function_exists( 'hash_hmac' ) ) {
             $fingerprint = hash_hmac(
-                    "md5", $this->_api_login_id . "^" . $cart->donate_id . "^" . $time . "^" . $total . "^" . donate_get_currency(), $this->_transaction_key
+                    "md5", $this->_api_login_id . "^" . $donate->id . "^" . $time . "^" . $total . "^" . donate_get_currency(), $this->_transaction_key
             );
         } else {
-            $fingerprint = bin2hex( mhash( MHASH_MD5, $this->_api_login_id . "^" . $cart->donate_id . "^" . $time . "^" . $total . "^" . donate_get_currency(), $this->_transaction_key ) );
+            $fingerprint = bin2hex( mhash( MHASH_MD5, $this->_api_login_id . "^" . $donate->id . "^" . $time . "^" . $total . "^" . donate_get_currency(), $this->_transaction_key ) );
         }
 
         $nonce = wp_create_nonce( 'donate-authorize-net-nonce' );
@@ -185,10 +184,10 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
             'x_login' => $this->_api_login_id,
             'x_amount' => $total,
             'x_currency_code' => donate_get_currency(),
-            'x_invoice_num' => $cart->donate_id,
+            'x_invoice_num' => $donate->id,
             'x_relay_response' => 'FALSE',
             'x_relay_url' => donate_checkout_url(),
-            'x_fp_sequence' => $cart->donate_id,
+            'x_fp_sequence' => $donate->id,
             'x_fp_hash' => $fingerprint,
             'x_show_form' => 'PAYMENT_FORM',
             'x_version' => '3.1',
@@ -222,13 +221,13 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
     }
 
     // process
-    public function process( $donate = null ) {
+    public function process( $donate = null, $posted = array() ) {
         return array(
             'status' => 'success',
             'form' => true,
             'submit_text' => __( 'Redirect to Authorize.Net', 'tp-donate' ),
             'url' => $this->api_endpoint,
-            'args' => $this->checkout_args( $donate )
+            'args' => $this->checkout_args( $donate, $posted )
         );
     }
 

@@ -5,6 +5,7 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 class DN_Checkout {
+
     /**
      *
      * @var type null or array
@@ -17,6 +18,7 @@ class DN_Checkout {
     /*
      * Constructor
      */
+
     public function __construct() {
         
     }
@@ -216,7 +218,7 @@ class DN_Checkout {
                     // payment method selected
                     $payment = $payments[$payment_method];
 
-                    $results = $payment->process( $donate );
+                    $results = $payment->process( $donate, $this->posted );
                     if ( isset( $results['status'] ) && $results['status'] === 'success' ) {
                         if ( donate_is_ajax_request() ) {
                             wp_send_json( $results );
