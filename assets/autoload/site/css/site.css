@@ -732,3 +732,29 @@ body {
 .donate-pagination ul li{
     display: inline-block;
 }
+/**
+ * Thank you page
+ */
+.donate-thank-you * {
+    color: #777;
+}
+.donate-thank-you > div{
+    width: 50%;
+    float: left;
+}
+.donate-thank-you ul{
+    list-style: none;
+    margin: 0px 15px;;
+    background-color: rgba(222, 222, 222, 0.13);
+    border-radius: 2px;
+    box-shadow: 0px 1px 5px 5px rgb(238, 238, 238);
+}
+.donate-thank-you li h4{
+    margin: 0;
+    font-size: 18px;
+}
+.donate-thank-you li{
+    font-size: 13px;
+    padding: 5px 10px;
+    text-align: left;
+}

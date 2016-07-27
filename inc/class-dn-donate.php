@@ -93,16 +93,23 @@ class DN_Donate extends DN_Post_Base {
         return $this->id;
     }
 
-    /* remove all donate items */
-
+    /**
+     * remove all donate items
+     * @global type $wpdb
+     */
     public function remove_donate_items() {
         global $wpdb;
         $wpdb->query( $wpdb->prepare( "DELETE FROM itemmeta USING {$wpdb->prefix}postmeta itemmeta INNER JOIN {$wpdb->prefix}posts items WHERE itemmeta.post_id = items.ID AND items.ID = %d AND items.post_type = %s", $this->id, 'dn_donate_item' ) );
         $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}posts WHERE post_parent = %d AND post_type = %s", $this->id, 'dn_donate_item' ) );
     }
 
-    /* add donate item */
-
+    /**
+     * add donate item
+     * @param type $campaign_id
+     * @param type $title
+     * @param type $total
+     * @return type
+     */
     public function add_donate_item( $campaign_id = null, $title = '', $total = 0 ) {
         if ( !$this->id )
             return;
@@ -116,7 +123,6 @@ class DN_Donate extends DN_Post_Base {
         update_post_meta( $item_id, 'campaign_id', absint( $campaign_id ) );
         update_post_meta( $item_id, 'title', $title );
         update_post_meta( $item_id, 'total', floatval( $total ) );
-
         // ignoire product_data key
         $campaign = DN_Campaign::instance( $campaign_id );
         // ralationship campagin id and donate

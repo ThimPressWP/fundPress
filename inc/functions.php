@@ -948,8 +948,28 @@ if ( !function_exists( 'donate_is_thankyou_page' ) ) {
     function donate_is_thankyou_page() {
         global $post;
         $checkout_page_id = DN_Settings::instance()->checkout->get( 'checkout_page', 1 );
-        if ( $post->ID == $checkout_page_id && !empty( $_GET['thank-you'] ) && !empty( $_GET['donate-id'] ) ) {
+        if ( isset( $post->ID ) && $post->ID == $checkout_page_id && !empty( $_GET['thank-you'] ) && !empty( $_GET['donate-id'] ) ) {
             return true;
+        }
+    }
+
+}
+
+/**
+ * get status label with html
+ */
+if ( !function_exists( 'donate_get_status_label' ) ) {
+
+    function donate_get_status_label( $post_id ) {
+        global $donate_statuses;
+        $statuses = array();
+        foreach ( $donate_statuses as $status => $args ) {
+            $statuses[$status] = '<label class="donate-status ' . $status . '">' . $args['label'] . '</span>';
+        }
+
+        $post_status = get_post_status( $post_id );
+        if ( array_key_exists( $post_status, $statuses ) ) {
+            return apply_filters( 'donate_get_status_label', $statuses[$post_status], $post_id );
         }
     }
 

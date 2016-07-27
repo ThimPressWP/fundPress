@@ -51,11 +51,12 @@ class DN_Cart {
     public function process_cart() {
         if ( !isset( $_GET['donate_remove_item'] ) )
             return;
-
+        
+        $redirect = donate_cart_url() ? donate_cart_url() : home_url();
         $cart_item = sanitize_text_field( $_GET['donate_remove_item'] );
         $this->remove_cart_item( $cart_item );
         // redirect url
-        wp_redirect( donate_cart_url() );
+        wp_redirect( $redirect );
         exit();
     }
 

@@ -38,6 +38,7 @@ class DN_Shortcodes {
     public static function donate_checkout( $atts, $contents = null ) {
         if ( donate_is_thankyou_page() ) {
             $temp = 'checkout/thank-you.php';
+            $atts['donate'] = DN_Donate::instance( isset( $_GET['donate-id'] ) ? $_GET['donate-id'] : 0 );
         } else if ( donate()->cart->is_empty() ) {
             $temp = 'cart/empty.php';
         } else {

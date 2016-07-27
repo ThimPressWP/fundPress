@@ -2,26 +2,6 @@
 if ( !defined( 'ABSPATH' ) )
     exit();
 
-/**
- * get status label with html
- */
-if ( !function_exists( 'donate_get_status_label' ) ) {
-
-    function donate_get_status_label( $post_id ) {
-        global $donate_statuses;
-        $statuses = array();
-        foreach ( $donate_statuses as $status => $args ) {
-            $statuses[$status] = '<label class="donate-status ' . $status . '">' . $args['label'] . '</span>';
-        }
-
-        $post_status = get_post_status( $post_id );
-        if ( array_key_exists( $post_status, $statuses ) ) {
-            return apply_filters( 'donate_get_status_label', $statuses[$post_status], $post_id );
-        }
-    }
-
-}
-
 if ( !function_exists( 'donate_create_page' ) ) {
 
     function donate_create_page( $slug, $option = '', $page_title = '', $page_content = '', $post_parent = 0 ) {

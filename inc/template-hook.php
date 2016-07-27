@@ -356,3 +356,10 @@ if ( !function_exists( 'donate_cancel_payment_order' ) ) {
     }
 
 }
+
+add_action( 'init', 'donate_empty_cart_thankyou_page' );
+function donate_empty_cart_thankyou_page(){
+    if ( donate_is_thankyou_page() ) {
+        DN_Cart::instance()->remove_cart();
+    }
+}

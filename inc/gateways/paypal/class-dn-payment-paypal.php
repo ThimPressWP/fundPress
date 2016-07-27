@@ -48,7 +48,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
 
     // callback
     public function payment_validation() {
-        if ( isset( $_GET['donate-paypal-payment'] ) && $_GET['donate-paypal-payment'] ) {
+        if ( isset( $_GET['donate-paypal-payment'] ) && $_GET['donate-paypal-payment'] && ! empty( $_GET['donate-id'] ) ) {
             if ( !isset( $_GET['donate-paypal-nonce'] ) || !wp_verify_nonce( $_GET['donate-paypal-nonce'], 'donate-paypal-nonce' ) )
                 return;
 
@@ -60,8 +60,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
                 donate_add_notice( 'error', __( 'Donate is cancel.', 'tp-donate' ) );
             }
             // redirect
-            $url = add_query_arg( array( 'donate-paypal-nonce' => $_GET['donate-paypal-nonce'] ), donate_checkout_url() );
-            wp_redirect( $url );
+            wp_redirect( donate_get_thankyou_link( $_GET['donate-id'] ) );
             exit();
         }
 
@@ -195,7 +194,6 @@ class DN_Payment_Paypal extends DN_Payment_Base {
         $email = $donate->get_donor()->email;
 
         $total = floatval( $donate->total );
-
         // query post
         $query = array(
             'cmd' => '_xclick',
