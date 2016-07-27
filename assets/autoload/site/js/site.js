@@ -107,18 +107,14 @@
                 url: thimpress_donate.ajaxurl,
                 type: 'POST',
                 data: _data,
+                dataType: 'html',
                 beforeSend: function () {
                     TP_Donate_Global.beforeAjax();
                 }
-            } ).done( function ( res ) {
+            } ).done( function ( html ) {
                 TP_Donate_Global.afterAjax();
-
-                if ( typeof res.status !== 'undefined' && res.status === 'success' ) {
-                    var _tmpl = wp.template( 'donate-form-template' );
-
-                    $( '#donate_hidden' ).addClass( 'active' ).html( _tmpl( res ) );
-
-                    $.magnificPopup.open( {
+                $('#donate_hidden').html(html);
+                $.magnificPopup.open( {
                         type: 'inline',
                         items: {
                             src: '#donate_hidden'
@@ -128,12 +124,12 @@
                                 var timeout = setTimeout( function () {
                                     $( '#donate_hidden input[name="donate_input_amount"]:first' ).focus();
                                     $( '#donate_hidden input[name="payment_method"]:first' ).attr( 'checked', true );
+                                    TP_Donate_Global.applyFilters( 'donate_loaded_donate_form', _data );
                                     clearTimeout( timeout );
                                 }, 100 );
                             }
                         }
                     } );
-                }
 
             } );
 

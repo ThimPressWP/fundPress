@@ -6,7 +6,7 @@ donate_print_notices();
 ?>
 
 <div class="donate-thank-you">
-    <h3><?php _e( 'Thank you for your donated.', 'tp-donate' ); ?></h3>
+    <h3><?php _e( 'Thanks for your donated.', 'tp-donate' ); ?></h3>
     <div class="donate-info">
         <ul>
             <li>
@@ -23,6 +23,16 @@ donate_print_notices();
             <li>
                 <strong><?php _e( 'Donate Date: ', 'tp-donate' ); ?></strong>
                 <?php echo date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $donate->post_date ) ) ?>
+            </li>
+            <li>
+                <strong><?php _e( 'Payment Method: ', 'tp-donate' ); ?></strong>
+                <?php
+                    $payment = $donate->payment_method;
+                    $payments_enable = donate_payment_gateways();
+                    if ( array_key_exists( $payment, $payments_enable ) )
+                        $payment_title = $payments_enable[$payment]->_title;
+                ?>
+                <span class="donate-status <?php echo esc_attr( $payment ); ?>"><?php printf( '%s', $payment_title ) ?></span>
             </li>
             <li>
                 <strong><?php _e( 'Donate Status: ', 'tp-donate' ); ?></strong>
@@ -54,7 +64,7 @@ donate_print_notices();
                 <?php printf( '%s', $donor->phone ) ?>
             </li>
             <li>
-                <strong><?php _e( 'Addtion Note: ', 'tp-donate' ); ?></strong>
+                <strong><?php _e( 'Addition Note: ', 'tp-donate' ); ?></strong>
                 <?php printf( '%s', $donate->addition ) ?>
             </li>
         </ul>

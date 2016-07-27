@@ -250,7 +250,6 @@ body {
  * lightbox
  */
 #donate_hidden{
-    display: none;
     position: relative;
     background: #f1f4f8;
     padding: 20px;
@@ -757,4 +756,7 @@ body {
     font-size: 13px;
     padding: 5px 10px;
     text-align: left;
+}
+.donate-thank-you li label{
+    margin: 0;
 }

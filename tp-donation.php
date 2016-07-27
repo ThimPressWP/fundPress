@@ -198,9 +198,9 @@ class ThimPress_Donate {
         $this->_include( 'inc/class-dn-template-include.php' );
         $this->_include( 'inc/class-dn-template-underscore.php' );
         $this->_include( 'inc/class-dn-ajax.php' );
-        if ( !is_admin() ) {
+//        if ( !is_admin() ) {
             $this->_include( 'inc/class-dn-shortcodes.php' );
-        }
+//        }
 
         $this->autoload( array( 'products' ) );
         $this->_include( 'inc/install.php' );

@@ -319,7 +319,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                         /**
                          * vaildate card expired
                          */
-                        if ( !$.payment.cardExpiryVal( card_expiry.val() ) ) {
+                        if ( !card_expiry.val() || !$.payment.cardExpiryVal( card_expiry.val() ) ) {
                             validated = false;
                             card_expiry.addClass( 'error' ).removeClass( 'validated' );
                         } else {
@@ -328,7 +328,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                         /**
                          * validate card cvc
                          */
-                        if ( !$.payment.validateCardCVC( card_cvc.val(), card_type ) ) {
+                        if ( !card_cvc.val() || !$.payment.validateCardCVC( card_cvc.val(), card_type ) ) {
                             validated = false;
                             card_cvc.addClass( 'error' ).removeClass( 'validated' );
                         } else {

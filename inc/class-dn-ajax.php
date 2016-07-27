@@ -39,19 +39,8 @@ class DN_Ajax {
         if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'thimpress_donate_nonce' ) )
             return;
 
-        /**
-         * load form with campaign ID
-         */
-        $payments = array();
-        $payment_enable = donate_payments_enable();
-        foreach ( $payment_enable as $key => $payment ) {
-            $payments[] = array(
-                'id' => $payment->id,
-                'title' => $payment->_title,
-                'icon' => $payment->icon
-            );
-        }
         if ( isset( $_POST['campaign_id'] ) && is_numeric( $_POST['campaign_id'] ) ) {
+            
             $campaign = get_post( $_POST['campaign_id'] );
 
             if ( !$campaign || $campaign->post_type !== 'dn_campaign' ) {
@@ -61,51 +50,26 @@ class DN_Ajax {
             $campaign_id = $campaign->id;
             $campaign = DN_Campaign::instance( $campaign );
 
-            $compensates = array();
-            $currency = $campaign->get_currency();
-
-            if ( $eachs = $campaign->get_compensate() ) {
-                foreach ( $eachs as $key => $compensate ) {
-                    /**
-                     * convert campaign amount currency to amount with currency setting
-                     * @var
-                     */
-                    $amount = donate_campaign_convert_amount( $compensate['amount'], $currency );
-                    $compensates[$key] = array(
-                        'amount' => donate_price( $amount ),
-                        'desc' => $compensate['desc']
-                    );
-                }
-            }
-
+            $shortcode = '[donate_form';
+            $shortcode .= $campaign->id ? ' campaign_id="'.$campaign->id.'"' : '';
+            $shortcode .= $campaign->id ? ' title="'.get_the_title($campaign->id).'"' : '';
             // load payments when checkout on lightbox setting isset yes
-            if ( DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) !== 'yes' ) {
-                $payments = array();
-            }
-
-            $results = array(
-                'status' => 'success',
-                'campaign_id' => $campaign->id,
-                'campaign_title' => $campaign->get_title(),
-                'compensates' => $compensates,
-                'currency' => donate_get_currency(),
-                'currency_symbol' => donate_get_currency_symbol(),
-                'payments' => $payments // list payment allow
-            );
-        } else { // load form donate now button 
-            $results = array(
-                'status' => 'success',
-                'campaign_title' => apply_filters( 'donate_form_title_without_campaign', sprintf( '%s - %s', get_bloginfo( 'name' ), get_bloginfo( 'description' ) ) ),
-                'currency' => donate_get_currency(),
-                'currency_symbol' => donate_get_currency_symbol(),
-                'allow_payment' => true,
-                'donate_system' => true,
-                'payments' => $payments // list payment allow
-            );
+            $shortcode .= DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) == 'yes' ? ' payment="1"' : '';
+            $shortcode .= ']';
+        } else { // load form donate now button
+            $shortcode = '[donate_form';
+            $shortcode .= $campaign->id ? ' title="'.get_the_title($campaign->id).'"' : '';
+            // load payments when checkout on lightbox setting isset yes
+            $shortcode .= ' payment="1"';
+            $shortcode .= ']';
         }
 
-        $results = apply_filters( 'donate_load_form_donate_results', $results );
-        wp_send_json( $results );
+        $shortcode = apply_filters( 'donate_load_form_donate_results', $shortcode, $_POST );
+        
+        ob_start();
+        echo do_shortcode($shortcode);
+        $html = ob_get_clean();
+        printf( $html ); die();
     }
 
     /**

@@ -6,7 +6,6 @@ if ( !defined( 'ABSPATH' ) )
 class DN_Template_Underscore {
 
     function __construct() {
-
         /**
          * load form
          */

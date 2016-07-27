@@ -45,8 +45,6 @@ class DN_Email {
         if ( $email && $email_template ) {
             $subject = __( 'Donate completed', 'tp-donate' );
 
-            $body = $email_template;
-
             $replace = array(
                 '/\[(.*?)donor_first_name(.*?)\]/i',
                 '/\[(.*?)donor_last_name(.*?)\]/i',
@@ -63,7 +61,9 @@ class DN_Email {
                 $donor->get_meta( 'address' )
             );
 
-            $body = preg_replace( $replace, $replace_with, $body );
+            ob_start();
+            echo preg_replace( $replace, $replace_with, $email_template );
+            $body = ob_get_clean();
 
             // filter email setting
             add_filter( 'wp_mail_from', array( $this, 'set_email_from' ) );
