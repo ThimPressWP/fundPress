@@ -71,7 +71,7 @@ class DN_Shortcodes {
         $atts = shortcode_atts( array(
             'campaign_id' => '',
             'title' => '',
-            'payments' => true,
+            'payments' => DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'yes' ) === 'yes',
             'compensates' => false
                 ), $atts );
 
