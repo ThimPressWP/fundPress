@@ -85,7 +85,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
             $html[] = '</p>';
             $html[] = '<p>';
             $html[] = '<label for="' . esc_attr( $this->get_field_name( 'raised' ) ) . '">' . sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ) . '</label>';
-            $html[] = '<input type="number" class="raised regular-text" name="' . $this->get_field_name( 'raised' ) . '" id="' . $this->get_field_name( 'raised' ) . '" value="' . donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency ) . '" readonly/></th>';
+            $html[] = '<input type="number" class="raised regular-text" name="' . $this->get_field_name( 'raised' ) . '" id="' . $this->get_field_name( 'raised' ) . '" value="' . donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency ) . '"/></th>';
             $html[] = '</p>';
             $html[] = '</div>';
             $html[] = '<div class="form-group">';
