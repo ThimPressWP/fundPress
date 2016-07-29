@@ -196,7 +196,6 @@ class ThimPress_Donate {
         $this->_include( 'inc/class-dn-payment-gateways.php' );
 
         $this->_include( 'inc/class-dn-template-include.php' );
-        $this->_include( 'inc/class-dn-template-underscore.php' );
         $this->_include( 'inc/class-dn-ajax.php' );
 //        if ( !is_admin() ) {
             $this->_include( 'inc/class-dn-shortcodes.php' );

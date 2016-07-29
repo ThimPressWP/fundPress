@@ -250,6 +250,7 @@ body {
  * lightbox
  */
 #donate_hidden{
+    display: block!important;
     position: relative;
     background: #f1f4f8;
     padding: 20px;
@@ -260,6 +261,9 @@ body {
 }
 #donate_hidden.active{
     display: block;
+}
+#donate_hidden.mfp-hide {
+    display: none!important;
 }
 .donate_form h2{
     color: #ae8ce4;

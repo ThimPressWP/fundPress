@@ -363,3 +363,8 @@ function donate_empty_cart_thankyou_page(){
         DN_Cart::instance()->remove_cart();
     }
 }
+
+add_action( 'wp_footer', 'donate_footer_insert_blank_lightbox_div' );
+function donate_footer_insert_blank_lightbox_div() {
+    ?><div id="donate_hidden" class="mfp-hide"></div><?php
+}
