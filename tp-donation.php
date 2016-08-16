@@ -62,7 +62,7 @@ class ThimPress_Donate {
 
     /* checkout */
     public $checkout = null;
-    
+
     /**
      * payments object
      * @var type object
@@ -198,7 +198,7 @@ class ThimPress_Donate {
         $this->_include( 'inc/class-dn-template-include.php' );
         $this->_include( 'inc/class-dn-ajax.php' );
 //        if ( !is_admin() ) {
-            $this->_include( 'inc/class-dn-shortcodes.php' );
+        $this->_include( 'inc/class-dn-shortcodes.php' );
 //        }
 
         $this->autoload( array( 'products' ) );
@@ -268,7 +268,7 @@ class ThimPress_Donate {
             'nonce' => wp_create_nonce( 'thimpress_donate_nonce' ),
             'date_format' => get_option( 'date_format', 'Y-m-d' ),
             'time_format' => get_option( 'time_format', 'H:i:s' )
-        ) );
+                ) );
 
         wp_localize_script( 'thim_press_donate', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
         // Enqueued script with localized data.

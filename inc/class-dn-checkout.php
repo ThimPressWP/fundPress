@@ -188,7 +188,7 @@ class DN_Checkout {
                     $donate = DN_Donate::instance( $donate_id );
 
                     // update post meta
-                    if ( $donate_system && $amount ) {;
+                    if ( $donate_system && $amount ) {
                         $donate->update_meta( 'total', $amount );
                         $donate->update_meta( 'type', 'sytem' );
                         // $donate->update_meta( 'amount_system', $amount );

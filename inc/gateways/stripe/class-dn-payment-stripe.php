@@ -237,7 +237,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             }
 
             if ( empty( $body->id ) ) {
-                return new WP_Error( 'stripe_error', __( 'Stripe Process went wrong', 'tp-donate' ) );
+                return new WP_Error( 'stripe_error', __( 'Stripe process went wrong', 'tp-donate' ) );
             }
 
             return $body;
@@ -251,7 +251,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
      */
     public function checkout_form() {
         ob_start();
-        require_once TP_DONATE_INC . '/gateways/stripe/checkout-form.php';
+        require TP_DONATE_INC . '/gateways/stripe/checkout-form.php';
         return ob_get_clean();
     }
 

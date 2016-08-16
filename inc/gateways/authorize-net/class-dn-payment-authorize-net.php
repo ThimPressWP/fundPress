@@ -87,10 +87,10 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
             return;
 
         $id = (int) $_POST['x_invoice_num'];
-        $donation = DN_Donate::instance( $id );
+        $donate = DN_Donate::instance( $id );
 
         if ( $code === 1 ) {
-            if ( (float) $donation->get_meta( 'total' ) === (float) $amout )
+            if ( (float) $donate->total === (float) $amout )
                 $status = 'donate-completed';
             else
                 $status = 'donate-processing';
@@ -98,14 +98,12 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
             $status = 'donate-pending';
         }
 
-        $donation->update_status( $status );
-        if ( in_array( $status, array( 'donate-completed', 'donate-pending' ) ) ) {
-            donate()->cart->remove_cart();
-        }
+        $donate->update_status( $status );
+        donate()->cart->remove_cart();
         ob_end_clean();
 
         // redirect
-        wp_redirect( donate_checkout_url() );
+        wp_redirect( donate_get_thankyou_link( $donate->id ) );
         exit();
     }
 
@@ -192,15 +190,11 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
             'x_show_form' => 'PAYMENT_FORM',
             'x_version' => '3.1',
             'x_fp_timestamp' => $time,
-            'x_first_name' => $donor->get_meta( 'first_name' ),
-            'x_last_name' => $donor->get_meta( 'last_name' ),
-            'x_address' => $donor->get_meta( 'address' ),
-            // 'x_country'                => isset( $customer['_hb_country'] ) ? $customer['_hb_country'][0] : '',
-            // 'x_state'                  => isset( $customer['_hb_state'] ) ? $customer['_hb_state'][0] : '',
-            // 'x_city'                   => isset( $customer['_hb_city'] ) ? $customer['_hb_city'][0] : '',
-            // 'x_zip'                    => isset( $customer['_hb_postal_code'] ) ? $customer['_hb_postal_code'][0] : '',
-            'x_phone' => $donor->get_meta( 'phone' ),
-            'x_email' => $donor->get_meta( 'email' ),
+            'x_first_name' => $donor->first_name,
+            'x_last_name' => $donor->last_name,
+            'x_address' => $donor->address,
+            'x_phone' => $donor->phone,
+            'x_email' => $donor->email,
             'x_type' => 'AUTH_CAPTURE',
             'x_cancel_url' => donate_checkout_url(),
             'x_email_customer' => 'TRUE',

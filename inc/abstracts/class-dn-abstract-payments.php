@@ -9,7 +9,7 @@ abstract class DN_Payment_Base {
      * id of payment
      * @var null
      */
-    protected $_id = null;
+//    protected $_id = null;
 
     /**
      * payment title
