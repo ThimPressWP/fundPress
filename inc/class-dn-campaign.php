@@ -58,8 +58,6 @@ class DN_Campaign extends DN_Post_Base {
 
     // static function instead of new class
     static function instance( $post = null ) {
-        if ( !$post )
-            return new self( $post );
 
         if ( is_numeric( $post ) ) {
             $post = get_post( $post );

@@ -109,8 +109,10 @@ class DN_Install {
         }
     }
 
-    /* upgrade database order */
-
+    /**
+     * upgrade database order
+     * @return type
+     */
     public static function upgrade_database() {
         // delete_option( 'thimpress_donate_version' );
         $current_verion = get_option( 'thimpress_donate_version', null );

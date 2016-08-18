@@ -1,0 +1,12 @@
+=== 1.0.3 ===
+- Allow edit Campaign Raised
+- Upgrade database Donor count Campaign
+- Gulp
+- Start and End date campaign. Auto update status
+- Update switch currency rates( yahoo, google )
+- Payment gateways update. ( Form payment, Stripe Creditcard ) add payment.js file
+- Remove underscore template
+- Update thank-you page
+- Donate update order details
+- Donor sortable by email - phone
+- Donor update information
