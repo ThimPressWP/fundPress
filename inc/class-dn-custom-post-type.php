@@ -19,6 +19,7 @@ class DN_Post_Type {
         add_filter( 'manage_dn_donate_posts_columns', array( $this, 'add_columns' ) );
         add_action( 'manage_dn_donate_posts_custom_column', array( $this, 'columns' ), 10, 2 );
         add_filter( 'manage_edit-dn_donate_sortable_columns', array( $this, 'donate_sortable_columns' ) );
+        add_filter( 'manage_edit-dn_campaign_sortable_columns', array( $this, 'campaign_sortable_columns' ) );
         add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
         /* sortable order donate column */
         add_filter( 'request', array( $this, 'request_query' ) );
@@ -104,7 +105,6 @@ class DN_Post_Type {
     }
 
     /* add sortable column link order donate */
-
     public function donate_sortable_columns( $columns ) {
         $custom = array(
             'donate_title'  => 'ID',
@@ -113,6 +113,18 @@ class DN_Post_Type {
         );
         unset( $columns['comments'] );
 
+        return wp_parse_args( $custom, $columns );
+    }
+    
+    /**
+     * Sortable campaign
+     * @param type $columns
+     */
+    public function campaign_sortable_columns( $columns ) {
+        $custom = array(
+            'start'     => 'start',
+            'end'       => 'end'
+        );
         return wp_parse_args( $custom, $columns );
     }
 
@@ -176,6 +188,23 @@ class DN_Post_Type {
             if ( $_GET['orderby'] === 'phone' ) {
                 $vars = array_merge( $vars, array(
                     'meta_key' => TP_DONATE_META_DONOR . 'phone',
+                    'orderby' => 'meta_value',
+                    'order' => $_GET['order']
+                        ) );
+            }
+        }
+        
+        if ( $post_type === 'dn_campaign' ) {
+            if ( $_GET['orderby'] === 'start' ) {
+                $vars = array_merge( $vars, array(
+                    'meta_key' => TP_DONATE_META_DONATE . 'start',
+                    'orderby' => 'meta_value',
+                    'order' => $_GET['order']
+                        ) );
+            }
+            if ( $_GET['orderby'] === 'end' ) {
+                $vars = array_merge( $vars, array(
+                    'meta_key' => TP_DONATE_META_DONATE . 'end',
                     'orderby' => 'meta_value',
                     'order' => $_GET['order']
                         ) );
@@ -248,7 +277,7 @@ class DN_Post_Type {
             'capability_type' => 'post',
             'has_archive' => true,
             'hierarchical' => false,
-            'menu_position' => 8,
+            'menu_position' => 9,
             'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
         );
 

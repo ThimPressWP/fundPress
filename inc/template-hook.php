@@ -278,7 +278,6 @@ if ( !function_exists( 'donate_goal_campagin' ) ) {
         }
 
         $campaign = DN_Campaign::instance( $post_id );
-
         // convert to current currency settings
         return donate_campaign_convert_amount( floatval( $campaign->goal ), $campaign->currency, donate_get_currency() );
     }
@@ -302,7 +301,6 @@ if ( !function_exists( 'donate_get_campaign_percent' ) ) {
         }
 
         $total = donate_total_campaign( $post_id );
-
         $goal = donate_goal_campagin( $post_id );
 
         if ( !$goal ) {

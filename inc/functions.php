@@ -527,15 +527,14 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
                     //***
                     $results = json_decode( $res, true );
                     $rate = (float) $results['query']['results']['rate']['Rate'];
-
                     break;
 
                 case 'google':
                     # code...
-                    $amount = urlencode( 1 );
+                    $a = urlencode( 1 );
                     $from_Currency = urlencode( $from );
                     $to_Currency = urlencode( $to );
-                    $url = "http://www.google.com/finance/converter?a=$amount&from=$from_Currency&to=$to_Currency";
+                    $url = "http://www.google.com/finance/converter?a=$a&from=$from_Currency&to=$to_Currency";
 
                     if ( function_exists( 'curl_init' ) ) {
                         $html = donate_curl_get( $url );
@@ -544,7 +543,6 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
                     }
 
                     preg_match_all( '/<span class=bld>(.*?)<\/span>/s', $html, $matches );
-
                     if ( isset( $matches[1], $matches[1][0] ) ) {
                         $rate = floatval( $matches[1][0] );
                     } else {
@@ -560,6 +558,10 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
             set_transient( $name, $rate, 12 * HOUR_IN_SECONDS );
         }
 
+        if ( $rate == 0 ) {
+            delete_transient( $name );
+            donate_campaign_convert_amount( $amount, $from, $to );
+        }
         return round( $amount * $rate, donate_currency_decimal() );
     }
 
