@@ -71,11 +71,6 @@ class DN_MetaBox_Donate extends DN_MetaBox_Base {
                     update_post_meta( $item['item_id'], 'campaign_id', absint( $item['campaign_id'] ) );
                     update_post_meta( $item['item_id'], 'title', get_the_title( $item['campaign_id'] ) );
                     update_post_meta( $item['item_id'], 'total', floatval( $item['amount'] ) );
-
-                    // ignoire product_data key
-                    $campaign = DN_Campaign::instance( $item['campaign_id'] );
-                    // ralationship campagin id and donate
-                    $campaign->set_meta( 'donate', $post_id );
                 } else {
                     $donate->add_donate_item( $item['campaign_id'], get_the_title( $item['campaign_id'] ), floatval( $item['amount'] ) );
                 }

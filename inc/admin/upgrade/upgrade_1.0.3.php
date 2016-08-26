@@ -24,10 +24,7 @@ foreach ( $donates as $donate_id ) {
             update_post_meta( $item_id, 'campaign_id', absint( $content->product_id ) );
             update_post_meta( $item_id, 'title', $content->product_data->post_title );
             update_post_meta( $item_id, 'total', $content->amount );
-            if ( $donate->post_status === 'donate-completed' ) {
-                $count = absint( get_post_meta( $content->product_id, TP_DONATE_META_DONATE . 'donor_count', true ) );
-                update_post_meta( $content->product_id, TP_DONATE_META_DONATE . 'donor_count', $count++ );
-            }
+
         }
     } else {
         $donate->update_meta( 'type', 'system' );

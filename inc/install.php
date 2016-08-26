@@ -12,7 +12,7 @@ class DN_Install {
 
     /* init */
 
-    public static function init() {
+    public static function install() {
 
         if ( !defined( 'TP_DONATE_INSTALLING' ) ) {
             define( 'TP_DONATE_INSTALLING', true );
@@ -114,7 +114,7 @@ class DN_Install {
      * @return type
      */
     public static function upgrade_database() {
-        // delete_option( 'thimpress_donate_version' );
+//        delete_option( 'thimpress_donate_version' );
         $current_verion = get_option( 'thimpress_donate_version', null );
         if ( $current_verion && $current_verion >= max( array_keys( self::$update_db ) ) )
             return;
@@ -135,5 +135,5 @@ class DN_Install {
 }
 
 // active plugin
-register_activation_hook( TP_DONATE_FILE, array( 'DN_Install', 'init' ) );
+register_activation_hook( TP_DONATE_FILE, array( 'DN_Install', 'install' ) );
 register_deactivation_hook( TP_DONATE_FILE, array( 'DN_Install', 'uninstall' ) );
