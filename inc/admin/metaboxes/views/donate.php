@@ -41,11 +41,11 @@ $type = $this->get_field_value( 'type', 'system' );
                 <select name="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>" id="<?php echo esc_attr( $this->get_field_name( 'donor_id' ) ) ?>">
                     <option><?php _e( '----------------------------', 'tp-donate' ); ?></option>
                     <?php foreach ( donate_get_donors() as $id ) : ?>
-                            <?php $donor = DN_Donor::instance( $id ); ?>
+                        <?php $donor = DN_Donor::instance( $id ); ?>
                         <option value="<?php echo esc_attr( $id ); ?>"<?php selected( $donor_id, $id ); ?>>
-                        <?php printf( '%s(%s)', $donor->get_fullname(), $donor->email ) ?>
+                            <?php printf( '%s(%s)', $donor->get_fullname(), $donor->email ) ?>
                         </option>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
                 </select>
                 <p class="cmb2-metabox-description"><?php _e( 'Select donor.', 'tp-donate' ); ?></p>
             </div>
@@ -65,19 +65,19 @@ $type = $this->get_field_value( 'type', 'system' );
                 </thead>
                 <tbody>
                     <?php if ( $items = $donation->get_items() ) : ?>
-    <?php foreach ( $items as $k => $item ) : ?>
+                        <?php foreach ( $items as $k => $item ) : ?>
                             <tr class="item" data-id="<?php echo esc_attr( $item->id ); ?>">
                                 <td class="campaign">
-        <?php if ( $campaigns = donate_get_campaigns() ) : ?>
+                                    <?php if ( $campaigns = donate_get_campaigns() ) : ?>
                                         <select name="donate_item[<?php echo esc_attr( $k ); ?>][campaign_id]">
                                             <optgroup label="<?php _e( 'Select Campaign', 'tp-donate' ); ?>">
                                                 <option value=""><?php _e( '-----------------------', 'tp-donate' ); ?></option>
                                                 <?php foreach ( $campaigns as $campaign_id ) : ?>
                                                     <option value="<?php echo esc_attr( $campaign_id ); ?>"<?php selected( $item->campaign_id, $campaign_id ); ?>><?php printf( '%s', get_the_title( $campaign_id ) ) ?></option>
-            <?php endforeach; ?>
+                                                <?php endforeach; ?>
                                             </optgroup>
                                         </select>
-        <?php endif; ?>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="amount">
                                     <input type="number" step="any" name="donate_item[<?php echo esc_attr( $k ); ?>][amount]" value="<?php echo esc_attr( $item->total ); ?>" class="donate_item_total" />
@@ -88,7 +88,7 @@ $type = $this->get_field_value( 'type', 'system' );
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-<?php endif; ?>
+                    <?php endif; ?>
                 </tbody>
                 <tfoot data-currency="<?php echo esc_attr( donate_get_currency_symbol( $donation->currency ) ); ?>">
                     <tr class="item">
@@ -123,16 +123,16 @@ $type = $this->get_field_value( 'type', 'system' );
 <script type="text/html" id="tmpl-donate-template-campaign-item">
     <tr class="item">
         <td class="campaign">
-<?php if ( $campaigns = donate_get_campaigns() ) : ?>
+            <?php if ( $campaigns = donate_get_campaigns() ) : ?>
                 <select name="donate_item[{{ data.unique_id }}][campaign_id]">
                     <optgroup label="<?php _e( 'Select Campaign', 'tp-donate' ); ?>">
                         <option value=""><?php _e( '-----------------------', 'tp-donate' ); ?></option>
                         <?php foreach ( $campaigns as $campaign_id ) : ?>
                             <option value="<?php echo esc_attr( $campaign_id ); ?>"><?php printf( '%s', get_the_title( $campaign_id ) ) ?></option>
-    <?php endforeach; ?>
+                        <?php endforeach; ?>
                     </optgroup>
                 </select>
-<?php endif; ?>
+            <?php endif; ?>
         </td>
         <td class="amount">
             <input type="number" step="any" name="donate_item[{{ data.unique_id }}][amount]" value=""  class="donate_item_total" />

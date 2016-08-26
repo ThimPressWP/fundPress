@@ -179,7 +179,8 @@ class ThimPress_Donate {
         /* metaboxes */
         $this->_include( 'inc/widget-functions.php' );
         $this->_include( 'inc/i18n.php' );
-
+        
+        $this->_include( 'inc/hooks.php' );
         $this->_include( 'inc/template-hook.php' );
         $this->_include( 'inc/widgets/widget-functions.php' );
         $this->_include( 'inc/class-dn-custom-post-type.php' );

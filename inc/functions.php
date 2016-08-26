@@ -976,3 +976,199 @@ if ( !function_exists( 'donate_get_status_label' ) ) {
     }
 
 }
+
+if ( !function_exists( 'donate_campaign_is_coming' ) ) {
+
+    /**
+     * Is coming campaign
+     * @global type $post
+     * @param type $post_id
+     */
+    function donate_campaign_is_coming( $post_id = null ) {
+        if ( !$post_id ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+        $campaign = DN_Campaign::instance( $post_id );
+        $start = strtotime( $campaign->start );
+        if ( !$start )
+            return false;
+        return time() < $start;
+    }
+
+}
+
+if ( !function_exists( 'donate_campaign_is_happening' ) ) {
+
+    /**
+     * Is happening campaign
+     * @global type $post
+     * @param type $post_id
+     */
+    function donate_campaign_is_happening( $post_id = null ) {
+        if ( !$post_id ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+        $campaign = DN_Campaign::instance( $post_id );
+        $start = strtotime( $campaign->start );
+        $end = strtotime( $campaign->end );
+        $time = time();
+        if ( !$start && $end )
+            return $time < $end;
+
+        if ( $start && !$end )
+            return $time >= $start;
+
+        if ( $start && $end )
+            return $time >= $start && $time < $end;
+
+        return false;
+    }
+
+}
+
+if ( !function_exists( 'donate_campaign_is_expired' ) ) {
+
+    /**
+     * Is expired campaign
+     * @global type $post
+     * @param type $post_id
+     */
+    function donate_campaign_is_expired( $post_id = null ) {
+        if ( !$post_id ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+        $campaign = DN_Campaign::instance( $post_id );
+        $end = strtotime( $campaign->end );
+        $time = time();
+        if ( $end )
+            return $time > $end;
+
+        return false;
+    }
+
+}
+
+if ( !function_exists( 'donate_campaign_count_donor' ) ) {
+
+    /**
+     * Get donor donated for this campaign
+     * @global type $post
+     * @global type $wpdb
+     * @param type $campaign_id
+     * @return type integer
+     */
+    function donate_campaign_count_donor( $campaign_id = null ) {
+        if ( !$campaign_id ) {
+            global $post;
+            $campaign_id = $post->ID;
+        }
+        global $wpdb;
+        $sql = $wpdb->prepare( "SELECT COUNT( DISTINCT item_meta.meta_value ) FROM $wpdb->postmeta AS item_meta"
+                . " INNER JOIN $wpdb->posts AS item ON item.ID = item_meta.post_id"
+                . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
+                . " WHERE donate.post_status = %s"
+                . " AND donate.post_type = %s"
+                . " AND item.post_status = %s"
+                . " AND item.post_type = %s"
+                . " AND item_meta.meta_key = %s"
+                . " AND item_meta.meta_value = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $campaign_id );
+        return abs( $wpdb->get_var( $sql ) );
+    }
+
+}
+
+if ( !function_exists( 'donate_get_campaign_percent' ) ) {
+
+    function donate_get_campaign_percent( $post = null ) {
+        if ( !$post ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        if ( is_numeric( $post ) ) {
+            $post_id = $post;
+        }
+
+        if ( $post instanceof WP_Post ) {
+            $post_id = $post->ID;
+        }
+
+        $total = donate_total_campaign( $post_id );
+        $goal = donate_goal_campagin( $post_id );
+
+        if ( !$goal ) {
+            return 100;
+        }
+
+        return round( ( $total / $goal ) * 100, donate_currency_decimal() );
+    }
+
+}
+
+// get campaign total
+if ( !function_exists( 'donate_total_campaign' ) ) {
+
+    function donate_total_campaign( $post = null ) {
+        if ( !$post ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        if ( is_numeric( $post ) )
+            $post_id = $post;
+
+        if ( $post instanceof WP_Post ) {
+            $post_id = $post->ID;
+        }
+
+        global $wpdb;
+
+        $sql = $wpdb->prepare( "SELECT total.meta_value AS raised, c.meta_value AS currency FROM $wpdb->postmeta AS total"
+                . " INNER JOIN $wpdb->posts AS item ON item.ID = total.post_id"
+                . " INNER JOIN $wpdb->postmeta AS item_meta ON item.ID = item_meta.post_id"
+                . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
+                . " INNER JOIN $wpdb->postmeta AS c ON c.post_id = donate.ID"
+                . " WHERE donate.post_status = %s"
+                . " AND donate.post_type = %s"
+                . " AND item.post_status = %s"
+                . " AND item.post_type = %s"
+                . " AND item_meta.meta_key = %s"
+                . " AND item_meta.meta_value = %s"
+                . " AND total.meta_key = %s"
+                . " AND c.meta_key = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $post_id, 'total', TP_DONATE_META_DONATE . 'currency' );
+
+        $total = 0;
+        if ( $results = $wpdb->get_results( $sql ) ) {
+            foreach ( $results as $k => $donate ) {
+                $total += donate_campaign_convert_amount( $donate->raised, $donate->currency );
+            }
+        }
+        return $total;
+    }
+
+}
+
+if ( !function_exists( 'donate_goal_campagin' ) ) {
+
+    function donate_goal_campagin( $post = null ) {
+        if ( !$post ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        if ( is_numeric( $post ) )
+            $post_id = $post;
+
+        if ( $post instanceof WP_Post ) {
+            $post_id = $post->ID;
+        }
+
+        $campaign = DN_Campaign::instance( $post_id );
+        // convert to current currency settings
+        return donate_campaign_convert_amount( floatval( $campaign->goal ), $campaign->currency, donate_get_currency() );
+    }
+
+}

@@ -123,10 +123,6 @@ class DN_Donate extends DN_Post_Base {
         update_post_meta( $item_id, 'campaign_id', absint( $campaign_id ) );
         update_post_meta( $item_id, 'title', $title );
         update_post_meta( $item_id, 'total', floatval( $total ) );
-        // ignoire product_data key
-        $campaign = DN_Campaign::instance( $campaign_id );
-        // ralationship campagin id and donate
-        $campaign->set_meta( 'donate', $this->id );
         return $item_id;
     }
 
@@ -140,10 +136,11 @@ class DN_Donate extends DN_Post_Base {
             $status = 'donate-' . $status;
         }
 
-        $old_status = get_post_status( $this->id );
-
         wp_update_post( array( 'ID' => $this->id, 'post_status' => $status ) );
 
+        $old_status = get_post_status( $this->id );
+        $old_status = substr( $old_status, strlen( 'donate-' ) );
+        $status = substr( $status, strlen( 'donate-' ) );
         do_action( 'donate_update_status_' . $old_status . '_' . $status, $this->id );
         do_action( 'donate_update_status', $this->id, $old_status, $status );
         do_action( 'donate_update_status_' . $status, $this->id );
