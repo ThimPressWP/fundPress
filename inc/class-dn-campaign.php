@@ -49,11 +49,17 @@ class DN_Campaign extends DN_Post_Base {
      * @return array
      */
     public function get_currency() {
-        $currency = donate_get_currency();
-        if ( get_post_meta( $this->id, $this->meta_prefix . 'currency', true ) ) {
-            $currency = get_post_meta( $this->id, $this->meta_prefix . 'currency', true );
+        if ( ! ( $currency = get_post_meta( $this->id, $this->meta_prefix . 'currency', true ) ) ) {
+            $currency = donate_get_currency();
         }
         return $currency;
+    }
+
+    /**
+     * Get Campaign total raised
+     */
+    public function get_total_raised() {
+        return floatval( get_post_meta( $this->id, $this->meta_prefix . 'total_raised', true ) );
     }
 
     // static function instead of new class

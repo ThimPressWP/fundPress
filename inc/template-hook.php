@@ -223,24 +223,6 @@ if ( !function_exists( 'donate_campaign_pagination_archive' ) ) {
 
 }
 
-add_action( 'donate_create_booking_donate', 'donate_change_order_donate', 10, 1 );
-add_action( 'donate_update_status', 'donate_change_order_donate', 10, 1 );
-if ( !function_exists( 'donate_change_order_donate' ) ) {
-
-    // add schedule
-    function donate_change_order_donate( $donate_id ) {
-        $post_status = get_post_status( $donate_id );
-
-        if ( $post_status === 'donate-pending' ) {
-
-            wp_clear_scheduled_hook( 'donate_cancel_payment_order', array( $donate_id ) );
-            $time = DN_Settings::instance()->checkout->get( 'cancel_payment', 12 ) * HOUR_IN_SECONDS;
-            wp_schedule_single_event( time() + $time, 'donate_cancel_payment_order', array( $donate_id ) );
-        }
-    }
-
-}
-
 // cancel payment order
 add_action( 'donate_cancel_payment_order', 'donate_cancel_payment_order' );
 if ( !function_exists( 'donate_cancel_payment_order' ) ) {
@@ -266,5 +248,17 @@ function donate_empty_cart_thankyou_page(){
 
 add_action( 'wp_footer', 'donate_footer_insert_blank_lightbox_div' );
 function donate_footer_insert_blank_lightbox_div() {
-    ?><div id="donate_hidden" class="mfp-hide"></div><?php
+    ?>
+        <div id="donate_hidden" class="mfp-hide"></div>
+        <div class="donate_ajax_overflow">
+            <div class="donate_ajax_loading">
+                <span class="donate-1"></span>
+                <span class="donate-2"></span>
+                <span class="donate-3"></span>
+                <span class="donate-4"></span>
+                <span class="donate-5"></span>
+                <span class="donate-6"></span>
+            </div>
+        </div>
+    <?php
 }

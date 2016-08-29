@@ -1107,11 +1107,31 @@ if ( !function_exists( 'donate_get_campaign_percent' ) ) {
     }
 
 }
-
 // get campaign total
 if ( !function_exists( 'donate_total_campaign' ) ) {
 
     function donate_total_campaign( $post = null ) {
+        if ( !$post ) {
+            global $post;
+            $post_id = $post->ID;
+        }
+
+        if ( is_numeric( $post ) )
+            $post_id = $post;
+
+        if ( $post instanceof WP_Post ) {
+            $post_id = $post->ID;
+        }
+        $campaign = DN_Campaign::instance( $post_id );
+        return $campaign->get_total_raised();
+    }
+
+}
+
+// get campaign total by donated
+if ( !function_exists( 'donate_total_campaign_donated' ) ) {
+
+    function donate_total_campaign_donated( $post = null ) {
         if ( !$post ) {
             global $post;
             $post_id = $post->ID;

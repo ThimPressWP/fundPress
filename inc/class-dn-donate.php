@@ -167,6 +167,11 @@ class DN_Donate extends DN_Post_Base {
 
         return $this->donor = DN_Donor::instance( $donor_id );
     }
+    
+    public function has_status( $status = 'completed' ) {
+        return $this->post->post_status === 'donate-' . $status;
+    }
+        
 
     /**
      * get donate items
