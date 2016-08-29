@@ -40,15 +40,6 @@ class ThimPress_Donate {
     protected $_files = array();
 
     /**
-     * assets enqueue
-     * @var array
-     */
-    protected $_assets = array(
-        'admin' => array( 'css' => array(), 'js' => array() ),
-        'site' => array( 'css' => array(), 'js' => array() )
-    );
-
-    /**
      * options
      * @var options
      */
@@ -76,11 +67,6 @@ class ThimPress_Donate {
         $this->includes();
 
         $GLOBALS['dn_settings'] = $this->options = DN_Settings::instance();
-
-        // $this->cart = DN_Cart::instance();
-
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueues' ) );
         add_action( 'wp_footer', array( $this, 'footer' ) );
 
         /**
@@ -198,9 +184,14 @@ class ThimPress_Donate {
 
         $this->_include( 'inc/class-dn-template-include.php' );
         $this->_include( 'inc/class-dn-ajax.php' );
+        $this->_include( 'inc/class-dn-assets.php' );
 //        if ( !is_admin() ) {
         $this->_include( 'inc/class-dn-shortcodes.php' );
 //        }
+
+        if ( ! is_admin() ) {
+            $this->_include( 'inc/class-dn-frontend-assets.php' );
+        }
 
         $this->autoload( array( 'products' ) );
         $this->_include( 'inc/install.php' );
@@ -212,8 +203,10 @@ class ThimPress_Donate {
         }
     }
 
-    /* autoload folder */
-
+    /**
+     * autoload folder
+     * @param type $paths
+     */
     public function autoload( $paths = array() ) {
         foreach ( $paths as $key => $path ) {
             $real_path = TP_DONATE_INC . '/' . $path;
@@ -244,65 +237,6 @@ class ThimPress_Donate {
             elseif ( file_exists( $file ) )
                 require_once $file;
         }
-    }
-
-    /**
-     * enqueue script, style
-     * @return null
-     */
-    public function enqueues() {
-        wp_enqueue_script( 'jquery' );
-        // wp_dequeue_script( 'jquery-ui-datepicker' );
-        wp_enqueue_script( 'jquery-ui-core' );
-
-        wp_register_script( 'thim_press_donate', TP_DONATE_LIB_URI . '/globals.js', array(), TP_DONATE_VER, true );
-        wp_register_script( 'thim_press_circles', TP_DONATE_LIB_URI . '/circles.min.js', array( 'jquery' ), TP_DONATE_VER, true );
-
-        /**
-         * array render object script
-         * @var array
-         */
-        $donate_settings = apply_filters( 'donate_localize_object_settings', array(
-            'settings' => DN_Settings::instance()->_options,
-            'i18n' => donate_18n_languages(),
-            'ajaxurl' => admin_url( 'admin-ajax.php?schema=donate-ajax' ),
-            'nonce' => wp_create_nonce( 'thimpress_donate_nonce' ),
-            'date_format' => get_option( 'date_format', 'Y-m-d' ),
-            'time_format' => get_option( 'time_format', 'H:i:s' )
-                ) );
-
-        wp_localize_script( 'thim_press_donate', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
-        // Enqueued script with localized data.
-        wp_enqueue_script( 'thim_press_donate' );
-        wp_enqueue_script( 'wp-util' );
-        if ( is_admin() ) {
-            foreach ( $this->_assets['admin'] as $key => $files ) {
-                if ( $key === 'css' ) {
-                    foreach ( $files as $k => $f ) {
-                        wp_enqueue_style( 'tp-donate-' . $key . '-' . $k, $f, array(), TP_DONATE_VER );
-                    }
-                } else if ( $key === 'js' ) {
-                    foreach ( $files as $k => $f ) {
-                        wp_enqueue_script( 'tp-donate-' . $key . '-' . $k, $f, array(), TP_DONATE_VER, true );
-                    }
-                }
-            }
-        } else {
-            wp_enqueue_script( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/jquery.magnific-popup.min.js', array(), TP_DONATE_VER, true );
-            wp_enqueue_style( 'thim_press_donate_magnific', TP_DONATE_LIB_URI . '/magnific-popup/magnific-popup.css' );
-            foreach ( $this->_assets['site'] as $key => $files ) {
-                if ( $key === 'css' ) {
-                    foreach ( $files as $k => $f ) {
-                        wp_enqueue_style( 'tp-donate-' . $key . '-' . $k, $f, array(), TP_DONATE_VER );
-                    }
-                } else if ( $key === 'js' ) {
-                    foreach ( $files as $k => $f ) {
-                        wp_enqueue_script( 'tp-donate-' . $key . '-' . $k, $f, array(), TP_DONATE_VER, true );
-                    }
-                }
-            }
-        }
-        wp_enqueue_script( 'thim_press_circles' );
     }
 
     public function footer() {

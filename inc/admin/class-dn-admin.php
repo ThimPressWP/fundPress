@@ -14,6 +14,7 @@ class DN_Admin {
         ThimPress_Donate::instance()->_include( 'inc/admin/functions.php' );
         ThimPress_Donate::instance()->_include( 'inc/admin/class-dn-admin-menu.php' );
         ThimPress_Donate::instance()->_include( 'inc/admin/class-dn-admin-metabox.php' );
+        ThimPress_Donate::instance()->_include( 'inc/admin/class-dn-admin-assets.php' );
     }
 
 }
