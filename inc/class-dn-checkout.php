@@ -63,13 +63,16 @@ class DN_Checkout {
                 }
 
                 if ( $amount == 0 ) {
-                    throw new Exception( sprintf( '%s', __( 'Please enter donation amount.', 'tp-donate' ) ) );
+                    throw new Exception( __( 'Please enter donation amount.', 'tp-donate' ) );
                 }
                 // add to cart param
                 $cart_params = apply_filters( 'donate_add_to_cart_item_params', array(
                     'currency' => donate_get_currency()
                         ) );
 
+                if ( ! donate_campaign_is_allow_donate() ) {
+                    throw new Exception( __( 'This Campaign currently is not allow donate.', 'tp-donate' ) );
+                }
                 // add to cart
                 $cart_item_id = donate()->cart->add_to_cart( $campaign->id, $cart_params, 1, $amount );
                 if ( !$cart_item_id || is_wp_error( $cart_item_id ) ) {

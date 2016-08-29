@@ -1172,3 +1172,25 @@ if ( !function_exists( 'donate_goal_campagin' ) ) {
     }
 
 }
+
+if ( !function_exists( 'donate_campaign_is_allow_donate' ) ) {
+
+    function donate_campaign_is_allow_donate( $campaign_id = null ) {
+        if ( !$campaign_id ) {
+            global $post;
+            $campaign_id = $post->ID;
+        }
+        $campaign = DN_Campaign::instance( $campaign_id );
+        if ( $campaign->type === 'flexible' ) {
+            return true;
+        }
+
+        $time = time();
+        $start = strtotime( $campaign->start );
+        $end = strtotime( $campaign->end );
+        if ( $time >= $start && $time <= $end && donate_get_campaign_percent() < 100 ) {
+            return true;
+        }
+    }
+
+}

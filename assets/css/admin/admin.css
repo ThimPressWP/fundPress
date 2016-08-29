@@ -3,21 +3,21 @@
 
 /* end datepicker */
 .tp_donate_setting_wrapper a.nav-tab:focus{
-	box-shadow: none;
+    box-shadow: none;
 }
 .tp_donate_wrapper_content table th{
-	text-align: left;
-	min-width: 300px;
+    text-align: left;
+    min-width: 300px;
     max-width: 300px;
 }
 .tp_donate_wrapper_content table p{
-	margin: 2px;
-	font-weight: normal;
+    margin: 2px;
+    font-weight: normal;
 }
 .tp_donate_wrapper_content table select,
 .tp_donate_wrapper_content table input[ type="text" ]{
-	width: auto;
-	min-width: 250px;
+    width: auto;
+    min-width: 250px;
 }
 #checkout h3 a{
     font-size: 12px;
@@ -34,7 +34,7 @@
 .column-donate_total,
 .column-donate_payment_method,
 .column-donate_status{
-	width: 10%;
+    width: 10%;
 }
 /* END WP POST TABLE */
 /**
@@ -61,35 +61,38 @@
     border-right: 1px solid #eee;
 }
 .donate_metabox_setting li{
-	margin: 0;
+    margin: 0;
 }
 .donate_metabox_setting li a{
-	text-decoration: none;
-	padding: 12px;
-	display: block;
-	border-bottom: 1px solid #eee;
+    text-decoration: none;
+    padding: 12px;
+    display: block;
+    border-bottom: 1px solid #eee;
 }
 .donate_metabox_setting li a:focus{
-	box-shadow: none;
+    box-shadow: none;
 }
 .donate_metabox_setting_section{
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 .donate_metabox_setting_section .form-group{
-	border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.form-group .description{
+    display: block;
 }
 .donate_metabox_setting_container{
-	width: 80%;
+    width: 80%;
     float: left;
     box-sizing: border-box;
 }
 #donate_setting_section .inside{
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 .donate_metabox_setting_section .donate_metabox{
-	border-bottom: 1px solid #dedede;
+    border-bottom: 1px solid #dedede;
 }
 .donate_metabox_setting_section label{
     float: left;
@@ -100,28 +103,28 @@
     margin-left: -150px;
 }
 .donate_metabox_setting_section th{
-	text-align: left;
-	width: 30%;
+    text-align: left;
+    width: 30%;
 }
 .donate_metabox_setting_section p{
-	padding: 5px 5px 5px 165px;
+    padding: 5px 5px 5px 165px;
 }
 .donate_metabox_setting_container .tool_box{
-	overflow: hidden;
+    overflow: hidden;
 }
 .donate_metabox_setting_section textarea{
-	width: 100%;
+    width: 100%;
 }
 #donate_donate_info_section .inside{
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 .donate_items{
-	border-collapse: collapse;
-	width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
 .donate_items *{
-	color: #999;
+    color: #999;
 }
 .donate_items thead th{
     background-color: #f8f8f8;
@@ -130,51 +133,51 @@
 }
 .donate_items th,
 .donate_items tr{
-	border-bottom: 1px solid #f8f8f8;
+    border-bottom: 1px solid #f8f8f8;
 }
 .donate_items td{
-	border: none;
+    border: none;
 }
 .donate_items .campaign{
-	text-align: left;
-	border-right: 1px solid #f8f8f8;
+    text-align: left;
+    border-right: 1px solid #f8f8f8;
 }
 .donate_items .action{
-	width: 1%;
-	border-left: 1px solid #f8f8f8;
+    width: 1%;
+    border-left: 1px solid #f8f8f8;
 }
 .donate_items .action a{
-	text-decoration: none;
-	display: inline-block;
-	padding: 5px;
-	border-radius: 50%;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 50%;
 }
 .donate_items .action a i{
-	font-size: 9px;
+    font-size: 9px;
 }
 .donate_items .amount{
-	text-align: center;;
+    text-align: center;;
 }
 .donate_items .total,
 .donate_items .donor{
-	text-align: right;
-	border-right: 1px solid #f8f8f8;
-	color: #666;
+    text-align: right;
+    border-right: 1px solid #f8f8f8;
+    color: #666;
 }
 .donate_items tbody *,
 .donate_items tfoot *{
-	color: #666;
-	font-size: 12px;
+    color: #666;
+    font-size: 12px;
 }
 .donate_items .thumb{
-	width: 1%;
+    width: 1%;
 }
 .addition{
-	width: 100%;
+    width: 100%;
 }
 .donate_items tfoot .amount ins{
-	color: #000;
-	font-weight: 600;
+    color: #000;
+    font-weight: 600;
 }
 /**
  * donor metabox
@@ -183,25 +186,25 @@
 #donate_donor_info_section td,
 #donate_donate_info_section th,
 #donate_donate_info_section td{
-	padding: 12px;
+    padding: 12px;
 }
 .column-start,
 .column-end,
 .column-funded{
-	text-align: center !important;
+    text-align: center !important;
 }
 #donate_donate_info_section label {
-	padding: 5px 10px !important;
+    padding: 5px 10px !important;
 }
 #thimpress_donate_type{
-	width: 200px;
+    width: 200px;
 }
 /**
  * donate status
  */
- #donate_action label{
- 	font-weight: 600;
- }
+#donate_action label{
+    font-weight: 600;
+}
 .donate-status{
     display: inline-block;
     padding: 5px;
@@ -225,14 +228,14 @@
     background-color: rgba(31, 241, 28, 0.82);
 }
 .donate-status.donate-refunded{
-	background-color: #d47f3c;
+    background-color: #d47f3c;
 }
 /* donate notes */
 #donate_note label{
-	display: block;
+    display: block;
     margin: 0 0 5px 0;
     font-weight: 600;
 }
 #donate_note textarea{
-	width: 100%;
+    width: 100%;
 }

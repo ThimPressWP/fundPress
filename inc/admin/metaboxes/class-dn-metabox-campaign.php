@@ -63,9 +63,8 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
         $html = array();
 
         global $post;
-        $currency = donate_get_currency();
-        if ( $post && get_post_meta( $post->ID, $this->get_field_name( 'currency' ), true ) ) {
-            $currency = get_post_meta( $post->ID, $this->get_field_name( 'currency' ), true );
+        if ( ! ( $currency = $this->get_field_value( 'currency' ) ) ) {
+            $currency = donate_get_currency();
         }
 
         $html[] = '<input type="hidden" name="' . esc_attr( $this->get_field_name( 'currency' ) ) . '" value="' . esc_attr( $currency ) . '"/>';
@@ -80,8 +79,26 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
             }
             $html[] = '<div class="form-group">';
             $html[] = '<p>';
+            $html[] = '<label for="' . esc_attr( $this->get_field_name( 'type' ) ) . '">' . __( 'Type', 'tp-donate' ) . '</label>';
+            $html[] = '<select name="' . $this->get_field_name( 'type' ) . '" id="' . $this->get_field_name( 'type' ) . '">';
+            $html[] = '<option value="flexible"'.selected( $this->get_field_value( 'type' ), 'flexible', false ).'>'.__( 'Flexible', 'tp-donate' ).'</option>';
+            $html[] = '<option value="fixed"'.selected( $this->get_field_value( 'type' ), 'fixed', false ).'>'.__( 'Fixed', 'tp-donate' ).'</option>';
+            $html[] = '</select>';
+            $html[] = '</p>';
+            $html[] = '<p>';
+            $html[] = '<label for="' . esc_attr( $this->get_field_name( 'currency' ) ) . '">' . __( 'Currency', 'tp-donate' ) . '</label>';
+            $html[] = '<select name="' . $this->get_field_name( 'currency' ) . '" id="' . $this->get_field_name( 'currency' ) . '">';
+            foreach ( donate_get_currencies() as $code => $label ) {
+                $html[] = '<option value="'.esc_attr( $code ).'"'.selected( $currency, $code, false ).'>'.  sprintf( '%s', $label  ).'</option>';
+            }
+            $html[] = '</select>';
+            $html[] = '<span class="description">'.__( 'Please make sure this option is keep not change. If it change Goaled will be change', 'tp-donate' ).'</span>';
+            $html[] = '</p>';
+            $html[] = '</div>';
+            $html[] = '<div class="form-group">';
+            $html[] = '<p>';
             $html[] = '<label for="' . esc_attr( $this->get_field_name( 'goal' ) ) . '">' . sprintf( '%s(%s)', __( 'Goal', 'tp-donate' ), donate_get_currency_symbol( $currency ) ) . '</label>';
-            $html[] = '<input type="number" class="goal regular-text" name="' . $this->get_field_name( 'goal' ) . '" id="' . $this->get_field_name( 'goal' ) . '" value="' . $this->get_field_value( 'goal', 0 ) . '" min="0"/></th>';
+            $html[] = '<input type="number" class="goal regular-text" name="' . $this->get_field_name( 'goal' ) . '" id="' . $this->get_field_name( 'goal' ) . '" value="' . $this->get_field_value( 'goal', 0 ) . '" min="0"/>';
             $html[] = '</p>';
             $html[] = '<p>';
             $html[] = '<label for="' . esc_attr( $this->get_field_name( 'raised' ) ) . '">' . sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ) . '</label>';
@@ -190,8 +207,13 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
         die();
     }
 
-    /* update meta campaign */
-
+    /**
+     * update meta campaign
+     * @param type $post_id
+     * @param type $post
+     * @param type $update
+     * @return type
+     */
     public function update_meta_campaign( $post_id, $post, $update ) {
         if ( !isset( $_POST ) || empty( $_POST ) ) {
             return;
