@@ -71,6 +71,7 @@ class DN_Donate extends DN_Post_Base {
     }
 
     /* update donate_awaiting_payment */
+
     public function update_information( $donor_id = null, $payment_method = null ) {
         // cart
         $cart = donate()->cart;
@@ -118,7 +119,7 @@ class DN_Donate extends DN_Post_Base {
             'post_type' => 'dn_donate_item',
             'post_parent' => $this->id,
             'post_status' => 'publish'
-        ) );
+                ) );
 
         update_post_meta( $item_id, 'campaign_id', absint( $campaign_id ) );
         update_post_meta( $item_id, 'title', $title );
@@ -167,11 +168,10 @@ class DN_Donate extends DN_Post_Base {
 
         return $this->donor = DN_Donor::instance( $donor_id );
     }
-    
+
     public function has_status( $status = 'completed' ) {
         return $this->post->post_status === 'donate-' . $status;
     }
-        
 
     /**
      * get donate items

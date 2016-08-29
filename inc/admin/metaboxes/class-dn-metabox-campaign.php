@@ -103,8 +103,8 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
             $html[] = '<input type="number" class="goal regular-text" name="' . $this->get_field_name( 'goal' ) . '" id="' . $this->get_field_name( 'goal' ) . '" value="' . $this->get_field_value( 'goal', 0 ) . '" min="0"/>';
             $html[] = '</p>';
             $html[] = '<p>';
-            $html[] = '<label for="' . esc_attr( $this->get_field_name( 'raised' ) ) . '">' . sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ) . '</label>';
-            $html[] = '<input type="number" class="raised regular-text" name="' . $this->get_field_name( 'raised' ) . '" id="' . $this->get_field_name( 'raised' ) . '" value="' . $campaign->get_total_raised() . '"/></th>'; // donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency )
+            $html[] = '<label for="' . esc_attr( $this->get_field_name( 'total_raised' ) ) . '">' . sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ) . '</label>';
+            $html[] = '<input type="number" step="any" class="raised regular-text" name="' . $this->get_field_name( 'total_raised' ) . '" id="' . $this->get_field_name( 'total_raised' ) . '" value="' . $campaign->get_total_raised() . '"/></th>'; // donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency )
             $html[] = '</p>';
             $html[] = '</div>';
             $html[] = '<div class="form-group">';
