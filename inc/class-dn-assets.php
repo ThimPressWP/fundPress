@@ -94,6 +94,7 @@ class DN_Assets {
             }
         }
 
+        self::register_style( 'donate-global', TP_DONATE_ASSETS_URI . '/css/donate.css' );
         if ( self::$_styles ) {
             foreach ( self::$_styles as $handle => $param ) {
                 call_user_func_array( 'wp_register_style', $param );
