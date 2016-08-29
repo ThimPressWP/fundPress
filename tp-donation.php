@@ -67,7 +67,6 @@ class ThimPress_Donate {
         $this->includes();
 
         $GLOBALS['dn_settings'] = $this->options = DN_Settings::instance();
-        add_action( 'wp_footer', array( $this, 'footer' ) );
 
         /**
          * text-domain append plugins_loaded hook
@@ -237,21 +236,6 @@ class ThimPress_Donate {
             elseif ( file_exists( $file ) )
                 require_once $file;
         }
-    }
-
-    public function footer() {
-        ?>
-        <div class="donate_ajax_overflow">
-            <div class="donate_ajax_loading">
-                <span class="donate-1"></span>
-                <span class="donate-2"></span>
-                <span class="donate-3"></span>
-                <span class="donate-4"></span>
-                <span class="donate-5"></span>
-                <span class="donate-6"></span>
-            </div>
-        </div>
-        <?php
     }
 
     /**

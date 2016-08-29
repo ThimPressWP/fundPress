@@ -66,13 +66,14 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
         if ( ! ( $currency = $this->get_field_value( 'currency' ) ) ) {
             $currency = donate_get_currency();
         }
-
-        $html[] = '<input type="hidden" name="' . esc_attr( $this->get_field_name( 'currency' ) ) . '" value="' . esc_attr( $currency ) . '"/>';
+        $campaign = DN_Campaign::instance( $post->ID );
+//        $html[] = '<input type="hidden" name="' . esc_attr( $this->get_field_name( 'currency' ) ) . '" value="' . esc_attr( $currency ) . '"/>';
         if ( $id === 'general' ) {
             $start = $this->get_field_value( 'start' );
             if ( $start ) {
                 $start = date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $start ) );
             }
+
             $end = $this->get_field_value( 'end' );
             if ( $end ) {
                 $end = date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $end ) );
@@ -84,6 +85,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
             $html[] = '<option value="flexible"'.selected( $this->get_field_value( 'type' ), 'flexible', false ).'>'.__( 'Flexible', 'tp-donate' ).'</option>';
             $html[] = '<option value="fixed"'.selected( $this->get_field_value( 'type' ), 'fixed', false ).'>'.__( 'Fixed', 'tp-donate' ).'</option>';
             $html[] = '</select>';
+            $html[] = '<span class="description">'.__( 'Flexible allow charge although full founded or expired date.', 'tp-donate' ).'</span>';
             $html[] = '</p>';
             $html[] = '<p>';
             $html[] = '<label for="' . esc_attr( $this->get_field_name( 'currency' ) ) . '">' . __( 'Currency', 'tp-donate' ) . '</label>';
@@ -92,7 +94,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
                 $html[] = '<option value="'.esc_attr( $code ).'"'.selected( $currency, $code, false ).'>'.  sprintf( '%s', $label  ).'</option>';
             }
             $html[] = '</select>';
-            $html[] = '<span class="description">'.__( 'Please make sure this option is keep not change. If it change Goaled will be change', 'tp-donate' ).'</span>';
+            $html[] = '<span class="description">'.__( 'Please make sure this option is keep not change. If it change Raised will be change.', 'tp-donate' ).'</span>';
             $html[] = '</p>';
             $html[] = '</div>';
             $html[] = '<div class="form-group">';
@@ -102,7 +104,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
             $html[] = '</p>';
             $html[] = '<p>';
             $html[] = '<label for="' . esc_attr( $this->get_field_name( 'raised' ) ) . '">' . sprintf( '%s(%s)', __( 'Raised', 'tp-donate' ), donate_get_currency_symbol( $currency ) ) . '</label>';
-            $html[] = '<input type="number" class="raised regular-text" name="' . $this->get_field_name( 'raised' ) . '" id="' . $this->get_field_name( 'raised' ) . '" value="' . donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency ) . '"/></th>';
+            $html[] = '<input type="number" class="raised regular-text" name="' . $this->get_field_name( 'raised' ) . '" id="' . $this->get_field_name( 'raised' ) . '" value="' . $campaign->get_total_raised() . '"/></th>'; // donate_campaign_convert_amount( donate_total_campaign(), donate_get_currency(), $currency )
             $html[] = '</p>';
             $html[] = '</div>';
             $html[] = '<div class="form-group">';

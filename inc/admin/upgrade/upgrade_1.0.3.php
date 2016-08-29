@@ -24,7 +24,13 @@ foreach ( $donates as $donate_id ) {
             update_post_meta( $item_id, 'campaign_id', absint( $content->product_id ) );
             update_post_meta( $item_id, 'title', $content->product_data->post_title );
             update_post_meta( $item_id, 'total', $content->amount );
-
+            $donate_item = DN_Donate_Item::instance( $item_id );
+            if ( ! $donate_item->update_campaign_raised && $donate->has_status( 'completed' ) ) {
+                $campaign = DN_Campaign::instance( $donate_item->campaign_id );
+                $total = $campaign->get_total_raised();
+                update_post_meta( $donate_item->campaign_id, TP_DONATE_META_CAMPAIGN . 'total_raised', $total + $content->amount );
+                update_post_meta( $item_id, 'update_campaign_raised', 1 );
+            }
         }
     } else {
         $donate->update_meta( 'type', 'system' );
