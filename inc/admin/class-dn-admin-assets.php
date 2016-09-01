@@ -16,6 +16,7 @@ class DN_Admin_Assets {
      * @param type $hook
      */
     public static function register_scripts( $hook ) {
+        wp_enqueue_script( 'jquery-ui-datepicker' );
         DN_Assets::register_script( 'donate-admin-script', TP_DONATE_ASSETS_URI . '/js/admin/admin.js', array(), TP_DONATE_VER, true );
         DN_Assets::register_style( 'donate-admin-style', TP_DONATE_ASSETS_URI . '/css/admin/admin.css' );
 
