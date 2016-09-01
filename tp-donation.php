@@ -117,39 +117,12 @@ class ThimPress_Donate {
     }
 
     /**
-     * autoload assets function
-     * @return null
-     */
-    public function load_assets() {
-
-        $path = TP_DONATE_PATH . 'assets/autoload';
-        $local = array( 'admin', 'site' );
-
-        // assets file
-        foreach ( $local as $key => $lo ) {
-            $csss = $path . '/' . $lo . '/css';
-            if ( file_exists( $csss ) ) {
-                foreach ( (array) glob( $csss . '/*.css' ) as $key => $f ) {
-                    $this->_assets[$lo]['css'][] = TP_DONATE_ASSETS_URI . '/autoload/' . $lo . '/css/' . basename( $f );
-                }
-            }
-
-            $jss = $path . '/' . $lo . '/js';
-            if ( file_exists( $jss ) ) {
-                foreach ( (array) glob( $jss . '/*.js' ) as $key => $f ) {
-                    $this->_assets[$lo]['js'][] = TP_DONATE_ASSETS_URI . '/autoload/' . $lo . '/js/' . basename( $f );
-                }
-            }
-        }
-    }
-
-    /**
      * include file
      * @param  array or string
      * @return null
      */
     public function includes() {
-        $this->load_assets();
+
         $this->_include( 'inc/class-dn-autoloader.php' );
         $this->_include( 'inc/class-dn-setting.php' );
 
