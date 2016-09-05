@@ -113,23 +113,23 @@
                 }
             } ).done( function ( html ) {
                 TP_Donate_Global.afterAjax();
-                $('#donate_hidden').html(html);
+                $( '#donate_hidden' ).html( html );
                 $.magnificPopup.open( {
-                        type: 'inline',
-                        items: {
-                            src: '#donate_hidden'
-                        },
-                        callbacks: {
-                            open: function () {
-                                var timeout = setTimeout( function () {
-                                    $( '#donate_hidden input[name="donate_input_amount"]:first' ).focus();
-                                    $( '#donate_hidden input[name="payment_method"]:first' ).attr( 'checked', true );
-                                    TP_Donate_Global.applyFilters( 'donate_loaded_donate_form', _data );
-                                    clearTimeout( timeout );
-                                }, 100 );
-                            }
+                    type: 'inline',
+                    items: {
+                        src: '#donate_hidden'
+                    },
+                    callbacks: {
+                        open: function () {
+                            var timeout = setTimeout( function () {
+                                $( '#donate_hidden input[name="donate_input_amount"]:first' ).focus();
+                                $( '#donate_hidden input[name="payment_method"]:first' ).attr( 'checked', true );
+                                TP_Donate_Global.applyFilters( 'donate_loaded_donate_form', _data );
+                                clearTimeout( timeout );
+                            }, 100 );
                         }
-                    } );
+                    }
+                } );
 
             } );
 

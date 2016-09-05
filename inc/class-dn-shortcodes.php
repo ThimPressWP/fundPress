@@ -77,6 +77,12 @@ class DN_Shortcodes {
 
         if ( $atts['campaign_id'] && !$atts['title'] ) {
             $atts['title'] = get_the_title( $atts['campaign_id'] );
+        } else {
+            if ( !$atts['title'] ) {
+                $atts['title'] = apply_filters( 'donate_form_title_without_campaign', sprintf( '%s - %s', get_bloginfo( 'name' ), get_bloginfo( 'description' ) ) );
+            }
+        }
+        if ( $atts['campaign_id'] ) {
             $campaign = DN_Campaign::instance( $atts['campaign_id'] );
 
             $compensates = array();
@@ -96,10 +102,6 @@ class DN_Shortcodes {
                 }
             }
             $atts['compensates'] = $compensates;
-        } else {
-            if ( !$atts['title'] ) {
-                $atts['title'] = apply_filters( 'donate_form_title_without_campaign', sprintf( '%s - %s', get_bloginfo( 'name' ), get_bloginfo( 'description' ) ) );
-            }
         }
         return DN_Shortcodes::render( 'donate_form', 'shortcodes/donate-form.php', $atts, $contents );
     }
