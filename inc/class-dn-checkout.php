@@ -70,7 +70,7 @@ class DN_Checkout {
                     'currency' => donate_get_currency()
                         ) );
 
-                if ( ! donate_campaign_is_allow_donate() ) {
+                if ( ! donate_campaign_is_allow_donate( $campaign->id ) ) {
                     throw new Exception( __( 'This Campaign currently is not allow donate.', 'tp-donate' ) );
                 }
                 // add to cart
