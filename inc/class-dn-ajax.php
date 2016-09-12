@@ -39,6 +39,7 @@ class DN_Ajax {
         if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( $_POST['nonce'], 'thimpress_donate_nonce' ) )
             return;
 
+        // Load form to donate for campaign
         if ( isset( $_POST['campaign_id'] ) && is_numeric( $_POST['campaign_id'] ) ) {
             
             $campaign = get_post( $_POST['campaign_id'] );
@@ -47,7 +48,6 @@ class DN_Ajax {
                 wp_send_json( array( 'status' => 'failed', 'message' => __( 'Campaign is not exists in our system.', 'tp-donate' ) ) );
             }
 
-            $campaign_id = $campaign->id;
             $campaign = DN_Campaign::instance( $campaign );
 
             $shortcode = '[donate_form';
@@ -56,9 +56,8 @@ class DN_Ajax {
             // load payments when checkout on lightbox setting isset yes
             $shortcode .= DN_Settings::instance()->checkout->get( 'lightbox_checkout', 'no' ) == 'yes' ? ' payment="1"' : '';
             $shortcode .= ']';
-        } else { // load form donate now button
+        } else { // Load form to donate for site
             $shortcode = '[donate_form';
-            $shortcode .= $campaign->id ? ' title="'.get_the_title($campaign->id).'"' : '';
             // load payments when checkout on lightbox setting isset yes
             $shortcode .= ' payment="1"';
             $shortcode .= ']';
