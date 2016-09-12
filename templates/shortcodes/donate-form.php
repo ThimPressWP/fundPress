@@ -10,7 +10,7 @@ if ( !defined( 'ABSPATH' ) )
 
     <form action="<?php echo esc_attr( donate_redirect_url() ) ?>" method="POST" class="donate_form" id="donate_form">
         <h2><?php _e( 'Donation amount', 'tp-donate' ) ?></h2>
-        <p class="description"><?php echo esc_html( $title ) ?><p>
+        <p class="description"><?php echo esc_html( $title ) ?></p>
         <div class="donate_form_layout">
 
             <!--Donate For System OR Campaign -->
