@@ -80,7 +80,7 @@ class DN_Assets {
             'nonce' => wp_create_nonce( 'thimpress_donate_nonce' ),
             'date_format' => get_option( 'date_format', 'Y-m-d' ),
             'time_format' => get_option( 'time_format', 'H:i:s' )
-                ) );
+         ) );
 
         self::localize_script( 'donate-global', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
 

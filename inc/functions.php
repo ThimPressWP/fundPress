@@ -1,67 +1,70 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) )
+if (!defined('ABSPATH'))
     exit();
 
-if ( !function_exists( 'donate_get_template' ) ) {
+if (!function_exists('donate_get_template')) {
 
-    function donate_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
-        if ( $args && is_array( $args ) ) {
-            extract( $args );
+    function donate_get_template($template_name, $args = array(), $template_path = '', $default_path = '')
+    {
+        if ($args && is_array($args)) {
+            extract($args);
         }
 
-        $located = donate_locate_template( $template_name, $template_path, $default_path );
+        $located = donate_locate_template($template_name, $template_path, $default_path);
 
-        if ( !file_exists( $located ) ) {
-            _doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $located ), '2.1' );
+        if (!file_exists($located)) {
+            _doing_it_wrong(__FUNCTION__, sprintf('<code>%s</code> does not exist.', $located), '2.1');
             return;
         }
         // Allow 3rd party plugin filter template file from their plugin
-        $located = apply_filters( 'donate_get_template', $located, $template_name, $args, $template_path, $default_path );
+        $located = apply_filters('donate_get_template', $located, $template_name, $args, $template_path, $default_path);
 
-        do_action( 'donate_before_template_part', $template_name, $template_path, $located, $args );
+        do_action('donate_before_template_part', $template_name, $template_path, $located, $args);
 
-        include( $located );
+        include($located);
 
-        do_action( 'donate_after_template_part', $template_name, $template_path, $located, $args );
+        do_action('donate_after_template_part', $template_name, $template_path, $located, $args);
     }
 
 }
 
-if ( !function_exists( 'donate_template_path' ) ) {
+if (!function_exists('donate_template_path')) {
 
-    function donate_template_path() {
-        return apply_filters( 'donate_template_path', 'tp-donate' );
+    function donate_template_path()
+    {
+        return apply_filters('donate_template_path', 'tp-donate');
     }
 
 }
 
-if ( !function_exists( 'donate_get_template_part' ) ) {
+if (!function_exists('donate_get_template_part')) {
 
-    function donate_get_template_part( $slug, $name = '' ) {
+    function donate_get_template_part($slug, $name = '')
+    {
         $template = '';
 
         // Look in yourtheme/slug-name.php and yourtheme/courses-manage/slug-name.php
-        if ( $name ) {
-            $template = locate_template( array( "{$slug}-{$name}.php", donate_template_path() . "/{$slug}-{$name}.php" ) );
+        if ($name) {
+            $template = locate_template(array("{$slug}-{$name}.php", donate_template_path() . "/{$slug}-{$name}.php"));
         }
 
         // Get default slug-name.php
-        if ( !$template && $name && file_exists( TP_DONATE_PATH . "/templates/{$slug}-{$name}.php" ) ) {
+        if (!$template && $name && file_exists(TP_DONATE_PATH . "/templates/{$slug}-{$name}.php")) {
             $template = TP_DONATE_PATH . "/templates/{$slug}-{$name}.php";
         }
 
         // If template file doesn't exist, look in yourtheme/slug.php and yourtheme/courses-manage/slug.php
-        if ( !$template ) {
-            $template = locate_template( array( "{$slug}.php", donate_template_path() . "{$slug}.php" ) );
+        if (!$template) {
+            $template = locate_template(array("{$slug}.php", donate_template_path() . "{$slug}.php"));
         }
 
         // Allow 3rd party plugin filter template file from their plugin
-        if ( $template ) {
-            $template = apply_filters( 'donate_get_template_part', $template, $slug, $name );
+        if ($template) {
+            $template = apply_filters('donate_get_template_part', $template, $slug, $name);
         }
-        if ( $template && file_exists( $template ) ) {
-            load_template( $template, false );
+        if ($template && file_exists($template)) {
+            load_template($template, false);
         }
 
         return $template;
@@ -69,42 +72,44 @@ if ( !function_exists( 'donate_get_template_part' ) ) {
 
 }
 
-if ( !function_exists( 'donate_locate_template' ) ) {
+if (!function_exists('donate_locate_template')) {
 
-    function donate_locate_template( $template_name, $template_path = '', $default_path = '' ) {
+    function donate_locate_template($template_name, $template_path = '', $default_path = '')
+    {
 
-        if ( !$template_path ) {
+        if (!$template_path) {
             $template_path = donate_template_path();
         }
 
-        if ( !$default_path ) {
+        if (!$default_path) {
             $default_path = TP_DONATE_PATH . '/templates/';
         }
 
         $template = null;
         // Look within passed path within the theme - this is priority
         $template = locate_template(
-                array(
-                    trailingslashit( $template_path ) . $template_name,
-                    $template_name
-                )
+            array(
+                trailingslashit($template_path) . $template_name,
+                $template_name
+            )
         );
         // Get default template
-        if ( !$template ) {
+        if (!$template) {
             $template = $default_path . $template_name;
         }
 
         // Return what we found
-        return apply_filters( 'donate_locate_template', $template, $template_name, $template_path );
+        return apply_filters('donate_locate_template', $template, $template_name, $template_path);
     }
 
 }
 /**
  * donate payments
  */
-if ( !function_exists( 'donate_payment_gateways' ) ) {
+if (!function_exists('donate_payment_gateways')) {
 
-    function donate_payment_gateways() {
+    function donate_payment_gateways()
+    {
         return ThimPress_Donate::instance()->payment_gateways->load_payment_gateways();
     }
 
@@ -112,21 +117,23 @@ if ( !function_exists( 'donate_payment_gateways' ) ) {
 /**
  * donate payment is enable
  */
-if ( !function_exists( 'donate_payments_enable' ) ) {
+if (!function_exists('donate_payments_enable')) {
 
-    function donate_payments_enable() {
+    function donate_payments_enable()
+    {
         return ThimPress_Donate::instance()->payment_gateways->get_payment_available();
     }
 
 }
 
-if ( !function_exists( 'donate_get_currencies' ) ) {
+if (!function_exists('donate_get_currencies')) {
 
     /**
      * donate_get_currencies
      * @return array currencies
      */
-    function donate_get_currencies() {
+    function donate_get_currencies()
+    {
         $currencies = array(
             'AED' => 'United Arab Emirates Dirham (د.إ)',
             'AUD' => 'Australian Dollars ($)',
@@ -174,19 +181,20 @@ if ( !function_exists( 'donate_get_currencies' ) ) {
             'VND' => 'Vietnamese Dong (₫)',
             'EGP' => 'Egyptian Pound (EGP)'
         );
-        return apply_filters( 'donate_currencies', $currencies );
+        return apply_filters('donate_currencies', $currencies);
     }
 
 }
 
-if ( !function_exists( 'donate_get_currency' ) ) {
+if (!function_exists('donate_get_currency')) {
 
     /**
      * donate_get_currency
      * @return donate_get_currency
      */
-    function donate_get_currency() {
-        return DN_Settings::instance()->general->get( 'currency', 'USD' );
+    function donate_get_currency()
+    {
+        return DN_Settings::instance()->general->get('currency', 'USD');
     }
 
 }
@@ -196,14 +204,15 @@ if ( !function_exists( 'donate_get_currency' ) ) {
  * @param string $currency (default: '')
  * @return string
  */
-if ( !function_exists( 'donate_get_currency_symbol' ) ) {
+if (!function_exists('donate_get_currency_symbol')) {
 
-    function donate_get_currency_symbol( $currency = '' ) {
-        if ( !$currency ) {
+    function donate_get_currency_symbol($currency = '')
+    {
+        if (!$currency) {
             $currency = donate_get_currency();
         }
 
-        switch ( $currency ) {
+        switch ($currency) {
             case 'AED' :
                 $currency_symbol = 'د.إ';
                 break;
@@ -331,7 +340,7 @@ if ( !function_exists( 'donate_get_currency_symbol' ) ) {
                 break;
         }
 
-        return apply_filters( 'donate_currency_symbol', $currency_symbol, $currency );
+        return apply_filters('donate_currency_symbol', $currency_symbol, $currency);
     }
 
 }
@@ -339,17 +348,18 @@ if ( !function_exists( 'donate_get_currency_symbol' ) ) {
 /**
  * format price
  */
-if ( !function_exists( 'donate_price' ) ) {
+if (!function_exists('donate_price')) {
 
-    function donate_price( $price, $currency = null ) {
-        if ( !is_numeric( $price ) )
+    function donate_price($price, $currency = null)
+    {
+        if (!is_numeric($price))
             return;
 
-        $price = number_format( $price, donate_currency_decimal(), donate_currency_thousand(), donate_currency_separator() );
+        $price = number_format($price, donate_currency_decimal(), donate_currency_thousand(), donate_currency_separator());
 
         $position = donate_currency_position();
-        $symbol = donate_get_currency_symbol( $currency );
-        switch ( $position ) {
+        $symbol = donate_get_currency_symbol($currency);
+        switch ($position) {
             case 'left':
                 $price = $symbol . $price;
                 break;
@@ -370,7 +380,7 @@ if ( !function_exists( 'donate_price' ) ) {
                 $price = $symbol . $price;
                 break;
         }
-        return apply_filters( 'donate_price', $price );
+        return apply_filters('donate_price', $price);
     }
 
 }
@@ -378,10 +388,11 @@ if ( !function_exists( 'donate_price' ) ) {
 /**
  * currency position format
  */
-if ( !function_exists( 'donate_currency_position' ) ) {
+if (!function_exists('donate_currency_position')) {
 
-    function donate_currency_position() {
-        return apply_filters( 'donate_currency_position', DN_Settings::instance()->general->get( 'currency_position', 'left' ) );
+    function donate_currency_position()
+    {
+        return apply_filters('donate_currency_position', DN_Settings::instance()->general->get('currency_position', 'left'));
     }
 
 }
@@ -389,10 +400,11 @@ if ( !function_exists( 'donate_currency_position' ) ) {
 /**
  * currency thousand format
  */
-if ( !function_exists( 'donate_currency_thousand' ) ) {
+if (!function_exists('donate_currency_thousand')) {
 
-    function donate_currency_thousand() {
-        return apply_filters( 'donate_currency_thousand', DN_Settings::instance()->general->get( 'currency_thousand', ',' ) );
+    function donate_currency_thousand()
+    {
+        return apply_filters('donate_currency_thousand', DN_Settings::instance()->general->get('currency_thousand', ','));
     }
 
 }
@@ -400,10 +412,11 @@ if ( !function_exists( 'donate_currency_thousand' ) ) {
 /**
  * currency separator format
  */
-if ( !function_exists( 'donate_currency_separator' ) ) {
+if (!function_exists('donate_currency_separator')) {
 
-    function donate_currency_separator() {
-        return apply_filters( 'donate_currency_separator', DN_Settings::instance()->general->get( 'currency_separator', '.' ) );
+    function donate_currency_separator()
+    {
+        return apply_filters('donate_currency_separator', DN_Settings::instance()->general->get('currency_separator', '.'));
     }
 
 }
@@ -411,10 +424,11 @@ if ( !function_exists( 'donate_currency_separator' ) ) {
 /**
  * currency separator format
  */
-if ( !function_exists( 'donate_currency_decimal' ) ) {
+if (!function_exists('donate_currency_decimal')) {
 
-    function donate_currency_decimal() {
-        return apply_filters( 'donate_currency_decimal', DN_Settings::instance()->general->get( 'currency_num_decimal', 2 ) );
+    function donate_currency_decimal()
+    {
+        return apply_filters('donate_currency_decimal', DN_Settings::instance()->general->get('currency_num_decimal', 2));
     }
 
 }
@@ -422,17 +436,18 @@ if ( !function_exists( 'donate_currency_decimal' ) ) {
 /**
  * get list pages
  */
-if ( !function_exists( 'donate_get_pages_setting' ) ) {
+if (!function_exists('donate_get_pages_setting')) {
 
-    function donate_get_pages_setting() {
+    function donate_get_pages_setting()
+    {
         $pages = array();
 
-        $pages[] = __( '--- Select page ---', 'tp-donate' );
+        $pages[] = __('--- Select page ---', 'tp-donate');
         $list = get_all_page_ids();
-        foreach ( $list as $key => $id ) {
-            $pages[$id] = get_the_title( $id );
+        foreach ($list as $key => $id) {
+            $pages[$id] = get_the_title($id);
         }
-        return apply_filters( 'donate_all_page', $pages );
+        return apply_filters('donate_all_page', $pages);
     }
 
 }
@@ -440,14 +455,15 @@ if ( !function_exists( 'donate_get_pages_setting' ) ) {
 /**
  * donate redirect
  */
-if ( !function_exists( 'donate_redirect_url' ) ) {
+if (!function_exists('donate_redirect_url')) {
 
-    function donate_redirect_url() {
-        $rediect = DN_Settings::instance()->checkout->get( 'donate_redirect', 'checkout' );
+    function donate_redirect_url()
+    {
+        $rediect = DN_Settings::instance()->checkout->get('donate_redirect', 'checkout');
 
-        if ( $rediect === 'checkout' ) {
+        if ($rediect === 'checkout') {
             return donate_checkout_url();
-        } else if ( $rediect === 'cart' ) {
+        } else if ($rediect === 'cart') {
             return donate_cart_url();
         }
     }
@@ -455,32 +471,35 @@ if ( !function_exists( 'donate_redirect_url' ) ) {
 }
 
 // checkout url
-if ( !function_exists( 'donate_checkout_url' ) ) {
+if (!function_exists('donate_checkout_url')) {
 
-    function donate_checkout_url() {
-        return get_permalink( DN_Settings::instance()->checkout->get( 'checkout_page', 1 ) );
+    function donate_checkout_url()
+    {
+        return get_permalink(DN_Settings::instance()->checkout->get('checkout_page', 1));
     }
 
 }
 
 // cart url
-if ( !function_exists( 'donate_cart_url' ) ) {
+if (!function_exists('donate_cart_url')) {
 
-    function donate_cart_url() {
-        return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
+    function donate_cart_url()
+    {
+        return get_permalink(DN_Settings::instance()->checkout->get('cart_page', 1));
     }
 
 }
 // term & conditions url
-if ( !function_exists( 'donate_term_condition_url' ) ) {
+if (!function_exists('donate_term_condition_url')) {
 
-    function donate_term_condition_url() {
-        $page_id = DN_Settings::instance()->checkout->get( 'term_condition_page', 1 );
+    function donate_term_condition_url()
+    {
+        $page_id = DN_Settings::instance()->checkout->get('term_condition_page', 1);
 
-        if ( !$page_id )
+        if (!$page_id)
             return;
 
-        return get_permalink( $page_id );
+        return get_permalink($page_id);
     }
 
 }
@@ -488,65 +507,66 @@ if ( !function_exists( 'donate_term_condition_url' ) ) {
 /**
  * convert amount campaigns
  */
-if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
+if (!function_exists('donate_campaign_convert_amount')) {
 
     /**
      * donate_campaign_convert_amount
-     * @param  integer $amount   amount of campaign
-     * @param  string  $currency currency  of campaign
+     * @param  integer $amount amount of campaign
+     * @param  string $currency currency  of campaign
      * @return integer $amount
      */
-    function donate_campaign_convert_amount( $amount = 1, $from = '', $to = '' ) {
+    function donate_campaign_convert_amount($amount = 1, $from = '', $to = '')
+    {
 
         // currency setting
-        if ( !$to ) {
+        if (!$to) {
             $to = donate_get_currency();
         }
 
-        if ( !$from || $from === $to )
+        if (!$from || $from === $to)
             return $amount;
 
         $name = 'donate_rate_' . $from . '_' . $to;
 
-        if ( false === ( $rate = get_transient( $name ) ) ) {
-            $type = DN_Settings::instance()->general->get( 'aggregator', 'yahoo' );
+        if (false === ($rate = get_transient($name))) {
+            $type = DN_Settings::instance()->general->get('aggregator', 'yahoo');
 
-            switch ( $type ) {
+            switch ($type) {
                 case 'yahoo':
                     $yql_query = 'select * from yahoo.finance.xchange where pair in ("' . $from . $to . '")';
 
-                    $url = 'http://query.yahooapis.com/v1/public/yql?q=' . urlencode( $yql_query );
+                    $url = 'http://query.yahooapis.com/v1/public/yql?q=' . urlencode($yql_query);
                     $url .= "&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
 
-                    if ( function_exists( 'curl_init' ) ) {
-                        $res = donate_curl_get( $url );
+                    if (function_exists('curl_init')) {
+                        $res = donate_curl_get($url);
                     } else {
-                        $res = file_get_contents( $url );
+                        $res = file_get_contents($url);
                     }
 
                     //***
-                    $results = json_decode( $res, true );
-                    $rate = (float) $results['query']['results']['rate']['Rate'];
+                    $results = json_decode($res, true);
+                    $rate = (float)$results['query']['results']['rate']['Rate'];
                     break;
 
                 case 'google':
                     # code...
-                    $a = urlencode( 1 );
-                    $from_Currency = urlencode( $from );
-                    $to_Currency = urlencode( $to );
+                    $a = urlencode(1);
+                    $from_Currency = urlencode($from);
+                    $to_Currency = urlencode($to);
                     $url = "http://www.google.com/finance/converter?a=$a&from=$from_Currency&to=$to_Currency";
 
-                    if ( function_exists( 'curl_init' ) ) {
-                        $html = donate_curl_get( $url );
+                    if (function_exists('curl_init')) {
+                        $html = donate_curl_get($url);
                     } else {
-                        $html = file_get_contents( $url );
+                        $html = file_get_contents($url);
                     }
 
-                    preg_match_all( '/<span class=bld>(.*?)<\/span>/s', $html, $matches );
-                    if ( isset( $matches[1], $matches[1][0] ) ) {
-                        $rate = floatval( $matches[1][0] );
+                    preg_match_all('/<span class=bld>(.*?)<\/span>/s', $html, $matches);
+                    if (isset($matches[1], $matches[1][0])) {
+                        $rate = floatval($matches[1][0]);
                     } else {
-                        $rate = sprintf( __( "no data for %s", 'tp-donate' ), $to );
+                        $rate = sprintf(__("no data for %s", 'tp-donate'), $to);
                     }
                     break;
 
@@ -555,14 +575,14 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
                     break;
             }
 
-            set_transient( $name, $rate, 12 * HOUR_IN_SECONDS );
+            set_transient($name, $rate, 12 * HOUR_IN_SECONDS);
         }
 
-        if ( $rate == 0 ) {
-            delete_transient( $name );
-            donate_campaign_convert_amount( $amount, $from, $to );
+        if ($rate == 0) {
+            delete_transient($name);
+            donate_campaign_convert_amount($amount, $from, $to);
         }
-        return round( $amount * $rate, donate_currency_decimal() );
+        return round($amount * $rate, donate_currency_decimal());
     }
 
     /**
@@ -571,24 +591,25 @@ if ( !function_exists( 'donate_campaign_convert_amount' ) ) {
      * @param  string $to
      * @return rate
      */
-    function donate_curl_get( $url ) {
+    function donate_curl_get($url)
+    {
         $ch = curl_init();
 
-        curl_setopt( $ch, CURLOPT_AUTOREFERER, TRUE );
-        curl_setopt( $ch, CURLOPT_HEADER, 0 );
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt( $ch, CURLOPT_URL, $url );
-        @curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
+        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 
-        $data = curl_exec( $ch );
-        curl_close( $ch );
+        $data = curl_exec($ch);
+        curl_close($ch);
 
         return $data;
     }
 
 }
 
-if ( !function_exists( 'donate_find_compensate_by_amount' ) ) {
+if (!function_exists('donate_find_compensate_by_amount')) {
 
     /**
      * fint compensate by amount donate
@@ -596,20 +617,21 @@ if ( !function_exists( 'donate_find_compensate_by_amount' ) ) {
      * @param  integer $amount
      * @return string
      */
-    function donate_find_compensate_by_amount( $campaign = null, $amount = 0 ) {
-        if ( $amount === 0 )
+    function donate_find_compensate_by_amount($campaign = null, $amount = 0)
+    {
+        if ($amount === 0)
             return '';
 
-        $campaign = DN_Campaign::instance( $campaign );
+        $campaign = DN_Campaign::instance($campaign);
         $compensates = $campaign->get_compensate();
 
-        if ( !$compensates )
+        if (!$compensates)
             return '';
 
         $desc = '';
         $prev = 0;
-        foreach ( $compensates as $key => $compensate ) {
-            if ( $compensate['amount'] && $amount >= $compensate['amount'] && $compensate['amount'] > $prev ) {
+        foreach ($compensates as $key => $compensate) {
+            if ($compensate['amount'] && $amount >= $compensate['amount'] && $compensate['amount'] > $prev) {
                 $desc = $compensate['desc'];
                 $prev = $compensate['amount'];
             }
@@ -623,9 +645,10 @@ if ( !function_exists( 'donate_find_compensate_by_amount' ) ) {
 /**
  * generate post key
  */
-if ( !function_exists( 'donate_generate_post_key' ) ) {
+if (!function_exists('donate_generate_post_key')) {
 
-    function donate_generate_post_key( $post_id ) {
+    function donate_generate_post_key($post_id)
+    {
         return '#' . $post_id;
     }
 
@@ -634,64 +657,68 @@ if ( !function_exists( 'donate_generate_post_key' ) ) {
 /**
  * convert array to string
  */
-if ( !function_exists( 'donate_array_to_string' ) ) {
+if (!function_exists('donate_array_to_string')) {
 
-    function donate_array_to_string( $param ) {
+    function donate_array_to_string($param)
+    {
         $html = array();
-        foreach ( $param as $key => $value ) {
-            if ( is_array( $value ) ) {
-                $html[] = donate_array_to_string( $value );
+        foreach ($param as $key => $value) {
+            if (is_array($value)) {
+                $html[] = donate_array_to_string($value);
             } else {
                 $html[] = $key . $value;
             }
         }
-        return implode( '', $html );
+        return implode('', $html);
     }
 
 }
 
-if ( !function_exists( 'donate_setcookie' ) ) {
+if (!function_exists('donate_setcookie')) {
 
     // setcookie
-    function donate_setcookie( $name, $value, $expire = 0, $secure = false ) {
-        if ( !headers_sent() ) {
-            setcookie( $name, $value, $expire, defined( 'COOKIEPATH' ) ? COOKIEPATH : '/', defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : site_url(), $secure );
-        } elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-            headers_sent( $file, $line );
-            trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE );
+    function donate_setcookie($name, $value, $expire = 0, $secure = false)
+    {
+        if (!headers_sent()) {
+            setcookie($name, $value, $expire, defined('COOKIEPATH') ? COOKIEPATH : '/', defined('COOKIE_DOMAIN') ? COOKIE_DOMAIN : site_url(), $secure);
+        } elseif (defined('WP_DEBUG') && WP_DEBUG) {
+            headers_sent($file, $line);
+            trigger_error("{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE);
         }
     }
 
 }
 
-if ( !function_exists( 'donate_add_notice' ) ) {
+if (!function_exists('donate_add_notice')) {
 
-    function donate_add_notice( $notice_key = null, $message = null ) {
-        if ( !$notice_key || !$message )
+    function donate_add_notice($notice_key = null, $message = null)
+    {
+        if (!$notice_key || !$message)
             return;
 
-        if ( !isset( $_SESSION['donate_messages'] ) ) {
+        if (!isset($_SESSION['donate_messages'])) {
             $_SESSION['donate_messages'] = array();
             $_SESSION['donate_messages']['error'] = array();
             $_SESSION['donate_messages']['success'] = array();
         }
 
-        if ( $notice_key === 'error' ) {
-            $_SESSION['donate_messages']['error'][] = sprintf( '%s', $message );
+        if ($notice_key === 'error') {
+            $_SESSION['donate_messages']['error'][] = sprintf('%s', $message);
         } else {
-            $_SESSION['donate_messages']['success'][] = sprintf( '%s', $message );
+            $_SESSION['donate_messages']['success'][] = sprintf('%s', $message);
         }
     }
 
 }
 
-if ( !function_exists( 'donate_has_notice' ) ) {
+if (!function_exists('donate_has_notice')) {
 
-    function donate_has_notice( $name = null ) {
-        if ( empty( $_SESSION['donate_messages'] ) )
+    function donate_has_notice($name = null)
+    {
+        if (empty($_SESSION['donate_messages']))
             return false;
 
-        if ( isset( $_SESSION['donate_messages'][$name] ) )
+        if (isset($_SESSION['donate_messages'][$name]))
             return true;
     }
 
@@ -700,18 +727,19 @@ if ( !function_exists( 'donate_has_notice' ) ) {
 /**
  * show message
  */
-if ( !function_exists( 'donate_print_notices' ) ) {
+if (!function_exists('donate_print_notices')) {
 
-    function donate_print_notices() {
-        if ( empty( $_SESSION['donate_messages'] ) ) {
+    function donate_print_notices()
+    {
+        if (empty($_SESSION['donate_messages'])) {
             return;
         }
 
-        if ( isset( $_SESSION['donate_messages'] ) ) {
+        if (isset($_SESSION['donate_messages'])) {
             ob_start();
-            donate_get_template( 'messages.php', array( 'messages' => $_SESSION['donate_messages'] ) );
+            donate_get_template('messages.php', array('messages' => $_SESSION['donate_messages']));
             echo ob_get_clean();
-            unset( $_SESSION['donate_messages'] );
+            unset($_SESSION['donate_messages']);
         }
     }
 
@@ -720,30 +748,32 @@ if ( !function_exists( 'donate_print_notices' ) ) {
 /**
  * get status
  */
-if ( !function_exists( 'donate_get_status' ) ) {
+if (!function_exists('donate_get_status')) {
 
-    function donate_get_status( $post_id ) {
+    function donate_get_status($post_id)
+    {
         $status = array(
-            'donate-pending' => __( 'Pending', 'tp-donate' ),
-            'donate-processing' => __( 'Processing', 'tp-donate' ),
-            'donate-completed' => __( 'Completed', 'tp-donate' )
+            'donate-pending' => __('Pending', 'tp-donate'),
+            'donate-processing' => __('Processing', 'tp-donate'),
+            'donate-completed' => __('Completed', 'tp-donate')
         );
 
-        return apply_filters( 'donate_get_status', $status );
+        return apply_filters('donate_get_status', $status);
     }
 
 }
 
-if ( !function_exists( 'donate_amount_system' ) ) {
+if (!function_exists('donate_amount_system')) {
 
     /**
      * donate_amount_system
      * @return total donate amount for system without campaign
      */
-    function donate_amount_system() {
+    function donate_amount_system()
+    {
         global $wpdb;
 
-        $query = $wpdb->prepare( "
+        $query = $wpdb->prepare("
 				SELECT donate_system.meta_value AS amount, donate_currency.meta_value AS currency
 				FROM $wpdb->postmeta AS donate_system
 				INNER JOIN $wpdb->posts AS donation ON donation.ID = donate_system.post_id
@@ -757,20 +787,20 @@ if ( !function_exists( 'donate_amount_system' ) ) {
 					AND donate_type.meta_key = %s
 					AND donate_type.meta_value = %s
 				HAVING amount > 0
-			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'total', TP_DONATE_META_DONATE . 'currency', TP_DONATE_META_DONATE . 'type', 'system' );
+			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'total', TP_DONATE_META_DONATE . 'currency', TP_DONATE_META_DONATE . 'type', 'system');
 
         $total = 0;
-        if ( $results = $wpdb->get_results( $query ) ) {
-            foreach ( $results as $key => $donate ) {
+        if ($results = $wpdb->get_results($query)) {
+            foreach ($results as $key => $donate) {
 
-                if ( !$donate->amount )
+                if (!$donate->amount)
                     continue;
 
                 $currency = $donate->currency;
-                if ( !$currency )
+                if (!$currency)
                     $currency = donate_get_currency();
 
-                $total = $total + donate_campaign_convert_amount( $donate->amount, $currency );
+                $total = $total + donate_campaign_convert_amount($donate->amount, $currency);
             }
         }
         return $total;
@@ -778,62 +808,67 @@ if ( !function_exists( 'donate_amount_system' ) ) {
 
 }
 
-if ( !function_exists( 'donate_get_donors' ) ) {
+if (!function_exists('donate_get_donors')) {
 
-    function donate_get_donors() {
+    function donate_get_donors()
+    {
         global $wpdb;
-        $sql = $wpdb->prepare( "
+        $sql = $wpdb->prepare("
 				SELECT DISTINCT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
-			", 'dn_donor', 'publish' );
+			", 'dn_donor', 'publish');
 
-        return $wpdb->get_col( $sql );
+        return $wpdb->get_col($sql);
     }
 
 }
 
-if ( !function_exists( 'donate_get_campaigns' ) ) {
+if (!function_exists('donate_get_campaigns')) {
 
-    function donate_get_campaigns() {
+    function donate_get_campaigns()
+    {
         global $wpdb;
-        $sql = $wpdb->prepare( "
+        $sql = $wpdb->prepare("
 				SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
-			", 'dn_campaign', 'publish' );
+			", 'dn_campaign', 'publish');
 
-        return $wpdb->get_col( $sql );
+        return $wpdb->get_col($sql);
     }
 
 }
 
-if ( !function_exists( 'donate_get_donor_fullname' ) ) {
+if (!function_exists('donate_get_donor_fullname')) {
 
-    function donate_get_donor_fullname( $donate_id = null ) {
-        if ( !$donate_id )
+    function donate_get_donor_fullname($donate_id = null)
+    {
+        if (!$donate_id)
             return;
-        $donate = DN_Donate::instance( $donate_id );
-        if ( !$donate_id )
+        $donate = DN_Donate::instance($donate_id);
+        if (!$donate_id)
             return;
-        return ( $donor = $donate->get_donor() ) ? $donor->get_fullname() : '';
+        return ($donor = $donate->get_donor()) ? $donor->get_fullname() : '';
     }
 
 }
 
-if ( !function_exists( 'donate_get_donor_email' ) ) {
+if (!function_exists('donate_get_donor_email')) {
 
-    function donate_get_donor_email( $donate_id = null ) {
-        if ( !$donate_id )
+    function donate_get_donor_email($donate_id = null)
+    {
+        if (!$donate_id)
             return;
-        $donate = DN_Donate::instance( $donate_id );
+        $donate = DN_Donate::instance($donate_id);
         return $donate->get_donor()->email;
     }
 
 }
 
 // date time format
-function donate_date_time_format_js() {
+function donate_date_time_format_js()
+{
     // set detault datetime format datepicker
-    $dateFormat = get_option( 'date_format' );
+    $dateFormat = get_option('date_format');
 
-    switch ( $dateFormat ) {
+    switch ($dateFormat) {
         case 'Y-m-d':
             $return = 'yy-mm-dd';
             break;
@@ -871,86 +906,92 @@ function donate_date_time_format_js() {
 
 /* count campaign day */
 
-function donate_get_campaign_days_to_go( $campaign_id = null ) {
-    if ( !$campaign_id ) {
+function donate_get_campaign_days_to_go($campaign_id = null)
+{
+    if (!$campaign_id) {
         global $post;
         $campaign_id = $post->ID;
     }
-    if ( !$campaign_id ) {
+    if (!$campaign_id) {
         return false;
     }
 
-    $campaign = DN_Campaign::instance( $campaign_id );
+    $campaign = DN_Campaign::instance($campaign_id);
 
-    $current_time = current_time( 'timestamp' );
+    $current_time = current_time('timestamp');
     $start = $end = '';
-    if ( $campaign->start ) {
-        $start = strtotime( $campaign->start );
+    if ($campaign->start) {
+        $start = strtotime($campaign->start);
     }
-    if ( $campaign->end ) {
-        $end = strtotime( $campaign->end );
+    if ($campaign->end) {
+        $end = strtotime($campaign->end);
     }
 
-    if ( $current_time >= $end ) {
+    if ($current_time >= $end) {
         return 0;
     }
 
-    return ceil( ( $end - $current_time ) / DAY_IN_SECONDS );
+    return ceil(($end - $current_time) / DAY_IN_SECONDS);
 }
 
-if ( !function_exists( 'donate_get_donors' ) ) {
+if (!function_exists('donate_get_donors')) {
     /* get total donor donated */
 
-    function donate_get_donors( $donate_id = null ) {
-        if ( !$donate_id ) {
+    function donate_get_donors($donate_id = null)
+    {
+        if (!$donate_id) {
             return 0;
         }
         global $wpdb;
-        $sql = $wpdb->prepare( "
+        $sql = $wpdb->prepare("
 				SELECT IFNULL( COUNT( donor.meta_value ), 0 ) FROM $wpdb->postmeta AS donor
 					lEFT JOIN $wpdb->posts AS donate ON donor.post_id = donate.ID AND donor.meta_key = %s
 				WHERE donate.post_type = %s
 					AND donate.ID = %d
 				GROUP BY donor.meta_value
-			", 'thimpress_donate_donor_id', 'dn_donate', $donate_id );
-        return apply_filters( 'donate_get_donors_count', absint( $wpdb->get_var( $sql ) ), $donate_id );
+			", 'thimpress_donate_donor_id', 'dn_donate', $donate_id);
+        return apply_filters('donate_get_donors_count', absint($wpdb->get_var($sql)), $donate_id);
     }
 
 }
 
-if ( !function_exists( 'donate_is_ajax_request' ) ) {
+if (!function_exists('donate_is_ajax_request')) {
 
-    function donate_is_ajax_request() {
-        return defined( 'DOING_AJAX' ) && DOING_AJAX === TRUE;
+    function donate_is_ajax_request()
+    {
+        return defined('DOING_AJAX') && DOING_AJAX === TRUE;
     }
 
 }
 
-if ( !function_exists( 'donate_get_donate_items' ) ) {
+if (!function_exists('donate_get_donate_items')) {
 
-    function donate_get_donate_items( $donate_id ) {
-        return DN_Donate::instance( $donate_id )->get_items();
+    function donate_get_donate_items($donate_id)
+    {
+        return DN_Donate::instance($donate_id)->get_items();
     }
 
 }
 
-if ( !function_exists( 'donate_get_thankyou_link' ) ) {
+if (!function_exists('donate_get_thankyou_link')) {
 
-    function donate_get_thankyou_link( $donate_id = null ) {
-        return add_query_arg( array(
+    function donate_get_thankyou_link($donate_id = null)
+    {
+        return add_query_arg(array(
             'thank-you' => 1,
             'donate-id' => $donate_id
-                ), donate_checkout_url() );
+        ), donate_checkout_url());
     }
 
 }
 
-if ( !function_exists( 'donate_is_thankyou_page' ) ) {
+if (!function_exists('donate_is_thankyou_page')) {
 
-    function donate_is_thankyou_page() {
+    function donate_is_thankyou_page()
+    {
         global $post;
-        $checkout_page_id = DN_Settings::instance()->checkout->get( 'checkout_page', 1 );
-        if ( isset( $post->ID ) && $post->ID == $checkout_page_id && !empty( $_GET['thank-you'] ) && !empty( $_GET['donate-id'] ) ) {
+        $checkout_page_id = DN_Settings::instance()->checkout->get('checkout_page', 1);
+        if (isset($post->ID) && $post->ID == $checkout_page_id && !empty($_GET['thank-you']) && !empty($_GET['donate-id'])) {
             return true;
         }
     }
@@ -960,67 +1001,70 @@ if ( !function_exists( 'donate_is_thankyou_page' ) ) {
 /**
  * get status label with html
  */
-if ( !function_exists( 'donate_get_status_label' ) ) {
+if (!function_exists('donate_get_status_label')) {
 
-    function donate_get_status_label( $post_id ) {
+    function donate_get_status_label($post_id)
+    {
         global $donate_statuses;
         $statuses = array();
-        foreach ( $donate_statuses as $status => $args ) {
+        foreach ($donate_statuses as $status => $args) {
             $statuses[$status] = '<label class="donate-status ' . $status . '">' . $args['label'] . '</span>';
         }
 
-        $post_status = get_post_status( $post_id );
-        if ( array_key_exists( $post_status, $statuses ) ) {
-            return apply_filters( 'donate_get_status_label', $statuses[$post_status], $post_id );
+        $post_status = get_post_status($post_id);
+        if (array_key_exists($post_status, $statuses)) {
+            return apply_filters('donate_get_status_label', $statuses[$post_status], $post_id);
         }
     }
 
 }
 
-if ( !function_exists( 'donate_campaign_is_coming' ) ) {
+if (!function_exists('donate_campaign_is_coming')) {
 
     /**
      * Is coming campaign
      * @global type $post
      * @param type $post_id
      */
-    function donate_campaign_is_coming( $post_id = null ) {
-        if ( !$post_id ) {
+    function donate_campaign_is_coming($post_id = null)
+    {
+        if (!$post_id) {
             global $post;
             $post_id = $post->ID;
         }
-        $campaign = DN_Campaign::instance( $post_id );
-        $start = strtotime( $campaign->start );
-        if ( !$start )
+        $campaign = DN_Campaign::instance($post_id);
+        $start = strtotime($campaign->start);
+        if (!$start)
             return false;
         return time() < $start;
     }
 
 }
 
-if ( !function_exists( 'donate_campaign_is_happening' ) ) {
+if (!function_exists('donate_campaign_is_happening')) {
 
     /**
      * Is happening campaign
      * @global type $post
      * @param type $post_id
      */
-    function donate_campaign_is_happening( $post_id = null ) {
-        if ( !$post_id ) {
+    function donate_campaign_is_happening($post_id = null)
+    {
+        if (!$post_id) {
             global $post;
             $post_id = $post->ID;
         }
-        $campaign = DN_Campaign::instance( $post_id );
-        $start = strtotime( $campaign->start );
-        $end = strtotime( $campaign->end );
+        $campaign = DN_Campaign::instance($post_id);
+        $start = strtotime($campaign->start);
+        $end = strtotime($campaign->end);
         $time = time();
-        if ( !$start && $end )
+        if (!$start && $end)
             return $time < $end;
 
-        if ( $start && !$end )
+        if ($start && !$end)
             return $time >= $start;
 
-        if ( $start && $end )
+        if ($start && $end)
             return $time >= $start && $time < $end;
 
         return false;
@@ -1028,22 +1072,23 @@ if ( !function_exists( 'donate_campaign_is_happening' ) ) {
 
 }
 
-if ( !function_exists( 'donate_campaign_is_expired' ) ) {
+if (!function_exists('donate_campaign_is_expired')) {
 
     /**
      * Is expired campaign
      * @global type $post
      * @param type $post_id
      */
-    function donate_campaign_is_expired( $post_id = null ) {
-        if ( !$post_id ) {
+    function donate_campaign_is_expired($post_id = null)
+    {
+        if (!$post_id) {
             global $post;
             $post_id = $post->ID;
         }
-        $campaign = DN_Campaign::instance( $post_id );
-        $end = strtotime( $campaign->end );
+        $campaign = DN_Campaign::instance($post_id);
+        $end = strtotime($campaign->end);
         $time = time();
-        if ( $end )
+        if ($end)
             return $time > $end;
 
         return false;
@@ -1051,7 +1096,7 @@ if ( !function_exists( 'donate_campaign_is_expired' ) ) {
 
 }
 
-if ( !function_exists( 'donate_campaign_count_donor' ) ) {
+if (!function_exists('donate_campaign_count_donor')) {
 
     /**
      * Get donor donated for this campaign
@@ -1060,110 +1105,114 @@ if ( !function_exists( 'donate_campaign_count_donor' ) ) {
      * @param type $campaign_id
      * @return type integer
      */
-    function donate_campaign_count_donor( $campaign_id = null ) {
-        if ( !$campaign_id ) {
+    function donate_campaign_count_donor($campaign_id = null)
+    {
+        if (!$campaign_id) {
             global $post;
             $campaign_id = $post->ID;
         }
         global $wpdb;
-        $sql = $wpdb->prepare( "SELECT COUNT( DISTINCT item_meta.meta_value ) FROM $wpdb->postmeta AS item_meta"
-                . " INNER JOIN $wpdb->posts AS item ON item.ID = item_meta.post_id"
-                . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
-                . " WHERE donate.post_status = %s"
-                . " AND donate.post_type = %s"
-                . " AND item.post_status = %s"
-                . " AND item.post_type = %s"
-                . " AND item_meta.meta_key = %s"
-                . " AND item_meta.meta_value = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $campaign_id );
-        return abs( $wpdb->get_var( $sql ) );
+        $sql = $wpdb->prepare("SELECT COUNT( DISTINCT item_meta.meta_value ) FROM $wpdb->postmeta AS item_meta"
+            . " INNER JOIN $wpdb->posts AS item ON item.ID = item_meta.post_id"
+            . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
+            . " WHERE donate.post_status = %s"
+            . " AND donate.post_type = %s"
+            . " AND item.post_status = %s"
+            . " AND item.post_type = %s"
+            . " AND item_meta.meta_key = %s"
+            . " AND item_meta.meta_value = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $campaign_id);
+        return abs($wpdb->get_var($sql));
     }
 
 }
 
-if ( !function_exists( 'donate_get_campaign_percent' ) ) {
+if (!function_exists('donate_get_campaign_percent')) {
 
-    function donate_get_campaign_percent( $post = null ) {
-        if ( !$post ) {
+    function donate_get_campaign_percent($post = null)
+    {
+        if (!$post) {
             global $post;
             $post_id = $post->ID;
         }
 
-        if ( is_numeric( $post ) ) {
+        if (is_numeric($post)) {
             $post_id = $post;
         }
 
-        if ( $post instanceof WP_Post ) {
+        if ($post instanceof WP_Post) {
             $post_id = $post->ID;
         }
 
-        $total = donate_total_campaign( $post_id );
-        $goal = donate_goal_campagin( $post_id );
+        $total = donate_total_campaign($post_id);
+        $goal = donate_goal_campagin($post_id);
 
-        if ( !$goal ) {
+        if (!$goal) {
             return 100;
         }
 
-        return round( ( $total / $goal ) * 100, donate_currency_decimal() );
+        return round(($total / $goal) * 100, donate_currency_decimal());
     }
 
 }
 // get campaign total
-if ( !function_exists( 'donate_total_campaign' ) ) {
+if (!function_exists('donate_total_campaign')) {
 
-    function donate_total_campaign( $post = null ) {
-        if ( !$post ) {
+    function donate_total_campaign($post = null)
+    {
+        if (!$post) {
             global $post;
             $post_id = $post->ID;
         }
 
-        if ( is_numeric( $post ) )
+        if (is_numeric($post))
             $post_id = $post;
 
-        if ( $post instanceof WP_Post ) {
+        if ($post instanceof WP_Post) {
             $post_id = $post->ID;
         }
-        $campaign = DN_Campaign::instance( $post_id );
+        $campaign = DN_Campaign::instance($post_id);
         return $campaign->get_total_raised();
     }
 
 }
 
 // get campaign total by donated
-if ( !function_exists( 'donate_total_campaign_donated' ) ) {
+if (!function_exists('donate_total_campaign_donated')) {
 
-    function donate_total_campaign_donated( $post = null ) {
-        if ( !$post ) {
+    function donate_total_campaign_donated($post = null)
+    {
+        if (!$post) {
             global $post;
             $post_id = $post->ID;
         }
 
-        if ( is_numeric( $post ) )
+        if (is_numeric($post))
             $post_id = $post;
 
-        if ( $post instanceof WP_Post ) {
+        if ($post instanceof WP_Post) {
             $post_id = $post->ID;
         }
 
         global $wpdb;
 
-        $sql = $wpdb->prepare( "SELECT total.meta_value AS raised, c.meta_value AS currency FROM $wpdb->postmeta AS total"
-                . " INNER JOIN $wpdb->posts AS item ON item.ID = total.post_id"
-                . " INNER JOIN $wpdb->postmeta AS item_meta ON item.ID = item_meta.post_id"
-                . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
-                . " INNER JOIN $wpdb->postmeta AS c ON c.post_id = donate.ID"
-                . " WHERE donate.post_status = %s"
-                . " AND donate.post_type = %s"
-                . " AND item.post_status = %s"
-                . " AND item.post_type = %s"
-                . " AND item_meta.meta_key = %s"
-                . " AND item_meta.meta_value = %s"
-                . " AND total.meta_key = %s"
-                . " AND c.meta_key = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $post_id, 'total', TP_DONATE_META_DONATE . 'currency' );
+        $sql = $wpdb->prepare("SELECT total.meta_value AS raised, c.meta_value AS currency FROM $wpdb->postmeta AS total"
+            . " INNER JOIN $wpdb->posts AS item ON item.ID = total.post_id"
+            . " INNER JOIN $wpdb->postmeta AS item_meta ON item.ID = item_meta.post_id"
+            . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
+            . " INNER JOIN $wpdb->postmeta AS c ON c.post_id = donate.ID"
+            . " WHERE donate.post_status = %s"
+            . " AND donate.post_type = %s"
+            . " AND item.post_status = %s"
+            . " AND item.post_type = %s"
+            . " AND item_meta.meta_key = %s"
+            . " AND item_meta.meta_value = %s"
+            . " AND total.meta_key = %s"
+            . " AND c.meta_key = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $post_id, 'total', TP_DONATE_META_DONATE . 'currency');
 
         $total = 0;
-        if ( $results = $wpdb->get_results( $sql ) ) {
-            foreach ( $results as $k => $donate ) {
-                $total += donate_campaign_convert_amount( $donate->raised, $donate->currency );
+        if ($results = $wpdb->get_results($sql)) {
+            foreach ($results as $k => $donate) {
+                $total += donate_campaign_convert_amount($donate->raised, $donate->currency);
             }
         }
         return $total;
@@ -1171,46 +1220,62 @@ if ( !function_exists( 'donate_total_campaign_donated' ) ) {
 
 }
 
-if ( !function_exists( 'donate_goal_campagin' ) ) {
+if (!function_exists('donate_goal_campagin')) {
 
-    function donate_goal_campagin( $post = null ) {
-        if ( !$post ) {
+    function donate_goal_campagin($post = null)
+    {
+        if (!$post) {
             global $post;
             $post_id = $post->ID;
         }
 
-        if ( is_numeric( $post ) )
+        if (is_numeric($post))
             $post_id = $post;
 
-        if ( $post instanceof WP_Post ) {
+        if ($post instanceof WP_Post) {
             $post_id = $post->ID;
         }
 
-        $campaign = DN_Campaign::instance( $post_id );
+        $campaign = DN_Campaign::instance($post_id);
         // convert to current currency settings
-        return donate_campaign_convert_amount( floatval( $campaign->goal ), $campaign->currency, donate_get_currency() );
+        return donate_campaign_convert_amount(floatval($campaign->goal), $campaign->currency, donate_get_currency());
     }
 
 }
 
-if ( !function_exists( 'donate_campaign_is_allow_donate' ) ) {
+if (!function_exists('donate_campaign_is_allow_donate')) {
 
-    function donate_campaign_is_allow_donate( $campaign_id = null ) {
-        if ( !$campaign_id ) {
+    function donate_campaign_is_allow_donate($campaign_id = null)
+    {
+        if (!$campaign_id) {
             global $post;
             $campaign_id = $post->ID;
         }
-        $campaign = DN_Campaign::instance( $campaign_id );
-        if ( $campaign->type === 'flexible' ) {
+        $campaign = DN_Campaign::instance($campaign_id);
+        if ($campaign->type === 'flexible') {
             return true;
         }
 
         $time = time();
-        $start = strtotime( $campaign->start );
-        $end = strtotime( $campaign->end );
-        if ( $time >= $start && $time <= $end && donate_get_campaign_percent() < 100 ) {
+        $start = strtotime($campaign->start);
+        $end = strtotime($campaign->end);
+        if ($time >= $start && $time <= $end && donate_get_campaign_percent() < 100) {
             return true;
         }
     }
 
+}
+
+if (!function_exists('donate_action_status')) {
+    function donate_action_status($post_id)
+    {
+        $action = '<div class="action-status" data-id="' . esc_attr($post_id) . '" >';
+        $action .= '<a href="#" class="button"><i class="icon-spinner6 processing"></i></a>';
+        $action .= '<a href="#" class="button"><i class="icon-checkmark complete"></i></a>';
+        $action .= '<a href="#" class="button"><i class="icon-eye view"></i></a>';
+        $action .= '</div>';
+
+        return apply_filters('donate_action_status', $action, $post_id);
+
+    }
 }

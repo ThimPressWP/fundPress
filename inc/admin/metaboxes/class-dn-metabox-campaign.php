@@ -30,8 +30,6 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
         add_action( 'donate_metabox_setting_section', array( $this, 'donate_metabox_setting' ), 10, 1 );
         add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 
-        add_action( 'wp_ajax_donate_remove_compensate', array( $this, 'donate_remove_compensate' ) );
-        add_action( 'wp_ajax_nopriv_donate_remove_compensate', array( $this, 'mustLogin' ) );
         parent::__construct();
 
         /* update meta */
@@ -132,7 +130,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
                     $html[] = '<textarea name="' . $this->get_field_name( 'marker' ) . '[' . $marker_id . '][desc]">' . esc_textarea( $meta_val['desc'] ) . '</textarea>';
                     $html[] = '</p>';
                     $html[] = '<p>';
-                    $html[] = '<a href="#" class="remove" data-compensate-id="{{ data.id }}">' . __( 'Remove', 'tp-donate' ) . '</a>';
+                    $html[] = '<a href="#" class="remove" data-compensate-id="'.esc_attr($marker_id).'">' . __( 'Remove', 'tp-donate' ) . '</a>';
                     $html[] = '</p>';
                     $html[] = '</div>';
                     $html[] = '</div>';
@@ -174,40 +172,6 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
         echo $html;
     }
 
-    /**
-     * ajax create compensate
-     * @return
-     */
-    public function donate_remove_compensate() {
-        if ( !isset( $_GET['schema'] ) || $_GET['schema'] !== 'donate-ajax' || empty( $_POST ) ) {
-            return;
-        }
-
-        if ( !isset( $_POST['compensate_id'] ) || !isset( $_POST['post_id'] ) )
-            return;
-
-        $marker = $this->get_field_value( 'marker' );
-
-        if ( empty( $marker ) ) {
-            wp_send_json( array( 'status' => 'success' ) );
-            die();
-        }
-
-        if ( isset( $marker[$_POST['compensate_id']] ) ) {
-            unset( $marker[$_POST['compensate_id']] );
-        } else {
-            wp_send_json( array( 'status' => 'success' ) );
-            die();
-        }
-
-        if ( $update = update_post_meta( $_POST['post_id'], $this->get_field_name( 'marker' ), $marker ) ) {
-            wp_send_json( array( 'status' => 'success' ) );
-            die();
-        }
-
-        wp_send_json( array( 'status' => 'failed', 'message' => __( 'Could not delete compensate. Please try again.', 'tp-donate' ) ) );
-        die();
-    }
 
     /**
      * update meta campaign
@@ -239,14 +203,6 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
 
     public function update_campaign_status( $post_id, $name, $value ) {
         
-    }
-
-    /**
-     * must login
-     * @return null
-     */
-    public function mustLogin() {
-        _e( 'You must login', 'tp-donate' );
     }
 
 }
