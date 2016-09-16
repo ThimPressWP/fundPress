@@ -7,6 +7,7 @@
             this.donate_meta_box.init();
             this.donate_lightbox();
             this.action_status();
+            this.status_tooltip();
             // select2 js
             $('.tp_donate_wrapper_content select').select2({
                 width: 'resolve',
@@ -215,26 +216,52 @@
                 }
             });
         },
-        action_status: function(e) {
-            $(document).on('click', '.action-status a', function (e) {
+        action_status: function (e) {
+            $(document).on('click', '#action-status a', function (e) {
                 e.preventDefault();
                 var _self = $(this),
-                    _donate_id = _self.parents('.action-status').attr('data-id');
+                    _donate_id = _self.parents('.action-status').attr('data-id'),
+                    _action = _self.attr('data-action'),
+                    _status = _self.closest('.type-dn_donate').find('label.donate-status');
 
                 $.ajax({
                     url: thimpress_donate.ajaxurl,
                     type: 'POST',
                     data: {
                         donate_id: _donate_id,
-                        action: 'donate_action_status'
+                        action: 'donate_action_status',
+                        status: _action
                     },
                     beforeSend: function () {
 
                     }
-                }).done(function (res){
+                }).done(function (res) {
+                    if (typeof res.status === 'undefined') {
+                        return;
+                    }
+
+                    if (res.status === 'success') {
+                        _status.text(thimpress_donate.i18n['status_' + res.action + '']);
+                        _status.addClass('donate-' + res.action + '');
+                        _self.hide();
+                    } else if (res.status === 'failed' && typeof res.message !== 'undefined') {
+                        alert(res.message);
+                    }
                 })
 
 
+            })
+        },
+        status_tooltip: function(){
+            $(document).on('hover', '#action-status a', function (e) {
+                var _tooltips = $('[tooltip]').tooltip({
+                    position: {
+                        my: "left top",
+                        at: "right+5 top-5",
+                        collision: "none"
+                    }
+                });
+                _tooltips.tooltip('open')
             })
         }
     };

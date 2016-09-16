@@ -33,9 +33,6 @@ class DN_Post_Type
         add_filter('manage_dn_donor_posts_columns', array($this, 'donor_columns'));
         add_action('manage_dn_donor_posts_custom_column', array($this, 'donor_column_content'), 10, 2);
 
-        add_action('wp_ajax_nopriv_donate_action_status', array($this, 'donate_action_status'));
-        add_action('wp_ajax_donate_action_status', array($this, 'donate_action_status'));
-
         /**
          * register taxonomy
          */
@@ -557,11 +554,6 @@ class DN_Post_Type
         foreach ($donate_statuses as $status => $args) {
             register_post_status($status, $args);
         }
-    }
-
-    public function donate_action_status($post_id)
-    {
-        return 1;
     }
 
     public function donor_columns($columns)

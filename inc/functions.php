@@ -1255,7 +1255,9 @@ if (!function_exists('donate_campaign_is_allow_donate')) {
         if ($campaign->type === 'flexible') {
             return true;
         }
-
+        if (!$campaign->start && !$campaign->end) {
+            return true;
+        }
         $time = time();
         $start = strtotime($campaign->start);
         $end = strtotime($campaign->end);
@@ -1269,11 +1271,16 @@ if (!function_exists('donate_campaign_is_allow_donate')) {
 if (!function_exists('donate_action_status')) {
     function donate_action_status($post_id)
     {
-        $action = '<div class="action-status" data-id="' . esc_attr($post_id) . '" >';
-        $action .= '<a href="#" class="button"><i class="icon-spinner6 processing"></i></a>';
-        $action .= '<a href="#" class="button"><i class="icon-checkmark complete"></i></a>';
-        $action .= '<a href="#" class="button"><i class="icon-eye view"></i></a>';
+        $donate = DN_Donate::instance($post_id);
+        $action = '<div id="action-status" data-id="' . esc_attr($post_id) . '" >';
+        if ($donate->has_status('pending')) {
+            $action .= '<a href="#" class="button" data-action="processing" title="'.esc_html__('Processing', 'tp-donate').'"><i class="icon-spinner6"></i></a>';
+        }
+        if ($donate->has_status('pending') || $donate->has_status('processing')) {
+            $action .= '<a href="#" class="button" data-action="completed" title="'.esc_html__('Complete', 'tp-donate').'"><i class="icon-checkmark"></i></a>';
+        }
         $action .= '</div>';
+        $action .= '<a href="' . get_edit_post_link($post_id) . '" class="button edit-donate" title="'.esc_html__('View', 'tp-donate').'"><i class="icon-eye view"></i></a>';
 
         return apply_filters('donate_action_status', $action, $post_id);
 

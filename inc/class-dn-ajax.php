@@ -17,7 +17,7 @@ class DN_Ajax
             'donate_load_form' => true,
             'donate_submit' => true,
             'donate_remove_compensate' => true,
-            'action_status' => true,
+            'donate_action_status' => true,
         );
 
         foreach ($actions as $action => $nopriv) {
@@ -27,7 +27,7 @@ class DN_Ajax
 
             add_action('wp_ajax_' . $action, array($this, $action));
             if ($nopriv) {
-                if ($action == 'donate_remove_compensate'){
+                if ($action == 'donate_remove_compensate') {
                     add_action('wp_ajax_nopriv_' . $action, array($this, 'mustLogin'));
                 }
                 add_action('wp_ajax_nopriv_' . $action, array($this, $action));
@@ -109,8 +109,8 @@ class DN_Ajax
         if (!isset($_POST['compensate_id']) || !isset($_POST['post_id']))
             return;
 
-        $post_id = ! empty( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
-        $marker = get_post_meta( $post_id, TP_DONATE_META_CAMPAIGN . 'marker', true );
+        $post_id = !empty($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+        $marker = get_post_meta($post_id, TP_DONATE_META_CAMPAIGN . 'marker', true);
 
         if (empty($marker)) {
             wp_send_json(array('status' => 'success'));
@@ -137,8 +137,39 @@ class DN_Ajax
      * must login
      * @return null
      */
-    public function mustLogin() {
-        _e( 'You must login', 'tp-donate' );
+    public function mustLogin()
+    {
+        _e('You must login', 'tp-donate');
+    }
+
+    /*
+     * donate action status
+     * @return
+     */
+    public function donate_action_status()
+    {
+        if (!isset($_GET['schema']) || $_GET['schema'] !== 'donate-ajax' || empty($_POST)) {
+            return;
+        }
+
+        if (!isset($_POST['donate_id']) || !isset($_POST['status'])) {
+            return;
+        }
+
+        $donate_id = (isset($_POST['donate_id'])) ? absint($_POST['donate_id']) : '';
+        $status = (isset($_POST['status'])) ? ($_POST['status']) : '';
+
+        $donate = DN_Donate::instance($donate_id);
+
+        if ($donate) {
+            $donate->update_status('donate-' . $status . '');
+            wp_send_json(array('status' => 'success', 'action' => $status));
+            die();
+        }
+
+        wp_send_json(array('status' => 'failed', 'message' => __('Could not change status of Donate. Please try again.', 'tp-donate')));
+        die();
+
     }
 }
 
