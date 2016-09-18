@@ -13,7 +13,8 @@ class DN_Shortcodes {
             'donate_campaign',
             'donate_checkout',
             'donate_cart',
-            'donate_form'
+            'donate_form',
+            'donate_system'
         );
         foreach ( $shortcodes as $shortcode ) {
             add_shortcode( $shortcode, array( __CLASS__, $shortcode ) );
@@ -59,6 +60,15 @@ class DN_Shortcodes {
             $tmp = 'cart/cart.php';
         }
         return DN_Shortcodes::render( 'donate_cart', $tmp, $atts, $contents );
+    }
+
+    /*
+     * [donate_system]
+     * @param type $atts
+     * @param type $contents
+     */
+    public static function donate_system( $atts, $contents = null ) {
+        return DN_Shortcodes::render( 'donate_system', 'shortcodes/donate-system.php', $atts, $contents );
     }
 
     /**

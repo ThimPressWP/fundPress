@@ -1,21 +1,22 @@
 <?php
-if ( !defined( 'ABSPATH' ) ) {
+
+if (!defined('ABSPATH')) {
     exit();
 }
 
-/**
- * Adds DN_Widget_Button widget.
+/*
+ * Add class DN_Widget_Donate_system
  */
-class DN_Widget_Button extends WP_Widget {
-
+class DN_Widget_Donate_system extends WP_Widget
+{
     /**
      * Register widget with WordPress.
      */
     function __construct() {
         parent::__construct(
-                'donate_widget', // Base ID
-                __( 'Donate', 'tp-donate' ), // Name
-                array( 'description' => __( 'Create button donate everywhere', 'tp-donate' ), ) // Args
+            'donate_system_widget', // Base ID
+            __( 'Donate System', 'tp-donate' ), // Name
+            array( 'description' => __( 'Show amount donated of system.', 'tp-donate' ), ) // Args
         );
     }
 
@@ -32,7 +33,7 @@ class DN_Widget_Button extends WP_Widget {
         if ( !empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
         }
-        echo do_shortcode( '[tp_donate]' );
+        echo do_shortcode( '[donate_system]' );
         echo $args['after_widget'];
     }
 
@@ -69,5 +70,5 @@ class DN_Widget_Button extends WP_Widget {
 
         return $instance;
     }
-
 }
+
