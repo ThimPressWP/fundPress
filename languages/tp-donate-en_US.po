@@ -1,443 +1,2001 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-19 14:03+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Language: en_US\n"
-"X-Generator: Poedit 1.8.6\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:33
-#: tp-donate/templates/donate-form.php:99
-msgid "* Address"
+#: inc/class-dn-ajax.php:56
+msgid "Campaign is not exists in our system."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:25
-#: tp-donate/templates/donate-form.php:91
-msgid "* Email"
+#: inc/class-dn-ajax.php:91
+msgid "Could not do action."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:17
-#: tp-donate/templates/donate-form.php:83
-msgid "* First Name"
+#: inc/class-dn-ajax.php:132
+msgid "Could not delete compensate. Please try again."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:21
-#: tp-donate/templates/donate-form.php:87
-msgid "* Last Name"
+#: inc/class-dn-ajax.php:142
+msgid "You must login"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:29
-#: tp-donate/templates/donate-form.php:95
-msgid "* Phone"
+#: inc/class-dn-ajax.php:170
+msgid "Could not change status of Donate. Please try again."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:35
-msgid "Addition note"
+#: inc/class-dn-cart.php:88
+msgid "Class process product is not exists"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:37
-#: tp-donate/templates/donate-form.php:103
-msgid "Additional note"
+#: inc/class-dn-cart.php:204
+msgid "cart item is not exists"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:8
-msgid "Address"
+#: inc/class-dn-checkout.php:37
+msgid "We were unable to process your order, please try again."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:49
-msgid "Amount"
+#: inc/class-dn-checkout.php:54
+msgid "Campaign is invalid."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:9
-msgid "Campaign ID"
+#: inc/class-dn-checkout.php:70 inc/class-dn-checkout.php:102
+msgid "Please enter donation amount."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:10
-msgid "Campaign Title"
+#: inc/class-dn-checkout.php:73
+msgid "Custom donate amount overcome campaign goal."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/shortcodes/donate.php:28
-msgid "Checkout"
+#: inc/class-dn-checkout.php:83
+msgid "This Campaign currently is not allow donate."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:11
-msgid "Compensate"
+#: inc/class-dn-checkout.php:89
+msgid "Something went wrong, could not add to cart item. Please try again."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Connect Stripe has error. Please try again!"
+#: inc/class-dn-checkout.php:107
+msgid "<strong>First Name</strong> is a required field."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/widgets/class-dn-widget-donate.php:1
-msgid "Create button donate everywhere"
+#: inc/class-dn-checkout.php:111
+msgid "<strong>Last Name</strong> is a required field."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Currency"
+#: inc/class-dn-checkout.php:115
+msgid "<strong>Email</strong> is invalid."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-#: tp-donate/inc/admin/views/html/select.php:23
-msgid "Currency Position"
+#: inc/class-dn-checkout.php:119
+msgid "<strong>Phone Number</strong> is a required field."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Currency aggregator"
+#: inc/class-dn-checkout.php:126
+msgid "<strong>Terms and Contidions</strong> is a required field."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Currency settings"
+#: inc/class-dn-checkout.php:132
+msgid "<strong>Address</strong> is a required field."
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Decimal Separator."
+#: inc/class-dn-checkout.php:143
+msgid "<strong>Payment method</strong> is invalid. Please try again."
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/checkout/checkout.php:37
-#: tp-donate/inc/widgets/class-dn-widget-donate.php:1
-#: tp-donate/templates/donate-form.php:165
-#: tp-donate/templates/donate-form.php:150
-#: tp-donate/templates/donate-form.php:185
+#: inc/class-dn-checkout.php:150
+msgid "No First Name"
+msgstr ""
+
+#: inc/class-dn-checkout.php:151
+msgid "No Last Name"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:57 inc/i18n.php:19
+#: inc/settings/class-dn-setting-donate.php:28
+#: inc/widgets/class-dn-widget-button.php:17
+#: templates/checkout/checkout.php:40 templates/shortcodes/donate-form.php:46
+#: templates/shortcodes/donate-form.php:129
+#: templates/shortcodes/donate-form.php:144
+#: templates/shortcodes/donate-form.php:163
 msgid "Donate"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:48
-msgid "Donate ID"
+#: inc/class-dn-custom-post-type.php:58
+#: inc/admin/metaboxes/views/donate-action.php:34
+msgid "User"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/cart/cart_footer.php:8
-msgid "Donate Payment"
+#: inc/class-dn-custom-post-type.php:59
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:81
+msgid "Type"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:69
-msgid "Donate for system"
+#: inc/class-dn-custom-post-type.php:60 inc/class-dn-custom-post-type.php:567
+msgid "Date"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/shortcodes/donate.php:9
-#: tp-donate/templates/loop/thumbnail.php:24
-msgid "Donate now"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:43
-msgid "Donated"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:12
-#: tp-donate/templates/donate-form.php:4
-msgid "Donation amount"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Donation system"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Donation system without campaign."
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:51
-msgid "Donor"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Donor for"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:7
-msgid "Email"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Enable"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/donate-form.php:66
-#: tp-donate/templates/donate-form.php:180
-msgid "Enter custom donate amount: "
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:5
-msgid "First name"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "General"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/loop/goal_raised.php:12
-msgid "Goal"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:4
-msgid "ID"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/cart/cart_title.php:16
-#: tp-donate/templates/checkout/cart_title.php:13
-msgid "Item amount"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/cart/cart_title.php:13
-#: tp-donate/templates/checkout/cart_title.php:10
-msgid "Item name"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:6
-msgid "Last name"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-#: tp-donate/inc/admin/views/html/select.php:23
-msgid "Left"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-#: tp-donate/inc/admin/views/html/select.php:23
-msgid "Left with space"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Live Publish Key"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Live Secret Key"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/admin/views/html/multicheckbox.php:1
-#: tp-donate/inc/admin/views/html/multiradio.php:1
-msgid "Man"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "No"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/admin/views/html/input.php:1
-msgid "Number of Decimals"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Number of Decimals."
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/checkout/personal.php:12
-#: tp-donate/templates/donate-form.php:80
-msgid "Personal Info"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donor.php:9
-msgid "Phone"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/loop/posted.php:15
-msgid "Posted by:"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/loop/posted.php:10
-msgid "Posted in:"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Production environment"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/loop/goal_raised.php:8
-msgid "Raised"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-#: tp-donate/inc/admin/views/html/select.php:23
-msgid "Right"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-#: tp-donate/inc/admin/views/html/select.php:23
-msgid "Right with space"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/admin/views/html/multicheckbox.php:1
-#: tp-donate/inc/admin/views/html/multiradio.php:1
-msgid "Sex"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Stripe"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Stripe Process went wrong"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Stripe key is expired. Please contact administrator to do this payment gateway"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/donate-form.php:118
-#: tp-donate/templates/checkout/term_condition.php:15
-msgid "Terms & Conditions"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Test Publish Key"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Test Secret Key"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Test environment"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "The following options affect how prices are displayed on the frontend."
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "This controlls enable payment method"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/admin/views/html/select.php:23
-msgid "This controlls the position of the currency symbol"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "This controlls the position of the currency symbol."
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "This controlls what the currency prices when change currency setting."
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "This controlls what the currency prices."
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/settings/class-dn-setting-general.php:1
-msgid "Thousand Separator."
-msgstr ""
-
-#. Text in echo
-#: tp-donate/inc/widgets/class-dn-widget-donate.php:47
-msgid "Title:"
-msgstr ""
-
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
-msgid "Token is invalid"
-msgstr ""
-
-#. Text in echo
-#: tp-donate/templates/cart/cart_total.php:9
-#: tp-donate/templates/checkout/cart_total.php:9
+#: inc/class-dn-custom-post-type.php:61
+#: inc/admin/metaboxes/views/donate.php:112 templates/cart/cart_total.php:10
+#: templates/checkout/cart_total.php:10
 msgid "Total"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/inc/metaboxs/views/donate.php:43
-msgid "Total amount"
+#: inc/class-dn-custom-post-type.php:62
+msgid "Method"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/cart/cart_footer.php:7
+#: inc/class-dn-custom-post-type.php:63
+msgid "Status"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:64
+msgid "Actions"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:77
+#, php-format
+msgid "%s <small>by</small> %s"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:90
+#: inc/admin/metaboxes/views/donate-action.php:37
+msgid "Guest"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:95
+msgid "Donate For System"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:97
+msgid "Donate For Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:232
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:110
+msgid "Start Date"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:233
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:114
+msgid "End Date"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:234
+msgid "Founded"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:235
+msgid "Created At"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:268
+msgctxt "post type general name"
+msgid "Campaigns"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:269
+msgctxt "post type singular name"
+msgid "Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:270
+msgctxt "admin menu"
+msgid "Campaigns"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:271
+msgctxt "add new on admin bar"
+msgid "Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:272
+msgctxt "add new on admin bar"
+msgid "Add Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:273
+msgid "Add New Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:274
+msgid "New Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:275
+msgid "Edit Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:276
+msgid "View Campaign"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:277 inc/class-dn-custom-post-type.php:286
+msgid "Campaigns"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:278 inc/class-dn-custom-post-type.php:438
+msgid "Search Campaigns"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:279
+msgid "Parent Campaigns:"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:280
+msgid "No campaign found."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:281
+msgid "No campaign found in Trash."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:308
+msgctxt "post type general name"
+msgid "Donates"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:309
+msgctxt "post type singular name"
+msgid "Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:310
+msgctxt "add new on admin bar"
+msgid "Donates"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:311
+msgctxt "admin menu"
+msgid "Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:312
+msgctxt "dn_donate"
+msgid "Add Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:313
+msgid "Add New Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:314
+msgid "New Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:315
+msgid "Edit Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:316
+msgid "View Donate"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:317 inc/class-dn-custom-post-type.php:326
+msgid "Donates"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:318
+msgid "Search Donates"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:319
+msgid "Parent Donates:"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:320
+msgid "No donates found."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:321
+msgid "No donates found in Trash."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:332
+msgctxt "URL slug"
+msgid "donates"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:347
+msgctxt "post type general name"
+msgid "Donate Item"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:365
+msgid "Donate Item"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:371
+msgctxt "URL slug"
+msgid "donate-item"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:391
+msgctxt "post type general name"
+msgid "Donors"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:392
+msgctxt "post type singular name"
+msgid "Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:393
+msgctxt "admin menu"
+msgid "Donors"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:394
+msgctxt "add new on admin bar"
+msgid "Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:395
+msgctxt "dn_donor"
+msgid "Add Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:396
+msgid "Add New Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:397
+msgid "New Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:398
+msgid "Edit Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:399
+msgid "View Donor"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:400 inc/class-dn-custom-post-type.php:409
+msgid "Donors"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:401
+msgid "Search Donors"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:402
+msgid "Parent Donors:"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:403
+msgid "No donors found."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:404
+msgid "No donors found in Trash."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:415
+msgctxt "URL slug"
+msgid "donors"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:436
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:437
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:439
+msgid "All Campaigns"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:440
+msgid "Parent Category"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:441
+msgid "Parent Category:"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:442
+msgid "Edit Category"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:443
+msgid "Update Category"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:444
+msgid "Add New Category"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:445
+msgid "New Category"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:446
+msgid "Categories"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:455
+msgctxt "URL slug"
+msgid "campaign-cat"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:463
+msgctxt "taxonomy general name"
+msgid "Tags"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:464
+msgctxt "taxonomy singular name"
+msgid "Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:465
+msgid "Search Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:466
+msgid "All Tags"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:467
+msgid "Parent Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:468
+msgid "Parent Tag:"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:469
+msgid "Edit Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:470
+msgid "Update Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:471
+msgid "Add New Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:472
+msgid "New Tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:473
+msgid "Tags"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:482
+msgctxt "URL slug"
+msgid "campaign-tag"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:496
+msgctxt "Donate Status"
+msgid "Cancelled"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:501
+#, php-format
+msgid "Cancelled <span class=\"count\">(%s)</span>"
+msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/class-dn-custom-post-type.php:508
+msgctxt "Donate Status"
+msgid "Pending"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:513
+#, php-format
+msgid "Pending <span class=\"count\">(%s)</span>"
+msgid_plural "Pending <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/class-dn-custom-post-type.php:520
+msgctxt "Donate Status"
+msgid "Processing"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:525
+#, php-format
+msgid "Processing <span class=\"count\">(%s)</span>"
+msgid_plural "Processing <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/class-dn-custom-post-type.php:532
+msgctxt "Donate Status"
+msgid "Completed"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:537
+#, php-format
+msgid "Completed <span class=\"count\">(%s)</span>"
+msgid_plural "Completed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/class-dn-custom-post-type.php:544
+msgctxt "Donate Status"
+msgid "Refunded"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:549
+#, php-format
+msgid "Refunded <span class=\"count\">(%s)</span>"
+msgid_plural "Refunded <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/class-dn-custom-post-type.php:563
+msgid "Full Name"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:564 inc/class-dn-custom-post-type.php:629
+#: inc/admin/metaboxes/views/donor.php:20
+#: inc/settings/class-dn-setting-email.php:28
+msgid "Email"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:565 inc/class-dn-custom-post-type.php:636
+#: inc/admin/metaboxes/views/donor.php:21
+msgid "Address"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:566
+#: inc/admin/metaboxes/views/donor.php:22
+msgid "Phone"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:601
+msgid "Donor Info"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:609
+#, php-format
+msgid "Donor ID #%s"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:615
+msgid "First Name"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:616
+msgid "Enter First Name (required)"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:622
+msgid "Last Name"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:623
+msgid "Enter Last Name (required)"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:630
+msgid "Enter Email (required)"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:637
+msgid "Enter Address (required)"
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:643
+msgid "Phone Num."
+msgstr ""
+
+#: inc/class-dn-custom-post-type.php:644
+msgid "Enter Phone Number (required)"
+msgstr ""
+
+#: inc/class-dn-donate.php:44
+msgid "Could not created donor."
+msgstr ""
+
+#: inc/class-dn-donor.php:45
+msgid "Could not create new donor with empty email."
+msgstr ""
+
+#: inc/class-dn-donor.php:70
+msgid "Could not create new donor."
+msgstr ""
+
+#: inc/class-dn-email.php:46
+msgid "Donate completed"
+msgstr ""
+
+#: inc/class-dn-setting.php:56
+msgid "TP Donate Settings"
+msgstr ""
+
+#: inc/class-dn-setting.php:56
+msgid "Settings"
+msgstr ""
+
+#: inc/functions.php:445
+msgid "--- Select page ---"
+msgstr ""
+
+#: inc/functions.php:569
+#, php-format
+msgid "no data for %s"
+msgstr ""
+
+#: inc/functions.php:756
+msgid "Pending"
+msgstr ""
+
+#: inc/functions.php:757 inc/functions.php:1277 inc/i18n.php:20
+msgid "Processing"
+msgstr ""
+
+#: inc/functions.php:758 inc/i18n.php:21
+msgid "Completed"
+msgstr ""
+
+#: inc/functions.php:1280 templates/shortcodes/campaign.php:34
+msgid "Complete"
+msgstr ""
+
+#: inc/functions.php:1283
+msgid "View"
+msgstr ""
+
+#: inc/i18n.php:11
+msgid "Please enter donate amount."
+msgstr ""
+
+#: inc/i18n.php:12
+msgid "Please enter valid email. Eg: example@example.com"
+msgstr ""
+
+#: inc/i18n.php:13
+msgid "First name invalid, min length 3 and max length 15 character."
+msgstr ""
+
+#: inc/i18n.php:14
+msgid "Last name invalid, min length 3 and max length 15 character."
+msgstr ""
+
+#: inc/i18n.php:15
+msgid "Phone number invalid. Eg: 01365987521."
+msgstr ""
+
+#: inc/i18n.php:16
+msgid "Please select payment method."
+msgstr ""
+
+#: inc/i18n.php:17
+msgid "Please enter your address."
+msgstr ""
+
+#: inc/i18n.php:18
+msgid "Processing..."
+msgstr ""
+
+#: inc/install.php:80
+msgctxt "donate-cart"
+msgid "donate-cart"
+msgstr ""
+
+#: inc/install.php:81
+msgctxt "Donate Cart"
+msgid "Donate Cart"
+msgstr ""
+
+#: inc/install.php:90
+msgctxt "donate-checkout"
+msgid "donate-checkout"
+msgstr ""
+
+#: inc/install.php:91
+msgctxt "Donate Checkout"
+msgid "Donate Checkout"
+msgstr ""
+
+#: inc/abstracts/class-dn-abstract-payments.php:120
+msgid "Payment completed. We will send you email when payment method verify."
+msgstr ""
+
+#: inc/admin/class-dn-admin-menu.php:27
+msgid "TP Donate"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:28
+msgid "Campaign Settings"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:47
+#: inc/settings/class-dn-setting-checkout.php:43
+#: inc/settings/class-dn-setting-general.php:28
+msgid "General"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:50
+msgid "Compensate"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:83
+msgid "Flexible"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:84
+msgid "Fixed"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:86
+msgid "Flexible allow charge although full founded or expired date."
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:89
+#: inc/settings/class-dn-setting-general.php:70
+msgid "Currency"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:95
+msgid ""
+"Please make sure this option is keep not change. If it change Raised will be "
+"change."
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:100
+#: templates/loop/goal_raised.php:13
+msgid "Goal"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:104
+#: templates/loop/goal_raised.php:9
+msgid "Raised"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:125
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:157
+msgid "Marker"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:129
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:161
+#: inc/vendors/cmb2/example-functions.php:488
+msgid "Description"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:133
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:165
+#: inc/vendors/cmb2/includes/CMB2_JS.php:138
+#: inc/vendors/cmb2/includes/CMB2_Types.php:257
+#: inc/vendors/cmb2/includes/types/CMB2_Type_File_Base.php:80
+msgid "Remove"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-campaign.php:140
+msgid "Add Compensate"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-donate-action.php:42
+msgid "Donate Actions"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-donate-note.php:42
+msgid "Donate Note"
+msgstr ""
+
+#: inc/admin/metaboxes/class-dn-metabox-donate.php:41
+#: templates/checkout/thank-you.php:13
+msgid "Donate Details"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate-action.php:46
+msgid "Payment Status"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate-action.php:59
+msgid "Move to Trash"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate-action.php:66
 msgid "Update"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/shortcodes/donate.php:27
-msgid "View Cart"
+#: inc/admin/metaboxes/views/donate-action.php:66
+#: inc/vendors/cmb2/includes/helper-functions.php:279
+msgid "Save"
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/admin/views/html/multicheckbox.php:1
-#: tp-donate/inc/admin/views/html/multiradio.php:1
-msgid "Wowan"
+#: inc/admin/metaboxes/views/donate-note.php:9
+msgid "Add note"
 msgstr ""
 
-#. Text in function
-#: tp-donate/inc/payments/class-dn-payment-stripe.php:1
+#: inc/admin/metaboxes/views/donate.php:23
+msgid "Donate Type"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:27
+msgid "System"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:28
+#: inc/admin/metaboxes/views/donate.php:61
+msgid "Campaign"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:30
+msgid "Select donate type, donate for <i>Campaign</i> or <i>System</i>"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:38
+msgid "Donor"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:42
+msgid "----------------------------"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:50
+msgid "Select donor."
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:62
+#: inc/admin/metaboxes/views/donor.php:55
+msgid "Amount"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:63
+msgid "Action"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:73
+#: inc/admin/metaboxes/views/donate.php:128
+msgid "Select Campaign"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:74
+#: inc/admin/metaboxes/views/donate.php:129
+msgid "-----------------------"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:96
+msgid "Add Campaign"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:100
+#, php-format
+msgid "Total(%s)"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donate.php:116
+#, php-format
+msgid "Donate Total(%s)"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donor.php:17
+msgid "ID"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donor.php:18
+msgid "First name"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donor.php:19
+msgid "Last name"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donor.php:49
+msgid "Donated"
+msgstr ""
+
+#: inc/admin/metaboxes/views/donor.php:54
+msgid "Donate ID"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:45
+msgid "AuthorizeNet"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:58
+msgid "This transaction has been approved."
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:59
+msgid "This transaction has been declined."
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:60
+msgid "There has been an error processing this transaction."
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:61
+msgid " This transaction is being held for review."
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:121
+#: inc/gateways/paypal/class-dn-payment-paypal.php:129
+#: inc/gateways/stripe/class-dn-payment-stripe.php:71
+#: inc/settings/class-dn-setting-email.php:42
+msgid "Enable"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:122
+#: inc/gateways/paypal/class-dn-payment-paypal.php:130
+#: inc/gateways/stripe/class-dn-payment-stripe.php:72
+msgid "This controlls enable payment method"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:129
+#: inc/gateways/paypal/class-dn-payment-paypal.php:137
+#: inc/gateways/stripe/class-dn-payment-stripe.php:79
+#: inc/settings/class-dn-setting-checkout.php:86
+#: inc/settings/class-dn-setting-checkout.php:159
+#: inc/settings/class-dn-setting-donate.php:65
+#: inc/settings/class-dn-setting-donate.php:80
+#: inc/settings/class-dn-setting-donate.php:101
+#: inc/settings/class-dn-setting-donate.php:116
+#: inc/settings/class-dn-setting-email.php:51
+msgid "No"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:130
+#: inc/gateways/paypal/class-dn-payment-paypal.php:138
+#: inc/gateways/stripe/class-dn-payment-stripe.php:80
+#: inc/settings/class-dn-setting-checkout.php:87
+#: inc/settings/class-dn-setting-checkout.php:158
+#: inc/settings/class-dn-setting-donate.php:64
+#: inc/settings/class-dn-setting-donate.php:79
+#: inc/settings/class-dn-setting-donate.php:100
+#: inc/settings/class-dn-setting-donate.php:115
+#: inc/settings/class-dn-setting-email.php:50
 msgid "Yes"
 msgstr ""
 
-#. Text in echo
-#: tp-donate/templates/cart/empty.php:10
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:135
+msgid "Api Login ID"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:136
+msgid "Api login id"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:146
+msgid "Transaction Key"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:147
+msgid "Transaction key"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:162
+msgid "Transaction Key is invalid."
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:201
+msgid "Cancel"
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:203
+msgid "Click here to return our homepage."
+msgstr ""
+
+#: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:222
+msgid "Redirect to Authorize.Net"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:31
+msgid "Paypal"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:60
+msgid "Donate is cancel."
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:143
+msgid "Paypal email"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:144
+#: inc/gateways/stripe/class-dn-payment-stripe.php:108
+#: inc/gateways/stripe/class-dn-payment-stripe.php:119
+msgid "Production environment"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:154
+msgid "Paypal sandbox email"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:155
+#: inc/gateways/stripe/class-dn-payment-stripe.php:86
+#: inc/gateways/stripe/class-dn-payment-stripe.php:97
+msgid "Test environment"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:179
+msgid "Donate for"
+msgstr ""
+
+#: inc/gateways/paypal/class-dn-payment-paypal.php:226
+msgid ""
+"Email Business PayPal is invalid. Please contact administrator to setup "
+"PayPal email."
+msgstr ""
+
+#: inc/gateways/stripe/checkout-form.php:5
+msgid "Pay securely using your credit card."
+msgstr ""
+
+#: inc/gateways/stripe/checkout-form.php:7
+msgid "Card Number"
+msgstr ""
+
+#: inc/gateways/stripe/checkout-form.php:12
+msgid "Expires (MM / YY)"
+msgstr ""
+
+#: inc/gateways/stripe/checkout-form.php:17
+msgid "Card Code (CVC)"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:43
+msgid "Stripe"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:85
+msgid "Test Secret Key"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:96
+msgid "Test Publish Key"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:107
+msgid "Live Secret Key"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:118
+msgid "Live Publish Key"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:137
+msgid ""
+"Secret key and Publish key is invalid. Please contact administrator to setup "
+"Stripe payment."
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:144
+msgid "Credit Card information error."
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:161
+#: inc/gateways/stripe/class-dn-payment-stripe.php:179
+msgid "Please try again"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:172
+msgid "Donor for"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:194
+#, php-format
+msgid "%s - donate %s"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:212
+msgid "Connect Stripe has error. Please try again!"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:240
+msgid "Stripe process went wrong"
+msgstr ""
+
+#: inc/gateways/stripe/class-dn-payment-stripe.php:266
+msgid ""
+"Stripe key is expired. Please contact administrator to do this payment "
+"gateway"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:34
+#: inc/settings/class-dn-setting-checkout.php:102
+#: templates/shortcodes/donate.php:30
+msgid "Checkout"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:45
+msgid "General settings"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:46
+#: inc/settings/class-dn-setting-donate.php:38
+msgid ""
+"The following options affect how format are displayed list donate causes on "
+"the frontend."
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:50
+msgid "Environment"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:51
+msgid "This controlls test or production mode"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:58
+msgid "Test"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:59
+msgid "Production"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:65
+msgid "Cancel Pending Order"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:66
+msgid "This controlls how many time cancel Pending Order status."
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:78
+msgid "Include lightbox"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:79
+msgid ""
+"This controlls include payment lightbox donate form and not using Cart or "
+"Checkout page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:93
+msgid "Donate redirect."
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:94
+msgid "This controlls redirect page on donate submit?"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:101
+msgid "Cart"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:108
+msgid "Cart page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:109
+msgid "This controlls set Cart page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:120
+msgid "Checkout page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:121
+msgid "This controlls set Checkout page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:132
+msgid "Terms and Conditions page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:133
+msgid "This controlls set Terms and Conditions page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:145
+msgid "Checkout page setting"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:146
+msgid ""
+"The following options affect how format are displayed list donate causes on "
+"the checkout page."
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:150
+msgid "Show terms & Conditions"
+msgstr ""
+
+#: inc/settings/class-dn-setting-checkout.php:151
+msgid "This controlls display term & condition in checkout page"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:37
+msgid "Archive settings"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:42
+msgid "Archive columns"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:43
+msgid "This controlls how many column archive page."
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:56
+#: inc/settings/class-dn-setting-donate.php:92
+msgid "Raised and Goal"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:57
+#: inc/settings/class-dn-setting-donate.php:93
+msgid "Display raised and goal on the frontend"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:71
+#: inc/settings/class-dn-setting-donate.php:107
+msgid "Countdown Raised"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:72
+#: inc/settings/class-dn-setting-donate.php:108
+msgid "Display countdown raised on the frontend"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:87
+msgid "Single setting"
+msgstr ""
+
+#: inc/settings/class-dn-setting-donate.php:88
+msgid ""
+"The following options affect how format are displayed single page on the "
+"frontend."
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:37
+msgid "Email Settings"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:38
+#: inc/settings/class-dn-setting-general.php:39
+msgid "The following options affect how prices are displayed on the frontend."
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:43
+msgid "This controlls what the currency prices"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:57
+msgid "From name"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:58
+msgid "This set email from name"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:70
+msgid "Email from"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:71
+msgid "This set email send"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:83
+msgid "Email Content"
+msgstr ""
+
+#: inc/settings/class-dn-setting-email.php:84
+msgid ""
+"Use [donor_email], [donor_first_name], [donor_last_name], [donor_phone], "
+"[donor_address] tags to generate email template"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:38
+msgid "Currency settings"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:43
+msgid "Donation system"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:44
+msgid "Donation system without campaign."
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:55
+msgid "Currency aggregator"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:56
+msgid "This controls what the currency prices when change currency setting."
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:71
+msgid "This controls what the currency prices."
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:82
+msgid "Currency Position"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:83
+msgid "This controls the position of the currency symbol."
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:90
+msgid "Left"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:91
+msgid "Right"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:92
+msgid "Left with space"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:93
+msgid "Right with space"
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:99
+msgid "Thousand Separator."
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:110
+msgid "Decimal Separator."
+msgstr ""
+
+#: inc/settings/class-dn-setting-general.php:121
+msgid "Number of Decimals."
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:117
+msgid "Test Metabox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:130
+#: inc/vendors/cmb2/example-functions.php:436
+msgid "Test Text"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:131
+#: inc/vendors/cmb2/example-functions.php:144
+#: inc/vendors/cmb2/example-functions.php:157
+#: inc/vendors/cmb2/example-functions.php:165
+#: inc/vendors/cmb2/example-functions.php:173
+#: inc/vendors/cmb2/example-functions.php:182
+#: inc/vendors/cmb2/example-functions.php:190
+#: inc/vendors/cmb2/example-functions.php:205
+#: inc/vendors/cmb2/example-functions.php:213
+#: inc/vendors/cmb2/example-functions.php:221
+#: inc/vendors/cmb2/example-functions.php:238
+#: inc/vendors/cmb2/example-functions.php:247
+#: inc/vendors/cmb2/example-functions.php:260
+#: inc/vendors/cmb2/example-functions.php:267
+#: inc/vendors/cmb2/example-functions.php:274
+#: inc/vendors/cmb2/example-functions.php:288
+#: inc/vendors/cmb2/example-functions.php:301
+#: inc/vendors/cmb2/example-functions.php:314
+#: inc/vendors/cmb2/example-functions.php:326
+#: inc/vendors/cmb2/example-functions.php:335
+#: inc/vendors/cmb2/example-functions.php:343
+#: inc/vendors/cmb2/example-functions.php:352
+#: inc/vendors/cmb2/example-functions.php:359
+#: inc/vendors/cmb2/example-functions.php:373
+#: inc/vendors/cmb2/example-functions.php:437
+#: inc/vendors/cmb2/example-functions.php:528
+#: inc/vendors/cmb2/example-functions.php:536
+#: inc/vendors/cmb2/example-functions.php:543
+#: inc/vendors/cmb2/example-functions.php:550
+#: inc/vendors/cmb2/example-functions.php:557
+#: inc/vendors/cmb2/example-functions.php:564
+#: inc/vendors/cmb2/example-functions.php:571
+#: inc/vendors/cmb2/example-functions.php:598
+#: inc/vendors/cmb2/example-functions.php:606
+#: inc/vendors/cmb2/example-functions.php:613
+#: inc/vendors/cmb2/example-functions.php:650
+msgid "field description (optional)"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:143
+msgid "Test Text Small"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:156
+msgid "Test Text Medium"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:164
+msgid "Custom Rendered Field"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:172
+msgid "Website URL"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:181
+msgid "Test Text Email"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:189
+msgid "Test Time"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:197
+#: inc/vendors/cmb2/example-functions.php:198
+msgid "Time zone"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:204
+msgid "Test Date Picker"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:212
+msgid "Test Date Picker (UNIX timestamp)"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:220
+msgid "Test Date/Time Picker Combo (UNIX timestamp)"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:237
+msgid "Test Money"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:246
+msgid "Test Color Picker"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:259
+msgid "Test Text Area"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:266
+msgid "Test Text Area Small"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:273
+msgid "Test Text Area for Code"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:280
+msgid "Test Title Weeeee"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:281
+msgid "This is a title description"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:287
+msgid "Test Select"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:293
+#: inc/vendors/cmb2/example-functions.php:306
+#: inc/vendors/cmb2/example-functions.php:318
+msgid "Option One"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:294
+#: inc/vendors/cmb2/example-functions.php:307
+#: inc/vendors/cmb2/example-functions.php:319
+msgid "Option Two"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:295
+#: inc/vendors/cmb2/example-functions.php:308
+#: inc/vendors/cmb2/example-functions.php:320
+msgid "Option Three"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:300
+msgid "Test Radio inline"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:313
+msgid "Test Radio"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:325
+msgid "Test Taxonomy Radio"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:334
+msgid "Test Taxonomy Select"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:342
+msgid "Test Taxonomy Multi Checkbox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:351
+msgid "Test Checkbox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:358
+msgid "Test Multi Checkbox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:364
+msgid "Check One"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:365
+msgid "Check Two"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:366
+msgid "Check Three"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:372
+msgid "Test wysiwyg"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:380
+msgid "Test Image"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:381
+msgid "Upload an image or enter a URL."
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:387
+msgid "Multiple Files"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:388
+msgid "Upload or add multiple images/attachments."
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:395
+msgid "oEmbed"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:396
+msgid ""
+"Enter a youtube, twitter, or instagram URL. Supports services listed at <a "
+"href=\"http://codex.wordpress.org/Embeds\">http://codex.wordpress.org/"
+"Embeds</a>."
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:427
+msgid "About Page Metabox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:456
+msgid "Repeating Field Group"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:464
+msgid "Generates reusable form entries"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:466
+msgid "Entry {#}"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:467
+msgid "Add Another Entry"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:468
+msgid "Remove Entry"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:481
+msgid "Entry Title"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:489
+msgid "Write a short description for this entry"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:495
+msgid "Entry Image"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:501
+msgid "Image Caption"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:520
+msgid "User Profile Metabox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:527
+#: inc/vendors/cmb2/example-functions.php:597
+msgid "Extra Info"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:535
+msgid "Avatar"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:542
+msgid "Facebook URL"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:549
+msgid "Twitter URL"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:556
+msgid "Google+ URL"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:563
+msgid "Linkedin URL"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:570
+msgid "User Field"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:590
+msgid "Category Metabox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:605
+msgid "Term Image"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:612
+msgid "Arbitrary Term Field"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:634
+msgid "Theme Options Metabox"
+msgstr ""
+
+#: inc/vendors/cmb2/example-functions.php:649
+msgid "Site Background Color"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2.php:129
+msgid "Metabox configuration is required to have an ID parameter"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2.php:418
+msgid "Click to toggle"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Ajax.php:71
+msgid "Please Try Again"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Ajax.php:173
+msgid "Remove Embed"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Ajax.php:177
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Field.php:1186
+msgid "Add Group"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Field.php:1187
+msgid "Remove Group"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Field.php:1209
+#: inc/vendors/cmb2/includes/CMB2_Field.php:1213
+msgid "None"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Field.php:1269
+msgid "Sorry, this field does not have a cmb_id specified."
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Field_Display.php:408
+#: inc/vendors/cmb2/includes/CMB2_JS.php:139
+#: inc/vendors/cmb2/includes/types/CMB2_Type_File_Base.php:75
+msgid "File:"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_hookup.php:143
+msgid ""
+"Term Metadata is a WordPress > 4.4 feature. Please upgrade your WordPress "
+"install."
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_hookup.php:147
+msgid "Term metaboxes configuration requires a 'taxonomies' parameter"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:86
+#: inc/vendors/cmb2/includes/CMB2_JS.php:119
+msgid "Clear"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:87
+msgid "Default"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:88
+msgid "Select Color"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:89
+msgid "Current Color"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:109
+msgctxt "Valid formatDate string for jquery-ui datepicker"
+msgid "mm/dd/yy"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:110
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:111
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:112
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:113
+msgid ""
+"January, February, March, April, May, June, July, August, September, "
+"October, November, December"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:114
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:115 templates/pagination.php:30
+msgid "Next"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:116
+msgid "Prev"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:117
+msgid "Today"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:118
+#: inc/vendors/cmb2/includes/CMB2_JS.php:128
+msgid "Done"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:122
+msgid "Choose Time"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:123
+msgid "Time"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:124
+msgid "Hour"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:125
+msgid "Minute"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:126
+msgid "Second"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:127
+msgid "Now"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:129
+msgctxt ""
+"Valid formatting string, as per http://trentrichardson.com/examples/"
+"timepicker/"
+msgid "hh:mm TT"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:135
+msgid "Use this file"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:136
+msgid "Use these files"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:137
+#: inc/vendors/cmb2/includes/types/CMB2_Type_File_Base.php:61
+msgid "Remove Image"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:140
+#: inc/vendors/cmb2/includes/types/CMB2_Type_File_Base.php:78
+msgid "Download"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_JS.php:141
+msgid "Select / Deselect All"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/CMB2_Types.php:194
+msgid "Add Row"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/helper-functions.php:93
+#, php-format
+msgid "No oEmbed Results Found for %s. View more info at %s"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/types/CMB2_Type_File.php:36
+msgid "Add or Upload File"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/types/CMB2_Type_File_List.php:36
+msgid "Add or Upload Files"
+msgstr ""
+
+#: inc/vendors/cmb2/includes/types/CMB2_Type_Taxonomy_Multicheck.php:27
+#: inc/vendors/cmb2/includes/types/CMB2_Type_Taxonomy_Radio.php:25
+msgid "No terms"
+msgstr ""
+
+#: inc/widgets/class-dn-widget-button.php:18
+msgid "Create button donate everywhere"
+msgstr ""
+
+#: inc/widgets/class-dn-widget-button.php:50
+#: inc/widgets/class-dn-widget-donate-system.php:51
+msgid "Title:"
+msgstr ""
+
+#: inc/widgets/class-dn-widget-donate-system.php:18
+msgid "Donate System"
+msgstr ""
+
+#: inc/widgets/class-dn-widget-donate-system.php:19
+msgid "Show amount donated of system."
+msgstr ""
+
+#: templates/pagination.php:29
+msgid "Previous"
+msgstr ""
+
+#: templates/cart/cart_footer.php:9
+msgid "Donate Payment"
+msgstr ""
+
+#: templates/cart/cart_title.php:14 templates/checkout/cart_title.php:11
+msgid "Item name"
+msgstr ""
+
+#: templates/cart/cart_title.php:17 templates/checkout/cart_title.php:14
+msgid "Item amount"
+msgstr ""
+
+#: templates/cart/empty.php:12
 msgid "You have no donate item!"
-msgstr "You have no donate item!!!"
+msgstr ""
+
+#: templates/checkout/personal.php:13 templates/shortcodes/donate-form.php:70
+msgid "Personal Info"
+msgstr ""
+
+#: templates/checkout/personal.php:18 templates/shortcodes/donate-form.php:73
+msgid "* First Name"
+msgstr ""
+
+#: templates/checkout/personal.php:22 templates/shortcodes/donate-form.php:77
+msgid "* Last Name"
+msgstr ""
+
+#: templates/checkout/personal.php:26 templates/shortcodes/donate-form.php:81
+msgid "* Email"
+msgstr ""
+
+#: templates/checkout/personal.php:30 templates/shortcodes/donate-form.php:85
+msgid "* Phone"
+msgstr ""
+
+#: templates/checkout/personal.php:34 templates/shortcodes/donate-form.php:89
+msgid "* Address"
+msgstr ""
+
+#: templates/checkout/personal.php:38 templates/shortcodes/donate-form.php:93
+msgid "Additional note"
+msgstr ""
+
+#: templates/checkout/term_condition.php:16
+#: templates/shortcodes/donate-form.php:108
+msgid "Terms & Conditions"
+msgstr ""
+
+#: templates/checkout/thank-you.php:9
+msgid "Thanks for your donated."
+msgstr ""
+
+#: templates/checkout/thank-you.php:16
+msgid "Donate ID: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:20
+msgid "Donated Total: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:24
+msgid "Donate Date: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:28
+msgid "Payment Method: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:38
+msgid "Donate Status: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:48
+msgid "Donor Information"
+msgstr ""
+
+#: templates/checkout/thank-you.php:51
+msgid "First Name: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:55
+msgid "Last Name: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:59
+msgid "Email: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:63
+msgid "Phone: "
+msgstr ""
+
+#: templates/checkout/thank-you.php:67
+msgid "Addition Note: "
+msgstr ""
+
+#: templates/loop/countdown.php:16
+#, php-format
+msgid "%s Days To Go"
+msgstr ""
+
+#: templates/loop/posted.php:11
+msgid "Posted in:"
+msgstr ""
+
+#: templates/loop/posted.php:16
+msgid "Posted by:"
+msgstr ""
+
+#: templates/loop/thumbnail.php:24 templates/shortcodes/donate.php:11
+#: templates/single/donate.php:8
+msgid "Donate now"
+msgstr ""
+
+#: templates/shortcodes/donate-form.php:12
+msgid "Donation amount"
+msgstr ""
+
+#: templates/shortcodes/donate-form.php:56
+#: templates/shortcodes/donate-form.php:158
+msgid "Enter custom donate amount: "
+msgstr ""
+
+#: templates/shortcodes/donate.php:29
+msgid "View Cart"
+msgstr ""

@@ -191,7 +191,6 @@
 
                 if (res) {
                     TP_Donate_Global.doAction('donate_submit_submited_form_completed', res);
-                    console.log(res);
                 }
 
                 if (typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true) {
