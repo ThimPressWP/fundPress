@@ -6,7 +6,7 @@ donate_print_notices();
 ?>
 
 <div class="donate-thank-you">
-    <h3><?php _e( 'Thanks for your donated.', 'tp-donate' ); ?></h3>
+    <h3><?php _e( 'Thanks for your donation.', 'tp-donate' ); ?></h3>
     <div class="donate-info">
         <ul>
             <li>

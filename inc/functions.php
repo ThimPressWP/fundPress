@@ -355,7 +355,7 @@ if (!function_exists('donate_price')) {
         if (!is_numeric($price))
             return;
 
-        $price = number_format($price, donate_currency_decimal(), donate_currency_thousand(), donate_currency_separator());
+        $price = number_format($price, donate_currency_decimal(), donate_currency_separator(), donate_currency_thousand());
 
         $position = donate_currency_position();
         $symbol = donate_get_currency_symbol($currency);
