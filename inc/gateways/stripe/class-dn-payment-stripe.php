@@ -277,69 +277,72 @@ class DN_Payment_Stripe extends DN_Payment_Base {
         ?>
         <script type="text/javascript">
             ( function ( $ ) {
-                window.Donate_Stripe_Payment = {
-                    init: function () {
-                        $( '.stripe-cc-number' ).payment( 'formatCardNumber' );
-                        $( '.stripe-cc-exp' ).payment( 'formatCardExpiry' );
-                        $( '.stripe-cc-cvc' ).payment( 'formatCardCVC' );
-                        TP_Donate_Global.addFilter( 'donate_before_submit_form', this.before_submit_checkout );
-                    },
-                    before_submit_checkout: function ( data ) {
-                        var is_stripe = false;
-                        for ( var i = 0; i < data.length; i++ ) {
-                            if ( data[i].name === 'payment_method' && data[i].value === 'stripe' ) {
-                                is_stripe = true;
-                            }
-                        }
-                        if ( is_stripe && !Donate_Stripe_Payment.validator_credit_card() ) {
-                            return false;
-                        }
+                if ( typeof $.fn.payment !== 'undefined' ) {
 
-                        return data;
-                    },
-                    /**
-                     * validate create card format
-                     * @returns boolean
-                     */
-                    validator_credit_card: function () {
-                        var card_num = $( '.stripe-cc-number' ),
+                    window.Donate_Stripe_Payment = {
+                        init: function () {
+                            $( '.stripe-cc-number' ).payment( 'formatCardNumber' );
+                            $( '.stripe-cc-exp' ).payment( 'formatCardExpiry' );
+                            $( '.stripe-cc-cvc' ).payment( 'formatCardCVC' );
+                            TP_Donate_Global.addFilter( 'donate_before_submit_form', this.before_submit_checkout );
+                        },
+                        before_submit_checkout: function ( data ) {
+                            var is_stripe = false;
+                            for ( var i = 0; i < data.length; i++ ) {
+                                if ( data[i].name === 'payment_method' && data[i].value === 'stripe' ) {
+                                    is_stripe = true;
+                                }
+                            }
+                            if ( is_stripe && !Donate_Stripe_Payment.validator_credit_card() ) {
+                                return false;
+                            }
+
+                            return data;
+                        },
+                        /**
+                         * validate create card format
+                         * @returns boolean
+                         */
+                        validator_credit_card: function () {
+                            var card_num = $( '.stripe-cc-number' ),
                                 card_expiry = $( '.stripe-cc-exp' ),
                                 card_cvc = $( '.stripe-cc-cvc' ),
                                 card_type = $.payment.cardType( card_num.val() );
-                        var validated = true;
-                        /*
-                         * validate card number
-                         */
-                        if ( !$.payment.validateCardNumber( card_num.val() ) ) {
-                            validated = false;
-                            card_num.addClass( 'error' ).removeClass( 'validated' );
-                        } else {
-                            card_num.addClass( 'validated' ).removeClass( 'error' );
+                            var validated = true;
+                            /*
+                             * validate card number
+                             */
+                            if ( !$.payment.validateCardNumber( card_num.val() ) ) {
+                                validated = false;
+                                card_num.addClass( 'error' ).removeClass( 'validated' );
+                            } else {
+                                card_num.addClass( 'validated' ).removeClass( 'error' );
+                            }
+                            /**
+                             * vaildate card expired
+                             */
+                            if ( !card_expiry.val() || !$.payment.cardExpiryVal( card_expiry.val() ) ) {
+                                validated = false;
+                                card_expiry.addClass( 'error' ).removeClass( 'validated' );
+                            } else {
+                                card_expiry.addClass( 'validated' ).removeClass( 'error' );
+                            }
+                            /**
+                             * validate card cvc
+                             */
+                            if ( !card_cvc.val() || !$.payment.validateCardCVC( card_cvc.val(), card_type ) ) {
+                                validated = false;
+                                card_cvc.addClass( 'error' ).removeClass( 'validated' );
+                            } else {
+                                card_cvc.addClass( 'validated' ).removeClass( 'error' );
+                            }
+                            return validated;
                         }
-                        /**
-                         * vaildate card expired
-                         */
-                        if ( !card_expiry.val() || !$.payment.cardExpiryVal( card_expiry.val() ) ) {
-                            validated = false;
-                            card_expiry.addClass( 'error' ).removeClass( 'validated' );
-                        } else {
-                            card_expiry.addClass( 'validated' ).removeClass( 'error' );
-                        }
-                        /**
-                         * validate card cvc
-                         */
-                        if ( !card_cvc.val() || !$.payment.validateCardCVC( card_cvc.val(), card_type ) ) {
-                            validated = false;
-                            card_cvc.addClass( 'error' ).removeClass( 'validated' );
-                        } else {
-                            card_cvc.addClass( 'validated' ).removeClass( 'error' );
-                        }
-                        return validated;
-                    }
-                };
-                $( document ).ready( function () {
-                    Donate_Stripe_Payment.init();
-                } );
+                    };
+                    $( document ).ready( function () {
+                        Donate_Stripe_Payment.init();
+                    } );
+                }
             } )( jQuery );
         </script>
         <?php
