@@ -1,3 +1,7 @@
+=== 1.0.6 ===
+- Fix Stripe payment gateway on mobile
+
+
 === 1.0.3 ===
 - Allow edit Campaign Raised
 - Upgrade database Campaign count Donor

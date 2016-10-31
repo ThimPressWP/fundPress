@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit();
 
     <div class="donate_field">
         <label for="cc-exp" class="label-field"><?php _e( 'Expires (MM / YY)', 'tp-donate' ) ?></label>
-        <input name="stripe[cc-exp]" id="cc-exp" type="tel" class="required stripe-cc-exp" autocomplete="cc-exp" placeholder="•• / ••" />
+        <input name="stripe[cc-exp]" id="cc-exp" type="text" class="required stripe-cc-exp" autocomplete="cc-exp" placeholder="•• / ••" />
     </div>
 
     <div class="donate_field">
