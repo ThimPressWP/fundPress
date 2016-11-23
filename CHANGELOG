@@ -1,6 +1,8 @@
+=== 1.0.7 ===
+- Fix Payment Method when system donate
+
 === 1.0.6 ===
 - Fix Stripe payment gateway on mobile
-
 
 === 1.0.3 ===
 - Allow edit Campaign Raised
