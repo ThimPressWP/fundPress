@@ -41,4 +41,7 @@ Paypal, Stripe, Authorize.net
 == Changelog ==
 
 = 1.0.3 =
-* An amazing Donation plugin for WordPress was born
+* An amazing Donation plugin for WordPress was born.
+
+= 1.0.8 =
+* Fix donate checkout process.
