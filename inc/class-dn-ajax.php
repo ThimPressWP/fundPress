@@ -124,7 +124,7 @@ class DN_Ajax
             die();
         }
 
-        if ($update = update_post_meta($_POST['post_id'], TP_DONATE_META_CAMPAIGN . 'marker', $marker)) {
+        if ($update = update_post_meta($post_id, TP_DONATE_META_CAMPAIGN . 'marker', $marker)) {
             wp_send_json(array('status' => 'success'));
             die();
         }
@@ -157,7 +157,7 @@ class DN_Ajax
         }
 
         $donate_id = (isset($_POST['donate_id'])) ? absint($_POST['donate_id']) : '';
-        $status = (isset($_POST['status'])) ? ($_POST['status']) : '';
+        $status = (isset($_POST['status'])) ? sanitize_text_field($_POST['status']) : '';
 
         $donate = DN_Donate::instance($donate_id);
 
