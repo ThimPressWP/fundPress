@@ -2,8 +2,8 @@
 Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
-Requires at least: 3.8
-Tested up to: 4.5.2
+Requires at least: 4.6
+Tested up to: 4.7.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
