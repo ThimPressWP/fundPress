@@ -24,7 +24,7 @@ class DN_Admin_Menu {
 
     // add admin menu callback
     public function admin_menu() {
-        $donate_menu = apply_filters( 'donation_menu_title', __( 'TP Donate', 'fundpress' ) );
+        $donate_menu = apply_filters( 'donation_menu_title', __( 'FundPress', 'fundpress' ) );
         add_menu_page( $donate_menu, $donate_menu, 'manage_options', 'tp_donate', null, 'dashicons-admin-site', 9 );
         /**
          * menus
