@@ -7,7 +7,7 @@
             this.donate_meta_box.init();
             this.donate_lightbox();
             this.action_status();
-            this.status_tooltip();
+            // this.status_tooltip();
             // select2 js
             $('.tp_donate_wrapper_content select').select2({
                 width: 'resolve',
@@ -252,18 +252,18 @@
 
             })
         },
-        status_tooltip: function(){
-            $(document).on('hover', '#action-status a', function (e) {
-                var _tooltips = $('[tooltip]').tooltip({
-                    position: {
-                        my: "left top",
-                        at: "right+5 top-5",
-                        collision: "none"
-                    }
-                });
-                _tooltips.tooltip('open')
-            })
-        }
+        // status_tooltip: function(){
+        //     $(document).on('hover', '#action-status a', function (e) {
+        //         var _tooltips = $('[tooltip]').tooltip({
+        //             position: {
+        //                 my: "left top",
+        //                 at: "right+5 top-5",
+        //                 collision: "none"
+        //             }
+        //         });
+        //         _tooltips.tooltip('open')
+        //     })
+        // }
     };
 
     // ready

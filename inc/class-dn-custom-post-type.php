@@ -61,7 +61,7 @@ class DN_Post_Type
         $columns['donate_total'] = apply_filters('donate_add_column_donate_total', __('Total', 'fundpress'));
         $columns['donate_payment_method'] = apply_filters('donate_add_column_donate_payment_method', __('Method', 'fundpress'));
         $columns['donate_status'] = apply_filters('donate_add_column_donate_status', __('Status', 'fundpress'));
-        $columns['donate_action'] = apply_filters('donate_add_column_donate_action', __('Actions', 'fundpress'));
+//        $columns['donate_action'] = apply_filters('donate_add_column_donate_action', __('Actions', 'fundpress'));
         return $columns;
     }
 
@@ -106,9 +106,9 @@ class DN_Post_Type
             case 'donate_status':
                 echo donate_get_status_label($post_id);
                 break;
-            case 'donate_action' :
-                echo donate_action_status($donate->ID);
-                break;
+//            case 'donate_action' :
+//                echo donate_action_status($donate->ID);
+//                break;
         }
     }
 
