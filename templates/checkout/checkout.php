@@ -37,7 +37,7 @@ donate_print_notices();
         <?php do_action( 'donate_after_form_checkout' ); ?>
 
         <div class="donate_payment_button_process">
-            <button type="submit" class="donate_button"><?php _e( 'Donate', 'tp-donate' ); ?></button>
+            <button type="submit" class="donate_button"><?php _e( 'Donate', 'fundpress' ); ?></button>
         </div>
 
     </form>

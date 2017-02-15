@@ -117,7 +117,7 @@ abstract class DN_Payment_Base {
      */
     public function completed_process_message() {
         if ( !donate_has_notice( 'success' ) ) {
-            donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'tp-donate' ) );
+            donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'fundpress' ) );
         }
     }
 

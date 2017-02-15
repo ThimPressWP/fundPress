@@ -25,7 +25,7 @@ class DN_Setting_General extends DN_Setting_Base
 
     public function __construct()
     {
-        $this->_title = __('General', 'tp-donate');
+        $this->_title = __('General', 'fundpress');
         parent::__construct();
     }
 
@@ -35,13 +35,13 @@ class DN_Setting_General extends DN_Setting_Base
         return
             array(
                 array(
-                    'title' => __('Currency settings', 'tp-donate'),
-                    'desc' => __('The following options affect how prices are displayed on the frontend.', 'tp-donate'),
+                    'title' => __('Currency settings', 'fundpress'),
+                    'desc' => __('The following options affect how prices are displayed on the frontend.', 'fundpress'),
                     'fields' => array(
                         array(
                             'type' => 'input',
-                            'label' => __('Donation system', 'tp-donate'),
-                            'desc' => __('Donation system without campaign.', 'tp-donate'),
+                            'label' => __('Donation system', 'fundpress'),
+                            'desc' => __('Donation system without campaign.', 'fundpress'),
                             'name' => '',
                             'atts' => array(
                                 'type' => 'hidden',
@@ -52,8 +52,8 @@ class DN_Setting_General extends DN_Setting_Base
                         ),
                         array(
                             'type' => 'select',
-                            'label' => __('Currency aggregator', 'tp-donate'),
-                            'desc' => __('This controls what the currency prices when change currency setting.', 'tp-donate'),
+                            'label' => __('Currency aggregator', 'fundpress'),
+                            'desc' => __('This controls what the currency prices when change currency setting.', 'fundpress'),
                             'atts' => array(
                                 'id' => 'aggregator',
                                 'class' => 'aggregator'
@@ -67,8 +67,8 @@ class DN_Setting_General extends DN_Setting_Base
                         ),
                         array(
                             'type' => 'select',
-                            'label' => __('Currency', 'tp-donate'),
-                            'desc' => __('This controls what the currency prices.', 'tp-donate'),
+                            'label' => __('Currency', 'fundpress'),
+                            'desc' => __('This controls what the currency prices.', 'fundpress'),
                             'atts' => array(
                                 'id' => 'currency',
                                 'class' => 'currency'
@@ -79,24 +79,24 @@ class DN_Setting_General extends DN_Setting_Base
                         ),
                         array(
                             'type' => 'select',
-                            'label' => __('Currency Position', 'tp-donate'),
-                            'desc' => __('This controls the position of the currency symbol.', 'tp-donate'),
+                            'label' => __('Currency Position', 'fundpress'),
+                            'desc' => __('This controls the position of the currency symbol.', 'fundpress'),
                             'atts' => array(
                                 'id' => 'currency_position',
                                 'class' => 'currency_position'
                             ),
                             'name' => 'currency_position',
                             'options' => array(
-                                'left' => __('Left', 'tp-donate') . ' ' . '(£99.99)',
-                                'right' => __('Right', 'tp-donate') . ' ' . '(99.99£)',
-                                'left_space' => __('Left with space', 'tp-donate') . ' ' . '(£ 99.99)',
-                                'right_space' => __('Right with space', 'tp-donate') . ' ' . '(99.99 £)',
+                                'left' => __('Left', 'fundpress') . ' ' . '(£99.99)',
+                                'right' => __('Right', 'fundpress') . ' ' . '(99.99£)',
+                                'left_space' => __('Left with space', 'fundpress') . ' ' . '(£ 99.99)',
+                                'right_space' => __('Right with space', 'fundpress') . ' ' . '(99.99 £)',
                             ),
                             'default' => 'left'
                         ),
                         array(
                             'type' => 'input',
-                            'label' => __('Thousand Separator.', 'tp-donate'),
+                            'label' => __('Thousand Separator.', 'fundpress'),
                             'atts' => array(
                                 'type' => 'text',
                                 'id' => 'thousand',
@@ -107,7 +107,7 @@ class DN_Setting_General extends DN_Setting_Base
                         ),
                         array(
                             'type' => 'input',
-                            'label' => __('Decimal Separator.', 'tp-donate'),
+                            'label' => __('Decimal Separator.', 'fundpress'),
                             'atts' => array(
                                 'type' => 'text',
                                 'id' => 'decimal_separator',
@@ -118,7 +118,7 @@ class DN_Setting_General extends DN_Setting_Base
                         ),
                         array(
                             'type' => 'input',
-                            'label' => __('Number of Decimals.', 'tp-donate'),
+                            'label' => __('Number of Decimals.', 'fundpress'),
                             'atts' => array(
                                 'type' => 'number',
                                 'id' => 'decimals',

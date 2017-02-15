@@ -77,8 +77,8 @@ class DN_Install {
         $cart_page_id = $settings->checkout->get( 'cart_page' );
         if ( !$cart_page_id || !get_post( $cart_page_id ) ) {
             $pages['donate-cart'] = array(
-                'name' => _x( 'donate-cart', 'donate-cart', 'tp-donate' ),
-                'title' => _x( 'Donate Cart', 'Donate Cart', 'tp-donate' ),
+                'name' => _x( 'donate-cart', 'donate-cart', 'fundpress' ),
+                'title' => _x( 'Donate Cart', 'Donate Cart', 'fundpress' ),
                 'content' => '[' . apply_filters( 'donate_cart_shortcode_tag', 'donate_cart' ) . ']',
                 'option_name' => 'cart_page'
             );
@@ -87,8 +87,8 @@ class DN_Install {
         $checkout_page_id = $settings->checkout->get( 'checkout_page' );
         if ( !$checkout_page_id || !get_post( $checkout_page_id ) ) {
             $pages['checkout'] = array(
-                'name' => _x( 'donate-checkout', 'donate-checkout', 'tp-donate' ),
-                'title' => _x( 'Donate Checkout', 'Donate Checkout', 'tp-donate' ),
+                'name' => _x( 'donate-checkout', 'donate-checkout', 'fundpress' ),
+                'title' => _x( 'Donate Checkout', 'Donate Checkout', 'fundpress' ),
                 'content' => '[' . apply_filters( 'donate_checkout_shortcode_tag', 'donate_checkout' ) . ']',
                 'option_name' => 'checkout_page'
             );

@@ -33,7 +33,7 @@ if (!function_exists('donate_template_path')) {
 
     function donate_template_path()
     {
-        return apply_filters('donate_template_path', 'tp-donate');
+        return apply_filters('donate_template_path', 'fundpress');
     }
 
 }
@@ -442,7 +442,7 @@ if (!function_exists('donate_get_pages_setting')) {
     {
         $pages = array();
 
-        $pages[] = __('--- Select page ---', 'tp-donate');
+        $pages[] = __('--- Select page ---', 'fundpress');
         $list = get_all_page_ids();
         foreach ($list as $key => $id) {
             $pages[$id] = get_the_title($id);
@@ -566,7 +566,7 @@ if (!function_exists('donate_campaign_convert_amount')) {
                     if (isset($matches[1], $matches[1][0])) {
                         $rate = floatval($matches[1][0]);
                     } else {
-                        $rate = sprintf(__("no data for %s", 'tp-donate'), $to);
+                        $rate = sprintf(__("no data for %s", 'fundpress'), $to);
                     }
                     break;
 
@@ -753,9 +753,9 @@ if (!function_exists('donate_get_status')) {
     function donate_get_status($post_id)
     {
         $status = array(
-            'donate-pending' => __('Pending', 'tp-donate'),
-            'donate-processing' => __('Processing', 'tp-donate'),
-            'donate-completed' => __('Completed', 'tp-donate')
+            'donate-pending' => __('Pending', 'fundpress'),
+            'donate-processing' => __('Processing', 'fundpress'),
+            'donate-completed' => __('Completed', 'fundpress')
         );
 
         return apply_filters('donate_get_status', $status);
@@ -1274,13 +1274,13 @@ if (!function_exists('donate_action_status')) {
         $donate = DN_Donate::instance($post_id);
         $action = '<div id="action-status" data-id="' . esc_attr($post_id) . '" >';
         if ($donate->has_status('pending')) {
-            $action .= '<a href="#" class="button" data-action="processing" title="'.esc_html__('Processing', 'tp-donate').'"><i class="icon-spinner6"></i></a>';
+            $action .= '<a href="#" class="button" data-action="processing" title="'.esc_html__('Processing', 'fundpress').'"><i class="icon-spinner6"></i></a>';
         }
         if ($donate->has_status('pending') || $donate->has_status('processing')) {
-            $action .= '<a href="#" class="button" data-action="completed" title="'.esc_html__('Complete', 'tp-donate').'"><i class="icon-checkmark"></i></a>';
+            $action .= '<a href="#" class="button" data-action="completed" title="'.esc_html__('Complete', 'fundpress').'"><i class="icon-checkmark"></i></a>';
         }
         $action .= '</div>';
-        $action .= '<a href="' . get_edit_post_link($post_id) . '" class="button edit-donate" title="'.esc_html__('View', 'tp-donate').'"><i class="icon-eye view"></i></a>';
+        $action .= '<a href="' . get_edit_post_link($post_id) . '" class="button edit-donate" title="'.esc_html__('View', 'fundpress').'"><i class="icon-eye view"></i></a>';
 
         return apply_filters('donate_action_status', $action, $post_id);
 

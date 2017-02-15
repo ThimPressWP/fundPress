@@ -14,8 +14,8 @@ class DN_Widget_Button extends WP_Widget {
     function __construct() {
         parent::__construct(
                 'donate_widget', // Base ID
-                __( 'Donate', 'tp-donate' ), // Name
-                array( 'description' => __( 'Create button donate everywhere', 'tp-donate' ), ) // Args
+                __( 'Donate', 'fundpress' ), // Name
+                array( 'description' => __( 'Create button donate everywhere', 'fundpress' ), ) // Args
         );
     }
 
@@ -47,7 +47,7 @@ class DN_Widget_Button extends WP_Widget {
         $title = !empty( $instance['title'] ) ? $instance['title'] : '';
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'tp-donate' ); ?></label>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'fundpress' ); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
         <?php

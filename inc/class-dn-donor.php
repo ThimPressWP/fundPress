@@ -42,7 +42,7 @@ class DN_Donor extends DN_Post_Base {
      */
     public function donor_exists( $email = null ) {
         if ( !$email )
-            return new WP_Error( 'donate_create_donor', __( 'Could not create new donor with empty email.', 'tp-donate' ) );
+            return new WP_Error( 'donate_create_donor', __( 'Could not create new donor with empty email.', 'fundpress' ) );
 
         global $wpdb;
         $query = $wpdb->prepare( "
@@ -67,7 +67,7 @@ class DN_Donor extends DN_Post_Base {
     // create new donor
     public function create_donor( $param = null ) {
         if ( !$param )
-            return new WP_Error( 'donate_create_donor', __( 'Could not create new donor.', 'tp-donate' ) );
+            return new WP_Error( 'donate_create_donor', __( 'Could not create new donor.', 'fundpress' ) );
 
         $donor_id = $this->donor_exists( $param['email'] );
         if ( !$donor_id ) {

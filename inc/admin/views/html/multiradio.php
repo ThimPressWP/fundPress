@@ -3,7 +3,7 @@ if ( !defined( 'ABSPATH' ) )
     exit();
 // array(
 // 	'type'		=> 'multiradio',
-// 	'label'		=> __( 'Sex', 'tp-donate' ),
+// 	'label'		=> __( 'Sex', 'fundpress' ),
 // 	'atts'		=> array(
 // 			'id'	=> 'decimals',
 // 			'class'	=> 'decimals'
@@ -11,11 +11,11 @@ if ( !defined( 'ABSPATH' ) )
 // 	'name'		=> 'currency_num_decimal',
 // 	'options'	=> array(
 // 			array(
-// 					'label'		=> __( 'Man', 'tp-donate' ),
+// 					'label'		=> __( 'Man', 'fundpress' ),
 // 					'value'		=> '1'
 // 				),
 // 			array(
-// 					'label'		=> __( 'Wowan', 'tp-donate' ),
+// 					'label'		=> __( 'Wowan', 'fundpress' ),
 // 					'value'		=> '0'
 // 				)
 // 		),

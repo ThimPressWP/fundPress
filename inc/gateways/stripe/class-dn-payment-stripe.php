@@ -40,7 +40,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
     public $_title = null;
 
     public function __construct() {
-        $this->_title = __( 'Stripe', 'tp-donate' );
+        $this->_title = __( 'Stripe', 'fundpress' );
 
         $checkout = DN_Settings::instance()->checkout;
         $this->secret_key = $checkout->get( 'stripe_test_secret_key' );
@@ -68,22 +68,22 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                 'fields' => array(
                     array(
                         'type' => 'select',
-                        'label' => __( 'Enable', 'tp-donate' ),
-                        'desc' => __( 'This controlls enable payment method', 'tp-donate' ),
+                        'label' => __( 'Enable', 'fundpress' ),
+                        'desc' => __( 'This controlls enable payment method', 'fundpress' ),
                         'atts' => array(
                             'id' => 'stripe_enable',
                             'class' => 'stripe_enable'
                         ),
                         'name' => 'stripe_enable',
                         'options' => array(
-                            'no' => __( 'No', 'tp-donate' ),
-                            'yes' => __( 'Yes', 'tp-donate' )
+                            'no' => __( 'No', 'fundpress' ),
+                            'yes' => __( 'Yes', 'fundpress' )
                         )
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Test Secret Key', 'tp-donate' ),
-                        'desc' => __( 'Test environment', 'tp-donate' ),
+                        'label' => __( 'Test Secret Key', 'fundpress' ),
+                        'desc' => __( 'Test environment', 'fundpress' ),
                         'atts' => array(
                             'id' => 'stripe_test_secret_key',
                             'class' => 'stripe_test_secret_key',
@@ -93,8 +93,8 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Test Publish Key', 'tp-donate' ),
-                        'desc' => __( 'Test environment', 'tp-donate' ),
+                        'label' => __( 'Test Publish Key', 'fundpress' ),
+                        'desc' => __( 'Test environment', 'fundpress' ),
                         'atts' => array(
                             'id' => 'stripe_test_publish_key',
                             'class' => 'stripe_test_publish_key',
@@ -104,8 +104,8 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Live Secret Key', 'tp-donate' ),
-                        'desc' => __( 'Production environment', 'tp-donate' ),
+                        'label' => __( 'Live Secret Key', 'fundpress' ),
+                        'desc' => __( 'Production environment', 'fundpress' ),
                         'atts' => array(
                             'id' => 'stripe_live_secret_key',
                             'class' => 'stripe_live_secret_key',
@@ -115,8 +115,8 @@ class DN_Payment_Stripe extends DN_Payment_Base {
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Live Publish Key', 'tp-donate' ),
-                        'desc' => __( 'Production environment', 'tp-donate' ),
+                        'label' => __( 'Live Publish Key', 'fundpress' ),
+                        'desc' => __( 'Production environment', 'fundpress' ),
                         'atts' => array(
                             'id' => 'stripe_live_publish_key',
                             'class' => 'stripe_live_publish_key',
@@ -134,14 +134,14 @@ class DN_Payment_Stripe extends DN_Payment_Base {
         if ( !$this->secret_key || !$this->publish_key ) {
             return array(
                 'status' => 'failed',
-                'message' => __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.', 'tp-donate' )
+                'message' => __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.', 'fundpress' )
             );
         }
 
         if ( empty( $posted['stripe'] ) ) {
             return array(
                 'status' => 'failed',
-                'message' => __( 'Credit Card information error.', 'tp-donate' )
+                'message' => __( 'Credit Card information error.', 'fundpress' )
             );
         }
 
@@ -158,7 +158,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             )
                 ) );
         if ( is_wp_error( $tokens ) || !$tokens->id ) {
-            return array( 'status' => 'failed', 'message' => sprintf( '%s. ' . __( 'Please try again', 'tp-donate' ), $response->get_error_message() ) );
+            return array( 'status' => 'failed', 'message' => sprintf( '%s. ' . __( 'Please try again', 'fundpress' ), $response->get_error_message() ) );
         }
 
         $token = $tokens->id;
@@ -169,14 +169,14 @@ class DN_Payment_Stripe extends DN_Payment_Base {
 
         if ( !$customer_id ) {
             $params = array(
-                'description' => sprintf( '%s %s', __( 'Donor for', 'tp-donate' ), $donor->email ),
+                'description' => sprintf( '%s %s', __( 'Donor for', 'fundpress' ), $donor->email ),
                 'source' => $token
             );
             // create customer
             $response = $this->stripe_request( 'customers', $params );
 
             if ( is_wp_error( $response ) && !$response->id ) {
-                return array( 'status' => 'failed', 'message' => sprintf( '%s. ' . __( 'Please try again', 'tp-donate' ), $response->get_error_message() ) );
+                return array( 'status' => 'failed', 'message' => sprintf( '%s. ' . __( 'Please try again', 'fundpress' ), $response->get_error_message() ) );
             }
 
             $customer_id = $response->id;
@@ -191,7 +191,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             'currency' => donate_get_currency(),
             'customer' => $customer_id,
             'description' => sprintf(
-                    __( '%s - donate %s', 'tp-donate' ), esc_html( get_bloginfo( 'name' ) ), donate_generate_post_key( $donate->id )
+                    __( '%s - donate %s', 'fundpress' ), esc_html( get_bloginfo( 'name' ) ), donate_generate_post_key( $donate->id )
             )
         );
         // create charges
@@ -209,7 +209,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             // remove cart
             DN_Cart::instance()->remove_cart();
         } else {
-            $return = array( 'result' => 'failed', 'message' => __( 'Connect Stripe has error. Please try again!', 'tp-donate' ) );
+            $return = array( 'result' => 'failed', 'message' => __( 'Connect Stripe has error. Please try again!', 'fundpress' ) );
         }
         return $return;
     }
@@ -237,7 +237,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             }
 
             if ( empty( $body->id ) ) {
-                return new WP_Error( 'stripe_error', __( 'Stripe process went wrong', 'tp-donate' ) );
+                return new WP_Error( 'stripe_error', __( 'Stripe process went wrong', 'fundpress' ) );
             }
 
             return $body;
@@ -263,7 +263,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
         $stripe = apply_filters( 'donate_stripe_payment_object', array(
             'Secret_Key' => $this->secret_key,
             'Publish_Key' => $this->publish_key,
-            'key_missing' => __( 'Stripe key is expired. Please contact administrator to do this payment gateway', 'tp-donate' )
+            'key_missing' => __( 'Stripe key is expired. Please contact administrator to do this payment gateway', 'fundpress' )
                 ) );
 
         wp_register_script( 'donate_payment_stripe', TP_DONATE_INC_URI . '/gateways/stripe/jquery.payment.min.js', array(), TP_DONATE_VER, true );

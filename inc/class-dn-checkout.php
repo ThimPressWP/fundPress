@@ -34,7 +34,7 @@ class DN_Checkout
         try {
 
             if (!isset($_POST['thimpress_donate_nonce']) || !wp_verify_nonce($_POST['thimpress_donate_nonce'], 'thimpress_donate_nonce')) {
-                throw new Exception(__('We were unable to process your order, please try again.', 'tp-donate'));
+                throw new Exception(__('We were unable to process your order, please try again.', 'fundpress'));
             }
 
             $amount = 0;
@@ -51,7 +51,7 @@ class DN_Checkout
                 $campaign = get_post($this->posted['campaign_id']);
 
                 if (!$campaign || $campaign->post_type !== 'dn_campaign') {
-                    donate_add_notice('error', __('Campaign is invalid.', 'tp-donate'));
+                    donate_add_notice('error', __('Campaign is invalid.', 'fundpress'));
                 }
                 $campaign = DN_Campaign::instance($campaign);
 
@@ -67,10 +67,10 @@ class DN_Checkout
                 }
 
                 if ($amount == 0) {
-                    throw new Exception(__('Please enter donation amount.', 'tp-donate'));
+                    throw new Exception(__('Please enter donation amount.', 'fundpress'));
                 }
                 if ($campaign->type == 'fixed' && $amount > donate_goal_campagin($campaign->id) ) {
-                    throw new Exception(__('Custom donate amount overcome campaign goal.', 'tp-donate'));
+                    throw new Exception(__('Custom donate amount overcome campaign goal.', 'fundpress'));
                 }
 
 
@@ -80,13 +80,13 @@ class DN_Checkout
                 ));
 
                 if (!donate_campaign_is_allow_donate($campaign->id)) {
-                    throw new Exception(__('This Campaign currently is not allow donate.', 'tp-donate'));
+                    throw new Exception(__('This Campaign currently is not allow donate.', 'fundpress'));
                 }
                 // add to cart
                 $cart_item_id = donate()->cart->add_to_cart($campaign->id, $cart_params, 1, $amount);
                 if (!$cart_item_id || is_wp_error($cart_item_id)) {
                     // failed
-                    throw new Exception(__('Something went wrong, could not add to cart item. Please try again.', 'tp-donate'));
+                    throw new Exception(__('Something went wrong, could not add to cart item. Please try again.', 'fundpress'));
                 }
             }
 
@@ -99,37 +99,37 @@ class DN_Checkout
 
                 /* donate total */
                 if (($donate_system === false && DN_Cart::instance()->cart_total == 0) || ($donate_system === true && $amount <= 0)) {
-                    donate_add_notice('error', sprintf('%s %s', __('Please enter donation amount.', 'tp-donate'), donate_price(0)));
+                    donate_add_notice('error', sprintf('%s %s', __('Please enter donation amount.', 'fundpress'), donate_price(0)));
                 }
 
                 /* VALIDATE POST FIELDS */
                 if (!isset($this->posted['first_name']) || trim($this->posted['first_name']) === '') {
-                    donate_add_notice('error', __('<strong>First Name</strong> is a required field.', 'tp-donate'));
+                    donate_add_notice('error', __('<strong>First Name</strong> is a required field.', 'fundpress'));
                 }
 
                 if (!isset($this->posted['last_name']) || trim($this->posted['last_name']) === '') {
-                    donate_add_notice('error', __('<strong>Last Name</strong> is a required field.', 'tp-donate'));
+                    donate_add_notice('error', __('<strong>Last Name</strong> is a required field.', 'fundpress'));
                 }
 
                 if (!isset($this->posted['email']) || trim($this->posted['email']) === '' || !is_email($this->posted['email'])) {
-                    donate_add_notice('error', __('<strong>Email</strong> is invalid.', 'tp-donate'));
+                    donate_add_notice('error', __('<strong>Email</strong> is invalid.', 'fundpress'));
                 }
 
                 if (!isset($this->posted['phone']) || trim($this->posted['phone']) === '') {
-                    donate_add_notice('error', __('<strong>Phone Number</strong> is a required field.', 'tp-donate'));
+                    donate_add_notice('error', __('<strong>Phone Number</strong> is a required field.', 'fundpress'));
                 }
                 // terms and conditions
                 $term_enable = DN_Settings::instance()->checkout->get('term_condition', 'yes');
                 $term_condition_page = DN_Settings::instance()->checkout->get('term_condition_page');
                 if ($term_enable === 'yes' && $term_condition_page && get_post($term_condition_page)) {
                     if (!isset($this->posted['term_condition']) || !$this->posted['term_condition']) {
-                        donate_add_notice('error', __('<strong>Terms and Contidions</strong> is a required field.', 'tp-donate'));
+                        donate_add_notice('error', __('<strong>Terms and Contidions</strong> is a required field.', 'fundpress'));
                     }
                 }
 
                 // address is field is require
                 if (!isset($this->posted['address']) || !$this->posted['address']) {
-                    donate_add_notice('error', __('<strong>Address</strong> is a required field.', 'tp-donate'));
+                    donate_add_notice('error', __('<strong>Address</strong> is a required field.', 'fundpress'));
                 }
 
                 // payments method
@@ -140,15 +140,15 @@ class DN_Checkout
                 // payment method is invalid
                 if (!$payment_method || !array_key_exists($this->posted['payment_method'], $payments)) {
                     // return error with message if payment method is not enable or not exists in system.
-                    throw new Exception(__('<strong>Payment method</strong> is invalid. Please try again.', 'tp-donate'));
+                    throw new Exception(__('<strong>Payment method</strong> is invalid. Please try again.', 'fundpress'));
                 }
                 /* END VALIDATE POST FIELDS */
 
                 // failed if errors is not empty
                 if (!donate_has_notice('error')) {
                     $params = array(
-                        'first_name' => isset($this->posted['first_name']) ? sanitize_text_field($this->posted['first_name']) : __('No First Name', 'tp-donate'),
-                        'last_name' => isset($this->posted['last_name']) ? sanitize_text_field($this->posted['last_name']) : __('No Last Name', 'tp-donate'),
+                        'first_name' => isset($this->posted['first_name']) ? sanitize_text_field($this->posted['first_name']) : __('No First Name', 'fundpress'),
+                        'last_name' => isset($this->posted['last_name']) ? sanitize_text_field($this->posted['last_name']) : __('No Last Name', 'fundpress'),
                         'email' => isset($this->posted['email']) ? sanitize_text_field($this->posted['email']) : false,
                         'phone' => isset($this->posted['phone']) ? sanitize_text_field($this->posted['phone']) : '',
                         'address' => isset($this->posted['address']) ? sanitize_text_field($this->posted['address']) : ''

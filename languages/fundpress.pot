@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-19 14:03+0700\n"
+"POT-Creation-Date: 2017-02-15 13:43+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,10 +109,10 @@ msgstr ""
 #: inc/class-dn-custom-post-type.php:57 inc/i18n.php:19
 #: inc/settings/class-dn-setting-donate.php:28
 #: inc/widgets/class-dn-widget-button.php:17
-#: templates/checkout/checkout.php:40 templates/shortcodes/donate-form.php:46
-#: templates/shortcodes/donate-form.php:129
-#: templates/shortcodes/donate-form.php:144
-#: templates/shortcodes/donate-form.php:163
+#: templates/checkout/checkout.php:40 templates/shortcodes/donate-form.php:44
+#: templates/shortcodes/donate-form.php:126
+#: templates/shortcodes/donate-form.php:141
+#: templates/shortcodes/donate-form.php:160
 msgid "Donate"
 msgstr ""
 
@@ -1888,41 +1888,41 @@ msgstr ""
 msgid "You have no donate item!"
 msgstr ""
 
-#: templates/checkout/personal.php:13 templates/shortcodes/donate-form.php:70
+#: templates/checkout/personal.php:13 templates/shortcodes/donate-form.php:68
 msgid "Personal Info"
 msgstr ""
 
-#: templates/checkout/personal.php:18 templates/shortcodes/donate-form.php:73
+#: templates/checkout/personal.php:18 templates/shortcodes/donate-form.php:71
 msgid "* First Name"
 msgstr ""
 
-#: templates/checkout/personal.php:22 templates/shortcodes/donate-form.php:77
+#: templates/checkout/personal.php:22 templates/shortcodes/donate-form.php:75
 msgid "* Last Name"
 msgstr ""
 
-#: templates/checkout/personal.php:26 templates/shortcodes/donate-form.php:81
+#: templates/checkout/personal.php:26 templates/shortcodes/donate-form.php:79
 msgid "* Email"
 msgstr ""
 
-#: templates/checkout/personal.php:30 templates/shortcodes/donate-form.php:85
+#: templates/checkout/personal.php:30 templates/shortcodes/donate-form.php:83
 msgid "* Phone"
 msgstr ""
 
-#: templates/checkout/personal.php:34 templates/shortcodes/donate-form.php:89
+#: templates/checkout/personal.php:34 templates/shortcodes/donate-form.php:87
 msgid "* Address"
 msgstr ""
 
-#: templates/checkout/personal.php:38 templates/shortcodes/donate-form.php:93
+#: templates/checkout/personal.php:38 templates/shortcodes/donate-form.php:91
 msgid "Additional note"
 msgstr ""
 
 #: templates/checkout/term_condition.php:16
-#: templates/shortcodes/donate-form.php:108
+#: templates/shortcodes/donate-form.php:105
 msgid "Terms & Conditions"
 msgstr ""
 
 #: templates/checkout/thank-you.php:9
-msgid "Thanks for your donated."
+msgid "Thanks for your donation."
 msgstr ""
 
 #: templates/checkout/thank-you.php:16
@@ -1987,12 +1987,12 @@ msgstr ""
 msgid "Donate now"
 msgstr ""
 
-#: templates/shortcodes/donate-form.php:12
+#: templates/shortcodes/donate-form.php:11
 msgid "Donation amount"
 msgstr ""
 
-#: templates/shortcodes/donate-form.php:56
-#: templates/shortcodes/donate-form.php:158
+#: templates/shortcodes/donate-form.php:54
+#: templates/shortcodes/donate-form.php:155
 msgid "Enter custom donate amount: "
 msgstr ""
 

@@ -4,7 +4,7 @@ if ( !defined( 'ABSPATH' ) )
 
 // array(
 // 	'type'		=> 'input',
-// 	'label'		=> __( 'Number of Decimals', 'tp-donate' ),
+// 	'label'		=> __( 'Number of Decimals', 'fundpress' ),
 // 	'atts'		=> array(
 // 			'type'	=> 'number',
 // 			'id'	=> 'decimals',

@@ -112,7 +112,7 @@ class ThimPress_Donate {
 
         if ( $mofile ) {
             // In themes/plugins/mu-plugins directory
-            load_textdomain( 'tp-donate', $mofile );
+            load_textdomain( 'fundpress', $mofile );
         }
     }
 

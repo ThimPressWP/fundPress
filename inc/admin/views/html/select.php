@@ -4,18 +4,18 @@ if ( !defined( 'ABSPATH' ) )
 //// params default
 // array(
 // 	'type'		=> 'select',
-// 	'label'		=> __( 'Currency Position', 'tp-donate' ),
-// 	'desc'		=> __( 'This controlls the position of the currency symbol', 'tp-donate' ),
+// 	'label'		=> __( 'Currency Position', 'fundpress' ),
+// 	'desc'		=> __( 'This controlls the position of the currency symbol', 'fundpress' ),
 // 	'atts'		=> array(
 // 			'id'	=> 'currency_position',
 // 			'class'	=> 'currency_position'
 // 		),
 // 	'name'		=> 'currency_position',
 // 	'options'	=> array(
-// 			'left'			=> __( 'Left', 'tp-donate' ) . ' ' . '(£99.99)',
-// 			'right'			=> __( 'Right', 'tp-donate' ) . ' ' . '(99.99£)',
-// 			'left_space'	=> __( 'Left with space', 'tp-donate' ) . ' ' . '(£ 99.99)',
-// 			'right_space'	=> __( 'Right with space', 'tp-donate' ) . ' ' . '(99.99 £)',
+// 			'left'			=> __( 'Left', 'fundpress' ) . ' ' . '(£99.99)',
+// 			'right'			=> __( 'Right', 'fundpress' ) . ' ' . '(99.99£)',
+// 			'left_space'	=> __( 'Left with space', 'fundpress' ) . ' ' . '(£ 99.99)',
+// 			'right_space'	=> __( 'Right with space', 'fundpress' ) . ' ' . '(99.99 £)',
 // 		),
 // 	'default'	=> array()
 // ),

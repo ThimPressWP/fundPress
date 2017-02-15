@@ -41,7 +41,7 @@ class DN_Donate extends DN_Post_Base {
     public function create_donate( $donor_id = null, $payment_method = null ) {
         // donor_id
         if ( !$donor_id ) {
-            return new WP_Error( 'donor_error', __( 'Could not created donor.', 'tp-donate' ) );
+            return new WP_Error( 'donor_error', __( 'Could not created donor.', 'fundpress' ) );
         }
 
         // create donate with cart contents

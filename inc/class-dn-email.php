@@ -43,7 +43,7 @@ class DN_Email {
         $email_template = DN_Settings::instance()->email->get( 'email_template' );
         $email = $donor->get_meta( 'email' );
         if ( $email && $email_template ) {
-            $subject = __( 'Donate completed', 'tp-donate' );
+            $subject = __( 'Donate completed', 'fundpress' );
 
             $replace = array(
                 '/\[(.*?)donor_first_name(.*?)\]/i',

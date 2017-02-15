@@ -25,7 +25,7 @@ class DN_Setting_Email extends DN_Setting_Base {
     public $_position = 20;
 
     public function __construct() {
-        $this->_title = __( 'Email', 'tp-donate' );
+        $this->_title = __( 'Email', 'fundpress' );
         parent::__construct();
     }
 
@@ -34,28 +34,28 @@ class DN_Setting_Email extends DN_Setting_Base {
         return
                 array(
                     array(
-                        'title' => __( 'Email Settings', 'tp-donate' ),
-                        'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'tp-donate' ),
+                        'title' => __( 'Email Settings', 'fundpress' ),
+                        'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'fundpress' ),
                         'fields' => array(
                             array(
                                 'type' => 'select',
-                                'label' => __( 'Enable', 'tp-donate' ),
-                                'desc' => __( 'This controlls what the currency prices', 'tp-donate' ),
+                                'label' => __( 'Enable', 'fundpress' ),
+                                'desc' => __( 'This controlls what the currency prices', 'fundpress' ),
                                 'atts' => array(
                                     'id' => 'enable',
                                     'class' => 'enable'
                                 ),
                                 'name' => 'enable',
                                 'options' => array(
-                                    'yes' => __( 'Yes', 'tp-donate' ),
-                                    'no' => __( 'No', 'tp-donate' )
+                                    'yes' => __( 'Yes', 'fundpress' ),
+                                    'no' => __( 'No', 'fundpress' )
                                 ),
                                 'default' => 'yes'
                             ),
                             array(
                                 'type' => 'input',
-                                'label' => __( 'From name', 'tp-donate' ),
-                                'desc' => __( 'This set email from name', 'tp-donate' ),
+                                'label' => __( 'From name', 'fundpress' ),
+                                'desc' => __( 'This set email from name', 'fundpress' ),
                                 'atts' => array(
                                     'id' => 'from_name',
                                     'class' => 'from_name',
@@ -67,8 +67,8 @@ class DN_Setting_Email extends DN_Setting_Base {
                             ),
                             array(
                                 'type' => 'input',
-                                'label' => __( 'Email from', 'tp-donate' ),
-                                'desc' => __( 'This set email send', 'tp-donate' ),
+                                'label' => __( 'Email from', 'fundpress' ),
+                                'desc' => __( 'This set email send', 'fundpress' ),
                                 'atts' => array(
                                     'id' => 'admin_email',
                                     'class' => 'admin_email',
@@ -80,8 +80,8 @@ class DN_Setting_Email extends DN_Setting_Base {
                             ),
                             array(
                                 'type' => 'editor',
-                                'label' => __( 'Email Content', 'tp-donate' ),
-                                'desc' => __( 'Use [donor_email], [donor_first_name], [donor_last_name], [donor_phone], [donor_address] tags to generate email template', 'tp-donate' ),
+                                'label' => __( 'Email Content', 'fundpress' ),
+                                'desc' => __( 'Use [donor_email], [donor_first_name], [donor_last_name], [donor_phone], [donor_address] tags to generate email template', 'fundpress' ),
                                 'atts' => array(
                                     'id' => 'email_template',
                                     'class' => 'email_template',

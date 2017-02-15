@@ -54,14 +54,14 @@ class DN_Post_Type
     public function add_columns($columns)
     {
         unset($columns['title'], $columns['author'], $columns['date']);
-        $columns['donate_title'] = apply_filters('donate_add_column_donate_title', __('Donate', 'tp-donate'));
-        $columns['donate_user'] = apply_filters('donate_add_column_donate_user', __('User', 'tp-donate'));
-        $columns['donate_type'] = apply_filters('donate_add_column_donate_type', __('Type', 'tp-donate'));
-        $columns['donate_date'] = apply_filters('donate_add_column_donate_date', __('Date', 'tp-donate'));
-        $columns['donate_total'] = apply_filters('donate_add_column_donate_total', __('Total', 'tp-donate'));
-        $columns['donate_payment_method'] = apply_filters('donate_add_column_donate_payment_method', __('Method', 'tp-donate'));
-        $columns['donate_status'] = apply_filters('donate_add_column_donate_status', __('Status', 'tp-donate'));
-        $columns['donate_action'] = apply_filters('donate_add_column_donate_action', __('Actions', 'tp-donate'));
+        $columns['donate_title'] = apply_filters('donate_add_column_donate_title', __('Donate', 'fundpress'));
+        $columns['donate_user'] = apply_filters('donate_add_column_donate_user', __('User', 'fundpress'));
+        $columns['donate_type'] = apply_filters('donate_add_column_donate_type', __('Type', 'fundpress'));
+        $columns['donate_date'] = apply_filters('donate_add_column_donate_date', __('Date', 'fundpress'));
+        $columns['donate_total'] = apply_filters('donate_add_column_donate_total', __('Total', 'fundpress'));
+        $columns['donate_payment_method'] = apply_filters('donate_add_column_donate_payment_method', __('Method', 'fundpress'));
+        $columns['donate_status'] = apply_filters('donate_add_column_donate_status', __('Status', 'fundpress'));
+        $columns['donate_action'] = apply_filters('donate_add_column_donate_action', __('Actions', 'fundpress'));
         return $columns;
     }
 
@@ -74,7 +74,7 @@ class DN_Post_Type
                 $title = '<a href="' . get_edit_post_link($post_id) . '">';
                 $title .= '<strong>#' . $post_id . '</strong>';
                 $title .= '</a>';
-                printf(__('%s <small>by</small> %s', 'tp-donate'), $title, '<a href="' . get_edit_post_link($donate->donor_id) . '"><strong>' . donate_get_donor_fullname($post_id) . '</strong></a>');
+                printf(__('%s <small>by</small> %s', 'fundpress'), $title, '<a href="' . get_edit_post_link($donate->donor_id) . '"><strong>' . donate_get_donor_fullname($post_id) . '</strong></a>');
                 break;
             case 'donate_date':
                 printf('%s', date_i18n(get_option('date_format'), strtotime(get_post_field('post_date', $post_id))));
@@ -87,14 +87,14 @@ class DN_Post_Type
                     $user = get_userdata($donate->user_id);
                     printf('<a href="%s">%s</a>', get_edit_user_link($donate->user_id), $user->user_login);
                 } else {
-                    _e('Guest', 'tp-donate');
+                    _e('Guest', 'fundpress');
                 }
                 break;
             case 'donate_type':
                 if ($donate->type === 'system') {
-                    _e('Donate For System', 'tp-donate');
+                    _e('Donate For System', 'fundpress');
                 } else {
-                    _e('Donate For Campaign', 'tp-donate');
+                    _e('Donate For Campaign', 'fundpress');
                 }
                 break;
             case 'donate_payment_method':
@@ -229,10 +229,10 @@ class DN_Post_Type
     public function campaign_columns($columns)
     {
         unset($columns['date'], $columns['comments'], $columns['author']);
-        $columns['start'] = apply_filters('donate_add_column_campaign_start_column', __('Start Date', 'tp-donate'));
-        $columns['end'] = apply_filters('donate_add_column_campaign_end_column', __('End Date', 'tp-donate'));
-        $columns['funded'] = apply_filters('donate_add_column_campaign_publish_column', __('Founded', 'tp-donate'));
-        $columns['date'] = apply_filters('donate_add_column_campaign_publish_column', __('Created At', 'tp-donate'));
+        $columns['start'] = apply_filters('donate_add_column_campaign_start_column', __('Start Date', 'fundpress'));
+        $columns['end'] = apply_filters('donate_add_column_campaign_end_column', __('End Date', 'fundpress'));
+        $columns['funded'] = apply_filters('donate_add_column_campaign_publish_column', __('Founded', 'fundpress'));
+        $columns['date'] = apply_filters('donate_add_column_campaign_publish_column', __('Created At', 'fundpress'));
         return $columns;
     }
 
@@ -265,25 +265,25 @@ class DN_Post_Type
     public function register_post_type_campaign()
     {
         $labels = array(
-            'name' => _x('Campaigns', 'post type general name', 'tp-donate'),
-            'singular_name' => _x('Campaign', 'post type singular name', 'tp-donate'),
-            'menu_name' => _x('Campaigns', 'admin menu', 'tp-donate'),
-            'name_admin_bar' => _x('Campaign', 'add new on admin bar', 'tp-donate'),
-            'add_new' => _x('Add Campaign', 'add new on admin bar', 'tp-donate'),
-            'add_new_item' => __('Add New Campaign', 'tp-donate'),
-            'new_item' => __('New Campaign', 'tp-donate'),
-            'edit_item' => __('Edit Campaign', 'tp-donate'),
-            'view_item' => __('View Campaign', 'tp-donate'),
-            'all_items' => __('Campaigns', 'tp-donate'),
-            'search_items' => __('Search Campaigns', 'tp-donate'),
-            'parent_item_colon' => __('Parent Campaigns:', 'tp-donate'),
-            'not_found' => __('No campaign found.', 'tp-donate'),
-            'not_found_in_trash' => __('No campaign found in Trash.', 'tp-donate')
+            'name' => _x('Campaigns', 'post type general name', 'fundpress'),
+            'singular_name' => _x('Campaign', 'post type singular name', 'fundpress'),
+            'menu_name' => _x('Campaigns', 'admin menu', 'fundpress'),
+            'name_admin_bar' => _x('Campaign', 'add new on admin bar', 'fundpress'),
+            'add_new' => _x('Add Campaign', 'add new on admin bar', 'fundpress'),
+            'add_new_item' => __('Add New Campaign', 'fundpress'),
+            'new_item' => __('New Campaign', 'fundpress'),
+            'edit_item' => __('Edit Campaign', 'fundpress'),
+            'view_item' => __('View Campaign', 'fundpress'),
+            'all_items' => __('Campaigns', 'fundpress'),
+            'search_items' => __('Search Campaigns', 'fundpress'),
+            'parent_item_colon' => __('Parent Campaigns:', 'fundpress'),
+            'not_found' => __('No campaign found.', 'fundpress'),
+            'not_found_in_trash' => __('No campaign found in Trash.', 'fundpress')
         );
 
         $args = array(
             'labels' => $labels,
-            'description' => __('Campaigns', 'tp-donate'),
+            'description' => __('Campaigns', 'fundpress'),
             'public' => true,
             'publicly_queryable' => true,
             'show_ui' => true,
@@ -305,31 +305,31 @@ class DN_Post_Type
     public function register_post_type_donate()
     {
         $labels = array(
-            'name' => _x('Donates', 'post type general name', 'tp-donate'),
-            'singular_name' => _x('Donate', 'post type singular name', 'tp-donate'),
-            'menu_name' => _x('Donates', 'add new on admin bar', 'tp-donate'),
-            'name_admin_bar' => _x('Donate', 'admin menu', 'tp-donate'),
-            'add_new' => _x('Add Donate', 'dn_donate', 'tp-donate'),
-            'add_new_item' => __('Add New Donate', 'tp-donate'),
-            'new_item' => __('New Donate', 'tp-donate'),
-            'edit_item' => __('Edit Donate', 'tp-donate'),
-            'view_item' => __('View Donate', 'tp-donate'),
-            'all_items' => __('Donates', 'tp-donate'),
-            'search_items' => __('Search Donates', 'tp-donate'),
-            'parent_item_colon' => __('Parent Donates:', 'tp-donate'),
-            'not_found' => __('No donates found.', 'tp-donate'),
-            'not_found_in_trash' => __('No donates found in Trash.', 'tp-donate')
+            'name' => _x('Donates', 'post type general name', 'fundpress'),
+            'singular_name' => _x('Donate', 'post type singular name', 'fundpress'),
+            'menu_name' => _x('Donates', 'add new on admin bar', 'fundpress'),
+            'name_admin_bar' => _x('Donate', 'admin menu', 'fundpress'),
+            'add_new' => _x('Add Donate', 'dn_donate', 'fundpress'),
+            'add_new_item' => __('Add New Donate', 'fundpress'),
+            'new_item' => __('New Donate', 'fundpress'),
+            'edit_item' => __('Edit Donate', 'fundpress'),
+            'view_item' => __('View Donate', 'fundpress'),
+            'all_items' => __('Donates', 'fundpress'),
+            'search_items' => __('Search Donates', 'fundpress'),
+            'parent_item_colon' => __('Parent Donates:', 'fundpress'),
+            'not_found' => __('No donates found.', 'fundpress'),
+            'not_found_in_trash' => __('No donates found in Trash.', 'fundpress')
         );
 
         $args = array(
             'labels' => $labels,
-            'description' => __('Donates', 'tp-donate'),
+            'description' => __('Donates', 'fundpress'),
             'public' => true,
             'publicly_queryable' => true,
             'show_ui' => true,
             'show_in_menu' => 'tp_donate',
             'query_var' => true,
-            'rewrite' => array('slug' => _x('donates', 'URL slug', 'tp-donate')),
+            'rewrite' => array('slug' => _x('donates', 'URL slug', 'fundpress')),
             'capability_type' => 'post',
             'has_archive' => false,
             'hierarchical' => false,
@@ -344,31 +344,31 @@ class DN_Post_Type
         register_post_type('dn_donate', $args);
 
         $labels = array(
-            'name' => _x('Donate Item', 'post type general name', 'tp-donate'),
-            // 'singular_name'      => _x( 'Donate', 'post type singular name', 'tp-donate' ),
-            // 'menu_name'          => _x( 'Donates', 'add new on admin bar', 'tp-donate' ),
-            // 'name_admin_bar'     => _x( 'Donate', 'admin menu', 'tp-donate' ),
-            // 'add_new'            => _x( 'Add Donate', 'dn_donate', 'tp-donate' ),
-            // 'add_new_item'       => __( 'Add New Donate', 'tp-donate' ),
-            // 'new_item'           => __( 'New Donate', 'tp-donate' ),
-            // 'edit_item'          => __( 'Edit Donate', 'tp-donate' ),
-            // 'view_item'          => __( 'View Donate', 'tp-donate' ),
-            // 'all_items'          => __( 'Donates', 'tp-donate' ),
-            // 'search_items'       => __( 'Search Donates', 'tp-donate' ),
-            // 'parent_item_colon'  => __( 'Parent Donates:', 'tp-donate' ),
-            // 'not_found'          => __( 'No donates found.', 'tp-donate' ),
-            // 'not_found_in_trash' => __( 'No donates found in Trash.', 'tp-donate' )
+            'name' => _x('Donate Item', 'post type general name', 'fundpress'),
+            // 'singular_name'      => _x( 'Donate', 'post type singular name', 'fundpress' ),
+            // 'menu_name'          => _x( 'Donates', 'add new on admin bar', 'fundpress' ),
+            // 'name_admin_bar'     => _x( 'Donate', 'admin menu', 'fundpress' ),
+            // 'add_new'            => _x( 'Add Donate', 'dn_donate', 'fundpress' ),
+            // 'add_new_item'       => __( 'Add New Donate', 'fundpress' ),
+            // 'new_item'           => __( 'New Donate', 'fundpress' ),
+            // 'edit_item'          => __( 'Edit Donate', 'fundpress' ),
+            // 'view_item'          => __( 'View Donate', 'fundpress' ),
+            // 'all_items'          => __( 'Donates', 'fundpress' ),
+            // 'search_items'       => __( 'Search Donates', 'fundpress' ),
+            // 'parent_item_colon'  => __( 'Parent Donates:', 'fundpress' ),
+            // 'not_found'          => __( 'No donates found.', 'fundpress' ),
+            // 'not_found_in_trash' => __( 'No donates found in Trash.', 'fundpress' )
         );
 
         $args = array(
             'labels' => $labels,
-            'description' => __('Donate Item', 'tp-donate'),
+            'description' => __('Donate Item', 'fundpress'),
             'public' => true,
             'publicly_queryable' => true,
             'show_ui' => true,
             'show_in_menu' => false,
             'query_var' => true,
-            'rewrite' => array('slug' => _x('donate-item', 'URL slug', 'tp-donate')),
+            'rewrite' => array('slug' => _x('donate-item', 'URL slug', 'fundpress')),
             'capability_type' => 'post',
             'has_archive' => false,
             'hierarchical' => false,
@@ -388,31 +388,31 @@ class DN_Post_Type
     public function register_post_type_donor()
     {
         $labels = array(
-            'name' => _x('Donors', 'post type general name', 'tp-donate'),
-            'singular_name' => _x('Donor', 'post type singular name', 'tp-donate'),
-            'menu_name' => _x('Donors', 'admin menu', 'tp-donate'),
-            'name_admin_bar' => _x('Donor', 'add new on admin bar', 'tp-donate'),
-            'add_new' => _x('Add Donor', 'dn_donor', 'tp-donate'),
-            'add_new_item' => __('Add New Donor', 'tp-donate'),
-            'new_item' => __('New Donor', 'tp-donate'),
-            'edit_item' => __('Edit Donor', 'tp-donate'),
-            'view_item' => __('View Donor', 'tp-donate'),
-            'all_items' => __('Donors', 'tp-donate'),
-            'search_items' => __('Search Donors', 'tp-donate'),
-            'parent_item_colon' => __('Parent Donors:', 'tp-donate'),
-            'not_found' => __('No donors found.', 'tp-donate'),
-            'not_found_in_trash' => __('No donors found in Trash.', 'tp-donate')
+            'name' => _x('Donors', 'post type general name', 'fundpress'),
+            'singular_name' => _x('Donor', 'post type singular name', 'fundpress'),
+            'menu_name' => _x('Donors', 'admin menu', 'fundpress'),
+            'name_admin_bar' => _x('Donor', 'add new on admin bar', 'fundpress'),
+            'add_new' => _x('Add Donor', 'dn_donor', 'fundpress'),
+            'add_new_item' => __('Add New Donor', 'fundpress'),
+            'new_item' => __('New Donor', 'fundpress'),
+            'edit_item' => __('Edit Donor', 'fundpress'),
+            'view_item' => __('View Donor', 'fundpress'),
+            'all_items' => __('Donors', 'fundpress'),
+            'search_items' => __('Search Donors', 'fundpress'),
+            'parent_item_colon' => __('Parent Donors:', 'fundpress'),
+            'not_found' => __('No donors found.', 'fundpress'),
+            'not_found_in_trash' => __('No donors found in Trash.', 'fundpress')
         );
 
         $args = array(
             'labels' => $labels,
-            'description' => __('Donors', 'tp-donate'),
+            'description' => __('Donors', 'fundpress'),
             'public' => true,
             'publicly_queryable' => true,
             'show_ui' => true,
             'show_in_menu' => 'tp_donate',
             'query_var' => true,
-            'rewrite' => array('slug' => _x('donors', 'URL slug', 'tp-donate')),
+            'rewrite' => array('slug' => _x('donors', 'URL slug', 'fundpress')),
             'capability_type' => 'post',
             'has_archive' => false,
             'hierarchical' => false,
@@ -433,17 +433,17 @@ class DN_Post_Type
     {
         // Add new taxonomy, make it hierarchical (like categories)
         $labels = array(
-            'name' => _x('Categories', 'taxonomy general name', 'tp-donate'),
-            'singular_name' => _x('Category', 'taxonomy singular name', 'tp-donate'),
-            'search_items' => __('Search Campaigns', 'tp-donate'),
-            'all_items' => __('All Campaigns', 'tp-donate'),
-            'parent_item' => __('Parent Category', 'tp-donate'),
-            'parent_item_colon' => __('Parent Category:', 'tp-donate'),
-            'edit_item' => __('Edit Category', 'tp-donate'),
-            'update_item' => __('Update Category', 'tp-donate'),
-            'add_new_item' => __('Add New Category', 'tp-donate'),
-            'new_item_name' => __('New Category', 'tp-donate'),
-            'menu_name' => __('Categories', 'tp-donate')
+            'name' => _x('Categories', 'taxonomy general name', 'fundpress'),
+            'singular_name' => _x('Category', 'taxonomy singular name', 'fundpress'),
+            'search_items' => __('Search Campaigns', 'fundpress'),
+            'all_items' => __('All Campaigns', 'fundpress'),
+            'parent_item' => __('Parent Category', 'fundpress'),
+            'parent_item_colon' => __('Parent Category:', 'fundpress'),
+            'edit_item' => __('Edit Category', 'fundpress'),
+            'update_item' => __('Update Category', 'fundpress'),
+            'add_new_item' => __('Add New Category', 'fundpress'),
+            'new_item_name' => __('New Category', 'fundpress'),
+            'menu_name' => __('Categories', 'fundpress')
         );
 
         $args = array(
@@ -452,7 +452,7 @@ class DN_Post_Type
             'show_ui' => true,
             'show_admin_column' => true,
             'query_var' => true,
-            'rewrite' => array('slug' => _x('campaign-cat', 'URL slug', 'tp-donate')),
+            'rewrite' => array('slug' => _x('campaign-cat', 'URL slug', 'fundpress')),
         );
 
         $args = apply_filters('donate_register_tax_capaign_cat', $args);
@@ -460,17 +460,17 @@ class DN_Post_Type
 
         // Add new taxonomy, make it hierarchical (like tags)
         $labels = array(
-            'name' => _x('Tags', 'taxonomy general name', 'tp-donate'),
-            'singular_name' => _x('Tag', 'taxonomy singular name', 'tp-donate'),
-            'search_items' => __('Search Tag', 'tp-donate'),
-            'all_items' => __('All Tags', 'tp-donate'),
-            'parent_item' => __('Parent Tag', 'tp-donate'),
-            'parent_item_colon' => __('Parent Tag:', 'tp-donate'),
-            'edit_item' => __('Edit Tag', 'tp-donate'),
-            'update_item' => __('Update Tag', 'tp-donate'),
-            'add_new_item' => __('Add New Tag', 'tp-donate'),
-            'new_item_name' => __('New Tag', 'tp-donate'),
-            'menu_name' => __('Tags', 'tp-donate')
+            'name' => _x('Tags', 'taxonomy general name', 'fundpress'),
+            'singular_name' => _x('Tag', 'taxonomy singular name', 'fundpress'),
+            'search_items' => __('Search Tag', 'fundpress'),
+            'all_items' => __('All Tags', 'fundpress'),
+            'parent_item' => __('Parent Tag', 'fundpress'),
+            'parent_item_colon' => __('Parent Tag:', 'fundpress'),
+            'edit_item' => __('Edit Tag', 'fundpress'),
+            'update_item' => __('Update Tag', 'fundpress'),
+            'add_new_item' => __('Add New Tag', 'fundpress'),
+            'new_item_name' => __('New Tag', 'fundpress'),
+            'menu_name' => __('Tags', 'fundpress')
         );
 
         $args = array(
@@ -479,7 +479,7 @@ class DN_Post_Type
             'show_ui' => true,
             'show_admin_column' => true,
             'query_var' => true,
-            'rewrite' => array('slug' => _x('campaign-tag', 'URL slug', 'tp-donate')),
+            'rewrite' => array('slug' => _x('campaign-tag', 'URL slug', 'fundpress')),
         );
 
         $args = apply_filters('donate_register_tax_capaign_tag', $args);
@@ -493,7 +493,7 @@ class DN_Post_Type
          * cancelled payment
          */
         $donate_statuses['donate-cancelled'] = apply_filters('donate_register_post_status_cancel', array(
-            'label' => _x('Cancelled', 'Donate Status', 'tp-donate'),
+            'label' => _x('Cancelled', 'Donate Status', 'fundpress'),
             'public' => true,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
@@ -505,7 +505,7 @@ class DN_Post_Type
          * pending payment
          */
         $donate_statuses['donate-pending'] = apply_filters('donate_register_post_status_pending', array(
-            'label' => _x('Pending', 'Donate Status', 'tp-donate'),
+            'label' => _x('Pending', 'Donate Status', 'fundpress'),
             'public' => true,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
@@ -517,7 +517,7 @@ class DN_Post_Type
          * processing payment
          */
         $donate_statuses['donate-processing'] = apply_filters('donate_register_post_status_processing', array(
-            'label' => _x('Processing', 'Donate Status', 'tp-donate'),
+            'label' => _x('Processing', 'Donate Status', 'fundpress'),
             'public' => true,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
@@ -529,7 +529,7 @@ class DN_Post_Type
          * completed payment
          */
         $donate_statuses['donate-completed'] = apply_filters('donate_register_post_status_completed', array(
-            'label' => _x('Completed', 'Donate Status', 'tp-donate'),
+            'label' => _x('Completed', 'Donate Status', 'fundpress'),
             'public' => true,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
@@ -541,7 +541,7 @@ class DN_Post_Type
          * refunded payment
          */
         $donate_statuses['donate-refunded'] = apply_filters('donate_register_post_status_refunded', array(
-            'label' => _x('Refunded', 'Donate Status', 'tp-donate'),
+            'label' => _x('Refunded', 'Donate Status', 'fundpress'),
             'public' => true,
             'exclude_from_search' => false,
             'show_in_admin_all_list' => true,
@@ -560,11 +560,11 @@ class DN_Post_Type
     {
         unset($columns['title'], $columns['author'], $columns['date']);
 
-        $columns['donor_fullname'] = __('Full Name', 'tp-donate');
-        $columns['donor_email'] = __('Email', 'tp-donate');
-        $columns['donor_address'] = __('Address', 'tp-donate');
-        $columns['donor_phone'] = __('Phone', 'tp-donate');
-        $columns['date'] = __('Date', 'tp-donate');
+        $columns['donor_fullname'] = __('Full Name', 'fundpress');
+        $columns['donor_email'] = __('Email', 'fundpress');
+        $columns['donor_address'] = __('Address', 'fundpress');
+        $columns['donor_phone'] = __('Phone', 'fundpress');
+        $columns['date'] = __('Date', 'fundpress');
         return $columns;
     }
 
@@ -598,7 +598,7 @@ class DN_Post_Type
         $prefix = TP_DONATE_META_DONOR;
         $cmb = new_cmb2_box(array(
             'id' => 'donor_info',
-            'title' => __('Donor Info', 'tp-donate'),
+            'title' => __('Donor Info', 'fundpress'),
             'object_types' => array('dn_donor'), // post type
             'context' => 'normal', //  'normal', 'advanced', or 'side'
             'priority' => 'high', //  'high', 'core', 'default' or 'low'
@@ -606,42 +606,42 @@ class DN_Post_Type
         ));
 
         $cmb->add_field(array(
-            'name' => sprintf(__('Donor ID #%s', 'tp-donate'), $cmb->object_id),
+            'name' => sprintf(__('Donor ID #%s', 'fundpress'), $cmb->object_id),
             'type' => 'title',
             'id' => 'wiki_test_title'
         ));
 
         $cmb->add_field(array(
-            'name' => __('First Name', 'tp-donate'),
-            'desc' => __('Enter First Name (required)', 'tp-donate'),
+            'name' => __('First Name', 'fundpress'),
+            'desc' => __('Enter First Name (required)', 'fundpress'),
             'id' => $prefix . 'first_name',
             'type' => 'text'
         ));
 
         $cmb->add_field(array(
-            'name' => __('Last Name', 'tp-donate'),
-            'desc' => __('Enter Last Name (required)', 'tp-donate'),
+            'name' => __('Last Name', 'fundpress'),
+            'desc' => __('Enter Last Name (required)', 'fundpress'),
             'id' => $prefix . 'last_name',
             'type' => 'text'
         ));
 
         $cmb->add_field(array(
-            'name' => __('Email', 'tp-donate'),
-            'desc' => __('Enter Email (required)', 'tp-donate'),
+            'name' => __('Email', 'fundpress'),
+            'desc' => __('Enter Email (required)', 'fundpress'),
             'id' => $prefix . 'email',
             'type' => 'text_email'
         ));
 
         $cmb->add_field(array(
-            'name' => __('Address', 'tp-donate'),
-            'desc' => __('Enter Address (required)', 'tp-donate'),
+            'name' => __('Address', 'fundpress'),
+            'desc' => __('Enter Address (required)', 'fundpress'),
             'id' => $prefix . 'address',
             'type' => 'textarea_small'
         ));
 
         $cmb->add_field(array(
-            'name' => __('Phone Num.', 'tp-donate'),
-            'desc' => __('Enter Phone Number (required)', 'tp-donate'),
+            'name' => __('Phone Num.', 'fundpress'),
+            'desc' => __('Enter Phone Number (required)', 'fundpress'),
             'id' => $prefix . 'phone',
             'type' => 'text'
         ));

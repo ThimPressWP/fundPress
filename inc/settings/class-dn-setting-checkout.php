@@ -31,7 +31,7 @@ class DN_Setting_Checkout extends DN_Setting_Base {
     public $_position = 30;
 
     public function __construct() {
-        $this->_title = __( 'Checkout', 'tp-donate' );
+        $this->_title = __( 'Checkout', 'fundpress' );
         parent::__construct();
     }
 
@@ -40,30 +40,30 @@ class DN_Setting_Checkout extends DN_Setting_Base {
         return
                 array(
                     'checkout_general' => array(
-                        'title' => __( 'General', 'tp-donate' ),
+                        'title' => __( 'General', 'fundpress' ),
                         'fields' => array(
-                            'title' => __( 'General settings', 'tp-donate' ),
-                            'desc' => __( 'The following options affect how format are displayed list donate causes on the frontend.', 'tp-donate' ),
+                            'title' => __( 'General settings', 'fundpress' ),
+                            'desc' => __( 'The following options affect how format are displayed list donate causes on the frontend.', 'fundpress' ),
                             'fields' => array(
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Environment', 'tp-donate' ),
-                                    'desc' => __( 'This controlls test or production mode', 'tp-donate' ),
+                                    'label' => __( 'Environment', 'fundpress' ),
+                                    'desc' => __( 'This controlls test or production mode', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'environment',
                                         'class' => 'environment'
                                     ),
                                     'name' => 'environment',
                                     'options' => array(
-                                        'test' => __( 'Test', 'tp-donate' ),
-                                        'production' => __( 'Production', 'tp-donate' )
+                                        'test' => __( 'Test', 'fundpress' ),
+                                        'production' => __( 'Production', 'fundpress' )
                                     ),
                                     'default' => 'test'
                                 ),
                                 array(
                                     'type' => 'input',
-                                    'label' => __( 'Cancel Pending Order', 'tp-donate' ),
-                                    'desc' => __( 'This controlls how many time cancel Pending Order status.', 'tp-donate' ),
+                                    'label' => __( 'Cancel Pending Order', 'fundpress' ),
+                                    'desc' => __( 'This controlls how many time cancel Pending Order status.', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'cancel_order',
                                         'class' => 'cancel_order',
@@ -75,38 +75,38 @@ class DN_Setting_Checkout extends DN_Setting_Base {
                                 ),
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Include lightbox', 'tp-donate' ),
-                                    'desc' => __( 'This controlls include payment lightbox donate form and not using Cart or Checkout page', 'tp-donate' ),
+                                    'label' => __( 'Include lightbox', 'fundpress' ),
+                                    'desc' => __( 'This controlls include payment lightbox donate form and not using Cart or Checkout page', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'lightbox_checkout',
                                         'class' => 'lightbox_checkout'
                                     ),
                                     'name' => 'lightbox_checkout',
                                     'options' => array(
-                                        'no' => __( 'No', 'tp-donate' ),
-                                        'yes' => __( 'Yes', 'tp-donate' )
+                                        'no' => __( 'No', 'fundpress' ),
+                                        'yes' => __( 'Yes', 'fundpress' )
                                     ),
                                     'default' => 'no'
                                 ),
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Donate redirect.', 'tp-donate' ),
-                                    'desc' => __( 'This controlls redirect page on donate submit?', 'tp-donate' ),
+                                    'label' => __( 'Donate redirect.', 'fundpress' ),
+                                    'desc' => __( 'This controlls redirect page on donate submit?', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'donate_redirect',
                                         'class' => 'donate_redirect'
                                     ),
                                     'name' => 'donate_redirect',
                                     'options' => array(
-                                        'cart' => __( 'Cart', 'tp-donate' ),
-                                        'checkout' => __( 'Checkout', 'tp-donate' )
+                                        'cart' => __( 'Cart', 'fundpress' ),
+                                        'checkout' => __( 'Checkout', 'fundpress' )
                                     ),
                                     'default' => 'checkout'
                                 ),
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Cart page', 'tp-donate' ),
-                                    'desc' => __( 'This controlls set Cart page', 'tp-donate' ),
+                                    'label' => __( 'Cart page', 'fundpress' ),
+                                    'desc' => __( 'This controlls set Cart page', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'cart_page',
                                         'class' => 'cart_page'
@@ -117,8 +117,8 @@ class DN_Setting_Checkout extends DN_Setting_Base {
                                 ),
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Checkout page', 'tp-donate' ),
-                                    'desc' => __( 'This controlls set Checkout page', 'tp-donate' ),
+                                    'label' => __( 'Checkout page', 'fundpress' ),
+                                    'desc' => __( 'This controlls set Checkout page', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'checkout_page',
                                         'class' => 'checkout_page'
@@ -129,8 +129,8 @@ class DN_Setting_Checkout extends DN_Setting_Base {
                                 ),
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Terms and Conditions page', 'tp-donate' ),
-                                    'desc' => __( 'This controlls set Terms and Conditions page', 'tp-donate' ),
+                                    'label' => __( 'Terms and Conditions page', 'fundpress' ),
+                                    'desc' => __( 'This controlls set Terms and Conditions page', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'term_condition_page',
                                         'class' => 'term_condition_page'
@@ -142,36 +142,36 @@ class DN_Setting_Checkout extends DN_Setting_Base {
                             )
                         ),
                         array(
-                            'title' => __( 'Checkout page setting', 'tp-donate' ),
-                            'desc' => __( 'The following options affect how format are displayed list donate causes on the checkout page.', 'tp-donate' ),
+                            'title' => __( 'Checkout page setting', 'fundpress' ),
+                            'desc' => __( 'The following options affect how format are displayed list donate causes on the checkout page.', 'fundpress' ),
                             'fields' => array(
                                 array(
                                     'type' => 'select',
-                                    'label' => __( 'Show terms & Conditions', 'tp-donate' ),
-                                    'desc' => __( 'This controlls display term & condition in checkout page', 'tp-donate' ),
+                                    'label' => __( 'Show terms & Conditions', 'fundpress' ),
+                                    'desc' => __( 'This controlls display term & condition in checkout page', 'fundpress' ),
                                     'atts' => array(
                                         'id' => 'term_condition_enable',
                                         'class' => 'term_condition_enable'
                                     ),
                                     'name' => 'term_condition_enable',
                                     'options' => array(
-                                        'yes' => __( 'Yes', 'tp-donate' ),
-                                        'no' => __( 'No', 'tp-donate' )
+                                        'yes' => __( 'Yes', 'fundpress' ),
+                                        'no' => __( 'No', 'fundpress' )
                                     ),
                                     'default' => 'yes'
                                 ),
                             // array(
                             // 		'type'		=> 'select',
-                            // 		'label'		=> __( 'Name on donors list?', 'tp-donate' ),
-                            // 		'desc'		=> __( 'This controlls hide name on donors box', 'tp-donate' ),
+                            // 		'label'		=> __( 'Name on donors list?', 'fundpress' ),
+                            // 		'desc'		=> __( 'This controlls hide name on donors box', 'fundpress' ),
                             // 		'atts'		=> array(
                             // 				'id'	=> 'term_condition',
                             // 				'class'	=> 'term_condition'
                             // 			),
                             // 		'name'		=> 'term_condition',
                             // 		'options'	=> array(
-                            // 				'yes'			=> __( 'Yes', 'tp-donate' ),
-                            // 				'no'			=> __( 'No', 'tp-donate' )
+                            // 				'yes'			=> __( 'Yes', 'fundpress' ),
+                            // 				'no'			=> __( 'No', 'fundpress' )
                             // 			)
                             // 	)
                             )

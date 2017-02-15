@@ -13,6 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</div>
 
-	<span class="donate_days_to_go"><?php printf( __( '%s Days To Go', 'tp-donate' ), donate_get_campaign_days_to_go() ) ?></span>
+	<span class="donate_days_to_go"><?php printf( __( '%s Days To Go', 'fundpress' ), donate_get_campaign_days_to_go() ) ?></span>
 
 </div>

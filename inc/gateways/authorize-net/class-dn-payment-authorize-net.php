@@ -42,7 +42,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
     public $_title = null;
 
     public function __construct() {
-        $this->_title = __( 'AuthorizeNet', 'tp-donate' );
+        $this->_title = __( 'AuthorizeNet', 'fundpress' );
 
         $checkout = DN_Settings::instance()->checkout;
         $this->_api_login_id = $checkout->get( 'authorize_api_login_id' );
@@ -55,10 +55,10 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
         parent::__construct();
 
         $this->_messages = array(
-            1 => __( 'This transaction has been approved.', 'tp-donate' ),
-            2 => __( 'This transaction has been declined.', 'tp-donate' ),
-            3 => __( 'There has been an error processing this transaction.', 'tp-donate' ),
-            4 => __( ' This transaction is being held for review.', 'tp-donate' )
+            1 => __( 'This transaction has been approved.', 'fundpress' ),
+            2 => __( 'This transaction has been declined.', 'fundpress' ),
+            3 => __( 'There has been an error processing this transaction.', 'fundpress' ),
+            4 => __( ' This transaction is being held for review.', 'fundpress' )
         );
 
         add_action( 'init', array( $this, 'verify' ) );
@@ -118,22 +118,22 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
                 'fields' => array(
                     array(
                         'type' => 'select',
-                        'label' => __( 'Enable', 'tp-donate' ),
-                        'desc' => __( 'This controlls enable payment method', 'tp-donate' ),
+                        'label' => __( 'Enable', 'fundpress' ),
+                        'desc' => __( 'This controlls enable payment method', 'fundpress' ),
                         'atts' => array(
                             'id' => 'authorize_enable',
                             'class' => 'authorize_enable'
                         ),
                         'name' => 'authorize_enable',
                         'options' => array(
-                            'no' => __( 'No', 'tp-donate' ),
-                            'yes' => __( 'Yes', 'tp-donate' )
+                            'no' => __( 'No', 'fundpress' ),
+                            'yes' => __( 'Yes', 'fundpress' )
                         )
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Api Login ID', 'tp-donate' ),
-                        'desc' => __( 'Api login id', 'tp-donate' ),
+                        'label' => __( 'Api Login ID', 'fundpress' ),
+                        'desc' => __( 'Api login id', 'fundpress' ),
                         'atts' => array(
                             'id' => 'authorize_api_login_id',
                             'class' => 'authorize_api_login_id',
@@ -143,8 +143,8 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Transaction Key', 'tp-donate' ),
-                        'desc' => __( 'Transaction key', 'tp-donate' ),
+                        'label' => __( 'Transaction Key', 'fundpress' ),
+                        'desc' => __( 'Transaction key', 'fundpress' ),
                         'atts' => array(
                             'id' => 'authorize_transaction_key',
                             'class' => 'authorize_transaction_key',
@@ -159,7 +159,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
 
     public function checkout_args( $donate = null, $posted = array() ) {
         if ( !$this->_transaction_key )
-            return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'tp-donate' ) );
+            return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'fundpress' ) );
 
         $donation = DN_Donate::instance( $donate->id );
         $donor = DN_Donor::instance( $donate->donor_id );
@@ -198,9 +198,9 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
             'x_type' => 'AUTH_CAPTURE',
             'x_cancel_url' => donate_checkout_url(),
             'x_email_customer' => 'TRUE',
-            'x_cancel_url_text' => __( 'Cancel', 'tp-donate' ),
+            'x_cancel_url_text' => __( 'Cancel', 'fundpress' ),
             'x_receipt_link_method' => 'POST',
-            'x_receipt_link_text' => __( 'Click here to return our homepage.', 'tp-donate' ),
+            'x_receipt_link_text' => __( 'Click here to return our homepage.', 'fundpress' ),
             'x_receipt_link_URL' => add_query_arg( array( 'donate-authorize-net-status' => 'completed', 'donate-authorize-net-nonce' => $nonce ), donate_checkout_url() ),
         );
 
@@ -219,7 +219,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
         return array(
             'status' => 'success',
             'form' => true,
-            'submit_text' => __( 'Redirect to Authorize.Net', 'tp-donate' ),
+            'submit_text' => __( 'Redirect to Authorize.Net', 'fundpress' ),
             'url' => $this->api_endpoint,
             'args' => $this->checkout_args( $donate, $posted )
         );

@@ -14,12 +14,12 @@ $donateds = $donor->get_donated();
 <table>
     <thead>
         <tr>
-            <th><?php _e( 'ID', 'tp-donate' ) ?></th>
-            <th><?php _e( 'First name', 'tp-donate' ) ?></th>
-            <th><?php _e( 'Last name', 'tp-donate' ) ?></th>
-            <th><?php _e( 'Email', 'tp-donate' ) ?></th>
-            <th><?php _e( 'Address', 'tp-donate' ) ?></th>
-            <th><?php _e( 'Phone', 'tp-donate' ) ?></th>
+            <th><?php _e( 'ID', 'fundpress' ) ?></th>
+            <th><?php _e( 'First name', 'fundpress' ) ?></th>
+            <th><?php _e( 'Last name', 'fundpress' ) ?></th>
+            <th><?php _e( 'Email', 'fundpress' ) ?></th>
+            <th><?php _e( 'Address', 'fundpress' ) ?></th>
+            <th><?php _e( 'Phone', 'fundpress' ) ?></th>
         </tr>
     </thead>
     <tbody>
@@ -46,13 +46,13 @@ $donateds = $donor->get_donated();
     </tbody>
 </table>
 <?php if ( $donateds ): ?>
-    <h3><?php _e( 'Donated', 'tp-donate' ) ?></h3>
+    <h3><?php _e( 'Donated', 'fundpress' ) ?></h3>
 
     <table>
         <thead>
             <tr>
-                <th><?php _e( 'Donate ID', 'tp-donate' ) ?></th>
-                <th><?php _e( 'Amount', 'tp-donate' ) ?></th>
+                <th><?php _e( 'Donate ID', 'fundpress' ) ?></th>
+                <th><?php _e( 'Amount', 'fundpress' ) ?></th>
             </tr>
         </thead>
         <tbody>

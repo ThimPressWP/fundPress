@@ -53,7 +53,7 @@ class DN_Ajax
             $campaign = get_post($_POST['campaign_id']);
 
             if (!$campaign || $campaign->post_type !== 'dn_campaign') {
-                wp_send_json(array('status' => 'failed', 'message' => __('Campaign is not exists in our system.', 'tp-donate')));
+                wp_send_json(array('status' => 'failed', 'message' => __('Campaign is not exists in our system.', 'fundpress')));
             }
 
             $campaign = DN_Campaign::instance($campaign);
@@ -88,7 +88,7 @@ class DN_Ajax
     {
         // validate sanitize input $_POST
         if (!isset($_GET['schema']) || $_GET['schema'] !== 'donate-ajax' || empty($_POST))
-            wp_send_json(array('status' => 'failed', 'message' => array(__('Could not do action.', 'tp-donate'))));
+            wp_send_json(array('status' => 'failed', 'message' => array(__('Could not do action.', 'fundpress'))));
 
         /* process checkout */
         ThimPress_Donate::instance()->checkout->process_checkout();
@@ -129,7 +129,7 @@ class DN_Ajax
             die();
         }
 
-        wp_send_json(array('status' => 'failed', 'message' => __('Could not delete compensate. Please try again.', 'tp-donate')));
+        wp_send_json(array('status' => 'failed', 'message' => __('Could not delete compensate. Please try again.', 'fundpress')));
         die();
     }
 
@@ -139,7 +139,7 @@ class DN_Ajax
      */
     public function mustLogin()
     {
-        _e('You must login', 'tp-donate');
+        _e('You must login', 'fundpress');
     }
 
     /*
@@ -167,7 +167,7 @@ class DN_Ajax
             die();
         }
 
-        wp_send_json(array('status' => 'failed', 'message' => __('Could not change status of Donate. Please try again.', 'tp-donate')));
+        wp_send_json(array('status' => 'failed', 'message' => __('Could not change status of Donate. Please try again.', 'fundpress')));
         die();
 
     }

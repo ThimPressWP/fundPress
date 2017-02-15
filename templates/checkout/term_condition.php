@@ -13,7 +13,7 @@ if( ! defined( 'ABSPATH' ) ) exit();
 
 		<input type="checkbox" name="term_condition" value="1" id="term_condition"/>
 		<label for="term_condition">
-			<?php _e( 'Terms & Conditions', 'tp-donate' ); ?>
+			<?php _e( 'Terms & Conditions', 'fundpress' ); ?>
 		</label>
 
 	</div>

@@ -8,10 +8,10 @@ if( ! defined( 'ABSPATH' ) ) exit();
 <thead>
 	<tr>
 		<th class="donate_cart_item_name">
-			<?php _e( 'Item name', 'tp-donate' ) ?>
+			<?php _e( 'Item name', 'fundpress' ) ?>
 		</th>
 		<th class="donate_cart_item_amount">
-			<?php _e( 'Item amount', 'tp-donate' ) ?>
+			<?php _e( 'Item amount', 'fundpress' ) ?>
 		</th>
 	</tr>
 </thead>

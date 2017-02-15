@@ -85,7 +85,7 @@ class DN_Cart {
                         $product_class = 'DN_Product_Base';
 
                     if ( !class_exists( $product_class ) )
-                        return new WP_Error( 'donate_cart_class_process_product', __( 'Class process product is not exists', 'tp-donate' ) );
+                        return new WP_Error( 'donate_cart_class_process_product', __( 'Class process product is not exists', 'fundpress' ) );
 
                     // class process product
                     $param->product_class = apply_filters( 'donate_product_type_class', $product_class, $post_type );
@@ -201,7 +201,7 @@ class DN_Cart {
         if ( $item_key && isset( $this->cart_contents[$item_key] ) )
             return $this->cart_contents[$item_key];
 
-        return new WP_Error( 'donate_cart_item_not_exists', sprintf( '%s %s', $item_key, __( 'cart item is not exists', 'tp-donate' ) ) );
+        return new WP_Error( 'donate_cart_item_not_exists', sprintf( '%s %s', $item_key, __( 'cart item is not exists', 'fundpress' ) ) );
     }
 
     /**

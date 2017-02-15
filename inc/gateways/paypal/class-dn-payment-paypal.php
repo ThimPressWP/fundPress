@@ -28,7 +28,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
     public $_title = null;
 
     public function __construct() {
-        $this->_title = __( 'Paypal', 'tp-donate' );
+        $this->_title = __( 'Paypal', 'fundpress' );
 
         $this->paypal_url = 'https://www.sandbox.paypal.com/';
         $this->paypal_payment_url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
@@ -57,7 +57,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
 
                 DN_Cart::instance()->remove_cart();
             } else if ( $_GET['donate-paypal-payment'] === 'cancel' ) {
-                donate_add_notice( 'error', __( 'Donate is cancel.', 'tp-donate' ) );
+                donate_add_notice( 'error', __( 'Donate is cancel.', 'fundpress' ) );
             }
             // redirect
             wp_redirect( donate_get_thankyou_link( $_GET['donate-id'] ) );
@@ -126,22 +126,22 @@ class DN_Payment_Paypal extends DN_Payment_Base {
                 'fields' => array(
                     array(
                         'type' => 'select',
-                        'label' => __( 'Enable', 'tp-donate' ),
-                        'desc' => __( 'This controlls enable payment method', 'tp-donate' ),
+                        'label' => __( 'Enable', 'fundpress' ),
+                        'desc' => __( 'This controlls enable payment method', 'fundpress' ),
                         'atts' => array(
                             'id' => 'paypal_enable',
                             'class' => 'paypal_enable'
                         ),
                         'name' => 'paypal_enable',
                         'options' => array(
-                            'no' => __( 'No', 'tp-donate' ),
-                            'yes' => __( 'Yes', 'tp-donate' )
+                            'no' => __( 'No', 'fundpress' ),
+                            'yes' => __( 'Yes', 'fundpress' )
                         )
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Paypal email', 'tp-donate' ),
-                        'desc' => __( 'Production environment', 'tp-donate' ),
+                        'label' => __( 'Paypal email', 'fundpress' ),
+                        'desc' => __( 'Production environment', 'fundpress' ),
                         'atts' => array(
                             'id' => 'paypal_email',
                             'class' => 'paypal_email',
@@ -151,8 +151,8 @@ class DN_Payment_Paypal extends DN_Payment_Base {
                     ),
                     array(
                         'type' => 'input',
-                        'label' => __( 'Paypal sandbox email', 'tp-donate' ),
-                        'desc' => __( 'Test environment', 'tp-donate' ),
+                        'label' => __( 'Paypal sandbox email', 'fundpress' ),
+                        'desc' => __( 'Test environment', 'fundpress' ),
                         'atts' => array(
                             'id' => 'paypal_sanbox_email',
                             'class' => 'paypal_sanbox_email',
@@ -176,7 +176,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
                 $description[] = sprintf( '%s(%s)', $cart_item->product_data->post_title, donate_price( $cart_item->amount, $cart_item->currency ) );
             }
         } else {
-            $description[] = sprintf( '%s %s - %s', __( 'Donate for', 'tp-donate' ), get_bloginfo( 'name' ), get_bloginfo( 'description' ) );
+            $description[] = sprintf( '%s %s - %s', __( 'Donate for', 'fundpress' ), get_bloginfo( 'name' ), get_bloginfo( 'description' ) );
         }
 
         return implode( ',', $description );
@@ -223,7 +223,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
         if ( !$this->paypal_email ) {
             return array(
                 'status' => 'failed',
-                'message' => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'tp-donate' )
+                'message' => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'fundpress' )
             );
         }
         return array(

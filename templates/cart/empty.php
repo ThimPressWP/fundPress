@@ -9,6 +9,6 @@ if ( !defined( 'ABSPATH' ) )
 
 <div class="donate_messages">
     <span class="empty_cart">
-        <?php _e( 'You have no donate item!', 'tp-donate' ) ?>
+        <?php _e( 'You have no donate item!', 'fundpress' ) ?>
     </span>
 </div>

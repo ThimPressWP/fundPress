@@ -15,8 +15,8 @@ class DN_Widget_Donate_system extends WP_Widget
     function __construct() {
         parent::__construct(
             'donate_system_widget', // Base ID
-            __( 'Donate System', 'tp-donate' ), // Name
-            array( 'description' => __( 'Show amount donated of system.', 'tp-donate' ), ) // Args
+            __( 'Donate System', 'fundpress' ), // Name
+            array( 'description' => __( 'Show amount donated of system.', 'fundpress' ), ) // Args
         );
     }
 
@@ -48,7 +48,7 @@ class DN_Widget_Donate_system extends WP_Widget
         $title = !empty( $instance['title'] ) ? $instance['title'] : '';
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'tp-donate' ); ?></label>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'fundpress' ); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
         </p>
         <?php

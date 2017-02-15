@@ -3,18 +3,18 @@ if ( !defined( 'ABSPATH' ) )
     exit();
 // array(
 // 	'type'		=> 'multicheckbox',
-// 	'label'		=> __( 'Sex', 'tp-donate' ),
+// 	'label'		=> __( 'Sex', 'fundpress' ),
 // 	'atts'		=> array(
 // 			'class'	=> 'decimals'
 // 		),
 // 	'name'		=> 'sex',
 // 	'options'	=> array(
 // 			array(
-// 					'label'		=> __( 'Man', 'tp-donate' ),
+// 					'label'		=> __( 'Man', 'fundpress' ),
 // 					'value'		=> '1'
 // 				),
 // 			array(
-// 					'label'		=> __( 'Wowan', 'tp-donate' ),
+// 					'label'		=> __( 'Wowan', 'fundpress' ),
 // 					'value'		=> '0'
 // 				)
 // 		),

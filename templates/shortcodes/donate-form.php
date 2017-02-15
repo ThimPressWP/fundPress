@@ -8,7 +8,7 @@ if ( !defined( 'ABSPATH' ) )
 
 <div class="thimpress_donate_form">
     <form action="<?php echo esc_attr( donate_redirect_url() ) ?>" method="POST" class="donate_form" id="donate_form">
-        <h2><?php _e( 'Donation amount', 'tp-donate' ) ?></h2>
+        <h2><?php _e( 'Donation amount', 'fundpress' ) ?></h2>
         <p class="description"><?php echo esc_html( $title ) ?><p>
         <div>
             <!--Donate For System OR Campaign -->
@@ -41,7 +41,7 @@ if ( !defined( 'ABSPATH' ) )
                                 <li>
                                     <input type="radio" name="donate_input_amount_package" value="<?php echo esc_attr( $key ) ?>" id="<?php echo esc_attr( $key ) ?>" />
                                     <label class="donate_amount_group" for="<?php echo esc_attr( $key ) ?>">
-										<?php _e( 'Donate', 'tp-donate' ) ?>
+										<?php _e( 'Donate', 'fundpress' ) ?>
                                         <span class="donate_amount"><?php printf( '%s', $compen['amount'] ) ?></span>
                                     </label>
                                     <span><?php printf( '%s', $compen['desc'] ) ?></span>
@@ -51,7 +51,7 @@ if ( !defined( 'ABSPATH' ) )
 						<?php endif; ?>
 
                         <li>
-                            <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
+                            <h4><?php _e( 'Enter custom donate amount: ', 'fundpress' ); ?></h4>
 
                             <span class="currency"><?php echo esc_html( donate_get_currency_symbol() ); ?></span>
 
@@ -65,30 +65,30 @@ if ( !defined( 'ABSPATH' ) )
                 <!--Donor Info-->
                 <div class="donate_donor_info">
 
-                    <h3><?php _e( 'Personal Info', 'tp-donate' ) ?></h3>
+                    <h3><?php _e( 'Personal Info', 'fundpress' ) ?></h3>
 
                     <div class="donate_field">
-                        <input name="first_name" id="first_name" class="first_name" placeholder="<?php _e( '* First Name', 'tp-donate' ) ?>" />
+                        <input name="first_name" id="first_name" class="first_name" placeholder="<?php _e( '* First Name', 'fundpress' ) ?>" />
                     </div>
 
                     <div class="donate_field">
-                        <input name="last_name" id="last_name" class="last_name" placeholder="<?php _e( '* Last Name', 'tp-donate' ) ?>" />
+                        <input name="last_name" id="last_name" class="last_name" placeholder="<?php _e( '* Last Name', 'fundpress' ) ?>" />
                     </div>
 
                     <div class="donate_field">
-                        <input name="email" id="email" class="email" placeholder="<?php _e( '* Email', 'tp-donate' ) ?>" />
+                        <input name="email" id="email" class="email" placeholder="<?php _e( '* Email', 'fundpress' ) ?>" />
                     </div>
 
                     <div class="donate_field">
-                        <input name="phone" id="phone" class="phone" placeholder="<?php _e( '* Phone', 'tp-donate' ) ?>" />
+                        <input name="phone" id="phone" class="phone" placeholder="<?php _e( '* Phone', 'fundpress' ) ?>" />
                     </div>
 
                     <div class="donate_field">
-                        <textarea name="address" id="address" class="address" placeholder="<?php _e( '* Address', 'tp-donate' ) ?>"></textarea>
+                        <textarea name="address" id="address" class="address" placeholder="<?php _e( '* Address', 'fundpress' ) ?>"></textarea>
                     </div>
 
                     <div class="donate_field">
-                        <textarea name="addition" id="addition" class="addition" placeholder="<?php _e( 'Additional note', 'tp-donate' ) ?>"></textarea>
+                        <textarea name="addition" id="addition" class="addition" placeholder="<?php _e( 'Additional note', 'fundpress' ) ?>"></textarea>
                     </div>
 
                 </div>
@@ -102,7 +102,7 @@ if ( !defined( 'ABSPATH' ) )
                     <div class="donate_term_condition">
                         <input type="checkbox" name="term_condition" value="1" id="term_condition" />
                         <label for="term_condition">
-							<?php _e( 'Terms & Conditions', 'tp-donate' ); ?>
+							<?php _e( 'Terms & Conditions', 'fundpress' ); ?>
                         </label>
                     </div>
 
@@ -123,7 +123,7 @@ if ( !defined( 'ABSPATH' ) )
 
                 <div class="donate_form_footer center">
 
-                    <button type="submit" class="donate_submit button payment" form="donate_form"><?php _e( 'Donate', 'tp-donate' ) ?></button>
+                    <button type="submit" class="donate_submit button payment" form="donate_form"><?php _e( 'Donate', 'fundpress' ) ?></button>
 
                 </div>
 
@@ -138,7 +138,7 @@ if ( !defined( 'ABSPATH' ) )
                                 <li>
                                     <input type="radio" name="donate_input_amount_package" value="<?php echo esc_attr( $key ) ?>" id="<?php echo esc_attr( $key ) ?>" />
                                     <label class="donate_amount_group" for="<?php echo esc_attr( $key ) ?>">
-										<?php _e( 'Donate', 'tp-donate' ) ?>
+										<?php _e( 'Donate', 'fundpress' ) ?>
                                         <span class="donate_amount"><?php printf( '%s', $compen['amount'] ) ?></span>
                                     </label>
                                     <span><?php printf( '%s', $compen['desc'] ) ?></span>
@@ -152,12 +152,12 @@ if ( !defined( 'ABSPATH' ) )
 
                 <div class="donate_form_footer">
 
-                    <h4><?php _e( 'Enter custom donate amount: ', 'tp-donate' ); ?></h4>
+                    <h4><?php _e( 'Enter custom donate amount: ', 'fundpress' ); ?></h4>
 
                     <span class="currency"><?php echo esc_html( donate_get_currency_symbol() ); ?></span>
 
                     <input type="number" name="donate_input_amount" step="any" class="donate_form_input" min="0" />
-                    <button type="submit" class="donate_submit button" form="donate_form"><?php _e( 'Donate', 'tp-donate' ) ?></button>
+                    <button type="submit" class="donate_submit button" form="donate_form"><?php _e( 'Donate', 'fundpress' ) ?></button>
 
                 </div>
 
