@@ -50,7 +50,7 @@ class DN_Ajax
         // Load form to donate for campaign
         if (isset($_POST['campaign_id']) && is_numeric($_POST['campaign_id'])) {
 
-            $campaign = get_post($_POST['campaign_id']);
+            $campaign = get_post((int)$_POST['campaign_id']);
 
             if (!$campaign || $campaign->post_type !== 'dn_campaign') {
                 wp_send_json(array('status' => 'failed', 'message' => __('Campaign is not exists in our system.', 'fundpress')));

@@ -68,9 +68,12 @@ class DN_MetaBox_Donate extends DN_MetaBox_Base {
 					continue;
 				}
 				if ( isset( $item['item_id'] ) && $item['item_id'] ) {
-					update_post_meta( $item['item_id'], 'campaign_id', absint( $item['campaign_id'] ) );
-					update_post_meta( $item['item_id'], 'title', get_the_title( $item['campaign_id'] ) );
-					update_post_meta( $item['item_id'], 'total', floatval( $item['amount'] ) );
+					$item_id     = sanitize_text_field( $item['item_id'] );
+					$campaign_id = sanitize_text_field( $item['campaign_id'] );
+					$amount      = sanitize_text_field( $item['amount'] );
+					update_post_meta( $item_id, 'campaign_id', absint( $campaign_id ) );
+					update_post_meta( $item_id, 'title', get_the_title( $campaign_id ) );
+					update_post_meta( $item_id, 'total', floatval( $amount ) );
 				} else {
 					$donate->add_donate_item( $item['campaign_id'], get_the_title( $item['campaign_id'] ), floatval( $item['amount'] ) );
 				}

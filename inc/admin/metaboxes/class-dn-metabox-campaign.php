@@ -193,7 +193,7 @@ class DN_MetaBox_Campaign extends DN_MetaBox_Base {
                     continue;
                 update_post_meta( $post_id, $name, date( 'Y-m-d H:i:s', strtotime( $value ) ) );
                 if ( $value ) {
-                    wp_schedule_single_event( strtotime( $value ), 'donate_schedule_campaign_status', array( $post_id, $name, $value ) );
+                    wp_schedule_single_event( strtotime( $value ), 'donate_schedule_campaign_status', array( $post_id, $name, sanitize_text_field($value)) );
                 }
             } else {
                 update_post_meta( $post_id, $name, $value );

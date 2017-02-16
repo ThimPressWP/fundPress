@@ -754,22 +754,22 @@ class CMB2 {
 		// Try to get our object ID from the global space
 		switch ( $this->object_type() ) {
 			case 'user':
-				$object_id = isset( $_REQUEST['user_id'] ) ? $_REQUEST['user_id'] : $object_id;
+				$object_id = isset( $_REQUEST['user_id'] ) ? sanitize_text_field($_REQUEST['user_id']) : $object_id;
 				$object_id = ! $object_id && 'user-new.php' != $pagenow && isset( $GLOBALS['user_ID'] ) ? $GLOBALS['user_ID'] : $object_id;
 				break;
 
 			case 'comment':
-				$object_id = isset( $_REQUEST['c'] ) ? $_REQUEST['c'] : $object_id;
+				$object_id = isset( $_REQUEST['c'] ) ? sanitize_text_field($_REQUEST['c']) : $object_id;
 				$object_id = ! $object_id && isset( $GLOBALS['comments']->comment_ID ) ? $GLOBALS['comments']->comment_ID : $object_id;
 				break;
 
 			case 'term':
-				$object_id = isset( $_REQUEST['tag_ID'] ) ? $_REQUEST['tag_ID'] : $object_id;
+				$object_id = isset( $_REQUEST['tag_ID'] ) ? sanitize_text_field($_REQUEST['tag_ID']) : $object_id;
 				break;
 
 			default:
 				$object_id = isset( $GLOBALS['post']->ID ) ? $GLOBALS['post']->ID : $object_id;
-				$object_id = isset( $_REQUEST['post'] ) ? $_REQUEST['post'] : $object_id;
+				$object_id = isset( $_REQUEST['post'] ) ? sanitize_text_field($_REQUEST['post']) : $object_id;
 				break;
 		}
 

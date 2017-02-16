@@ -72,7 +72,7 @@ class CMB2_Ajax {
 		}
 
 		// Set width of embed
-		$embed_width = isset( $_REQUEST['oembed_width'] ) && intval( $_REQUEST['oembed_width'] ) < 640 ? intval( $_REQUEST['oembed_width'] ) : '640';
+		$embed_width = isset( $_REQUEST['oembed_width'] ) && intval( $_REQUEST['oembed_width'] ) < 640 ? intval( sanitize_text_field($_REQUEST['oembed_width']) ) : '640';
 
 		// Set url
 		$oembed_url = esc_url( $oembed_string );
@@ -86,7 +86,7 @@ class CMB2_Ajax {
 		$html = $this->get_oembed( array(
 			'url'         => $oembed_url,
 			'object_id'   => $_REQUEST['object_id'],
-			'object_type' => isset( $_REQUEST['object_type'] ) ? $_REQUEST['object_type'] : 'post',
+			'object_type' => isset( $_REQUEST['object_type'] ) ? sanitize_text_field($_REQUEST['object_type']) : 'post',
 			'oembed_args' => $embed_args,
 			'field_id'    => $_REQUEST['field_id'],
 		) );
