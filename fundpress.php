@@ -72,16 +72,6 @@ class ThimPress_Donate {
          * text-domain append plugins_loaded hook
          */
         add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-
-		/**
-		 * delete folder tp-donate plugin
-		 */
-		if ( !function_exists( 'delete_plugins' ) ) {
-			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-			include_once( ABSPATH . 'wp-includes/pluggable.php' );
-			include_once( ABSPATH . 'wp-admin/includes/file.php' );
-		}
-		delete_plugins( array( 'tp-donate/tp-donation.php' ) );
     }
 
     // plugins loaded hook

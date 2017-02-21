@@ -35,6 +35,16 @@ class DN_Install {
 		}
 		update_option( 'active_plugins', $active_plugins );
 
+		/**
+		 * delete folder tp-donate plugin
+		 */
+		if ( !function_exists( 'delete_plugins' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			include_once( ABSPATH . 'wp-includes/pluggable.php' );
+			include_once( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+		delete_plugins( array( 'tp-donate/tp-donation.php' ) );
+
         /* source version */
         update_option( 'thimpress_donate_version', TP_DONATE_VER );
     }
