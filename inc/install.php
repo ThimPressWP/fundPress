@@ -28,6 +28,13 @@ class DN_Install {
         /* upgrade database */
         self::upgrade_database();
 
+		/* remove tp-donate */
+		$active_plugins = get_option( 'active_plugins', true );
+		if ( ( $key = array_search( 'tp-donate/tp-donation.php', $active_plugins ) ) !== false ) {
+			unset( $active_plugins[$key] );
+		}
+		update_option( 'active_plugins', $active_plugins );
+
         /* source version */
         update_option( 'thimpress_donate_version', TP_DONATE_VER );
     }
@@ -37,6 +44,7 @@ class DN_Install {
     public static function create_tables() {
         
     }
+
 
     /* default options */
 
