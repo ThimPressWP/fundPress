@@ -251,7 +251,7 @@ abstract class DN_Setting_Base extends DN_Settings {
                         $field = wp_parse_args( $field, $default );
 
                         ob_start();
-                        include TP_DONATE_INC . '/admin/views/html/' . $field['type'] . '.php';
+                        include TP_DONATE_INC . '/admin/views/settings/fields/' . $field['type'] . '.php';
                         $html[] = ob_get_clean();
 
                         $html[] = '</td>';
