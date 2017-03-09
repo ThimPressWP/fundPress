@@ -1311,5 +1311,4 @@ if (!function_exists('donate_18n_languages')) {
 		);
 		return apply_filters('donate_i18n', $i18n);
 	}
-
 }
