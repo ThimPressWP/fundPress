@@ -133,10 +133,9 @@ class ThimPress_Donate {
             $this->_include( 'inc/admin/class-dn-admin.php' );
         }
 
-        $this->_include( 'inc/functions.php' );
+        $this->_include( 'inc/dn-core-functions.php' );
         /* metaboxes */
         $this->_include( 'inc/widget-functions.php' );
-        $this->_include( 'inc/i18n.php' );
         
         $this->_include( 'inc/hooks.php' );
         $this->_include( 'inc/template-hook.php' );
