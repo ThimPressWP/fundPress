@@ -65,7 +65,6 @@ FundPress can work effectively with almost all WordPress themes. However, for th
 For help with premium themes and add-ons, use our Forum Support.
 
 **Where can I ask for new features or suggest ideas or themes for FundPress?** 
-Where can I report bugs or contribute to the project? =
 Since the plugin is new, currently we use Facebook and Twitter as our main method of communication, so if you have any ideas to make that project even better, or if you want to contribute something to the project, or report bugs, please don't hesitate to message us on social media. Or email to our admins at jack@thimpress.com
 
 ## Connect with us
