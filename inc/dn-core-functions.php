@@ -1220,6 +1220,7 @@ if (!function_exists('donate_total_campaign_donated')) {
 
 }
 
+// get goal campaign
 if (!function_exists('donate_goal_campagin')) {
 
     function donate_goal_campagin($post = null)
@@ -1243,6 +1244,7 @@ if (!function_exists('donate_goal_campagin')) {
 
 }
 
+// check campaign allow donate
 if (!function_exists('donate_campaign_is_allow_donate')) {
 
     function donate_campaign_is_allow_donate($campaign_id = null)
@@ -1268,6 +1270,7 @@ if (!function_exists('donate_campaign_is_allow_donate')) {
 
 }
 
+// change donate status
 if (!function_exists('donate_action_status')) {
     function donate_action_status($post_id)
     {
@@ -1285,4 +1288,27 @@ if (!function_exists('donate_action_status')) {
         return apply_filters('donate_action_status', $action, $post_id);
 
     }
+}
+
+// i18n
+if (!function_exists('donate_18n_languages')) {
+
+	function donate_18n_languages()
+	{
+		$i18n = array(
+			'amount_invalid' => __('Please enter donate amount.', 'fundpress'),
+			'email_invalid' => __('Please enter valid email. Eg: example@example.com', 'fundpress'),
+			'first_name_invalid' => __('First name invalid, min length 3 and max length 15 character.', 'fundpress'),
+			'last_name_invalid' => __('Last name invalid, min length 3 and max length 15 character.', 'fundpress'),
+			'phone_number_invalid' => __('Phone number invalid. Eg: 01365987521.', 'fundpress'),
+			'payment_method_invalid' => __('Please select payment method.', 'fundpress'),
+			'address_invalid' => __('Please enter your address.', 'fundpress'),
+			'processing' => __('Processing...', 'fundpress'),
+			'complete' => __('Donate', 'fundpress'),
+			'status_processing' => __('Processing', 'fundpress'),
+			'status_completed' => __('Completed', 'fundpress'),
+			'date_time_format' => donate_date_time_format_js()
+		);
+		return apply_filters('donate_i18n', $i18n);
+	}
 }
