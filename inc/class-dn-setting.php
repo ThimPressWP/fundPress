@@ -62,7 +62,7 @@ class DN_Settings {
      * @return
      */
     public function register_options_page() {
-        donate()->_include( 'inc/admin/views/settings.php' );
+        donate()->_include( 'inc/admin/views/settings/settings.php' );
     }
 
     public function register_setting() {

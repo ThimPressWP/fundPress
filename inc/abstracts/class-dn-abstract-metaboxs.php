@@ -141,7 +141,7 @@ abstract class DN_MetaBox_Base {
                             $field = wp_parse_args( $field, $default );
 
                             ob_start();
-                            include TP_DONATE_INC . '/admin/views/html/' . $field['type'] . '.php';
+                            include TP_DONATE_INC . '/admin/views/settings/fields/' . $field['type'] . '.php';
                             $html[] = ob_get_clean();
 
                             $html[] = '</td>';

@@ -133,14 +133,10 @@ class ThimPress_Donate {
             $this->_include( 'inc/admin/class-dn-admin.php' );
         }
 
-        $this->_include( 'inc/functions.php' );
-        /* metaboxes */
-        $this->_include( 'inc/widget-functions.php' );
-        $this->_include( 'inc/i18n.php' );
+        $this->_include( 'inc/dn-core-functions.php' );
         
-        $this->_include( 'inc/hooks.php' );
-        $this->_include( 'inc/template-hook.php' );
-        $this->_include( 'inc/widgets/widget-functions.php' );
+        $this->_include( 'inc/dn-core-hooks.php' );
+        $this->_include( 'inc/dn-template-hooks.php' );
         $this->_include( 'inc/class-dn-custom-post-type.php' );
 
         // sessions libraries
@@ -166,7 +162,7 @@ class ThimPress_Donate {
         }
 
         $this->autoload( array( 'products' ) );
-        $this->_include( 'inc/install.php' );
+        $this->_include( 'inc/class-dn-install.php' );
 
         /* load vendors */
         if ( !defined( 'CMB2_LOADED' ) ) {
