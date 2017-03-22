@@ -99,4 +99,25 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
+=== 1.1 ===
+- Fix donate checkout process
+- Fix Payment Method when system donate
+- Fix Stripe payment gateway on mobile
+
+=== 1.0 ===
+- Allow edit Campaign Raised
+- Upgrade database Campaign count Donor
+- Gulp minify scripts, stylesheet
+- Start and End date campaign. Auto update status
+- Update switch currency rates( yahoo, google )
+- Payment gateways update. ( Form payment, Creditcard via Stripe )
+- Remove underscore template
+- Update thank-you page
+- Donate update order details
+- Donor sortable by email - phone
+- Donor update information
+- Add icon moon
+- Checkout logic
+- Allow change manual Campaign Total Raised
+
 == Upgrade Notice ==
