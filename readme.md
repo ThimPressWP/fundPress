@@ -1,3 +1,5 @@
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
+[![Coveralls](https://img.shields.io/coveralls/jekyll/jekyll.svg)]()
 
 ## What is FundPress?
 
