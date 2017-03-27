@@ -35,7 +35,7 @@ class DN_Settings {
         $this->options();
 
         // save, update setting
-        add_filter( 'donate_admnin_menus', array( $this, 'setting_page' ), 10, 1 );
+        add_filter( 'donate_admin_menus', array( $this, 'setting_page' ), 10, 1 );
         add_action( 'admin_init', array( $this, 'register_setting' ) );
     }
 

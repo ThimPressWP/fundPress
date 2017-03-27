@@ -1,3 +1,6 @@
+=== 1.1.1 ===
+- Fix missing plugin settings
+
 === 1.1 ===
 - Fix donate checkout process
 - Fix Payment Method when system donate
