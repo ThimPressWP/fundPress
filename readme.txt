@@ -99,12 +99,18 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
-=== 1.1 ===
+= 1.1.2 =
+- Fix donate form error notice
+
+= 1.1.1 =
+- Fix missing plugin settings
+
+= 1.1 =
 - Fix donate checkout process
 - Fix Payment Method when system donate
 - Fix Stripe payment gateway on mobile
 
-=== 1.0 ===
+= 1.0 =
 - Allow edit Campaign Raised
 - Upgrade database Campaign count Donor
 - Gulp minify scripts, stylesheet
