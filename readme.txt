@@ -99,6 +99,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
+= 1.1.3 =
+- Update customer donate note
+
 = 1.1.2 =
 - Fix donate form error notice
 
