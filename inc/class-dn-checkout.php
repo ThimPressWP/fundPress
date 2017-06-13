@@ -215,7 +215,7 @@ class DN_Checkout {
 
 					// set cart information
 					$param = array(
-						'addtion_note' => $addition,
+						'addtion_note' => $addition_note,
 						'donate_id'    => $donate_id,
 						'donor_id'     => $donor_id
 					);

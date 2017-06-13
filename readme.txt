@@ -100,7 +100,8 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 == Changelog ==
 
 = 1.1.3 =
-- Update customer donate note
+- Fix customer donate note
+- Update thank you donate page with PHP 7.x
 
 = 1.1.2 =
 - Fix donate form error notice
