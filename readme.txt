@@ -3,7 +3,7 @@ Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
 Requires at least: 4.6
-Tested up to: 4.7.2
+Tested up to: 4.9.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -98,6 +98,10 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
+= 1.2 =
+- Fix convert currency by yahoo API
+- Improve structure
 
 = 1.1.3 =
 - Fix customer donate note
