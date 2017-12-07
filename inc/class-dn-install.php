@@ -47,7 +47,7 @@ class DN_Install {
 		delete_plugins( array( 'tp-donate/tp-donation.php' ) );
 
 		/* source version */
-		update_option( 'thimpress_donate_version', TP_DONATE_VER );
+		update_option( 'thimpress_donate_version', FUNDPRESS_VER );
 	}
 
 	/* create tables */
@@ -114,7 +114,7 @@ class DN_Install {
 		}
 
 		if ( ! function_exists( 'donate_create_page' ) ) {
-			ThimPress_Donate::instance()->_include( 'inc/admin/functions.php' );
+			FP()->_include( 'inc/admin/functions.php' );
 		}
 
 		if ( $pages && function_exists( 'donate_create_page' ) ) {
@@ -141,7 +141,7 @@ class DN_Install {
 
 		foreach ( self::$update_db as $ver => $file ) {
 			if ( version_compare( $current_verion, $ver, '<' ) ) {
-				ThimPress_Donate::instance()->_include( $file );
+				FP()->_include( $file );
 			}
 		}
 	}
@@ -155,5 +155,5 @@ class DN_Install {
 }
 
 // active plugin
-register_activation_hook( TP_DONATE_FILE, array( 'DN_Install', 'install' ) );
-register_deactivation_hook( TP_DONATE_FILE, array( 'DN_Install', 'uninstall' ) );
+register_activation_hook( FUNDPRESS_FILE, array( 'DN_Install', 'install' ) );
+register_deactivation_hook( FUNDPRESS_FILE, array( 'DN_Install', 'uninstall' ) );

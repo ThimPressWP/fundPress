@@ -1,21 +1,21 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit();
+if ( ! defined( 'ABSPATH' ) ) {
+	exit();
 }
 
 class DN_Admin {
 
-    public function __construct() {
-        add_action( 'init', array( $this, 'includes' ) );
-    }
+	public function __construct() {
+		add_action( 'init', array( $this, 'includes' ) );
+	}
 
-    public function includes() {
-        ThimPress_Donate::instance()->_include( 'inc/admin/functions.php' );
-        ThimPress_Donate::instance()->_include( 'inc/admin/class-dn-admin-menu.php' );
-        ThimPress_Donate::instance()->_include( 'inc/admin/class-dn-admin-metabox.php' );
-        ThimPress_Donate::instance()->_include( 'inc/admin/class-dn-admin-assets.php' );
-    }
+	public function includes() {
+		FP()->_include( 'inc/admin/functions.php' );
+		FP()->_include( 'inc/admin/class-dn-admin-menu.php' );
+		FP()->_include( 'inc/admin/class-dn-admin-metabox.php' );
+		FP()->_include( 'inc/admin/class-dn-admin-assets.php' );
+	}
 
 }
 

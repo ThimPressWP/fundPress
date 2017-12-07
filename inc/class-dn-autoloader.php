@@ -19,7 +19,7 @@ class DN_Autoloader {
 
         spl_autoload_register( array( $this, 'autoload' ) );
 
-        $this->include_path = untrailingslashit( TP_DONATE_PATH ) . '/inc/';
+        $this->include_path = FUNDPRESS_INC;
     }
 
     private function get_file_name_from_class( $class ) {

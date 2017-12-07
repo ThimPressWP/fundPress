@@ -55,7 +55,7 @@ class DN_Donate extends DN_Post_Base {
         wp_update_post( array( 'ID' => $donate_id, 'post_title' => donate_generate_post_key( $donate_id ) ) );
 
         // cart
-        $cart = donate()->cart;
+        $cart = FundPress()->cart;
 
         update_post_meta( $donate_id, $this->meta_prefix . 'total', $cart->cart_total );
         update_post_meta( $donate_id, $this->meta_prefix . 'addition', $cart->addtion_note );
@@ -74,7 +74,7 @@ class DN_Donate extends DN_Post_Base {
 
     public function update_information( $donor_id = null, $payment_method = null ) {
         // cart
-        $cart = donate()->cart;
+        $cart = FP()->cart;
 
         // remove donate with cart_contents
         delete_post_meta( $this->id, $this->meta_prefix . 'total' );

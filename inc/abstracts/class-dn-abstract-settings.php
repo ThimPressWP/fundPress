@@ -76,7 +76,6 @@ abstract class DN_Setting_Base extends DN_Settings {
         // before tab content
         do_action( 'donate_admin_setting_before_setting_tab', $this->_id );
 
-        // donate()->_include( 'inc/admin/views/tab_' . $this->_id . '.php' ); return;
         $this->_fields = apply_filters( 'donate_admin_setting_fields', $this->load_field(), $this->_id );
 
         if ( $this->_fields ) {
@@ -251,7 +250,7 @@ abstract class DN_Setting_Base extends DN_Settings {
                         $field = wp_parse_args( $field, $default );
 
                         ob_start();
-                        include TP_DONATE_INC . '/admin/views/settings/fields/' . $field['type'] . '.php';
+                        include FUNDPRESS_INC . '/admin/views/settings/fields/' . $field['type'] . '.php';
                         $html[] = ob_get_clean();
 
                         $html[] = '</td>';

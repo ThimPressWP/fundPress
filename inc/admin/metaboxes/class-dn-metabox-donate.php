@@ -40,7 +40,7 @@ class DN_MetaBox_Donate extends DN_MetaBox_Base {
 		$this->_id     = 'donate_donate_info_section';
 		$this->_title  = __( 'Donate Details', 'fundpress' );
 		$this->_prefix = TP_DONATE_META_DONATE;
-		$this->_layout = TP_DONATE_INC . '/admin/views/metaboxes/donate.php';
+		$this->_layout = FUNDPRESS_INC . '/admin/views/metaboxes/donate.php';
 		parent::__construct();
 		add_action( 'donate_process_update_dn_donate_meta', array( $this, 'update_donate' ), 20, 1 );
 	}

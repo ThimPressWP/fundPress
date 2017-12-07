@@ -171,7 +171,7 @@ class DN_Payment_Paypal extends DN_Payment_Base {
      */
     public function get_item_name() {
         $description = array();
-        if ( $cart_items = donate()->cart->cart_contents ) {
+        if ( $cart_items = FP()->cart->cart_contents ) {
             foreach ( $cart_items as $cart_item_key => $cart_item ) {
                 $description[] = sprintf( '%s(%s)', $cart_item->product_data->post_title, donate_price( $cart_item->amount, $cart_item->currency ) );
             }

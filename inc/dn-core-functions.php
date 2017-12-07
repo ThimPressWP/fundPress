@@ -52,8 +52,8 @@ if ( ! function_exists( 'donate_get_template_part' ) ) {
 		}
 
 		// Get default slug-name.php
-		if ( ! $template && $name && file_exists( TP_DONATE_PATH . "/templates/{$slug}-{$name}.php" ) ) {
-			$template = TP_DONATE_PATH . "/templates/{$slug}-{$name}.php";
+		if ( ! $template && $name && file_exists( FUNDPRESS_TEMP . "{$slug}-{$name}.php" ) ) {
+			$template = FUNDPRESS_TEMP . "{$slug}-{$name}.php";
 		}
 
 		// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/courses-manage/slug.php
@@ -83,7 +83,7 @@ if ( ! function_exists( 'donate_locate_template' ) ) {
 		}
 
 		if ( ! $default_path ) {
-			$default_path = TP_DONATE_PATH . '/templates/';
+			$default_path = FUNDPRESS_TEMP;
 		}
 
 		$template = null;
@@ -104,25 +104,26 @@ if ( ! function_exists( 'donate_locate_template' ) ) {
 	}
 
 }
-/**
- * donate payments
- */
-if ( ! function_exists( 'donate_payment_gateways' ) ) {
 
+if ( ! function_exists( 'donate_payment_gateways' ) ) {
+	/**
+	 * Get donate payments.
+	 *
+	 * @return mixed
+	 */
 	function donate_payment_gateways() {
-		return ThimPress_Donate::instance()->payment_gateways->load_payment_gateways();
+		return FP()->payment_gateways->load_payment_gateways();
 	}
 
 }
-/**
- * donate payment is enable
- */
+
 if ( ! function_exists( 'donate_payments_enable' ) ) {
-
+	/**
+	 * Get donate payment enable.
+	 */
 	function donate_payments_enable() {
-		return ThimPress_Donate::instance()->payment_gateways->get_payment_available();
+		return FP()->payment_gateways->get_payment_available();
 	}
-
 }
 
 if ( ! function_exists( 'donate_get_currencies' ) ) {
@@ -524,7 +525,10 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 		$name = 'donate_rate_' . $from . '_' . $to;
 
 		if ( false === ( $rate = get_transient( $name ) ) ) {
-			$type = DN_Settings::instance()->general->get( 'aggregator', 'yahoo' );
+			// disable convert currency by yahoo api
+			// $type = DN_Settings::instance()->general->get('aggregator', 'yahoo');
+
+			$type = 'google';
 
 			switch ( $type ) {
 				case 'yahoo':
@@ -575,7 +579,8 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 
 		if ( $rate == 0 ) {
 			delete_transient( $name );
-			donate_campaign_convert_amount( $amount, $from, $to );
+
+			$rate = 1;
 		}
 
 		return round( $amount * $rate, donate_currency_decimal() );

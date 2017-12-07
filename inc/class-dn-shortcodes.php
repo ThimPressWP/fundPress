@@ -48,7 +48,7 @@ class DN_Shortcodes {
 				'donate' => $donate
 			), $atts );
 
-		} else if ( donate()->cart->is_empty() ) {
+		} else if ( FP()->cart->is_empty() ) {
 			$temp = 'cart/empty.php';
 		} else {
 			$temp = 'checkout/checkout.php';
@@ -64,7 +64,7 @@ class DN_Shortcodes {
 	 * @param type $contents
 	 */
 	public static function donate_cart( $atts, $contents = null ) {
-		if ( donate()->cart->is_empty() ) {
+		if ( FundPress()->cart->is_empty() ) {
 			$tmp = 'cart/empty.php';
 		} else {
 			$tmp = 'cart/cart.php';

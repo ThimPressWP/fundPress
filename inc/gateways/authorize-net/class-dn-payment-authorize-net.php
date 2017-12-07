@@ -99,7 +99,7 @@ class DN_Payment_Authorize_Net extends DN_Payment_Base {
         }
 
         $donate->update_status( $status );
-        donate()->cart->remove_cart();
+        FundPress()->cart->remove_cart();
         ob_end_clean();
 
         // redirect

@@ -224,7 +224,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             'body' => $params,
             'timeout' => 70,
             'sslverify' => false,
-            'user-agent' => 'Donate ' . TP_DONATE_VER
+            'user-agent' => 'Donate ' . FUNDPRESS_VER
                 ) );
 
         if ( !is_wp_error( $response ) ) {
@@ -251,7 +251,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
      */
     public function checkout_form() {
         ob_start();
-        require TP_DONATE_INC . '/gateways/stripe/checkout-form.php';
+        require FUNDPRESS_INC . '/gateways/stripe/checkout-form.php';
         return ob_get_clean();
     }
 
@@ -266,7 +266,7 @@ class DN_Payment_Stripe extends DN_Payment_Base {
             'key_missing' => __( 'Stripe key is expired. Please contact administrator to do this payment gateway', 'fundpress' )
                 ) );
 
-        wp_register_script( 'donate_payment_stripe', TP_DONATE_INC_URI . '/gateways/stripe/jquery.payment.min.js', array(), TP_DONATE_VER, true );
+        wp_register_script( 'donate_payment_stripe', FUNDPRESS_INC_URI . '/gateways/stripe/jquery.payment.min.js', array(), FUNDPRESS_VER, true );
         wp_localize_script( 'donate_payment_stripe', 'Donate_Stripe_Settings', $stripe );
 
         wp_enqueue_script( 'donate_payment_stripe' );

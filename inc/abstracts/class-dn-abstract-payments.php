@@ -27,7 +27,6 @@ abstract class DN_Payment_Base {
 
     function __construct() {
         add_action( 'init', array( $this, 'init' ) );
-//        $this->icon = TP_DONATE_INC_URI . '/gateways/' . $this->id . '/' . $this->id . '.png';
         $this->is_enable();
     }
 

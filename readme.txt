@@ -99,6 +99,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
+= 2.0 =
+- Restructure core
+
 = 1.2 =
 - Fix convert currency by yahoo API
 - Improve structure

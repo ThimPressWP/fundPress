@@ -53,7 +53,7 @@ class DN_Settings {
      * @return array $menus
      */
     public function setting_page( $menus ) {
-        $menus[] = array( 'tp_donate', __( 'TP Donate Settings', 'fundpress' ), __( 'Settings', 'fundpress' ), 'manage_options', 'tp_donate_setting', array( $this, 'register_options_page' ) );
+        $menus[] = array( 'tp_donate', __( 'Fundpress Settings', 'fundpress' ), __( 'Settings', 'fundpress' ), 'manage_options', 'tp_donate_setting', array( $this, 'register_options_page' ) );
         return $menus;
     }
 
@@ -62,7 +62,7 @@ class DN_Settings {
      * @return
      */
     public function register_options_page() {
-        donate()->_include( 'inc/admin/views/settings/settings.php' );
+        FP()->_include( 'inc/admin/views/settings/settings.php' );
     }
 
     public function register_setting() {

@@ -80,7 +80,7 @@ class DN_Checkout {
 					throw new Exception( __( 'This Campaign currently is not allow donate.', 'fundpress' ) );
 				}
 				// add to cart
-				$cart_item_id = donate()->cart->add_to_cart( $campaign->id, $cart_params, 1, $amount );
+				$cart_item_id = FundPress()->cart->add_to_cart( $campaign->id, $cart_params, 1, $amount );
 				if ( !$cart_item_id || is_wp_error( $cart_item_id ) ) {
 					// failed
 					throw new Exception( __( 'Something went wrong, could not add to cart item. Please try again.', 'fundpress' ) );
@@ -157,7 +157,7 @@ class DN_Checkout {
 					$addition_note = isset( $this->posted['addition'] ) ? sanitize_text_field( $this->posted['addition'] ) : '';
 
 					/* create donor */
-					$cart = donate()->cart; // cart
+					$cart = FP()->cart; // cart
 					// get donate_id from cart
 					$donor_id = $cart->donor_id;
 					if ( !$donor_id ) {
