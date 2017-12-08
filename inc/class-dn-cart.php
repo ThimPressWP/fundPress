@@ -1,296 +1,399 @@
 <?php
+/**
+ * Fundpress Cart class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-class DN_Cart {
+if ( ! class_exists( 'DN_Cart' ) ) {
+	/**
+	 * Class DN_Cart.
+	 */
+	class DN_Cart {
 
-    /**
-     * current cart items
-     * @var null
-     */
-    public $cart_contents = null;
+		/**
+		 * @var array|null
+		 */
+		public $cart_contents = null;
 
-    /** @var null * */
-    public $sessions = null;
-    public $cart_total = 0;
-    public $cart_items_count = 0;
+		/**
+		 * @var DN_Sessions|null
+		 */
+		public $sessions = null;
 
-    /**
-     * donate_cart
-     * @var null
-     */
-    public $donate_info = null;
-    public $addtion_note = null;
-    public $donate_id = null;
-    public $donor_id = null;
-    // empty cart
-    public $is_empty = true;
+		/**
+		 * @var int
+		 */
+		public $cart_total = 0;
 
-    /**
-     * instance insteadof new class();
-     * @var null
-     */
-    static $_instance = null;
+		/**
+		 * @var int
+		 */
+		public $cart_items_count = 0;
 
-    public function __construct() {
-        // load cart items
-        $this->sessions = DN_Sessions::instance( 'thimpress_donate_cart', true );
-        $this->cart_contents = $this->get_cart();
+		/**
+		 * @var DN_Sessions|null
+		 */
+		public $donate_info = null;
 
-        // refresh cart data
-        $this->refresh();
+		/**
+		 * @var null
+		 */
+		public $addtion_note = null;
 
-        $this->donate_info = DN_Sessions::instance( 'thimpress_donate_info', true );
-        $this->set_cart_information();
+		/**
+		 * @var null
+		 */
+		public $donate_id = null;
 
-        add_action( 'init', array( $this, 'process_cart' ), 99 );
-    }
+		/**
+		 * @var null
+		 */
+		public $donor_id = null;
 
-    // process remove, update cart
-    public function process_cart() {
-        if ( !isset( $_GET['donate_remove_item'] ) )
-            return;
-        
-        $redirect = donate_cart_url() ? donate_cart_url() : home_url();
-        $cart_item = sanitize_text_field( $_GET['donate_remove_item'] );
-        $this->remove_cart_item( $cart_item );
-        // redirect url
-        wp_redirect( $redirect );
-        exit();
-    }
+		/**
+		 * @var bool
+		 */
+		public $is_empty = true;
 
-    /**
-     * get list cart item
-     * @return array
-     */
-    public function get_cart() {
-        $cart_items = array();
+		/**
+		 * @var null
+		 */
+		static $_instance = null;
 
-        if ( $this->sessions && $this->sessions->session ) {
-            foreach ( $this->sessions->session as $cart_item_id => $cart_param ) {
+		/**
+		 * DN_Cart constructor.
+		 */
+		public function __construct() {
+			// load cart items
+			$this->sessions      = DN_Sessions::instance( 'thimpress_donate_cart' );
+			$this->cart_contents = $this->get_cart();
 
-                if ( isset( $cart_param['campaign_id'] ) && $cart_param['campaign_id'] ) {
-                    $param = new stdClass();
-                    // each all cart_param and add to cart_items
-                    foreach ( $cart_param as $key => $value ) {
-                        $param->{ $key } = $value;
-                    }
+			// refresh cart data
+			$this->refresh();
 
-                    $param->product_data = get_post( $param->campaign_id );
+			$this->donate_info = DN_Sessions::instance( 'thimpress_donate_info' );
+			$this->set_cart_information();
 
-                    $post_type = $param->product_data->post_type;
-                    $product_class = 'DN_Product_' . ucfirst( str_replace( 'dn_', '', $post_type ) );
-                    if ( !class_exists( $product_class ) )
-                        $product_class = 'DN_Product_Base';
+			add_action( 'init', array( $this, 'process_cart' ), 99 );
+		}
 
-                    if ( !class_exists( $product_class ) )
-                        return new WP_Error( 'donate_cart_class_process_product', __( 'Class process product is not exists', 'fundpress' ) );
+		/**
+		 * Remove, update cart.
+		 */
+		public function process_cart() {
+			if ( ! isset( $_GET['donate_remove_item'] ) ) {
+				return;
+			}
 
-                    // class process product
-                    $param->product_class = apply_filters( 'donate_product_type_class', $product_class, $post_type );
-                    $product = new $param->product_class;
+			$redirect  = donate_cart_url() ? donate_cart_url() : home_url();
+			$cart_item = sanitize_text_field( $_GET['donate_remove_item'] );
+			$this->remove_cart_item( $cart_item );
+			// redirect url
+			wp_redirect( $redirect );
+			exit();
+		}
 
-                    // amount include tax
-                    $param->total = floatval( $param->amount );
+		/**
+		 * Get list cart item.
+		 *
+		 * @return mixed|WP_Error
+		 */
+		public function get_cart() {
+			$cart_items = array();
 
-                    // add to cart_items
-                    $cart_items[$cart_item_id] = $param;
-                }
-            }
-        }
+			if ( $this->sessions && $this->sessions->session ) {
+				foreach ( $this->sessions->session as $cart_item_id => $cart_param ) {
 
-        return apply_filters( 'donate_load_cart_from_session', $cart_items );
-    }
+					if ( isset( $cart_param['campaign_id'] ) && $cart_param['campaign_id'] ) {
+						$param = new stdClass();
+						// each all cart_param and add to cart_items
+						foreach ( $cart_param as $key => $value ) {
+							$param->{$key} = $value;
+						}
 
-    /**
-     * add to cart
-     * @param integer  $campaign_id
-     * @param array   $param
-     * @param integer $qty
-     */
-    public function add_to_cart( $campaign_id = null, $params = array(), $qty = 1, $amount = 0, $asc = false ) {
-        $params = array_merge( array( 'campaign_id' => $campaign_id ), $params );
-        // generate cart item id by param
-        $cart_item_id = $this->generate_cart_id( $params );
+						$param->product_data = get_post( $param->campaign_id );
 
-        if ( in_array( $cart_item_id, $this->cart_contents ) ) {
-            if ( $qty == 0 ) {
-                // remove item when qty = 0
-                return $this->remove_cart_item( $cart_item_id );
-            }
+						$post_type     = $param->product_data->post_type;
+						$product_class = 'DN_Product_' . ucfirst( str_replace( 'dn_', '', $post_type ) );
+						if ( ! class_exists( $product_class ) ) {
+							$product_class = 'DN_Product_Base';
+						}
 
-            if ( $asc === false ) {
-                // remove item when is not asc
-                $this->remove_cart_item( $cart_item_id );
-            } else {
-                $params['quantity'] = $this->cart_contents['quantity'] + $qty;
-            }
-        } else {
-            $params['quantity'] = 1;
-        }
+						if ( ! class_exists( $product_class ) ) {
+							return new WP_Error( 'donate_cart_class_process_product', __( 'Class process product is not exists', 'fundpress' ) );
+						}
 
-        // only donate use
-        $params['amount'] = $amount;
+						// class process product
+						$param->product_class = apply_filters( 'donate_product_type_class', $product_class, $post_type );
+						$product              = new $param->product_class;
 
-        // allow hook before set sessions
-        do_action( 'donate_before_add_to_cart_item' );
+						// amount include tax
+						$param->total = floatval( $param->amount );
 
-        // set cart session
-        $this->sessions->set( $cart_item_id, $params );
+						// add to cart_items
+						$cart_items[ $cart_item_id ] = $param;
+					}
+				}
+			}
 
-        // allow hook after set sessions
-        do_action( 'donate_after_add_to_cart_item' );
+			return apply_filters( 'donate_load_cart_from_session', $cart_items );
+		}
 
-        // refresh cart data
-        $this->refresh();
-        return $cart_item_id;
-    }
+		/**
+		 * Add to cart.
+		 *
+		 * @param null $campaign_id
+		 * @param array $params
+		 * @param int $qty
+		 * @param int $amount
+		 * @param bool $asc
+		 *
+		 * @return null|string
+		 */
+		public function add_to_cart( $campaign_id = null, $params = array(), $qty = 1, $amount = 0, $asc = false ) {
+			$params = array_merge( array( 'campaign_id' => $campaign_id ), $params );
+			// generate cart item id by param
+			$cart_item_id = $this->generate_cart_id( $params );
 
-    // refresh all
-    public function refresh() {
-        // refresh cart_contents
-        $this->cart_contents = $this->get_cart();
+			if ( in_array( $cart_item_id, $this->cart_contents ) ) {
+				if ( $qty == 0 ) {
+					// remove item when qty = 0
+					return $this->remove_cart_item( $cart_item_id );
+				}
 
-        // refresh cart_totals
-        $this->cart_total = $this->get_total();
+				if ( $asc === false ) {
+					// remove item when is not asc
+					$this->remove_cart_item( $cart_item_id );
+				} else {
+					$params['quantity'] = $this->cart_contents['quantity'] + $qty;
+				}
+			} else {
+				$params['quantity'] = 1;
+			}
 
-        // refresh cart_items_count
-        $this->cart_items_count = count( $this->cart_contents );
-    }
+			// only donate use
+			$params['amount'] = $amount;
 
-    // cart totals
-    public function get_total() {
-        $total = 0;
-        foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
-            $total = $total + $cart_item->total;
-        }
-        // return total cart include tax
-        return apply_filters( 'donate_cart_totals_include_tax', $total );
-    }
+			// allow hook before set sessions
+			do_action( 'donate_before_add_to_cart_item' );
 
-    // set total
-    public function set_total() {
-        return $this->cart_total = apply_filters( 'donate_cart_set_total', 0 );
-    }
+			// set cart session
+			$this->sessions->set( $cart_item_id, $params );
 
-    // cart exclude tax
-    public function cart_total_exclude_tax() {
-        $total = 0;
-        foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
-            $total = $total + $cart_item->total;
-        }
-        // return total cart exclude tax
-        return apply_filters( 'donate_cart_exclude_totals', $total );
-    }
+			// allow hook after set sessions
+			do_action( 'donate_after_add_to_cart_item' );
 
-    // cart tax
-    public function cart_taxs() {
-        $total = 0;
-        foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
-            $total = $total + $cart_item->tax;
-        }
-        // return cart tax total
-        return apply_filters( 'donate_cart_tax_total', $total );
-    }
+			// refresh cart data
+			$this->refresh();
 
-    /**
-     * get cart item
-     */
-    public function get_cart_item( $item_key = null ) {
-        if ( $item_key && isset( $this->cart_contents[$item_key] ) )
-            return $this->cart_contents[$item_key];
+			return $cart_item_id;
+		}
 
-        return new WP_Error( 'donate_cart_item_not_exists', sprintf( '%s %s', $item_key, __( 'cart item is not exists', 'fundpress' ) ) );
-    }
+		/**
+		 * Refresh cart.
+		 */
+		public function refresh() {
+			// refresh cart_contents
+			$this->cart_contents = $this->get_cart();
 
-    /**
-     * get cart item
-     */
-    public function remove_cart_item( $item_key = null ) {
-        do_action( 'donate_remove_cart_item', $item_key );
+			// refresh cart_totals
+			$this->cart_total = $this->get_total();
 
-        if ( isset( $this->cart_contents[$item_key] ) ) {
-            unset( $this->cart_contents[$item_key] );
-        }
-        $this->sessions->set( $item_key, null );
+			// refresh cart_items_count
+			$this->cart_items_count = count( $this->cart_contents );
+		}
 
-        do_action( 'donate_removed_cart_item', $item_key );
+		/**
+		 * Get cart total.
+		 *
+		 * @return mixed
+		 */
+		public function get_total() {
+			$total = 0;
+			foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
+				$total = $total + $cart_item->total;
+			}
 
-        // return cart item removed
-        return $item_key;
-    }
+			// return total cart include tax
+			return apply_filters( 'donate_cart_totals_include_tax', $total );
+		}
 
-    // set cart information. donor_id. donate_id. addtion_note
-    public function set_cart_information( $info = array() ) {
-        $info = wp_parse_args( $info, array(
-            'addtion_note' => $this->donate_info->get( 'addtion_note' ),
-            'donate_id' => $this->donate_info->get( 'donate_id' ),
-            'donor_id' => $this->donate_info->get( 'donor_id' )
-        ) );
+		/**
+		 * Set cart total.
+		 *
+		 * @return mixed
+		 */
+		public function set_total() {
+			return $this->cart_total = apply_filters( 'donate_cart_set_total', 0 );
+		}
 
-        foreach ( $info as $key => $value ) {
-            $this->donate_info->set( $key, $value );
-            $this->{$key} = $value;
-        }
-    }
+		/**
+		 * Get total exclude tax.
+		 *
+		 * @return mixed
+		 */
+		public function cart_total_exclude_tax() {
+			$total = 0;
+			foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
+				$total = $total + $cart_item->total;
+			}
 
-    // get cart information
-    public function get_cart_information( $key = null ) {
-        $infos = array(
-            'addtion_note',
-            'donate_id',
-            'donor_id'
-        );
+			// return total cart exclude tax
+			return apply_filters( 'donate_cart_exclude_totals', $total );
+		}
 
-        if ( in_array( $key, $infos ) )
-            return $this->{$key};
-    }
+		/**
+		 * Get total include tax.
+		 *
+		 * @return mixed
+		 */
+		public function cart_taxs() {
+			$total = 0;
+			foreach ( $this->cart_contents as $cart_item_key => $cart_item ) {
+				$total = $total + $cart_item->tax;
+			}
 
-    // destroy cart
-    public function remove_cart() {
-        // remove
-        $this->cart_contents = array();
-        $this->sessions->remove();
-        $this->donate_info->remove();
+			// return cart tax total
+			return apply_filters( 'donate_cart_tax_total', $total );
+		}
 
-        // refresh cart contents
-        $this->cart_contents = array();
-        $this->refresh();
-        $this->set_cart_information( array( 'addtion_note' => '', 'donate_id' => '', 'donor_id' => '', ) );
-    }
+		/**
+		 * Get cart item.
+		 *
+		 * @param null $item_key
+		 *
+		 * @return mixed|WP_Error
+		 */
+		public function get_cart_item( $item_key = null ) {
+			if ( $item_key && isset( $this->cart_contents[ $item_key ] ) ) {
+				return $this->cart_contents[ $item_key ];
+			}
 
-    // return is empty
-    public function is_empty() {
-        return $this->is_empty = !empty( $this->cart_contents ) ? false : true;
-    }
+			return new WP_Error( 'donate_cart_item_not_exists', sprintf( '%s %s', $item_key, __( 'cart item is not exists', 'fundpress' ) ) );
+		}
 
-    /**
-     * generate cart item key
-     * @return string
-     */
-    public function generate_cart_id( $params = array() ) {
+		/**
+		 * Remove cart item.
+		 *
+		 * @param null $item_key
+		 *
+		 * @return null
+		 */
+		public function remove_cart_item( $item_key = null ) {
+			do_action( 'donate_remove_cart_item', $item_key );
 
-        $html = array();
-        ksort( $params );
-        foreach ( $params as $key => $value ) {
-            if ( is_array( $value ) ) {
-                $html[] = $key . donate_array_to_string( $value );
-            } else {
-                $html[] = $key . $value;
-            }
-        }
+			if ( isset( $this->cart_contents[ $item_key ] ) ) {
+				unset( $this->cart_contents[ $item_key ] );
+			}
+			$this->sessions->set( $item_key, null );
 
-        // return cart item id
-        return apply_filters( 'donat_generate_cart_item_id', md5( implode( '', $html ) ) );
-    }
+			do_action( 'donate_removed_cart_item', $item_key );
 
-    //instance
-    static function instance() {
-        if ( !empty( self::$_instance ) )
-            return self::$_instance;
+			// return cart item removed
+			return $item_key;
+		}
 
-        return self::$_instance = new self();
-    }
+		// set cart information. donor_id. donate_id. addtion_note
+		public function set_cart_information( $info = array() ) {
+			$info = wp_parse_args( $info, array(
+				'addtion_note' => $this->donate_info->get( 'addtion_note' ),
+				'donate_id'    => $this->donate_info->get( 'donate_id' ),
+				'donor_id'     => $this->donate_info->get( 'donor_id' )
+			) );
 
+			foreach ( $info as $key => $value ) {
+				$this->donate_info->set( $key, $value );
+				$this->{$key} = $value;
+			}
+		}
+
+		/**
+		 * Get cart information.
+		 *
+		 * @param null $key
+		 *
+		 * @return mixed
+		 */
+		public function get_cart_information( $key = null ) {
+			$infos = array(
+				'addtion_note',
+				'donate_id',
+				'donor_id'
+			);
+
+			if ( in_array( $key, $infos ) ) {
+				return $this->{$key};
+			}
+
+			return false;
+		}
+
+		/**
+		 * Destroy cart.
+		 */
+		public function remove_cart() {
+			// remove
+			$this->cart_contents = array();
+			$this->sessions->remove();
+			$this->donate_info->remove();
+
+			// refresh cart contents
+			$this->cart_contents = array();
+			$this->refresh();
+			$this->set_cart_information( array( 'addtion_note' => '', 'donate_id' => '', 'donor_id' => '', ) );
+		}
+
+		/**
+		 * Check empty cart.
+		 *
+		 * @return bool
+		 */
+		public function is_empty() {
+			return $this->is_empty = ! empty( $this->cart_contents ) ? false : true;
+		}
+
+		/**
+		 * Generate cart item key.
+		 *
+		 * @param array $params
+		 *
+		 * @return mixed
+		 */
+		public function generate_cart_id( $params = array() ) {
+
+			$html = array();
+			ksort( $params );
+			foreach ( $params as $key => $value ) {
+				if ( is_array( $value ) ) {
+					$html[] = $key . donate_array_to_string( $value );
+				} else {
+					$html[] = $key . $value;
+				}
+			}
+
+			// return cart item id
+			return apply_filters( 'donat_generate_cart_item_id', md5( implode( '', $html ) ) );
+		}
+
+		/**
+		 * Instance.
+		 *
+		 * @return DN_Cart|null
+		 */
+		static function instance() {
+			if ( ! empty( self::$_instance ) ) {
+				return self::$_instance;
+			}
+
+			return self::$_instance = new self();
+		}
+	}
 }

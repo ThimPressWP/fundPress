@@ -1,9 +1,18 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
 /**
- * Template
- * personal.php
+ * Template for displaying personal info in checkout page.
+ *
+ * This template can be overridden by copying it to yourtheme/fundpress/checkout/personal.php
+ *
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
  */
+
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 ?>
 
 <?php do_action( 'donate_before_donor_info' ); ?>

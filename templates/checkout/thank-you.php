@@ -1,9 +1,23 @@
 <?php
+/**
+ * Template for displaying thank you page after checkout.
+ *
+ * This template can be overridden by copying it to yourtheme/fundpress/checkout/thank-you.php
+ *
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
+ */
 
+/**
+ * Prevent loading this file directly
+ */
 defined( 'ABSPATH' ) || exit();
+?>
 
-donate_print_notices();
+<?php fundpress_print_notices(); ?>
 
+<?php
 if ( ! $donate ) {
 	return;
 }

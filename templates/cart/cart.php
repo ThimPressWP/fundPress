@@ -1,26 +1,34 @@
 <?php
-if( ! defined( 'ABSPATH' ) ) exit();
 /**
- * Cart is not empty
+ * Template for displaying cart page.
+ *
+ * This template can be overridden by copying it to yourtheme/fundpress/cart/cart.php
+ *
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
  */
-donate_print_notices();
+
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 ?>
+
+<?php fundpress_print_notices(); ?>
+
 <form class="donate_cart" action="<?php echo esc_attr( donate_cart_url() ) ?>">
 
 	<?php do_action( 'donate_before_cart_contents' ); ?>
 
-	<table class="donate_cart_form">
-
-		<!-- Cart head -->
+    <table class="donate_cart_form">
+        <!-- Cart title -->
 		<?php donate_get_template( 'cart/cart_title.php' ); ?>
-
-		<!-- Cart head -->
+        <!-- Cart items -->
 		<?php donate_get_template( 'cart/cart_items.php' ); ?>
-
-		<!-- Cart total -->
+        <!-- Cart total -->
 		<?php donate_get_template( 'cart/cart_total.php' ); ?>
-
-	</table>
+    </table>
 
 	<?php donate_get_template( 'cart/cart_footer.php' ); ?>
 

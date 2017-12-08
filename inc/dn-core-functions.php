@@ -1,8 +1,16 @@
 <?php
+/**
+ * Fundpress core functions.
+ *
+ * @version     2.0
+ * @package     Function
+ * @author      Thimpress, leehld
+ */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit();
-}
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
 if ( ! function_exists( 'donate_get_template' ) ) {
 
@@ -117,11 +125,11 @@ if ( ! function_exists( 'donate_payment_gateways' ) ) {
 
 }
 
-if ( ! function_exists( 'donate_payments_enable' ) ) {
+if ( ! function_exists( 'fundpress_payments_enable' ) ) {
 	/**
 	 * Get donate payment enable.
 	 */
-	function donate_payments_enable() {
+	function fundpress_payments_enable() {
 		return FP()->payment_gateways->get_payment_available();
 	}
 }
@@ -193,7 +201,7 @@ if ( ! function_exists( 'donate_get_currency' ) ) {
 	 * @return donate_get_currency
 	 */
 	function donate_get_currency() {
-		return DN_Settings::instance()->general->get( 'currency', 'USD' );
+		return FP()->settings->general->get( 'currency', 'USD' );
 	}
 
 }
@@ -392,7 +400,7 @@ if ( ! function_exists( 'donate_price' ) ) {
 if ( ! function_exists( 'donate_currency_position' ) ) {
 
 	function donate_currency_position() {
-		return apply_filters( 'donate_currency_position', DN_Settings::instance()->general->get( 'currency_position', 'left' ) );
+		return apply_filters( 'donate_currency_position', FP()->settings->general->get( 'currency_position', 'left' ) );
 	}
 
 }
@@ -403,7 +411,7 @@ if ( ! function_exists( 'donate_currency_position' ) ) {
 if ( ! function_exists( 'donate_currency_thousand' ) ) {
 
 	function donate_currency_thousand() {
-		return apply_filters( 'donate_currency_thousand', DN_Settings::instance()->general->get( 'currency_thousand', ',' ) );
+		return apply_filters( 'donate_currency_thousand', FP()->settings->general->get( 'currency_thousand', ',' ) );
 	}
 
 }
@@ -414,7 +422,7 @@ if ( ! function_exists( 'donate_currency_thousand' ) ) {
 if ( ! function_exists( 'donate_currency_separator' ) ) {
 
 	function donate_currency_separator() {
-		return apply_filters( 'donate_currency_separator', DN_Settings::instance()->general->get( 'currency_separator', '.' ) );
+		return apply_filters( 'donate_currency_separator', FP()->settings->general->get( 'currency_separator', '.' ) );
 	}
 
 }
@@ -425,7 +433,7 @@ if ( ! function_exists( 'donate_currency_separator' ) ) {
 if ( ! function_exists( 'donate_currency_decimal' ) ) {
 
 	function donate_currency_decimal() {
-		return apply_filters( 'donate_currency_decimal', DN_Settings::instance()->general->get( 'currency_num_decimal', 2 ) );
+		return apply_filters( 'donate_currency_decimal', FP()->settings->general->get( 'currency_num_decimal', 2 ) );
 	}
 
 }
@@ -455,7 +463,7 @@ if ( ! function_exists( 'donate_get_pages_setting' ) ) {
 if ( ! function_exists( 'donate_redirect_url' ) ) {
 
 	function donate_redirect_url() {
-		$rediect = DN_Settings::instance()->checkout->get( 'donate_redirect', 'checkout' );
+		$rediect = FP()->settings->checkout->get( 'donate_redirect', 'checkout' );
 
 		if ( $rediect === 'checkout' ) {
 			return donate_checkout_url();
@@ -470,7 +478,7 @@ if ( ! function_exists( 'donate_redirect_url' ) ) {
 if ( ! function_exists( 'donate_checkout_url' ) ) {
 
 	function donate_checkout_url() {
-		return get_permalink( DN_Settings::instance()->checkout->get( 'checkout_page', 1 ) );
+		return get_permalink( FP()->settings->checkout->get( 'checkout_page', 1 ) );
 	}
 
 }
@@ -479,7 +487,7 @@ if ( ! function_exists( 'donate_checkout_url' ) ) {
 if ( ! function_exists( 'donate_cart_url' ) ) {
 
 	function donate_cart_url() {
-		return get_permalink( DN_Settings::instance()->checkout->get( 'cart_page', 1 ) );
+		return get_permalink( FP()->settings->checkout->get( 'cart_page', 1 ) );
 	}
 
 }
@@ -487,7 +495,7 @@ if ( ! function_exists( 'donate_cart_url' ) ) {
 if ( ! function_exists( 'donate_term_condition_url' ) ) {
 
 	function donate_term_condition_url() {
-		$page_id = DN_Settings::instance()->checkout->get( 'term_condition_page', 1 );
+		$page_id = FP()->settings->checkout->get( 'term_condition_page', 1 );
 
 		if ( ! $page_id ) {
 			return;
@@ -526,7 +534,7 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 
 		if ( false === ( $rate = get_transient( $name ) ) ) {
 			// disable convert currency by yahoo api
-			// $type = DN_Settings::instance()->general->get('aggregator', 'yahoo');
+			// $type = FP()->settings->general->get('aggregator', 'yahoo');
 
 			$type = 'google';
 
@@ -728,12 +736,11 @@ if ( ! function_exists( 'donate_has_notice' ) ) {
 
 }
 
-/**
- * show message
- */
-if ( ! function_exists( 'donate_print_notices' ) ) {
-
-	function donate_print_notices() {
+if ( ! function_exists( 'fundpress_print_notices' ) ) {
+	/**
+	 * Print notice.
+	 */
+	function fundpress_print_notices() {
 		if ( empty( $_SESSION['donate_messages'] ) ) {
 			return;
 		}
@@ -959,12 +966,15 @@ if ( ! function_exists( 'donate_get_donors' ) ) {
 
 }
 
-if ( ! function_exists( 'donate_is_ajax_request' ) ) {
-
-	function donate_is_ajax_request() {
+if ( ! function_exists( 'fundpress_is_ajax_request' ) ) {
+	/**
+	 * Check ajax request.
+	 *
+	 * @return bool
+	 */
+	function fundpress_is_ajax_request() {
 		return defined( 'DOING_AJAX' ) && DOING_AJAX === true;
 	}
-
 }
 
 if ( ! function_exists( 'donate_get_donate_items' ) ) {
@@ -990,7 +1000,7 @@ if ( ! function_exists( 'donate_is_thankyou_page' ) ) {
 
 	function donate_is_thankyou_page() {
 		global $post;
-		$checkout_page_id = DN_Settings::instance()->checkout->get( 'checkout_page', 1 );
+		$checkout_page_id = FP()->settings->checkout->get( 'checkout_page', 1 );
 		if ( isset( $post->ID ) && $post->ID == $checkout_page_id && ! empty( $_GET['thank-you'] ) && ! empty( $_GET['donate-id'] ) ) {
 			return true;
 		}

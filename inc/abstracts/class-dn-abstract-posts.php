@@ -1,117 +1,159 @@
 <?php
+/**
+ * Fundpress Abstract posts class.
+ *
+ * @version     2.0
+ * @package     Abstract class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-abstract class DN_Post_Base {
+if ( ! class_exists( 'DN_Post_Base' ) ) {
+	/**
+	 * Class DN_Post_Base.
+	 */
+	abstract class DN_Post_Base {
 
-    /**
-     * ID of Post
-     * @var null
-     */
-    public $id = null;
+		/**
+		 * @var int|null
+		 */
+		public $id = null;
 
-    /**
-     * post
-     * @var null
-     */
-    protected $post = null;
+		/**
+		 * @var int|null|string|WP_Post
+		 */
+		protected $post = null;
 
-    /**
-     * meta prefix of post type
-     * @var null
-     */
-    protected $meta_prefix = null;
+		/**
+		 * @var null
+		 */
+		protected $meta_prefix = null;
 
-    /**
-     * post type
-     * @var null
-     */
-    protected $post_type = null;
+		/**
+		 * @var null
+		 */
+		protected $post_type = null;
 
-    public function __construct( $post = null ) {
-        if ( is_numeric( $post ) )
-            $this->post = get_post( $post );
+		/**
+		 * DN_Post_Base constructor.
+		 *
+		 * @param null $post
+		 */
+		public function __construct( $post = null ) {
+			if ( is_numeric( $post ) ) {
+				$this->post = get_post( $post );
+			}
 
-        if ( $post instanceof WP_Post )
-            $this->post = $post;
+			if ( $post instanceof WP_Post ) {
+				$this->post = $post;
+			}
 
-        if ( $this->post ) {
-            $this->id = $this->post->ID;
-        }
-    }
+			if ( $this->post ) {
+				$this->id = $this->post->ID;
+			}
+		}
 
-    /**
-     * get key of post
-     * @param $key
-     * @return *
-     */
-    public function __get( $key ) {
-        if ( !$this->post ) {
-            return;
-        }
+		/**
+		 * Get key of post.
+		 *
+		 * @param $key
+		 *
+		 * @return mixed
+		 */
+		public function __get( $key ) {
+			if ( ! $this->post ) {
+				return false;
+			}
 
-        if ( $this->post->{$key} ) {
-            return $this->post->{$key};
-        }
+			if ( $this->post->{$key} ) {
+				return $this->post->{$key};
+			}
 
-        if ( metadata_exists( 'post', $this->id, $this->meta_prefix . $key ) ) {
-            return $this->get_meta( $key );
-        }
-    }
+			if ( metadata_exists( 'post', $this->id, $this->meta_prefix . $key ) ) {
+				return $this->get_meta( $key );
+			}
 
-    // get post meta
-    public function get_meta( $key, $unique = true ) {
-        if ( $meta = get_post_meta( $this->id, $this->meta_prefix . $key, $unique ) ) {
-            return $meta;
-        }
-    }
+			return false;
+		}
 
-    /* get campaign title */
+		/**
+		 * Get post meta.
+		 *
+		 * @param $key
+		 * @param bool $unique
+		 *
+		 * @return mixed
+		 */
+		public function get_meta( $key, $unique = true ) {
+			if ( $meta = get_post_meta( $this->id, $this->meta_prefix . $key, $unique ) ) {
+				return $meta;
+			}
 
-    public function get_title() {
-        return get_the_title( $this->id );
-    }
+			return false;
+		}
 
-    // update post meta
-    public function update_meta( $key, $value ) {
-        update_post_meta( $this->id, $this->meta_prefix . $key, $value );
-    }
+		/**
+		 * Get title.
+		 *
+		 * @return string
+		 */
+		public function get_title() {
+			return get_the_title( $this->id );
+		}
 
-    // set post meta
-    public function set_meta( $key, $val = '', $unique = false ) {
-        if ( $key ) {
-            update_post_meta( $this->id, $this->meta_prefix . $key, $val, $unique );
-        }
-    }
+		/**
+		 * Update post meta.
+		 *
+		 * @param $key
+		 * @param $value
+		 */
+		public function update_meta( $key, $value ) {
+			update_post_meta( $this->id, $this->meta_prefix . $key, $value );
+		}
 
-    /**
-     * create post with post type = $this->post_type
-     * @param  array  $args
-     * @return
-     */
-    public function create_post( $args = array() ) {
-        $default = array(
-            'post_title' => '',
-            'post_content' => '',
-            'post_author' => 1,
-            'post_status' => 'publish',
-            'post_type' => $this->post_type
-        );
+		/**
+		 * Set post meta.
+		 *
+		 * @param $key
+		 * @param string $val
+		 * @param bool $unique
+		 */
+		public function set_meta( $key, $val = '', $unique = false ) {
+			if ( $key ) {
+				update_post_meta( $this->id, $this->meta_prefix . $key, $val, $unique );
+			}
+		}
 
-        $default = apply_filters( 'donate_create_post_default', $default, $this->post_type );
+		/**
+		 * Create post.
+		 *
+		 * @param array $args
+		 *
+		 * @return int|WP_Error
+		 */
+		public function create_post( $args = array() ) {
+			$default = array(
+				'post_title'   => '',
+				'post_content' => '',
+				'post_author'  => 1,
+				'post_status'  => 'publish',
+				'post_type'    => $this->post_type
+			);
 
-        $post = wp_parse_args( $args, $default );
+			$post = wp_parse_args( $args, $default );
 
-        $default = apply_filters( 'donate_create_post_default', $default, $this->post_type );
+			do_action( 'donate_before_insert_post', $this->post_type );
 
-        do_action( 'donate_before_insert_post', $this->post_type );
+			$id = wp_insert_post( $post, true );
 
-        $id = wp_insert_post( $post, true );
+			do_action( 'donate_after_insert_post', $id );
 
-        do_action( 'donate_after_insert_post', $id );
+			return $id;
+		}
 
-        return $id;
-    }
-
+	}
 }

@@ -26,7 +26,7 @@ define( 'FUNDPRESS_TEMP', FUNDPRESS_PATH . 'templates/' );
 define( 'FUNDPRESS_INC_URI', FUNDPRESS_URI . '/inc' );
 define( 'FUNDPRESS_ASSETS_URI', FUNDPRESS_URI . '/assets' );
 define( 'FUNDPRESS_LIB_URI', FUNDPRESS_INC_URI . '/libraries' );
-define( 'FUNDPRESS_VER', '1.3' );
+define( 'FUNDPRESS_VER', '2.0' );
 
 // define meta post type
 define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
@@ -78,12 +78,8 @@ if ( ! class_exists( 'FundPress' ) ) {
 		 * FundPress constructor.
 		 */
 		public function __construct() {
-
 			$this->includes();
-
 			$this->init_hooks();
-
-			$GLOBALS['dn_settings'] = $this->options = DN_Settings::instance();
 		}
 
 		/**
@@ -97,6 +93,9 @@ if ( ! class_exists( 'FundPress' ) ) {
 			// autoload abstracts and settings classes
 			$paths = array( 'abstracts', 'settings' );
 			$this->_autoload( $paths );
+
+			// settings (autoload settings load before plugin loaded)
+			$this->settings = DN_Settings::instance();
 
 			if ( is_admin() ) {
 				$this->_include( 'inc/admin/class-dn-admin.php' );
@@ -138,12 +137,16 @@ if ( ! class_exists( 'FundPress' ) ) {
 			}
 		}
 
+		/**
+		 * Init hooks.
+		 */
 		public function init_hooks() {
-
 			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		}
 
-		// plugins loaded hook
+		/**
+		 * Plugins loaded hook.
+		 */
 		public function plugins_loaded() {
 			// load text domain
 			$this->load_text_domain();
@@ -154,8 +157,6 @@ if ( ! class_exists( 'FundPress' ) ) {
 			$this->checkout = DN_Checkout::instance();
 			// payment gateways
 			$this->payment_gateways = DN_Payment_Gateways::instance();
-			// settings
-			$this->settings = DN_Settings::instance();
 		}
 
 		/**
@@ -224,14 +225,6 @@ if ( ! class_exists( 'FundPress' ) ) {
 		}
 
 		/**
-		 * load options object class
-		 * @return object class
-		 */
-		public function options() {
-			return DN_Settings::instance();
-		}
-
-		/**
 		 * Filter cmb2 meta box url.
 		 *
 		 * @param string $url
@@ -262,7 +255,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 /**
  * Short way to load main instance of plugin.
  *
- * @since 1.3
+ * @since 2.0
  *
  * @return FundPress|null
  */
