@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin settings view.
+ * Admin view: Settings page.
  *
  * @version     2.0
  * @package     View

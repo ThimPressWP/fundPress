@@ -39,9 +39,9 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 					return;
 				}
 
-				add_action( 'wp_ajax_donate_' . $action, array( $this, $action ) );
+				add_action( 'wp_ajax_donate_' . $action, array( $this, 'donate_' . $action ) );
 				if ( $nopriv ) {
-					add_action( 'wp_ajax_nopriv_donate_' . $action, array( $this, $action ) );
+					add_action( 'wp_ajax_nopriv_donate_' . $action, array( $this, 'donate_' . $action ) );
 				}
 			}
 		}

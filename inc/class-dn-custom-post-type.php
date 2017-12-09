@@ -110,7 +110,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 					'not_found_in_trash' => __( 'No donates found in Trash.', 'fundpress' )
 				),
 				'description'        => __( 'Donates', 'fundpress' ),
-				'public'             => true,
+				'public'             => false,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
 				'show_in_menu'       => 'tp_donate',
@@ -120,9 +120,8 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'has_archive'        => false,
 				'hierarchical'       => false,
 				'menu_position'      => null,
-				'supports'           => array( 'author' ),
-				'capabilities'       => array(// 'create_posts'       => false,
-				),
+				'supports'           => false,
+				'capabilities'       => array(),
 				'map_meta_cap'       => true
 			);
 
@@ -174,7 +173,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 					'not_found_in_trash' => __( 'No donors found in Trash.', 'fundpress' )
 				),
 				'description'        => __( 'Donors', 'fundpress' ),
-				'public'             => true,
+				'public'             => false,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
 				'show_in_menu'       => 'tp_donate',
@@ -184,7 +183,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'has_archive'        => false,
 				'hierarchical'       => false,
 				'menu_position'      => null,
-				'supports'           => array( 'author' ),
+				'supports'           => false,
 				'capabilities'       => array(
 					'create_posts' => false
 				),
@@ -346,10 +345,10 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 			$html     = '';
 			switch ( $column ) {
 				case 'start':
-					$html = $campaign->start ? sprintf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->start ) ) ) : '---';
+					$html = $campaign->start ? sprintf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->start ) ) ) : '—';
 					break;
 				case 'end':
-					$html = $campaign->end ? sprintf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '---';
+					$html = $campaign->end ? sprintf( '%s', date_i18n( get_option( 'date_format', 'Y-m-d' ), strtotime( $campaign->end ) ) ) : '—';
 					break;
 				case 'funded':
 					$html = sprintf( '%s', donate_get_campaign_percent() . '%' );
@@ -390,7 +389,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 			unset( $columns['title'], $columns['author'], $columns['date'] );
 			$columns['donate_title']          = apply_filters( 'donate_add_column_donate_title', __( 'Donate', 'fundpress' ) );
 			$columns['donate_user']           = apply_filters( 'donate_add_column_donate_user', __( 'User', 'fundpress' ) );
-			$columns['donate_type']           = apply_filters( 'donate_add_column_donate_type', __( 'Type', 'fundpress' ) );
+			$columns['donate_type']           = apply_filters( 'donate_add_column_donate_type', __( 'Donate For', 'fundpress' ) );
 			$columns['donate_date']           = apply_filters( 'donate_add_column_donate_date', __( 'Date', 'fundpress' ) );
 			$columns['donate_total']          = apply_filters( 'donate_add_column_donate_total', __( 'Total', 'fundpress' ) );
 			$columns['donate_payment_method'] = apply_filters( 'donate_add_column_donate_payment_method', __( 'Method', 'fundpress' ) );
@@ -418,7 +417,8 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 					printf( '%s', date_i18n( get_option( 'date_format' ), strtotime( get_post_field( 'post_date', $post_id ) ) ) );
 					break;
 				case 'donate_total':
-					printf( '%s', donate_price( $donate->total, $donate->currency ) );
+					$total = $donate->total ? $donate->total : 0;
+					printf( '%s', donate_price( $total ) );
 					break;
 				case 'donate_user':
 					if ( $donate->user_id ) {
@@ -430,16 +430,18 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 					break;
 				case 'donate_type':
 					if ( $donate->type === 'system' ) {
-						_e( 'Donate For System', 'fundpress' );
+						_e( 'System', 'fundpress' );
 					} else {
-						_e( 'Donate For Campaign', 'fundpress' );
+						_e( 'Campaign', 'fundpress' );
 					}
 					break;
 				case 'donate_payment_method':
-					$payment         = $donate->payment_method;
+					$payment         = $donate->payment_method ? $donate->payment_method : '';
 					$payments_enable = donate_payment_gateways();
 					if ( array_key_exists( $payment, $payments_enable ) ) {
 						echo $payments_enable[ $payment ]->_title;
+					} else {
+						echo '—';
 					}
 					break;
 				case 'donate_status':
@@ -611,7 +613,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 		public function donor_meta_info() {
 			$prefix = TP_DONATE_META_DONOR;
 
-			$cmb    = new_cmb2_box( array(
+			$cmb = new_cmb2_box( array(
 				'id'           => 'donor_info',
 				'title'        => __( 'Donor Info', 'fundpress' ),
 				'object_types' => array( 'dn_donor' ), // post type
