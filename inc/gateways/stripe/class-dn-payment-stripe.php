@@ -81,7 +81,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 						array(
 							'type'    => 'select',
 							'label'   => __( 'Enable', 'fundpress' ),
-							'desc'    => __( 'This controlls enable payment method', 'fundpress' ),
+							'desc'    => __( 'This controls enable payment method', 'fundpress' ),
 							'atts'    => array(
 								'id'    => 'stripe_enable',
 								'class' => 'stripe_enable'

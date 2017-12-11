@@ -95,7 +95,7 @@ if ( ! class_exists( 'DN_Install' ) ) {
 			}
 
 			if ( ! function_exists( 'donate_create_page' ) ) {
-				FP()->_include( 'inc/admin/functions.php' );
+				FP()->_include( 'inc/admin/dn-admin-functions.php' );
 			}
 
 			if ( $pages && function_exists( 'donate_create_page' ) ) {

@@ -1,36 +1,52 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit();
-}
+/**
+ * Fundpress Setting general class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-class DN_Setting_General extends DN_Setting_Base {
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
+
+if ( ! class_exists( 'DN_Setting_General' ) ) {
 	/**
-	 * setting id
-	 * @var string
+	 * Class DN_Setting_General.
 	 */
-	public $_id = 'general';
+	class DN_Setting_General extends DN_Setting_Base {
+		/**
+		 * @var string
+		 */
+		public $_id = 'general';
 
-	/**
-	 * _title
-	 * @var null
-	 */
-	public $_title = null;
+		/**
+		 * @var null|string|void
+		 */
+		public $_title = null;
 
-	/**
-	 * $_position
-	 * @var integer
-	 */
-	public $_position = 10;
+		/**
+		 * @var int
+		 */
+		public $_position = 10;
 
-	public function __construct() {
-		$this->_title = __( 'General', 'fundpress' );
-		parent::__construct();
-	}
+		/**
+		 * DN_Setting_General constructor.
+		 */
+		public function __construct() {
+			$this->_title = __( 'General', 'fundpress' );
+			parent::__construct();
+		}
 
-	// render fields
-	public function load_field() {
-		return
-			array(
+		/**
+		 * Setting fields.
+		 *
+		 * @return array
+		 */
+		public function load_field() {
+			return array(
 				array(
 					'title'  => __( 'Currency settings', 'fundpress' ),
 					'desc'   => __( 'The following options affect how prices are displayed on the frontend.', 'fundpress' ),
@@ -128,33 +144,8 @@ class DN_Setting_General extends DN_Setting_Base {
 					)
 				)
 			);
+		}
 	}
-
 }
 
 $GLOBALS['general_settings'] = new DN_Setting_General();
-
-if ( ! function_exists( 'donation_system_total_amount' ) ) {
-	function donation_system_total_amount( $field ) {
-		?>
-        <tr>
-            <th>
-				<?php if ( isset( $field['label'] ) ) : ?>
-                    <label for="<?php echo esc_attr( $field['name'] ) ?>"><?php printf( '%s', $field['label'] ) ?></label>
-					<?php if ( isset( $field['desc'] ) ) : ?>
-                        <p>
-                            <small><?php printf( '%s', $field['desc'] ) ?></small>
-                        </p>
-					<?php endif; ?>
-				<?php endif; ?>
-            </th>
-            <td>
-                <input type="text"
-                       value="<?php echo esc_attr( donate_price( donate_amount_system(), donate_get_currency() ) ); ?>"
-                       readonly="readonly"/>
-            </td>
-        </tr>
-
-		<?php
-	}
-}

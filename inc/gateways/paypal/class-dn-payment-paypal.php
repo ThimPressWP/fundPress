@@ -152,7 +152,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 						array(
 							'type'    => 'select',
 							'label'   => __( 'Enable', 'fundpress' ),
-							'desc'    => __( 'This controlls enable payment method', 'fundpress' ),
+							'desc'    => __( 'This controls enable payment method', 'fundpress' ),
 							'atts'    => array(
 								'id'    => 'paypal_enable',
 								'class' => 'paypal_enable'

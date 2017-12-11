@@ -1329,3 +1329,28 @@ if ( ! function_exists( 'donate_18n_languages' ) ) {
 		return apply_filters( 'donate_i18n', $i18n );
 	}
 }
+
+if ( ! function_exists( 'donation_system_total_amount' ) ) {
+	function donation_system_total_amount( $field ) {
+		?>
+        <tr>
+            <th>
+				<?php if ( isset( $field['label'] ) ) : ?>
+                    <label for="<?php echo esc_attr( $field['name'] ) ?>"><?php printf( '%s', $field['label'] ) ?></label>
+					<?php if ( isset( $field['desc'] ) ) : ?>
+                        <p>
+                            <small><?php printf( '%s', $field['desc'] ) ?></small>
+                        </p>
+					<?php endif; ?>
+				<?php endif; ?>
+            </th>
+            <td>
+                <input type="text"
+                       value="<?php echo esc_attr( donate_price( donate_amount_system(), donate_get_currency() ) ); ?>"
+                       readonly="readonly"/>
+            </td>
+        </tr>
+
+		<?php
+	}
+}

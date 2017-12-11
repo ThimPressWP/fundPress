@@ -1,9 +1,29 @@
 <?php
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Fundpress admin functions.
+ *
+ * @version     2.0
+ * @package     Function
+ * @author      Thimpress, leehld
+ */
+
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
 if ( !function_exists( 'donate_create_page' ) ) {
-
+	/**
+     * Create page.
+     *
+	 * @param $slug
+	 * @param string $option
+	 * @param string $page_title
+	 * @param string $page_content
+	 * @param int $post_parent
+	 *
+	 * @return int|mixed|WP_Error
+	 */
     function donate_create_page( $slug, $option = '', $page_title = '', $page_content = '', $post_parent = 0 ) {
         global $wpdb;
 
@@ -75,8 +95,16 @@ if ( !function_exists( 'donate_create_page' ) ) {
 }
 
 add_filter( 'post_row_actions', 'donate_post_row_actions', 10, 2 );
-if ( !function_exists( 'donate_post_row_actions' ) ) {
 
+if ( !function_exists( 'donate_post_row_actions' ) ) {
+	/**
+     * Remove view link in admin for donate, donor.
+     *
+	 * @param $rows
+	 * @param $post
+	 *
+	 * @return mixed
+	 */
     function donate_post_row_actions( $rows, $post ) {
         if ( in_array( $post->post_type, array( 'dn_donor', 'dn_donate' ) ) ) {
             unset( $rows['view'] );
@@ -87,8 +115,11 @@ if ( !function_exists( 'donate_post_row_actions' ) ) {
 }
 
 add_action( 'admin_notices', 'donate_print_admin_notices' );
-if ( !function_exists( 'donate_print_admin_notices' ) ) {
 
+if ( !function_exists( 'donate_print_admin_notices' ) ) {
+	/**
+	 * Print admin notice.
+	 */
     function donate_print_admin_notices() {
         $notices = get_option( 'donate_admin_notices', array() );
         if ( $notices ) {
@@ -108,7 +139,13 @@ if ( !function_exists( 'donate_print_admin_notices' ) ) {
 }
 
 if ( !function_exists( 'donate_has_admin_notice' ) ) {
-
+	/**
+     * Check admin has notice.
+     *
+	 * @param string $type
+	 *
+	 * @return bool
+	 */
     function donate_has_admin_notice( $type = 'error' ) {
         $notices = get_option( 'donate_admin_notices', array() );
         return isset( $notices[$type] ) && !empty( $notices[$type] );
@@ -117,7 +154,12 @@ if ( !function_exists( 'donate_has_admin_notice' ) ) {
 }
 
 if ( !function_exists( 'donate_add_admin_notices' ) ) {
-
+	/**
+     * Add admin notice.
+     *
+	 * @param string $type
+	 * @param string $message
+	 */
     function donate_add_admin_notices( $type = 'error', $message = '' ) {
         $notices = get_option( 'donate_admin_notices', array() );
         if ( !isset( $notices[$type] ) ) {
@@ -126,5 +168,4 @@ if ( !function_exists( 'donate_add_admin_notices' ) ) {
         $notices[$type][] = $message;
         update_option( 'donate_admin_notices', $notices );
     }
-
 }
