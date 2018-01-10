@@ -204,7 +204,7 @@ if ( ! class_exists( 'DN_Donate' ) ) {
 		 * @param $status
 		 */
 		public function send_email( $status ) {
-			if ( $status === 'donate-completed' && $donor = $this->get_donor() ) {
+			if ( $status === 'completed' && $donor = $this->get_donor() ) {
 				DN_Email::instance()->send_email_donate_completed( $donor );
 			}
 		}

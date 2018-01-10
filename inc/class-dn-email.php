@@ -34,9 +34,9 @@ if ( ! class_exists( 'DN_Email' ) ) {
 			}
 
 			// email template
-			$email_template = FP()->settings->email->get( 'email_template' );
+			$email_template = FP()->settings->email->get( 'email_template' ) ? FP()->settings->email->get( 'email_template' ) : '';
 			$email          = $donor->get_meta( 'email' );
-			if ( $email && $email_template ) {
+			if ( $email ) {
 				$subject = __( 'Donate completed', 'fundpress' );
 
 				$replace = array(
@@ -90,6 +90,7 @@ if ( ! class_exists( 'DN_Email' ) ) {
 			if ( FP()->settings->email->get( 'enable', 'yes' ) === 'yes' ) {
 				return true;
 			}
+
 			return false;
 		}
 
@@ -100,7 +101,7 @@ if ( ! class_exists( 'DN_Email' ) ) {
 		 *
 		 * @return mixed
 		 */
-		private function set_email_from( $email ) {
+		public function set_email_from( $email ) {
 			if ( $donate_email = FP()->settings->email->get( 'admin_email' ) ) {
 				return $donate_email;
 			}
@@ -115,7 +116,7 @@ if ( ! class_exists( 'DN_Email' ) ) {
 		 *
 		 * @return string
 		 */
-		private function set_email_name( $name ) {
+		public function set_email_name( $name ) {
 			if ( $donate_name = FP()->settings->email->get( 'from_name' ) ) {
 				return sanitize_title( $donate_name );
 			}
@@ -130,7 +131,7 @@ if ( ! class_exists( 'DN_Email' ) ) {
 		 *
 		 * @return string
 		 */
-		private function email_content_type( $type ) {
+		public function email_content_type( $type ) {
 			return 'text/html';
 		}
 
@@ -141,7 +142,7 @@ if ( ! class_exists( 'DN_Email' ) ) {
 		 *
 		 * @return string
 		 */
-		private function email_charset( $chartset ) {
+		public function email_charset( $chartset ) {
 			return 'UTF-8';
 		}
 
