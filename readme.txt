@@ -102,6 +102,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 = 2.0 =
 - Restructure core
 
+= 1.4 =
+- Fix convert currency issue
+
 = 1.3 =
 - Update donate email process
 

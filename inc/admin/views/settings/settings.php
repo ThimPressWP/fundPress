@@ -21,7 +21,7 @@ if ( $donate_setting ) {
 
     <form method="POST" name="tp_donate_options" action="options.php">
 
-		<?php settings_fields( $this->settings->_options->_prefix ); ?>
+		<?php settings_fields( $this->settings->_prefix ); ?>
 
         <div class="wrap tp_donate_setting_wrapper">
             <!--tabs-->

@@ -11,9 +11,6 @@
  * Prevent loading this file directly
  */
 defined( 'ABSPATH' ) || exit();
-?>
-
-<?php
 
 if ( ! session_id() ) {
 	session_start();

@@ -11,13 +11,9 @@
  * Prevent loading this file directly
  */
 defined( 'ABSPATH' ) || exit();
-?>
 
-<?php
-
-if ( ! defined( 'TP_DONATE_INSTALLING' ) ) {
-	exit();
-}
+// plugin install
+defined( 'TP_DONATE_INSTALLING' ) || exit();
 
 global $wpdb;
 $sql     = $wpdb->prepare( "

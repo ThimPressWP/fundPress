@@ -21,7 +21,10 @@ if ( ! class_exists( 'DN_Install' ) ) {
 		/**
 		 * @var array
 		 */
-		private static $update_db = array( '1.0.3' => 'inc/admin/upgrade/upgrade_1.0.3.php' );
+		private static $update_db = array(
+			'1.0.3' => 'inc/admin/upgrade/upgrade_1.0.3.php',
+			'1.4'   => 'inc/admin/upgrade/upgrade_1.4.php'
+		);
 
 		/**
 		 * @var array

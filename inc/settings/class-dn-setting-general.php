@@ -73,8 +73,7 @@ if ( ! class_exists( 'DN_Setting_General' ) ) {
 							),
 							'name'    => 'aggregator',
 							'options' => array(
-								'google' => 'http://google.com/finance',
-								'yahoo'  => 'http://finance.yahoo.com'
+								'google' => 'http://google.com/finance'
 							),
 							'default' => 'google'
 						),
