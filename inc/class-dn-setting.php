@@ -1,137 +1,183 @@
 <?php
+/**
+ * Fundpress Settings class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-class DN_Settings {
+if ( ! class_exists( 'DN_Settings' ) ) {
+	/**
+	 * Class DN_Settings.
+	 */
+	class DN_Settings {
 
-    /**
-     * $_options
-     * @var null
-     */
-    public $_options = null;
-    public $_id = null;
+		/**
+		 * @var null
+		 */
+		public $_options = null;
 
-    /**
-     * prefix option name
-     * @var string
-     */
-    public $_prefix = 'thimpress_donate';
+		/**
+		 * @var null
+		 */
+		public $_id = null;
 
-    /**
-     * _instance
-     * @var null
-     */
-    static $_instance = null;
+		/**
+		 * @var null|string
+		 */
+		public $_prefix = 'thimpress_donate';
 
-    public function __construct( $prefix = null, $id = null ) {
-        if ( $prefix ) {
-            $this->_prefix = $prefix;
-        }
+		/**
+		 * @var null
+		 */
+		static $_instance = null;
 
-        $this->_id = $id;
+		public function __construct( $id = null ) {
 
-        // load options
-        $this->options();
+			$this->_id = $id;
 
-        // save, update setting
-        add_filter( 'donate_admnin_menus', array( $this, 'setting_page' ), 10, 1 );
-        add_action( 'admin_init', array( $this, 'register_setting' ) );
-    }
+			// load options
+			$this->options();
 
-    public function __get( $id = null ) {
-        $settings = apply_filters( 'donate_settings_field', array() );
-        if ( array_key_exists( $id, $settings ) ) {
-            return $settings[$id];
-        }
-        return null;
-    }
+			// save, update setting
+			add_filter( 'donate_admin_menus', array( $this, 'register_setting_menu' ), 10, 1 );
+			add_action( 'admin_init', array( $this, 'register_setting' ) );
+		}
 
-    /**
-     * generate setting page
-     * @param  $menus array
-     * @return array $menus
-     */
-    public function setting_page( $menus ) {
-        $menus[] = array( 'tp_donate', __( 'TP Donate Settings', 'fundpress' ), __( 'Settings', 'fundpress' ), 'manage_options', 'tp_donate_setting', array( $this, 'register_options_page' ) );
-        return $menus;
-    }
+		/**
+		 * Magic function to get setting.
+		 *
+		 * @param null $id
+		 *
+		 * @return null
+		 */
+		public function __get( $id = null ) {
+			$settings = apply_filters( 'donate_settings_field', array() );
+			if ( array_key_exists( $id, $settings ) ) {
+				return $settings[ $id ];
+			}
 
-    /**
-     * register option page
-     * @return
-     */
-    public function register_options_page() {
-        donate()->_include( 'inc/admin/views/settings/settings.php' );
-    }
+			return null;
+		}
 
-    public function register_setting() {
-        register_setting( $this->_prefix, $this->_prefix );
-    }
+		/**
+		 * Register setting page.
+		 *
+		 * @param $menus
+		 *
+		 * @return array
+		 */
+		public function register_setting_menu( $menus ) {
+			$menus[] = array(
+				'tp_donate',
+				__( 'Fundpress Settings', 'fundpress' ),
+				__( 'Settings', 'fundpress' ),
+				'manage_options',
+				'tp_donate_setting',
+				array( $this, 'setting_page' )
+			);
 
-    /**
-     * options load options
-     * @return array || null
-     */
-    protected function options() {
-        if ( $this->_options )
-            return $this->_options;
+			return $menus;
+		}
 
-        return $this->_options = get_option( $this->_prefix, null );
-    }
+		/**
+		 * Admin settings page.
+		 */
+		public function setting_page() {
+			FP()->_include( 'inc/admin/views/settings/settings.php' );
+		}
 
-    /**
-     * get_name_field
-     * @param  $name of field option
-     * @return string name field
-     */
-    public function get_field_name( $name = null ) {
-        if ( !$this->_prefix || !$name )
-            return;
+		/**
+		 * Register setting.
+		 */
+		public function register_setting() {
+			register_setting( $this->_prefix, $this->_prefix );
+		}
 
-        return $this->_prefix . '[' . $name . ']';
-    }
+		/**
+		 * Load options.
+		 *
+		 * @return mixed|null
+		 */
+		protected function options() {
+			if ( $this->_options ) {
+				return $this->_options;
+			}
 
-    /**
-     * get_name_field
-     * @param  $name of field option
-     * @return string name field
-     */
-    public function get_field_id( $name = null, $default = null ) {
-        if ( !$this->_prefix || !$name ) {
-            return;
-        }
+			return $this->_options = get_option( $this->_prefix, null );
+		}
 
-        return $this->_prefix . '_' . $name;
-    }
+		/**
+		 * Get field name.
+		 *
+		 * @param null $name
+		 *
+		 * @return string
+		 */
+		public function get_field_name( $name = null ) {
+			if ( ! $this->_prefix || ! $name ) {
+				return '';
+			}
 
-    /**
-     * get option value
-     * @param  $name
-     * @return option value. array, string, boolean
-     */
-    public function get( $name = null, $default = null ) {
-        if ( !$this->_options ) {
-            $this->_options = $this->options();
-        }
+			return $this->_prefix . '[' . $name . ']';
+		}
 
-        if ( $name && isset( $this->_options[$name] ) )
-            return $this->_options[$name];
+		/**
+		 * Get field id.
+		 *
+		 * @param null $name
+		 * @param null $default
+		 *
+		 * @return string
+		 */
+		public function get_field_id( $name = null, $default = null ) {
+			if ( ! $this->_prefix || ! $name ) {
+				return '';
+			}
 
-        return $default;
-    }
+			return $this->_prefix . '_' . $name;
+		}
 
-    /**
-     * instance
-     * @param  $prefix
-     * @return object class
-     */
-    static function instance( $prefix = null, $id = null ) {
+		/**
+		 * Get option value.
+		 *
+		 * @param null $name
+		 * @param null $default
+		 *
+		 * @return null
+		 */
+		public function get( $name = null, $default = null ) {
+			if ( ! $this->_options ) {
+				$this->_options = $this->options();
+			}
 
-        if ( !empty( self::$_instance[$prefix] ) )
-            return self::$_instance[$prefix];
+			if ( $name && isset( $this->_options[ $name ] ) ) {
+				return $this->_options[ $name ];
+			}
 
-        return self::$_instance[$prefix] = new self( $prefix, $id );
-    }
+			return $default;
+		}
 
+		/**
+		 * Instance.
+		 *
+		 * @param null $prefix
+		 * @param null $id
+		 *
+		 * @return DN_Settings
+		 */
+		static function instance( $prefix = null, $id = null ) {
+			if ( ! empty( self::$_instance[ $prefix ] ) ) {
+				return self::$_instance[ $prefix ];
+			}
+
+			return self::$_instance[ $prefix ] = new self( $id );
+		}
+	}
 }

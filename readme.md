@@ -1,15 +1,17 @@
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()
+[![Coveralls](https://img.shields.io/coveralls/jekyll/jekyll.svg)]()
 
-##What is FundPress?
+## What is FundPress?
 
 **<a href="" target="_blank">WordPress donation plugin</a>** - FundPress is an all in one *WordPress donation plugin*, helping you create donation and crowdfunding campaigns on your website. By using FundPress, you can make a platform to find the resources and support you need to make your ideas come true.
 
 FundPress is powerful and easy **WordPress donate plugin** to use. This plugin is inspired by Charity WP, a premium **[Charity WordPress Theme](https://themeforest.net/item/charity-wordpress-theme-charity-wp/15593989?ref=ThimPress&utm_source=tpdonatewporg&utm_medium=desc)** made by **[ThimPress]()**. Consider using this theme to effectively kick start your charity and fundraising website.
 
-##Who should use FundPress?
+## Who should use FundPress?
 
 FundPress is ideal for charity and nonprofit organizations, donation websites, and especially for websites with fundraising projects. It is easy to use and doesn't require technical or coding knowledge to use.
 
-##What options does FundPress offer?
+## What options does FundPress offer?
 
 **Multiple payment choices**
 The WordPress donation plugin is fully compatible with Paypal, Stripe, and AuthorizeNet, giving you the flexibility needed to run a donation website. Your visitors can choose the payment platform as they want, so there would be no obstacle in terms of payment, hence maximizing your project's success rate.
@@ -38,24 +40,20 @@ We not only care about how your system works technically, but also about how you
 **Powerful backend**
 Unlike many other plugins, FundPress is built to last, just like your website is built to last. The foundation to that is to have a detail and systematic backend. You can easily manage campaigns, backers and settings of the plugin.
 
-##Connect with us
-To stay in touch and update about FundPress's future releases and features, you can connect with us via:
-- [Facebook](https://www.facebook.com/ThimPress/)
-- [Twitter](http://twitter.com/thimpress)
-- [Website](http://thimpress.com/). On this website, we even have an exclusive support section for premium products. But we always want to help, so feel free to ask.
-
-##Installation
+## Installation
 
 **From your WordPress dashboard**
+
 1. Visit 'Plugin > Add new'.
 2. Search for 'FundPress'.
 3. Activate FundPress from your Plugins page.
 
 **From WordPress.org**
+
 1. Search, select and download FundPress.
 2. Activate the plugin through the 'Plugins' menu in WordPress Dashboard.
 
-##Frequently Asked Questions
+## Frequently Asked Questions
 
 **What is FundPress ?**
 FundPress is a plugin to create a crowdfunding website, helping you find the support and  the resources you need for your meaningful projects.
@@ -69,5 +67,11 @@ FundPress can work effectively with almost all WordPress themes. However, for th
 For help with premium themes and add-ons, use our Forum Support.
 
 **Where can I ask for new features or suggest ideas or themes for FundPress?** 
-Where can I report bugs or contribute to the project? =
 Since the plugin is new, currently we use Facebook and Twitter as our main method of communication, so if you have any ideas to make that project even better, or if you want to contribute something to the project, or report bugs, please don't hesitate to message us on social media. Or email to our admins at jack@thimpress.com
+
+## Connect with us
+
+To stay in touch and update about FundPress's future releases and features, you can connect with us via:
+- [Facebook](https://www.facebook.com/ThimPress/)
+- [Twitter](http://twitter.com/thimpress)
+- [Website](http://thimpress.com/). On this website, we even have an exclusive support section for premium products. But we always want to help, so feel free to ask.

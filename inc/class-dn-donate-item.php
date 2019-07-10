@@ -1,36 +1,60 @@
 <?php
+/**
+ * Fundpress Donate class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit();
-}
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-class DN_Donate_Item extends DN_Post_Base {
+if ( ! class_exists( 'DN_Donate_Item' ) ) {
+	/**
+	 * Class DN_Donate_Item.
+	 */
+	class DN_Donate_Item extends DN_Post_Base {
 
-    public static $_instances = null;
-    public $post_type = 'dn_donate_item';
+		/**
+		 * @var null
+		 */
+		public static $_instances = null;
 
-    public function __construct( $post = null ) {
-        parent::__construct( $post );
-    }
+		/**
+		 * @var string
+		 */
+		public $post_type = 'dn_donate_item';
 
-    public static function instance( $post ) {
-        if ( !$post ) {
-            return new self( $post );
-        }
+		/**
+		 * DN_Donate_Item constructor.
+		 *
+		 * @param null $post
+		 */
+		public function __construct( $post = null ) {
+			parent::__construct( $post );
+		}
 
-        if ( is_numeric( $post ) ) {
-            $post = get_post( $post );
-            $id = $post->ID;
-        } else if ( $post instanceof WP_Post ) {
-            $id = $post->ID;
-        }
+		public static function instance( $post ) {
+			if ( ! $post ) {
+				return new self( $post );
+			}
 
-        if ( !empty( self::$_instances[$id] ) ) {
-            return self::$_instances[$id];
-        }
+			if ( is_numeric( $post ) ) {
+				$post = get_post( $post );
+				$id   = $post->ID;
+			} else if ( $post instanceof WP_Post ) {
+				$id = $post->ID;
+			}
 
-        return self::$_instances[$id] = new self( $post );
-    }
+			if ( ! empty( self::$_instances[ $id ] ) ) {
+				return self::$_instances[ $id ];
+			}
 
+			return self::$_instances[ $id ] = new self( $post );
+		}
 
+	}
 }

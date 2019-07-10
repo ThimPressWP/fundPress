@@ -1,26 +1,47 @@
 <?php
+/**
+ * Fundpress Product campaign class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-abstract class DN_Product_Base {
+if ( ! class_exists( 'DN_Product_Base' ) ) {
+	/**
+	 * Class DN_Product_Base.
+	 */
+	abstract class DN_Product_Base {
 
-    // tax
-    protected $tax = 0;
+		/**
+		 * @var int
+		 */
+		protected $tax = 0;
 
-    // constructor
-    function __construct() {
-        
-    }
+		/**
+		 * DN_Product_Base constructor.
+		 */
+		public function __construct() {
 
-    // get amount exclude tax
-    protected function amount_exclude_tax() {
-        
-    }
+		}
 
-    // get amount include tax
-    protected function amount_include_tax() {
-        
-    }
+		/**
+		 * Get amount exclude tax.
+		 */
+		protected function amount_exclude_tax() {
 
+		}
+
+		/**
+		 * Get amount include tax.
+		 */
+		protected function amount_include_tax() {
+
+		}
+	}
 }

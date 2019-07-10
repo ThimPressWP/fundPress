@@ -1,10 +1,18 @@
 <?php
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Template for displaying empty cart page.
+ *
+ * This template can be overridden by copying it to yourtheme/fundpress/cart/empty.php
+ *
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
+ */
 
 /**
- * Cart is empty
+ * Prevent loading this file directly
  */
+defined( 'ABSPATH' ) || exit();
 ?>
 
 <div class="donate_messages">

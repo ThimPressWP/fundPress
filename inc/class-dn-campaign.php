@@ -1,85 +1,115 @@
 <?php
+/**
+ * Fundpress Campaign class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-}
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-class DN_Campaign extends DN_Post_Base {
+if ( ! class_exists( 'DN_Campaign' ) ) {
+	/**
+	 * Class DN_Campaign
+	 */
+	class DN_Campaign extends DN_Post_Base {
 
-    /**
-     * ID of Post
-     * @var null
-     */
-    public $id = null;
+		/**
+		 * @var null
+		 */
+		public $id = null;
 
-    /**
-     * post
-     * @var null
-     */
-    public $post = null;
+		/**
+		 * @var null
+		 */
+		public $post = null;
 
-    /**
-     * meta prefix of post type
-     * @var null
-     */
-    public $meta_prefix = null;
-    static $_instances = null;
+		/**
+		 * @var null|string
+		 */
+		public $meta_prefix = null;
 
-    /**
-     * post type
-     * @var null
-     */
-    public $post_type = 'dn_campaign';
+		/**
+		 * @var null
+		 */
+		static $_instances = null;
 
-    public function __construct( $post ) {
-        $this->meta_prefix = TP_DONATE_META_CAMPAIGN;
-        parent::__construct( $post );
-    }
+		/**
+		 * @var string
+		 */
+		public $post_type = 'dn_campaign';
 
-    /**
-     * compensate
-     * @return array
-     */
-    public function get_compensate() {
-        return get_post_meta( $this->id, $this->meta_prefix . 'marker', true );
-    }
+		/**
+		 * DN_Campaign constructor.
+		 *
+		 * @param $post
+		 */
+		public function __construct( $post ) {
+			$this->meta_prefix = TP_DONATE_META_CAMPAIGN;
+			parent::__construct( $post );
+		}
 
-    /**
-     * currency
-     * @return array
-     */
-    public function get_currency() {
-        if ( ! ( $currency = get_post_meta( $this->id, $this->meta_prefix . 'currency', true ) ) ) {
-            $currency = donate_get_currency();
-        }
-        return $currency;
-    }
+		/**
+		 * Get compensate.
+		 *
+		 * @return mixed
+		 */
+		public function get_compensate() {
+			return get_post_meta( $this->id, $this->meta_prefix . 'marker', true );
+		}
 
-    /**
-     * Get Campaign total raised
-     */
-    public function get_total_raised() {
-        return floatval( get_post_meta( $this->id, $this->meta_prefix . 'total_raised', true ) );
-    }
+		/**
+		 * Get campaign currency.
+		 *
+		 * @return mixed
+		 */
+		public function get_currency() {
+			if ( ! ( $currency = get_post_meta( $this->id, $this->meta_prefix . 'currency', true ) ) ) {
+				$currency = donate_get_currency();
+			}
 
-    // static function instead of new class
-    static function instance( $post = null ) {
+			return $currency;
+		}
 
-        if ( is_numeric( $post ) ) {
-            $post = get_post( $post );
-            $id = $post->ID;
-        } else if ( $post instanceof WP_Post ) {
-            $id = $post->ID;
-        }
+		/**
+		 * Get campaign total raised.
+		 *
+		 * @return float
+		 */
+		public function get_total_raised() {
+			return floatval( get_post_meta( $this->id, $this->meta_prefix . 'total_raised', true ) );
+		}
 
-        if ( !isset( $id ) && $post )
-            $id = $post->ID;
+		/**
+		 * Instance.
+		 *
+		 * @param null $post
+		 *
+		 * @return DN_Campaign
+		 */
+		static function instance( $post = null ) {
 
-        if ( !empty( self::$_instances[$id] ) ) {
-            return self::$_instances[$id];
-        }
+			if ( is_numeric( $post ) ) {
+				$post = get_post( $post );
+				$id   = $post->ID;
+			} else if ( $post instanceof WP_Post ) {
+				$id = $post->ID;
+			}
 
-        return self::$_instances[$id] = new self( $post );
-    }
+			if ( ! isset( $id ) && $post ) {
+				$id = $post->ID;
+			}
 
+			if ( ! empty( self::$_instances[ $id ] ) ) {
+				return self::$_instances[ $id ];
+			}
+
+			return self::$_instances[ $id ] = new self( $post );
+		}
+
+	}
 }

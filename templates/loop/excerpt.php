@@ -1,13 +1,18 @@
 <?php
+/**
+ * Template for displaying campaign excerpt in archive loop.
+ *
+ * This template can be overridden by copying it to yourtheme/fundpress/loop/excerpt.php
+ *
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
+ */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
-
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 ?>
 
-<div class="campaign_excerpt">
-
-	<?php the_excerpt(); ?>
-
-</div>
+<div class="campaign_excerpt"><?php the_excerpt(); ?></div>

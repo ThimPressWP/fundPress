@@ -1,18 +1,18 @@
 <?php
 /**
- * The Template for displaying all archive products.
+ * Template for displaying archive campaign tag page.
  *
- * Override this template by copying it to yourtheme/tp-donate/templates/archive-campaign.php
+ * This template can be overridden by copying it to yourtheme/fundpress/taxonomy-campaign_tag.php
  *
- * @author 		ThimPress
- * @package 	tp-donate/templates
- * @version     1.0
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
-
-donate_get_template( 'archive-campaign.php' );
-
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 ?>
+
+<?php donate_get_template( 'archive-campaign.php' ); ?>

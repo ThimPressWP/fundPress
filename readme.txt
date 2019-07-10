@@ -3,8 +3,8 @@ Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
 Requires at least: 4.6
-Tested up to: 4.7.2
-Stable tag: trunk
+Tested up to: 5.2.2
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,5 +98,51 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+= 2.0.1 =
+~ Fixed issue with calling session_start() when wp try to test rest-api for site-health feature (request timeout)
+
+= 2.0 =
+- Restructure core
+
+= 1.4 =
+- Fix convert currency issue
+
+= 1.3 =
+- Update donate email process
+
+= 1.2 =
+- Fix convert currency by yahoo API
+- Improve structure
+
+= 1.1.3 =
+- Fix customer donate note
+- Update thank you donate page with PHP 7.x
+
+= 1.1.2 =
+- Fix donate form error notice
+
+= 1.1.1 =
+- Fix missing plugin settings
+
+= 1.1 =
+- Fix donate checkout process
+- Fix Payment Method when system donate
+- Fix Stripe payment gateway on mobile
+
+= 1.0 =
+- Allow edit Campaign Raised
+- Upgrade database Campaign count Donor
+- Gulp minify scripts, stylesheet
+- Start and End date campaign. Auto update status
+- Update switch currency rates( yahoo, google )
+- Payment gateways update. ( Form payment, Creditcard via Stripe )
+- Remove underscore template
+- Update thank-you page
+- Donate update order details
+- Donor sortable by email - phone
+- Donor update information
+- Add icon moon
+- Checkout logic
+- Allow change manual Campaign Total Raised
 
 == Upgrade Notice ==

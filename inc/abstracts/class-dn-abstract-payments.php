@@ -1,124 +1,146 @@
 <?php
+/**
+ * Fundpress Abstract payment gateway class.
+ *
+ * @version     2.0
+ * @package     Abstract class
+ * @author      Thimpress, leehld
+ */
 
-if ( !defined( 'ABSPATH' ) )
-    exit();
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-abstract class DN_Payment_Base {
+if ( ! class_exists( 'DN_Payment_Base' ) ) {
+	/**
+	 * Class DN_Payment_Base.
+	 */
+	abstract class DN_Payment_Base {
 
-    /**
-     * id of payment
-     * @var null
-     */
-//    protected $_id = null;
+		/**
+		 * @var null
+		 */
+		protected $id = null;
 
-    /**
-     * payment title
-     * @var null
-     */
-    protected $_title = null;
-    // is enable
-    public $is_enable = true;
+		/**
+		 * @var null
+		 */
+		protected $_title = null;
 
-    /**
-     * icon url
-     * @var null
-     */
-    public $icon = null;
+		/**
+		 * @var bool
+		 */
+		public $is_enable = true;
 
-    function __construct() {
-        add_action( 'init', array( $this, 'init' ) );
-//        $this->icon = TP_DONATE_INC_URI . '/gateways/' . $this->id . '/' . $this->id . '.png';
-        $this->is_enable();
-    }
+		/**
+		 * @var null
+		 */
+		public $icon = null;
 
-    public function init() {
+		/**
+		 * DN_Payment_Base constructor.
+		 */
+		public function __construct() {
+			// generate fields settings
+			add_filter( 'donate_admin_setting_fields', array( $this, 'generate_fields' ), 10, 2 );
+			// check payment enable
+			$this->is_enable();
+		}
 
-        if ( is_admin() ) {
-            /**
-             * generate fields settings
-             */
-            add_filter( 'donate_admin_setting_fields', array( $this, 'generate_fields' ), 10, 2 );
-        }
-    }
-    
-    public function get_title() {
-        return $this->_title;
-    }
+		/**
+		 * Get title.
+		 *
+		 * @return null
+		 */
+		public function get_title() {
+			return $this->_title;
+		}
 
-    /**
-     * payment process
-     * @return null
-     */
-    protected function process( $donate = false, $posted = null ) {
-        
-    }
+		/**
+		 * Checkout process.
+		 *
+		 * @param bool $donate
+		 * @param null $posted
+		 *
+		 * @return bool
+		 */
+		protected function process( $donate = false, $posted = null ) {
+			return false;
+		}
 
-    /**
-     * refun action
-     * @return null
-     */
-    protected function refun() {
-        
-    }
+		/**
+		 * Refund action.
+		 */
+		protected function refund() {
+			return false;
+		}
 
-    /**
-     * payment send email
-     * @return null
-     */
-    public function send_email() {
-        
-    }
+		/**
+		 * Payment send mail.
+		 *
+		 * @return bool
+		 */
+		public function send_email() {
+			return false;
+		}
 
-    /**
-     * fields setting
-     * @param  [type] $groups [description]
-     * @param  [type] $id     [description]
-     * @return [type]         [description]
-     */
-    public function generate_fields( $groups, $id ) {
-        if ( $id === 'checkout' && $this->id ) {
+		/**
+		 * Generate settings fields.
+		 *
+		 * @param $groups
+		 * @param $id
+		 *
+		 * @return mixed
+		 */
+		public function generate_fields( $groups, $id ) {
+			if ( $id === 'checkout' && $this->id ) {
 
-            $groups[$id . '_' . $this->id] = apply_filters( 'donate_admin_setting_fields_checkout', $this->fields(), $this->id );
-        }
+				$groups[ $id . '_' . $this->id ] = apply_filters( 'donate_admin_setting_fields_checkout', $this->fields(), $this->id );
+			}
 
-        return $groups;
-    }
+			return $groups;
+		}
 
-    /**
-     * admin setting fields
-     * @return array
-     */
-    public function fields() {
-        return array();
-    }
+		/**
+		 * Admin setting fields.
+		 *
+		 * @return array
+		 */
+		public function fields() {
+			return array();
+		}
 
-    /**
-     * enable
-     * @return boolean
-     */
-    public function is_enable() {
-        if ( DN_Settings::instance()->checkout->get( $this->id . '_enable', 'yes' ) === 'yes' ) {
-            return $this->is_enable = true;
-        }
-        return $this->is_enable = false;
-    }
-    
-    /**
-     * 
-     * @return type html or null
-     */
-    public function checkout_form() {
-        return null;
-    }
+		/**
+		 * Check payment enable.
+		 *
+		 * @return bool
+		 */
+		public function is_enable() {
+			if ( FP()->settings->checkout->get( $this->id . '_enable', 'yes' ) === 'yes' ) {
+				return $this->is_enable = true;
+			}
 
-    /**
-     * add notice message completed when payment completed
-     * @return null
-     */
-    public function completed_process_message() {
-        if ( !donate_has_notice( 'success' ) ) {
-            donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'fundpress' ) );
-        }
-    }
+			return $this->is_enable = false;
+		}
 
+		/**
+		 * Checkout form.
+		 *
+		 * @return null
+		 */
+		public function checkout_form() {
+			return null;
+		}
+
+		/**
+		 * Add notice message completed when payment completed.
+		 */
+		public function completed_process_message() {
+			if ( ! donate_has_notice( 'success' ) ) {
+				donate_add_notice( 'success', __( 'Payment completed. We will send you email when payment method verify.', 'fundpress' ) );
+			}
+		}
+
+	}
 }

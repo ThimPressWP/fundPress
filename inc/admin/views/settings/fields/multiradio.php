@@ -1,37 +1,28 @@
 <?php
-if ( !defined( 'ABSPATH' ) )
-    exit();
-// array(
-// 	'type'		=> 'multiradio',
-// 	'label'		=> __( 'Sex', 'fundpress' ),
-// 	'atts'		=> array(
-// 			'id'	=> 'decimals',
-// 			'class'	=> 'decimals'
-// 		),
-// 	'name'		=> 'currency_num_decimal',
-// 	'options'	=> array(
-// 			array(
-// 					'label'		=> __( 'Man', 'fundpress' ),
-// 					'value'		=> '1'
-// 				),
-// 			array(
-// 					'label'		=> __( 'Wowan', 'fundpress' ),
-// 					'value'		=> '0'
-// 				)
-// 		),
-// 	'default'	=> '2'
-// ),
-?>
-<?php if ( !empty( $field['options'] ) ): ?>
+/**
+ * Admin view: Multi radio setting field.
+ *
+ * @version     2.0
+ * @package     View
+ * @author      Thimpress, leehld
+ */
 
-    <?php foreach ( $field['options'] as $k => $option ): ?>
-        <?php unset( $option['id'] ); ?>
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
+?>
+
+<?php if ( ! empty( $field['options'] ) ) { ?>
+	<?php foreach ( $field['options'] as $k => $option ) { ?>
+		<?php unset( $option['id'] ); ?>
         <p>
-            <input type="radio" name="<?php echo esc_attr( $this->get_field_name( $field['name'] ) ) ?>" value="<?php printf( '%s', $option['value'] ) ?>"<?php echo $this->render_atts( $field['atts'] ) ?> id="<?php echo esc_attr( $this->get_field_id( $field['name'] ) . $option['value'] ); ?>"
-        <?php echo $option['value'] === $this->get( $field['name'] ) ? ' checked="checked"' : '' ?>
-                   />
+            <input type="radio" name="<?php echo esc_attr( $this->get_field_name( $field['name'] ) ) ?>"
+                   value="<?php printf( '%s', $option['value'] ) ?>"<?php echo $this->render_atts( $field['atts'] ) ?>
+                   id="<?php echo esc_attr( $this->get_field_id( $field['name'] ) . $option['value'] ); ?>"
+				<?php echo $option['value'] === $this->get( $field['name'] ) ? ' checked="checked"' : '' ?>
+            />
             <label for="<?php echo esc_attr( $this->get_field_id( $field['name'] ) ) . $option['value']; ?>"><?php printf( '%s', $option['label'] ) ?></label>
         </p>
-    <?php endforeach; ?>
-
-<?php endif; ?>
+	<?php } ?>
+<?php } ?>

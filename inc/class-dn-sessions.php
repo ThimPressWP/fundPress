@@ -1,110 +1,162 @@
 <?php
+/**
+ * Fundpress Sessions class.
+ *
+ * @version     2.0
+ * @package     Class
+ * @author      Thimpress, leehld
+ */
 
-defined( 'ABSPATH' ) or die( "Cannot access pages directly." );
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
 
-if ( !session_id() ) {
-    session_start();
-}
+if ( ! class_exists( 'DN_Sessions' ) ) {
+	/**
+	 * Class DN_Sessions.
+	 */
+	class DN_Sessions {
 
-class DN_Sessions {
+		/**
+		 * @var null
+		 */
+		static $_instance = null;
 
-    // instance
-    static $_instance = null;
-    // $session
-    public $session = null;
-    // live time of cookie
-    private $live_item = null;
-    // remember
-    private $remember = false;
+		/**
+		 * @var array|mixed|null
+		 */
+		public $session = null;
 
-    /**
-     * prefix
-     * @var null
-     */
-    public $prefix = null;
+		/**
+		 * @var float|int|null
+		 */
+		private $live_item = null;
 
-    public function __construct( $prefix = '', $remember = true ) {
-        if ( !$prefix )
-            return;
+		/**
+		 * @var bool
+		 */
+		private $remember = false;
 
-        $this->prefix = $prefix;
-        $this->remember = $remember;
+		/**
+		 * @var null|string
+		 */
+		public $prefix = null;
 
-        $this->live_item = 12 * HOUR_IN_SECONDS;
+		/**
+		 * DN_Sessions constructor.
+		 *
+		 * @param string $prefix
+		 * @param bool $remember
+		 */
+		public function __construct( $prefix = '', $remember = true ) {
+			if ( ! $prefix ) {
+				return;
+			}
+			$this->prefix   = $prefix;
+			$this->remember = $remember;
+			$this->live_item = 12 * HOUR_IN_SECONDS;
+			// get all
+			$this->session = $this->load();
+		}
 
-        // get all
-        $this->session = $this->load();
-    }
+		/**
+		 * Load all with prefix.
+		 *
+		 * @return array|mixed
+		 */
+		public function load() {
+			/**
+			 * Only start to prevent request-timeout when
+			 * wp try to call a test to a rest-api for site-health feature.
+			 */
 
-    /**
-     * load all with prefix
-     * @return
-     */
-    public function load() {
-        if ( isset( $_SESSION[$this->prefix] ) ) {
-            return $_SESSION[$this->prefix];
-        } else if ( $this->remember && isset( $_COOKIE[$this->prefix] ) ) {
-            return $_SESSION[$this->prefix] = maybe_unserialize( $_COOKIE[$this->prefix] );
-        }
+			if ( ! session_id() ) {
+				session_start();
+			}
 
-        return array();
-    }
+			if ( isset( $_SESSION[ $this->prefix ] ) ) {
+				return $_SESSION[ $this->prefix ];
+			} else if ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {
+				return $_SESSION[ $this->prefix ] = maybe_unserialize( $_COOKIE[ $this->prefix ] );
+			}
 
-    // remove session
-    public function remove() {
-        if ( isset( $_SESSION[$this->prefix] ) ) {
-            unset( $_SESSION[$this->prefix] );
-        }
+			return array();
+		}
 
-        if ( $this->remember && isset( $_COOKIE[$this->prefix] ) ) {
-            donate_setcookie( $this->prefix, '', time() - $this->live_item );
-            unset( $_COOKIE[$this->prefix] );
-        }
-    }
+		/**
+		 * Remove session.
+		 */
+		public function remove() {
+			if ( isset( $_SESSION[ $this->prefix ] ) ) {
+				unset( $_SESSION[ $this->prefix ] );
+			}
 
-    /**
-     * set key
-     * @param $key
-     * @param $value
-     */
-    public function set( $name = '', $value = null ) {
-        if ( !$name )
-            return;
+			if ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {
+				donate_setcookie( $this->prefix, '', time() - $this->live_item );
+				unset( $_COOKIE[ $this->prefix ] );
+			}
+		}
 
-        $time = time();
-        if ( !$value ) {
-            unset( $this->session[$name] );
-            $time = $time - $this->live_item;
-        } else {
-            $this->session[$name] = $value;
-            $time = $time + $this->live_item;
-        }
+		/**
+		 * Set key.
+		 *
+		 * @param string $name
+		 * @param null $value
+		 */
+		public function set( $name = '', $value = null ) {
+			if ( ! $name ) {
+				return;
+			}
 
-        // save session
-        $_SESSION[$this->prefix] = $this->session;
+			$time = time();
+			if ( ! $value ) {
+				unset( $this->session[ $name ] );
+				$time = $time - $this->live_item;
+			} else {
+				$this->session[ $name ] = $value;
+				$time                   = $time + $this->live_item;
+			}
 
-        // save cookie
-        donate_setcookie( $this->prefix, maybe_serialize( $this->session ), $time );
-    }
+			// save session
+			$_SESSION[ $this->prefix ] = $this->session;
+			// save cookie
+			donate_setcookie( $this->prefix, maybe_serialize( $this->session ), $time );
+		}
 
-    /**
-     * get value
-     * @param  $key
-     * @return anythings
-     */
-    public function get( $name = null, $default = null ) {
-        if ( !$name )
-            return $default;
+		/**
+		 * Get value.
+		 *
+		 * @param null $name
+		 * @param null $default
+		 *
+		 * @return mixed|null
+		 */
+		public function get( $name = null, $default = null ) {
+			if ( ! $name ) {
+				return $default;
+			}
 
-        if ( isset( $this->session[$name] ) )
-            return $this->session[$name];
-    }
+			if ( isset( $this->session[ $name ] ) ) {
+				return $this->session[ $name ];
+			}
 
-    static function instance( $prefix = '' ) {
-        if ( !empty( self::$_instance[$prefix] ) )
-            return self::$_instance[$prefix];
+			return false;
+		}
 
-        return self::$_instance[$prefix] = new self( $prefix );
-    }
+		/**
+		 * Instance.
+		 *
+		 * @param string $prefix
+		 *
+		 * @return DN_Sessions
+		 */
+		static function instance( $prefix = '' ) {
+			if ( ! empty( self::$_instance[ $prefix ] ) ) {
+				return self::$_instance[ $prefix ];
+			}
 
+			return self::$_instance[ $prefix ] = new self( $prefix );
+		}
+	}
 }

@@ -1,38 +1,42 @@
 <?php
 /**
- * Template Single dn_campaign post type
+ * Template for displaying single campaign page.
+ *
+ * This template can be overridden by copying it to yourtheme/fundpress/single-campaign.php
+ *
+ * @version     2.0
+ * @package     Template
+ * @author      Thimpress, leehld
  */
 
-if( ! defined( 'ABSPATH' ) ) exit();
-get_header( ); ?>
+/**
+ * Prevent loading this file directly
+ */
+defined( 'ABSPATH' ) || exit();
+?>
 
-	<?php
-		/**
-		 * donate_before_main_content hook
-		 */
-		do_action( 'donate_before_main_content' );
-	?>
+<?php get_header(); ?>
 
-		<div id="donate_main_content">
+<?php
+/**
+ * donate_before_main_content hook
+ */
+do_action( 'donate_before_main_content' );
+?>
 
-			<?php while ( have_posts() ) : the_post(); ?>
+    <div id="donate_main_content">
+		<?php while ( have_posts() ) : the_post(); ?>
+			<?php donate_get_template_part( 'content', 'single-campaign' ); ?>
+		<?php endwhile; // end of the loop. ?>
+    </div>
 
-				<?php donate_get_template_part( 'content', 'single-campaign' ); ?>
+<?php
+/**
+ * donate_after_main_content hook
+ */
+do_action( 'donate_after_main_content' );
+?>
 
-			<?php endwhile; // end of the loop. ?>
+<?php get_sidebar(); ?>
 
-		</div>
-
-	<?php
-		/**
-		 * hotel_booking_after_main_content hook
-		 *
-		 * @hooked donate_after_main_content - 10 (outputs closing divs for the content)
-		 */
-		do_action( 'donate_after_main_content' );
-	?>
-
-	<!--get sidebar-->
-	<?php get_sidebar(); ?>
-
-<?php get_footer( );
+<?php get_footer();
