@@ -4,7 +4,7 @@
   Plugin URI: http://thimpress.com/fundpress
   Description: Easily build your own crowdfunding platform like Kickstarter with this free WordPress donation plugin.
   Author: ThimPress
-  Version: 2.0
+  Version: 2.0.1
   Author URI: http://thimpress.com
  */
 
@@ -26,7 +26,7 @@ define( 'FUNDPRESS_TEMP', FUNDPRESS_PATH . 'templates/' );
 define( 'FUNDPRESS_INC_URI', FUNDPRESS_URI . '/inc' );
 define( 'FUNDPRESS_ASSETS_URI', FUNDPRESS_URI . '/assets' );
 define( 'FUNDPRESS_LIB_URI', FUNDPRESS_INC_URI . '/libraries' );
-define( 'FUNDPRESS_VER', '2.0' );
+define( 'FUNDPRESS_VER', '2.0.1' );
 
 // define meta post type
 define( 'TP_DONATE_META_DONOR', 'thimpress_donor_' );
@@ -151,10 +151,17 @@ if ( ! class_exists( 'FundPress' ) ) {
 			// load text domain
 			$this->load_text_domain();
 
-			// cart
-			$this->cart = DN_Cart::instance();
-			// checkout
-			$this->checkout = DN_Checkout::instance();
+			/**
+			 * Only create cart in frontend to prevent request-timeout when
+			 * wp try to call a test to a rest-api for site-health feature.
+			 */
+			if ( ! is_admin() ) {
+				// cart
+				$this->cart = DN_Cart::instance();
+				// checkout
+				$this->checkout = DN_Checkout::instance();
+			}
+
 			// payment gateways
 			$this->payment_gateways = DN_Payment_Gateways::instance();
 		}
