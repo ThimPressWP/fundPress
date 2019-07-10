@@ -14,20 +14,24 @@
   "homepage": "https://bitbucket.org/foobla/tp-donate#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^3.9.0",
+    "gulp-clean-css": "^3.10.0",
     "gulp-concat": "^2.6.0",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
     "gulp-sass": "^2.3.2",
     "gulp-save": "^1.2.1",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "mkdirp": "^0.5.1",
+    "read-file": "^0.2.0",
+    "yargs": "^13.2.4"
   },
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-rename": "^1.2.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-copy": "^4.0.1",
     "gulp-save": "^1.2.1",
-    "gulp-sass": "^2.3.2",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "gulp-zip": "^5.0.0"
   },
   "description": ""
 }
