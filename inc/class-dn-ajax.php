@@ -28,10 +28,10 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			}
 
 			$actions = array(
-				'load_form'         => true,
-				'submit'            => true,
-				'remove_compensate' => false,
-				'action_status'     => true,
+				'donate_load_form' => true,
+				'donate_submit' => true,
+				'donate_remove_compensate' => true,
+				'donate_action_status' => true,
 			);
 
 			foreach ( $actions as $action => $nopriv ) {
@@ -39,9 +39,12 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 					return;
 				}
 
-				add_action( 'wp_ajax_donate_' . $action, array( $this, 'donate_' . $action ) );
+				add_action( 'wp_ajax_' . $action, array( $this,  $action ) );
 				if ( $nopriv ) {
-					add_action( 'wp_ajax_nopriv_donate_' . $action, array( $this, 'donate_' . $action ) );
+					if ($action == 'donate_remove_compensate') {
+						add_action('wp_ajax_nopriv_' . $action, array($this, 'mustLogin'));
+					}
+					add_action( 'wp_ajax_nopriv_' . $action, array( $this, $action ) );
 				}
 			}
 		}
@@ -104,7 +107,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			}
 
 			// process checkout
-			FP()->checkout->process_checkout();
+ 			FP()->checkout->process_checkout();
 			die( 0 );
 		}
 
@@ -146,7 +149,14 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			) );
 			die();
 		}
-
+		/**
+		 * must login
+		 * @return null
+		 */
+		public function mustLogin()
+		{
+			_e('You must login', 'fundpress');
+		}
 		/**
 		 * Update order donate status.
 		 */

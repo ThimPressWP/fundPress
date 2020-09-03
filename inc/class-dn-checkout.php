@@ -232,7 +232,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 
 						$results = $payment->process( $donate, $this->posted );
 						if ( isset( $results['status'] ) && $results['status'] === 'success' ) {
-							if ( donate_is_ajax_request() ) {
+							if ( fundpress_is_ajax_request() ) {
 								wp_send_json( $results );
 							} else if ( isset( $results['url'] ) ) {
 								wp_redirect( $results['url'] );

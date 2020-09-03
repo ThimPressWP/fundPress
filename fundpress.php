@@ -155,12 +155,12 @@ if ( ! class_exists( 'FundPress' ) ) {
 			 * Only create cart in frontend to prevent request-timeout when
 			 * wp try to call a test to a rest-api for site-health feature.
 			 */
-			if ( ! is_admin() ) {
+//			if ( ! is_admin() ) {
 				// cart
 				$this->cart = DN_Cart::instance();
 				// checkout
 				$this->checkout = DN_Checkout::instance();
-			}
+//			}
 
 			// payment gateways
 			$this->payment_gateways = DN_Payment_Gateways::instance();
