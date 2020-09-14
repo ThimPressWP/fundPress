@@ -198,7 +198,8 @@ if ( ! class_exists( 'DN_MetaBox_Campaign' ) ) {
 		public function update_meta_campaign( $post_id, $post, $update ) {
 			if ( ! isset( $_POST ) || empty( $_POST ) ) {
 				return;
-			}
+			} 
+            $_POST = sanitize_params_submitted($_POST);
 			foreach ( $_POST as $name => $value ) {
 				if ( strpos( $name, $this->_prefix ) !== 0 ) {
 					continue;

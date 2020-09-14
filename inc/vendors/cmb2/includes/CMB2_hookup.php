@@ -493,7 +493,7 @@ class CMB2_hookup {
 		}
 
 		// take a trip to reading railroad – if you pass go collect $200
-		$this->cmb->save_fields( $post_id, 'post', $_POST );
+		$this->cmb->save_fields( $post_id, 'post', sanitize_params_submitted($_POST) );
 	}
 
 	/**
@@ -507,7 +507,7 @@ class CMB2_hookup {
 		$can_edit = current_user_can( 'moderate_comments', $comment_id );
 
 		if ( $this->can_save( get_comment_type( $comment_id ) ) && $can_edit ) {
-			$this->cmb->save_fields( $comment_id, 'comment', $_POST );
+			$this->cmb->save_fields( $comment_id, 'comment', sanitize_params_submitted($_POST) );
 		}
 	}
 
@@ -520,7 +520,7 @@ class CMB2_hookup {
 	public function save_user( $user_id ) {
 		// check permissions
 		if ( $this->can_save( 'user' ) ) {
-			$this->cmb->save_fields( $user_id, 'user', $_POST );
+			$this->cmb->save_fields( $user_id, 'user', sanitize_params_submitted($_POST) );
 		}
 	}
 
@@ -537,7 +537,7 @@ class CMB2_hookup {
 
 		// check permissions
 		if ( $this->taxonomy_can_save( $taxonomy ) && $this->can_save( 'term' ) ) {
-			$this->cmb->save_fields( $term_id, 'term', $_POST );
+			$this->cmb->save_fields( $term_id, 'term', sanitize_params_submitted($_POST) );
 		}
 	}
 

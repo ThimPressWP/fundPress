@@ -76,20 +76,20 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 					return;
 				}
 
-				if ( $_GET['donate-paypal-payment'] === 'completed' ) {
+				if ( sanitize_params_submitted($_GET['donate-paypal-payment']) === 'completed' ) {
 					$this->completed_process_message();
 
 					FP()->cart->remove_cart();
-				} else if ( $_GET['donate-paypal-payment'] === 'cancel' ) {
+				} else if ( sanitize_params_submitted($_GET['donate-paypal-payment']) === 'cancel' ) {
 					donate_add_notice( 'error', __( 'Donate is cancel.', 'fundpress' ) );
 				}
 				// redirect
-				wp_redirect( donate_get_thankyou_link( $_GET['donate-id'] ) );
+				wp_redirect( donate_get_thankyou_link( sanitize_params_submitted($_GET['donate-id']) ) );
 				exit();
 			}
 
 			// validate payment notify_url, update status
-			if ( ! empty( $_POST ) && isset( $_POST['txn_type'] ) && $_POST['txn_type'] === 'web_accept' ) {
+			if ( ! empty( $_POST ) && isset( $_POST['txn_type'] ) && sanitize_params_submitted($_POST['txn_type']) === 'web_accept' ) {
 				if ( ! isset( $_POST['payment_status'] ) ) {
 					return;
 				}
@@ -111,7 +111,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 				// sanitize
 				$pay_verify = array_merge( array( 'cmd' => '_notify-validate' ), array_map( 'stripcslashes', $_POST ) );
 
-				$paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
+				$paypal_api_url = isset( $_POST['test_ipn'] ) && sanitize_params_submitted($_POST['test_ipn']) == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
 				$params   = array(
 					'body'        => $pay_verify,
@@ -128,7 +128,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 
 					if ( strtolower( $body ) === 'verified' ) {
 						// payment status
-						$payment_status = strtolower( $_POST['payment_status'] );
+						$payment_status = strtolower( sanitize_params_submitted($_POST['payment_status']) );
 
 						if ( in_array( $payment_status, array( 'pending', 'completed' ) ) ) {
 							$status = 'donate-completed';

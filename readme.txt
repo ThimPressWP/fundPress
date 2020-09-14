@@ -98,8 +98,10 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
 = 2.0.1 =
 ~ Fixed issue with calling session_start() when wp try to test rest-api for site-health feature (request timeout)
+~ Normalized input data with the function 'sanitize_params_submitted'
 
 = 2.0 =
 - Restructure core

@@ -39,11 +39,11 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 
 				$amount = 0;
 				if ( isset( $_POST['donate_input_amount'] ) ) {
-					$amount = sanitize_text_field( $_POST['donate_input_amount'] );
+					$amount = sanitize_params_submitted( $_POST['donate_input_amount'] );
 				}
 
 				/* set global posted */
-				$this->posted = wp_unslash( $_POST );
+				$this->posted = sanitize_params_submitted( $_POST );
 
 				// donate within campaign
 				if ( isset( $this->posted['campaign_id'] ) && is_numeric( $this->posted['campaign_id'] ) ) {

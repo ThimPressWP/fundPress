@@ -94,7 +94,7 @@ if ( ! class_exists( 'DN_Cart' ) ) {
 			}
 
 			$redirect  = donate_cart_url() ? donate_cart_url() : home_url();
-			$cart_item = sanitize_text_field( $_GET['donate_remove_item'] );
+			$cart_item = sanitize_params_submitted( $_GET['donate_remove_item'] );
 			$this->remove_cart_item( $cart_item );
 			// redirect url
 			wp_redirect( $redirect );

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit();
 
 if ( $donate_setting ) {
 
-	$current_tab = isset( $_GET['tab'] ) && $_GET['tab'] ? $_GET['tab'] : current( array_keys( $donate_setting ) ) ?>
+	$current_tab = isset( $_GET['tab'] ) && $_GET['tab'] ? sanitize_params_submitted($_GET['tab']) : current( array_keys( $donate_setting ) ) ?>
 
     <form method="POST" name="tp_donate_options" action="options.php">
 

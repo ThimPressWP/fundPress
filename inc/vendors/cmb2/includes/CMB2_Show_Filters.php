@@ -153,12 +153,12 @@ class CMB2_Show_Filters {
 
 			if ( is_array( $show_on ) ) {
 				foreach ( $show_on as $page ) {
-					if ( $_GET['page'] == $page ) {
+					if ( sanitize_params_submitted($_GET['page']) == $page ) {
 						return true;
 					}
 				}
 			} else {
-				if ( $_GET['page'] == $show_on ) {
+				if ( sanitize_params_submitted($_GET['page']) == $show_on ) {
 					return true;
 				}
 			}

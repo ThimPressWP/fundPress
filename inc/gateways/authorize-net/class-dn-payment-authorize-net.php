@@ -91,24 +91,24 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 			}
 
 			if ( isset( $_POST['x_response_reason_text'] ) ) {
-				donate_add_notice( 'error', $_POST['x_response_reason_text'] );
+				donate_add_notice( 'error', sanitize_params_submitted($_POST['x_response_reason_text']) );
 			}
 
 			$code = 0;
-			if ( isset( $_POST['x_response_code'] ) && array_key_exists( (int) $_POST['x_response_code'], $this->_messages ) ) {
-				$code = (int) $_POST['x_response_code'];
+			if ( isset( $_POST['x_response_code'] ) && array_key_exists( (int) sanitize_params_submitted($_POST['x_response_code']), $this->_messages ) ) {
+				$code = (int) sanitize_params_submitted($_POST['x_response_code']);
 			}
 
 			$amout = 0;
 			if ( isset( $_POST['x_amount'] ) ) {
-				$amout = (float) $_POST['x_amount'];
+				$amout = (float) sanitize_params_submitted($_POST['x_amount']);
 			}
 
 			if ( ! isset( $_POST['x_invoice_num'] ) ) {
 				return;
 			}
 
-			$id     = (int) $_POST['x_invoice_num'];
+			$id     = (int) sanitize_params_submitted($_POST['x_invoice_num']);
 			$donate = DN_Donate::instance( $id );
 
 			if ( $code === 1 ) {
