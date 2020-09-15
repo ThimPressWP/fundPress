@@ -66,8 +66,7 @@ if ( ! class_exists( 'DN_MetaBox_Donate_Action' ) ) {
 		 * @param $post_id
 		 */
 		public function update_status( $post_id ) {
-			if ( isset( $_POST['thimpress_donate_user_id'] ) ) {
-                            $_POST['thimpress_donate_user_id'] = sanitize_params_submitted($_POST['thimpress_donate_user_id']);
+			if ( isset( $_POST['thimpress_donate_user_id'] ) ) {                           
 				update_post_meta( $post_id, 'thimpress_donate_user_id', esc_attr( absint( $_POST['thimpress_donate_user_id'] ) ) );
 			}
 			remove_action( 'donate_process_update_dn_donate_meta', array( $this, 'update_status' ), 10 );

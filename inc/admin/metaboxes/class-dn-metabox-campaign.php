@@ -199,8 +199,8 @@ if ( ! class_exists( 'DN_MetaBox_Campaign' ) ) {
 			if ( ! isset( $_POST ) || empty( $_POST ) ) {
 				return;
 			} 
-            $_POST = sanitize_params_submitted($_POST);
 			foreach ( $_POST as $name => $value ) {
+				$value = sanitize_params_submitted($value);
 				if ( strpos( $name, $this->_prefix ) !== 0 ) {
 					continue;
 				}

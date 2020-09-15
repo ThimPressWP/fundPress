@@ -63,7 +63,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 
 			// Load form to donate for campaign
 			if ( isset( $_POST['campaign_id'] ) && is_numeric( $_POST['campaign_id'] ) ) {
-				$campaign = get_post( (int) sanitize_params_submitted($_POST['campaign_id']) );
+				$campaign = get_post( (int) $_POST['campaign_id']);
 
 				if ( ! $campaign || $campaign->post_type !== 'dn_campaign' ) {
 					wp_send_json( array(
@@ -123,7 +123,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 				return;
 			}
 
-			$post_id = ! empty( $_POST['post_id'] ) ? absint( sanitize_params_submitted($_POST['post_id']) ) : 0;
+			$post_id = ! empty( $_POST['post_id'] ) ? absint($_POST['post_id'] ) : 0;
 			$marker  = get_post_meta( $post_id, TP_DONATE_META_CAMPAIGN . 'marker', true );
 
 			if ( empty( $marker ) ) {
@@ -169,7 +169,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 				return;
 			}
 
-			$donate_id = ( isset( $_POST['donate_id'] ) ) ? absint( sanitize_params_submitted($_POST['donate_id']) ) : '';
+			$donate_id = ( isset( $_POST['donate_id'] ) ) ? absint( $_POST['donate_id']) : '';
 			$status    = ( isset( $_POST['status'] ) ) ? sanitize_params_submitted( $_POST['status'] ) : '';
 
 			$donate = DN_Donate::instance( $donate_id );

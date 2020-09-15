@@ -43,7 +43,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 				}
 
 				/* set global posted */
-				$this->posted = sanitize_params_submitted( $_POST );
+				$this->posted =  $_POST ;
 
 				// donate within campaign
 				if ( isset( $this->posted['campaign_id'] ) && is_numeric( $this->posted['campaign_id'] ) ) {
