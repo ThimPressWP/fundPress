@@ -292,10 +292,10 @@ function cmb2_print_metabox_form( $meta_box, $object_id = 0, $args = array() ) {
 		$cmb->prop( 'save_fields' )
 		// check nonce
 		&& isset( $_POST['submit-cmb'], $_POST['object_id'], $_POST[ $cmb->nonce() ] )
-		&& wp_verify_nonce( $_POST[ $cmb->nonce() ], $cmb->nonce() )
-		&& $object_id && sanitize_params_submitted($_POST['object_id']) == $object_id
+		&& wp_verify_nonce( sanitize_params_submitted( $_POST[ $cmb->nonce() ] ), $cmb->nonce() )
+		&& $object_id && sanitize_params_submitted( $_POST['object_id'] ) == $object_id
 	) {
-		$cmb->save_fields( $object_id, $cmb->object_type(), sanitize_params_submitted($_POST) );
+		$cmb->save_fields( $object_id, $cmb->object_type(), sanitize_params_submitted( $_POST ) );
 	}
 
 	// Enqueue JS/CSS

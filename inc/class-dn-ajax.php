@@ -53,11 +53,11 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 * Load donate form.
 		 */
 		public function donate_load_form() {
-			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted($_GET['schema']) !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
 
-			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'thimpress_donate_nonce' ) ) {
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_params_submitted( $_POST['nonce'] ), 'thimpress_donate_nonce' ) ) {
 				return;
 			}
 
@@ -99,7 +99,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 */
 		public function donate_submit() {
 			// validate sanitize input $_POST
-			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted($_GET['schema']) !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				wp_send_json( array(
 					'status'  => 'failed',
 					'message' => array( __( 'Could not do action.', 'fundpress' ) )
@@ -115,7 +115,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 * Remove campaign compensate.
 		 */
 		public function donate_remove_compensate() {
-			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted($_GET['schema']) !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
 
@@ -161,7 +161,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 * Update order donate status.
 		 */
 		public function donate_action_status() {
-			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted($_GET['schema']) !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
 

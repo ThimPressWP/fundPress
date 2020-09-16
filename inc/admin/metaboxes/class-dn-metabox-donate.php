@@ -78,7 +78,7 @@ if ( ! class_exists( 'DN_MetaBox_Donate' ) ) {
 				$donate->remove_donate_items();
 				$total = isset( $_POST['thimpress_donate_total'] ) ? esc_attr( floatval( $_POST['thimpress_donate_total'] ) ) : 0;
 			} else if ( $donate_type === 'campaign' ) {
-                            $donate_item = sanitize_params_submitted($_POST['donate_item']); 
+                            $donate_item = sanitize_params_submitted( $_POST['donate_item'] ); 
 				foreach ( $donate_item as $item ) {
 					if ( ! isset( $item['campaign_id'] ) || ! isset( $item['amount'] ) ) {
 						continue;

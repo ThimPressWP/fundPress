@@ -91,7 +91,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 			}
 
 			if ( isset( $_POST['x_response_reason_text'] ) ) {
-				donate_add_notice( 'error', sanitize_params_submitted($_POST['x_response_reason_text']) );
+				donate_add_notice( 'error', sanitize_params_submitted( $_POST['x_response_reason_text'] ) );
 			}
 
 			$code = 0;
