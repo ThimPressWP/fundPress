@@ -96,19 +96,19 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 
 			$code = 0;
 			if ( isset( $_POST['x_response_code'] ) && array_key_exists( (int) $_POST['x_response_code'], $this->_messages ) ) {
-				$code = (int)$_POST['x_response_code'];
+				$code = (int) $_POST['x_response_code'];
 			}
 
 			$amout = 0;
 			if ( isset( $_POST['x_amount'] ) ) {
-				$amout = (float)$_POST['x_amount'];
+				$amout = (float) $_POST['x_amount'];
 			}
 
 			if ( ! isset( $_POST['x_invoice_num'] ) ) {
 				return;
 			}
 
-			$id     = (int)$_POST['x_invoice_num'];
+			$id     = (int) $_POST['x_invoice_num'];
 			$donate = DN_Donate::instance( $id );
 
 			if ( $code === 1 ) {
@@ -184,7 +184,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 		/**
 		 * Checkout args.
 		 *
-		 * @param null $donate
+		 * @param null  $donate
 		 * @param array $posted
 		 *
 		 * @return array|mixed
@@ -194,7 +194,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 				return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'fundpress' ) );
 			}
 
-			$donor    = DN_Donor::instance( $donate->donor_id );
+			$donor = DN_Donor::instance( $donate->donor_id );
 
 			$total = $donate->total;
 
@@ -253,7 +253,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 		/**
 		 * Checkout process.
 		 *
-		 * @param null $donate
+		 * @param null  $donate
 		 * @param array $posted
 		 *
 		 * @return array|null

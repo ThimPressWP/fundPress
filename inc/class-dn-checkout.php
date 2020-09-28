@@ -43,7 +43,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 				}
 
 				/* set global posted */
-				$this->posted =  $_POST ;
+				$this->posted = $_POST;
 
 				// donate within campaign
 				if ( isset( $this->posted['campaign_id'] ) && is_numeric( $this->posted['campaign_id'] ) ) {
@@ -103,7 +103,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 					}
 
 					/* VALIDATE POST FIELDS */
-					if ( ! isset( $this->posted['first_name'] ) || trim( sanitize_params_submitted( $this->posted['first_name']) ) === '' ) {
+					if ( ! isset( $this->posted['first_name'] ) || trim( sanitize_params_submitted( $this->posted['first_name'] ) ) === '' ) {
 						donate_add_notice( 'error', __( '<strong>First Name</strong> is a required field.', 'fundpress' ) );
 					}
 
@@ -111,7 +111,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 						donate_add_notice( 'error', __( '<strong>Last Name</strong> is a required field.', 'fundpress' ) );
 					}
 
-					if ( ! isset( $this->posted['email'] ) || trim( sanitize_params_submitted($this->posted['email'] ) ) === '' || ! is_email( $this->posted['email'] ) ) {
+					if ( ! isset( $this->posted['email'] ) || trim( sanitize_params_submitted( $this->posted['email'] ) ) === '' || ! is_email( $this->posted['email'] ) ) {
 						donate_add_notice( 'error', __( '<strong>Email</strong> is invalid.', 'fundpress' ) );
 					}
 
@@ -245,7 +245,8 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 				} else {
 					wp_send_json( array( 'status' => 'success', 'url' => donate_redirect_url() ) );
 				}
-			} catch ( Exception $e ) {
+			}
+			catch ( Exception $e ) {
 				donate_add_notice( 'error', $e->getMessage() );
 			}
 

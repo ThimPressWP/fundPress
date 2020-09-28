@@ -257,7 +257,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 		/**
 		 * Checkout process.
 		 *
-		 * @param bool $donate
+		 * @param bool  $donate
 		 * @param array $posted
 		 *
 		 * @return array|null

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Show On Filters
  * Use the 'cmb2_show_on' filter to further refine the conditions
@@ -7,7 +8,7 @@
  *
  * All methods in this class are automatically filtered
  *
- * @since  1.0.0
+ * @since     1.0.0
  *
  * @category  WordPress_Plugin
  * @package   CMB2
@@ -20,11 +21,11 @@ class CMB2_Show_Filters {
 	/**
 	 * Get Show_on key. backwards compatible w/ 'key' indexes
 	 *
-	 * @since  2.0.0
-	 *
-	 * @param  array $meta_box_args Metabox config array
+	 * @param array $meta_box_args Metabox config array
 	 *
 	 * @return mixed                show_on key or false
+	 * @since  2.0.0
+	 *
 	 */
 	private static function get_show_on_key( $meta_box_args ) {
 		$show_on = isset( $meta_box_args['show_on'] ) ? (array) $meta_box_args['show_on'] : false;
@@ -35,6 +36,7 @@ class CMB2_Show_Filters {
 			}
 
 			$keys = array_keys( $show_on );
+
 			return $keys[0];
 		}
 
@@ -44,11 +46,11 @@ class CMB2_Show_Filters {
 	/**
 	 * Get Show_on value. backwards compatible w/ 'value' indexes
 	 *
-	 * @since  2.0.0
-	 *
-	 * @param  array $meta_box_args Metabox config array
+	 * @param array $meta_box_args Metabox config array
 	 *
 	 * @return mixed                show_on value or false
+	 * @since  2.0.0
+	 *
 	 */
 	private static function get_show_on_value( $meta_box_args ) {
 		$show_on = isset( $meta_box_args['show_on'] ) ? (array) $meta_box_args['show_on'] : false;
@@ -69,10 +71,12 @@ class CMB2_Show_Filters {
 
 	/**
 	 * Add metaboxes for an specific ID
-	 * @since  1.0.0
-	 * @param  bool  $display  To display or not
-	 * @param  array $meta_box_args Metabox config array
+	 *
+	 * @param bool  $display       To display or not
+	 * @param array $meta_box_args Metabox config array
+	 *
 	 * @return bool            Whether to display this metabox on the current page.
+	 * @since  1.0.0
 	 */
 	public static function check_id( $display, $meta_box_args, $cmb ) {
 
@@ -93,10 +97,12 @@ class CMB2_Show_Filters {
 
 	/**
 	 * Add metaboxes for an specific Page Template
-	 * @since  1.0.0
-	 * @param  bool  $display  To display or not
-	 * @param  array $meta_box_args Metabox config array
+	 *
+	 * @param bool  $display       To display or not
+	 * @param array $meta_box_args Metabox config array
+	 *
 	 * @return bool            Whether to display this metabox on the current page.
+	 * @since  1.0.0
 	 */
 	public static function check_page_template( $display, $meta_box_args, $cmb ) {
 
@@ -124,10 +130,12 @@ class CMB2_Show_Filters {
 
 	/**
 	 * Only show options-page metaboxes on their options page (but only enforce on the admin side)
-	 * @since  1.0.0
-	 * @param  bool  $display  To display or not
-	 * @param  array $meta_box_args Metabox config array
+	 *
+	 * @param bool  $display       To display or not
+	 * @param array $meta_box_args Metabox config array
+	 *
 	 * @return bool            Whether to display this metabox on the current page.
+	 * @since  1.0.0
 	 */
 	public static function check_admin_page( $display, $meta_box_args ) {
 

@@ -576,7 +576,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 						'order'    => sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( sanitize_params_submitted($_GET['orderby']) === 'phone' ) {
+				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'phone' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'phone',
 						'orderby'  => 'meta_value',
