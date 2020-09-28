@@ -152,7 +152,8 @@ class CMB2_Show_Filters {
 			if ( ! isset( $_GET['page'] ) ) {
 				return $display;
 			}
-			$get_page = sanitize_params_submitted( $_GET['page'] )
+
+			$get_page = sanitize_params_submitted( $_GET['page'] );
 
 			$show_on = self::get_show_on_value( $meta_box_args );
 
