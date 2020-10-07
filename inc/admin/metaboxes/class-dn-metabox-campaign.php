@@ -200,7 +200,7 @@ if ( ! class_exists( 'DN_MetaBox_Campaign' ) ) {
 				return;
 			} 
 			foreach ( $_POST as $name => $value ) {
-				$value = sanitize_params_submitted($value);
+				$value = DN_Helpper::DN_sanitize_params_submitted($value);
 				if ( strpos( $name, $this->_prefix ) !== 0 ) {
 					continue;
 				}

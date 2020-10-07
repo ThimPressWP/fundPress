@@ -71,10 +71,6 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 			 * wp try to call a test to a rest-api for site-health feature.
 			 */
 
-			if ( ! session_id() ) {
-				session_start();
-			}
-
 			if ( isset( $_SESSION[ $this->prefix ] ) ) {
 				return $_SESSION[ $this->prefix ];
 			} else if ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {

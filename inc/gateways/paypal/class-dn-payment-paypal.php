@@ -72,24 +72,24 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 		 */
 		public function verify() {
 			if ( isset( $_GET['donate-paypal-payment'] ) && $_GET['donate-paypal-payment'] && ! empty( $_GET['donate-id'] ) ) {
-				if ( ! isset( $_GET['donate-paypal-nonce'] ) || ! wp_verify_nonce( sanitize_params_submitted( $_GET['donate-paypal-nonce'] ), 'donate-paypal-nonce' ) ) {
+				if ( ! isset( $_GET['donate-paypal-nonce'] ) || ! wp_verify_nonce( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-paypal-nonce'] ), 'donate-paypal-nonce' ) ) {
 					return;
 				}
 
-				if ( sanitize_params_submitted( $_GET['donate-paypal-payment'] ) === 'completed' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-paypal-payment'] ) === 'completed' ) {
 					$this->completed_process_message();
 
 					FP()->cart->remove_cart();
-				} else if ( sanitize_params_submitted( $_GET['donate-paypal-payment'] ) === 'cancel' ) {
+				} else if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-paypal-payment'] ) === 'cancel' ) {
 					donate_add_notice( 'error', __( 'Donate is cancel.', 'fundpress' ) );
 				}
 				// redirect
-				wp_redirect( donate_get_thankyou_link( sanitize_params_submitted( $_GET['donate-id'] ) ) );
+				wp_redirect( donate_get_thankyou_link( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-id'] ) ) );
 				exit();
 			}
 
 			// validate payment notify_url, update status
-			if ( ! empty( $_POST ) && isset( $_POST['txn_type'] ) && sanitize_params_submitted( $_POST['txn_type'] ) === 'web_accept' ) {
+			if ( ! empty( $_POST ) && isset( $_POST['txn_type'] ) && DN_Helpper::DN_sanitize_params_submitted( $_POST['txn_type'] ) === 'web_accept' ) {
 				if ( ! isset( $_POST['payment_status'] ) ) {
 					return;
 				}
@@ -128,7 +128,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 
 					if ( strtolower( $body ) === 'verified' ) {
 						// payment status
-						$payment_status = strtolower( sanitize_params_submitted( $_POST['payment_status'] ) );
+						$payment_status = strtolower( DN_Helpper::DN_sanitize_params_submitted( $_POST['payment_status'] ) );
 
 						if ( in_array( $payment_status, array( 'pending', 'completed' ) ) ) {
 							$status = 'donate-completed';

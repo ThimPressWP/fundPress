@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit();
             </div>
             <!--title-->
             <div class="donate_cart_item_name_title">
-                <a href="<?php echo esc_attr( get_permalink( $cart_content->campaign_id ) ) ?>"><?php printf( '%s', $cart_content->product_data->post_title ) ?></a>
+                <a href="<?php echo esc_url( get_permalink( $cart_content->campaign_id ) ) ?>"><?php printf( '%s', $cart_content->product_data->post_title ) ?></a>
             </div>
         </td>
         <td class="donate_cart_item_amount"><?php printf( '%s', donate_price( $cart_content->amount, $cart_content->currency ) ) ?></td>

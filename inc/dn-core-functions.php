@@ -603,18 +603,19 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 	 * @return rate
 	 */
 	function donate_curl_get( $url ) {
-		$ch = curl_init();
-
-		curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-		curl_setopt( $ch, CURLOPT_HEADER, 0 );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		@curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-
-		$data = curl_exec( $ch );
-		curl_close( $ch );
-
-		return $data;
+//		$ch = curl_init();
+//
+//		curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
+//		curl_setopt( $ch, CURLOPT_HEADER, 0 );
+//		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+//		curl_setopt( $ch, CURLOPT_URL, $url );
+//		@curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
+//
+//		$data = curl_exec( $ch );
+//		curl_close( $ch );
+            $response = wp_remote_get($url );
+            $data    = wp_remote_retrieve_body( $response );
+            return $data;
 	}
 
 }
@@ -1353,30 +1354,4 @@ if ( ! function_exists( 'donation_system_total_amount' ) ) {
 
 		<?php
 	}
-}
-if (!function_exists('sanitize_params_submitted')) {
-
-    function sanitize_params_submitted($value, $type_content = 'text') {
-        $value = wp_unslash($value);
-
-        if (is_string($value)) {
-            switch ($type_content) {
-                case 'html':
-                    $value = wp_kses_post($value);
-                    break;
-                case 'textarea' :
-                    $value = sanitize_textarea_field($value);
-                    break;
-                default:
-                    $value = sanitize_text_field(wp_unslash($value));
-            }
-        } elseif (is_array($value)) {
-            foreach ($value as $k => $v) {
-                $value[$k] = sanitize_params_submitted($v, $type_content);
-            }
-        }
-
-        return $value;
-    }
-
 }

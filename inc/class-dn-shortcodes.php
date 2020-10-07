@@ -120,7 +120,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		public static function donate_checkout( $atts, $contents = null ) {
 			if ( donate_is_thankyou_page() ) {
 				$temp   = 'checkout/thank-you.php';
-				$donate = ( isset( $_GET['donate-id'] ) ? sanitize_params_submitted( $_GET['donate-id'] ) : 0 );
+				$donate = ( isset( $_GET['donate-id'] ) ? DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-id'] ) : 0 );
 				$atts   = shortcode_atts( array( 'donate' => $donate ), $atts );
 			} else if ( FP()->cart->is_empty() ) {
 				$temp = 'cart/empty.php';

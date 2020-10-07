@@ -33,13 +33,13 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 		 */
 		public function process_checkout() {
 			try {
-				if ( ! isset( $_POST['thimpress_donate_nonce'] ) || ! wp_verify_nonce( sanitize_params_submitted( $_POST['thimpress_donate_nonce'] ), 'thimpress_donate_nonce' ) ) {
+				if ( ! isset( $_POST['thimpress_donate_nonce'] ) || ! wp_verify_nonce( DN_Helpper::DN_sanitize_params_submitted( $_POST['thimpress_donate_nonce'] ), 'thimpress_donate_nonce' ) ) {
 					throw new Exception( __( 'We were unable to process your order, please try again.', 'fundpress' ) );
 				}
 
 				$amount = 0;
 				if ( isset( $_POST['donate_input_amount'] ) ) {
-					$amount = sanitize_params_submitted( $_POST['donate_input_amount'] );
+					$amount = DN_Helpper::DN_sanitize_params_submitted( $_POST['donate_input_amount'] );
 				}
 
 				/* set global posted */
@@ -48,7 +48,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 				// donate within campaign
 				if ( isset( $this->posted['campaign_id'] ) && is_numeric( $this->posted['campaign_id'] ) ) {
 					// get campaign
-					$campaign = get_post( sanitize_params_submitted( $this->posted['campaign_id'] ) );
+					$campaign = get_post( DN_Helpper::DN_sanitize_params_submitted( $this->posted['campaign_id'] ) );
 
 					if ( ! $campaign || $campaign->post_type !== 'dn_campaign' ) {
 						donate_add_notice( 'error', __( 'Campaign is invalid.', 'fundpress' ) );
@@ -93,7 +93,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 				// process checkout
 				$donate_system = false;
 				if ( isset( $this->posted['payment_process'] ) && $this->posted['payment_process'] ) {
-					if ( isset( $this->posted['donate_system'] ) && sanitize_params_submitted( $this->posted['donate_system'] ) == 1 ) {
+					if ( isset( $this->posted['donate_system'] ) && DN_Helpper::DN_sanitize_params_submitted( $this->posted['donate_system'] ) == 1 ) {
 						$donate_system = true;
 					}
 
@@ -103,19 +103,19 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 					}
 
 					/* VALIDATE POST FIELDS */
-					if ( ! isset( $this->posted['first_name'] ) || trim( sanitize_params_submitted( $this->posted['first_name'] ) ) === '' ) {
+					if ( ! isset( $this->posted['first_name'] ) || trim( DN_Helpper::DN_sanitize_params_submitted( $this->posted['first_name'] ) ) === '' ) {
 						donate_add_notice( 'error', __( '<strong>First Name</strong> is a required field.', 'fundpress' ) );
 					}
 
-					if ( ! isset( $this->posted['last_name'] ) || trim( sanitize_params_submitted( $this->posted['last_name'] ) ) === '' ) {
+					if ( ! isset( $this->posted['last_name'] ) || trim( DN_Helpper::DN_sanitize_params_submitted( $this->posted['last_name'] ) ) === '' ) {
 						donate_add_notice( 'error', __( '<strong>Last Name</strong> is a required field.', 'fundpress' ) );
 					}
 
-					if ( ! isset( $this->posted['email'] ) || trim( sanitize_params_submitted( $this->posted['email'] ) ) === '' || ! is_email( $this->posted['email'] ) ) {
+					if ( ! isset( $this->posted['email'] ) || trim( DN_Helpper::DN_sanitize_params_submitted( $this->posted['email'] ) ) === '' || ! is_email( $this->posted['email'] ) ) {
 						donate_add_notice( 'error', __( '<strong>Email</strong> is invalid.', 'fundpress' ) );
 					}
 
-					if ( ! isset( $this->posted['phone'] ) || trim( sanitize_params_submitted( $this->posted['phone'] ) ) === '' ) {
+					if ( ! isset( $this->posted['phone'] ) || trim( DN_Helpper::DN_sanitize_params_submitted( $this->posted['phone'] ) ) === '' ) {
 						donate_add_notice( 'error', __( '<strong>Phone Number</strong> is a required field.', 'fundpress' ) );
 					}
 					// terms and conditions
@@ -138,7 +138,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 					$payment_method = isset( $this->posted['payment_method'] ) ? sanitize_text_field( $this->posted['payment_method'] ) : false;
 
 					// payment method is invalid
-					if ( ! $payment_method || ! array_key_exists( sanitize_params_submitted( $this->posted['payment_method'] ), $payments ) ) {
+					if ( ! $payment_method || ! array_key_exists( DN_Helpper::DN_sanitize_params_submitted( $this->posted['payment_method'] ), $payments ) ) {
 						// return error with message if payment method is not enable or not exists in system.
 						throw new Exception( __( '<strong>Payment method</strong> is invalid. Please try again.', 'fundpress' ) );
 					}

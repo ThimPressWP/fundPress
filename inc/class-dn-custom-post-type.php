@@ -542,18 +542,18 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 		 */
 		public function request_query( $vars ) {
 
-			if ( ! is_admin() || ! isset( $_GET['post_type'] ) || ! in_array( sanitize_params_submitted( $_GET['post_type'] ), array(
+			if ( ! is_admin() || ! isset( $_GET['post_type'] ) || ! in_array( DN_Helpper::DN_sanitize_params_submitted( $_GET['post_type'] ), array(
 					'dn_donate',
 					'dn_donor'
 				) ) ) {
 				return $vars;
 			}
-			$post_type = sanitize_params_submitted( $_GET['post_type'] );
+			$post_type = DN_Helpper::DN_sanitize_params_submitted( $_GET['post_type'] );
 			if ( ! isset( $_GET['orderby'] ) || ! isset( $_GET['order'] ) ) {
 				return $vars;
 			}
 			if ( $post_type === 'dn_donate' ) {
-				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'donate_total' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'donate_total' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONATE . 'total',
 						'orderby'  => 'meta_value'
@@ -562,42 +562,42 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 			}
 
 			if ( $post_type === 'dn_donor' ) {
-				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'full_name' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'full_name' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'first_name',
 						'orderby'  => 'meta_value',
-						'order'    => sanitize_params_submitted( $_GET['order'] )
+						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'email' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'email' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'email',
 						'orderby'  => 'meta_value',
-						'order'    => sanitize_params_submitted( $_GET['order'] )
+						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'phone' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'phone' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'phone',
 						'orderby'  => 'meta_value',
-						'order'    => sanitize_params_submitted( $_GET['order'] )
+						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
 			}
 
 			if ( $post_type === 'dn_campaign' ) {
-				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'start' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'start' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONATE . 'start',
 						'orderby'  => 'meta_value',
-						'order'    => sanitize_params_submitted( $_GET['order'] )
+						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( sanitize_params_submitted( $_GET['orderby'] ) === 'end' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'end' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONATE . 'end',
 						'orderby'  => 'meta_value',
-						'order'    => sanitize_params_submitted( $_GET['order'] )
+						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
 			}

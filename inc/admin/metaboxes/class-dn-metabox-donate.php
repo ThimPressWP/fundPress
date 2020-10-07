@@ -66,19 +66,19 @@ if ( ! class_exists( 'DN_MetaBox_Donate' ) ) {
 			}
 
 			$donate      = DN_Donate::instance( $post_id );
-			$donate_type = sanitize_params_submitted( $_POST['thimpress_donate_type'] );
+			$donate_type = DN_Helpper::DN_sanitize_params_submitted( $_POST['thimpress_donate_type'] );
 
 			/* donate type */
 			update_post_meta( $post_id, 'thimpress_donate_type', $donate_type );
 			/* donor */
-			update_post_meta( $post_id, 'thimpress_donate_donor_id', isset( $_POST['thimpress_donate_donor_id'] ) ? esc_attr( absint( $_POST['thimpress_donate_donor_id'] ) ) : 0 );
+			update_post_meta( $post_id, 'thimpress_donate_donor_id', isset( $_POST['thimpress_donate_donor_id'] ) ? absint( $_POST['thimpress_donate_donor_id'] ) : 0 );
 
 			$total = 0;
 			if ( $donate_type === 'system' || ( ! isset( $_POST['donate_item'] ) || empty( $_POST['donate_item'] ) ) ) {
 				$donate->remove_donate_items();
-				$total = isset( $_POST['thimpress_donate_total'] ) ? esc_attr( floatval( $_POST['thimpress_donate_total'] ) ) : 0;
+				$total = isset( $_POST['thimpress_donate_total'] ) ? floatval( $_POST['thimpress_donate_total'] ) : 0;
 			} else if ( $donate_type === 'campaign' ) {
-				$donate_item = sanitize_params_submitted( $_POST['donate_item'] );
+				$donate_item = DN_Helpper::DN_sanitize_params_submitted( $_POST['donate_item'] );
 				foreach ( $donate_item as $item ) {
 					if ( ! isset( $item['campaign_id'] ) || ! isset( $item['amount'] ) ) {
 						continue;

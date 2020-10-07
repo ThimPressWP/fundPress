@@ -69,7 +69,7 @@ if ( ! class_exists( 'DN_MetaBox_Donate_Note' ) ) {
 			if ( ! isset( $_POST['thimpress_donate_addition'] ) ) {
 				return;
 			}
-			update_post_meta( $post_id, 'thimpress_donate_addition', sanitize_params_submitted( $_POST['thimpress_donate_addition'] ) );
+			update_post_meta( $post_id, 'thimpress_donate_addition', DN_Helpper::DN_sanitize_params_submitted( $_POST['thimpress_donate_addition'] ) );
 		}
 	}
 }

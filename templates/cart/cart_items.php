@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit();
     <tr>
         <td class="donate_action_remove">
             <!--remove-->
-            <a href="<?php echo esc_attr( donate_cart_url() . '?donate_remove_item=' . $cart_item_key ) ?>"
+            <a href="<?php echo esc_url( donate_cart_url() . '?donate_remove_item=' . $cart_item_key ) ?>"
                id="<?php echo esc_attr( $cart_item_key ) ?>">X</a>
         </td>
         <td class="donate_cart_item_name">
@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit();
             </div>
             <!--title-->
             <div class="donate_cart_item_name_title">
-                <a href="<?php echo esc_attr( get_permalink( $cart_content->campaign_id ) ) ?>"><?php printf( '%s', $cart_content->product_data->post_title ) ?></a>
+                <a href="<?php echo esc_url( get_permalink( $cart_content->campaign_id ) ) ?>"><?php printf( '%s', $cart_content->product_data->post_title ) ?></a>
             </div>
         </td>
         <td class="donate_cart_item_amount"><?php printf( '%s', donate_price( $cart_content->amount, donate_get_currency() ) ) ?></td>
