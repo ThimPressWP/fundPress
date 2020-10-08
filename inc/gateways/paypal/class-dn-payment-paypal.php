@@ -111,7 +111,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 				// sanitize
 				$pay_verify = array_merge( array( 'cmd' => '_notify-validate' ), array_map( 'stripcslashes', $_POST ) );
 
-				$paypal_api_url = isset( $_POST['test_ipn'] ) && sanitize_params_submitted( $_POST['test_ipn'] ) == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
+				$paypal_api_url = isset( $_POST['test_ipn'] ) && DN_Helpper::DN_sanitize_params_submitted( $_POST['test_ipn'] ) == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
 				$params   = array(
 					'body'        => $pay_verify,
@@ -257,7 +257,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 		/**
 		 * Checkout process.
 		 *
-		 * @param bool  $donate
+		 * @param bool $donate
 		 * @param array $posted
 		 *
 		 * @return array|null

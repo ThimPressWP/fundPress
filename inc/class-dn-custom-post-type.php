@@ -552,8 +552,11 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 			if ( ! isset( $_GET['orderby'] ) || ! isset( $_GET['order'] ) ) {
 				return $vars;
 			}
+
+			$orderBy = DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] );
+
 			if ( $post_type === 'dn_donate' ) {
-				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'donate_total' ) {
+				if ( $orderBy === 'donate_total' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONATE . 'total',
 						'orderby'  => 'meta_value'
@@ -562,21 +565,21 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 			}
 
 			if ( $post_type === 'dn_donor' ) {
-				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'full_name' ) {
+				if ( $orderBy === 'full_name' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'first_name',
 						'orderby'  => 'meta_value',
 						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'email' ) {
+				if ( $orderBy === 'email' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'email',
 						'orderby'  => 'meta_value',
 						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'phone' ) {
+				if ( $orderBy === 'phone' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONOR . 'phone',
 						'orderby'  => 'meta_value',
@@ -586,14 +589,14 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 			}
 
 			if ( $post_type === 'dn_campaign' ) {
-				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'start' ) {
+				if ( $orderBy === 'start' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONATE . 'start',
 						'orderby'  => 'meta_value',
 						'order'    => DN_Helpper::DN_sanitize_params_submitted( $_GET['order'] )
 					) );
 				}
-				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['orderby'] ) === 'end' ) {
+				if ( $orderBy === 'end' ) {
 					$vars = array_merge( $vars, array(
 						'meta_key' => TP_DONATE_META_DONATE . 'end',
 						'orderby'  => 'meta_value',
