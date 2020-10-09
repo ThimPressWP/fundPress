@@ -603,16 +603,6 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 	 * @return rate
 	 */
 	function donate_curl_get( $url ) {
-//		$ch = curl_init();
-//
-//		curl_setopt( $ch, CURLOPT_AUTOREFERER, true );
-//		curl_setopt( $ch, CURLOPT_HEADER, 0 );
-//		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-//		curl_setopt( $ch, CURLOPT_URL, $url );
-//		@curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
-//
-//		$data = curl_exec( $ch );
-//		curl_close( $ch );
             $response = wp_remote_get($url );
             $data    = wp_remote_retrieve_body( $response );
             return $data;
