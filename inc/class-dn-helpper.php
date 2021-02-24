@@ -51,9 +51,7 @@ if ( ! class_exists( 'DN_Helpper' ) ) {
     }
     
 }
-if ( ! function_exists( 'DN' ) ) {
-    function DN() {
-        return DN_Helpper::instance();
-    }
+function DN() {
+    return DN_Helpper::instance();
 }
 $GLOBALS['DN_Helpper'] = DN();
