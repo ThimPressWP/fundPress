@@ -3,7 +3,7 @@ Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
 Requires at least: 4.6
-Tested up to: 5.5.1
+Tested up to: 5.6.2
 Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -98,6 +98,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
+= 2.0.3 =
+~ Fix error some server not found CMB2_Hookup.php file
 
 = 2.0.2 =
 ~ Update library CMB2
