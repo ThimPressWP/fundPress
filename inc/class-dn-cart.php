@@ -124,7 +124,7 @@ if ( ! class_exists( 'DN_Cart' ) ) {
 						$post_type     = $param->product_data->post_type;
 						$product_class = 'DN_Product_' . ucfirst( str_replace( 'dn_', '', $post_type ) );
 						if ( ! class_exists( $product_class ) ) {
-							$product_class = 'DN_Product_Base';
+							$product_class = 'DN_Product_Campain';
 						}
 
 						if ( ! class_exists( $product_class ) ) {
