@@ -591,7 +591,7 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 			$rate = 1;
 		}
 
-		return round( $amount * $rate, donate_currency_decimal() );
+		return round( (float) $amount * (float) $rate, donate_currency_decimal() );
 	}
 
 	/**

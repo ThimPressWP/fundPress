@@ -4,7 +4,7 @@
   Plugin URI: http://thimpress.com/fundpress
   Description: Easily build your own crowdfunding platform like Kickstarter with this free WordPress donation plugin.
   Author: ThimPress
-  Version: 2.0.3
+  Version: 2.0.5
   Author URI: http://thimpress.com
  */
 

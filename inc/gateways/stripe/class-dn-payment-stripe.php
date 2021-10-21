@@ -201,14 +201,14 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				return;
 			}
 
-			$stripe = apply_filters( 'donate_stripe_payment_object', array(
+			/*$stripe = apply_filters( 'donate_stripe_payment_object', array(
 				'Secret_Key'  => $this->secret_key,
 				'Publish_Key' => $this->publish_key,
 				'key_missing' => __( 'Stripe key is expired. Please contact administrator to do this payment gateway', 'fundpress' )
-			) );
+			) );*/
 
 			wp_register_script( 'donate_payment_stripe', FUNDPRESS_INC_URI . '/gateways/stripe/jquery.payment.min.js', array(), FUNDPRESS_VER, true );
-			wp_localize_script( 'donate_payment_stripe', 'Donate_Stripe_Settings', $stripe );
+			//wp_localize_script( 'donate_payment_stripe', 'Donate_Stripe_Settings', $stripe );
 
 			wp_enqueue_script( 'donate_payment_stripe' );
 		}
