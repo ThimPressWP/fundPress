@@ -66,7 +66,8 @@ if ( ! class_exists( 'DN_Donor' ) ) {
 			}
 
 			global $wpdb;
-			$query = $wpdb->prepare( "
+			$query = $wpdb->prepare(
+				"
 				SELECT post.ID as ID FROM {$wpdb->posts} AS post
 				INNER JOIN {$wpdb->postmeta} AS meta
 				ON meta.post_id = post.ID
@@ -75,7 +76,12 @@ if ( ! class_exists( 'DN_Donor' ) ) {
 				AND post.post_type = %s
 				AND meta.meta_key = %s
 				AND meta.meta_value = %s
-			", 'publish', $this->post_type, 'thimpress_donor_email', $email );
+                ",
+				'publish',
+				$this->post_type,
+				'thimpress_donor_email',
+				$email
+			);
 
 			$result = $wpdb->get_row( $query, OBJECT );
 
@@ -100,11 +106,13 @@ if ( ! class_exists( 'DN_Donor' ) ) {
 
 			$donor_id = $this->donor_exists( $param['email'] );
 			if ( ! $donor_id ) {
-				$donor_id = $this->create_post( array(
-					'post_title'   => sprintf( '%s %s', $param['first_name'], $param['last_name'] ),
-					'post_content' => sprintf( '%s', $param['email'] ),
-					'post_excerpt' => sprintf( '%s', $param['email'] )
-				) );
+				$donor_id = $this->create_post(
+					array(
+						'post_title'   => sprintf( '%s %s', $param['first_name'], $param['last_name'] ),
+						'post_content' => sprintf( '%s', $param['email'] ),
+						'post_excerpt' => sprintf( '%s', $param['email'] ),
+					)
+				);
 			}
 
 			foreach ( $param as $meta_key => $value ) {
@@ -138,7 +146,7 @@ if ( ! class_exists( 'DN_Donor' ) ) {
 				'meta_key'       => 'thimpress_donate_donor_id',
 				'meta_value'     => $this->id,
 				'post_type'      => 'dn_donate',
-				'post_status'    => array( 'donate-pending', 'donate-processing', 'donate-completed' )
+				'post_status'    => array( 'donate-pending', 'donate-processing', 'donate-completed' ),
 			);
 			$posts_array = get_posts( $args );
 			wp_reset_postdata();
@@ -167,13 +175,11 @@ if ( ! class_exists( 'DN_Donor' ) ) {
 				return new self( $post );
 			}
 
-			$id = null;
-			if ( is_numeric( $post ) ) {
-				$post = get_post( $post );
-				$id   = $post->ID;
-			} else if ( $post instanceof WP_Post ) {
-				$id = $post->ID;
+			if ( ! $post instanceof WP_Post ) {
+				$post = get_post( (int) $post );
 			}
+
+			$id = $post ? $post->ID : 0;
 
 			if ( ! empty( self::$_instances[ $id ] ) ) {
 				return self::$_instances[ $id ];

@@ -1,5 +1,4 @@
-(function ($) {
-
+;(function ($) {
 	/**
 	 * DONATE_Site object
 	 * @type Object
@@ -184,6 +183,9 @@
 					TP_Donate_Global.processing();
 				}
 			}).done(function (res) {
+				window.location = res.redirect;
+
+				return;
 				TP_Donate_Global.complete();
 
 				res = TP_Donate_Global.applyFilters('donate_submit_submited_form_results', res);
@@ -276,8 +278,60 @@
 		}
 	};
 
+	var dn_stripe = {
+		init: function() {
+
+			window.addEventListener( 'hashchange', dn_stripe.onHashChange );
+			dn_stripe.onHashChange()
+		},
+
+		notice: function( $message ) {
+			/*$( 'div.learnpress' ).find( '.learn-press-message.stripe' ).remove();
+			$( 'div.learnpress' ).prepend( '<div class="learn-press-message stripe error message-error">' + $message + '</div>' );*/
+		},
+
+		onHashChange: function() {
+			var partials = window.location.hash.match( /^#?confirm-(pi|si).*/ );
+			//var partials = '#confirm-pi-pi_3JmxYLK8vbTUG7BJ1ALWAbsN_secret_V212sdzY45kWxcFYcrCrHIq2T'.match( /^#?confirm-(pi|si).*/ );
+
+			$intentSecurity =  partials[0].replace('#confirm-pi-', '').replace('#confirm-si-', '');
+			//
+			// // if ( ! partials || 4 > partials.length ) {
+			// // 	return;
+			// // }
+			//
+			// var type               = partials[1];
+			// var intentClientSecret = partials[2];
+			// var redirectURL        = decodeURIComponent( partials[0].replace('#confirm-pi-pi_', '') );
+
+			// console.log(redirectURL);
+
+			// Cleanup the URL
+			// window.location.hash = '';
+
+			dn_stripe.openIntentModal( $intentSecurity, 'http://lp.local', false, 'si' === 'pi' );
+		},
+
+		openIntentModal: function( intentClientSecret, redirectURL, alwaysRedirect, isSetupIntent ) {
+			var buttonCheckout = $( '#learn-press-checkout-place-order' ),
+				formCheckout = buttonCheckout.closest( 'form' );
+
+			stripe[ isSetupIntent ? 'confirmCardSetup' : 'confirmCardPayment' ]( intentClientSecret )
+				.then( function( response ) {
+					console.log( response );
+				} )
+				.catch( function( error ) {
+
+				} );
+		},
+
+	};
+
+	let stripe;
 	$(document).ready(function () {
+		 stripe = Stripe( dn_localize.stripe_publish_key );
 		DONATE_Site.init();
+		dn_stripe.init();
 	});
 
 	$(window).resize(function () {

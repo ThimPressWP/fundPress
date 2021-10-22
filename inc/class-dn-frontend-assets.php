@@ -31,8 +31,9 @@ if ( ! class_exists( 'DN_Frontend_Assets' ) ) {
 		 * @param $hook
 		 */
 		public static function register_scripts( $hook ) {
+			wp_enqueue_script( 'stripe', 'https://js.stripe.com/v3/', '', '3.0', true );
 			// site assets
-			DN_Assets::register_script( 'donate-frontend-script', FUNDPRESS_ASSETS_URI . '/js/site.js', array(), FUNDPRESS_VER, true );
+			wp_enqueue_script( 'donate-frontend-script', FUNDPRESS_ASSETS_URI . '/js/frontend/site.js', array(), FUNDPRESS_VER, true );
 			DN_Assets::register_style( 'donate-frontend-style', FUNDPRESS_ASSETS_URI . '/css/site.css' );
 
 			// magic popup

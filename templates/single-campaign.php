@@ -23,13 +23,14 @@ defined( 'ABSPATH' ) || exit();
  */
 do_action( 'donate_before_main_content' );
 ?>
-
-    <div id="donate_main_content">
-		<?php while ( have_posts() ) : the_post(); ?>
+	<div id="donate_main_content">
+		<?php
+		while ( have_posts() ) :
+			the_post();
+			?>
 			<?php donate_get_template_part( 'content', 'single-campaign' ); ?>
 		<?php endwhile; // end of the loop. ?>
-    </div>
-
+	</div>
 <?php
 /**
  * donate_after_main_content hook
@@ -37,6 +38,13 @@ do_action( 'donate_before_main_content' );
 do_action( 'donate_after_main_content' );
 ?>
 
-<?php get_sidebar(); ?>
+<?php
+$file_sidebar = get_template_directory() . DIRECTORY_SEPARATOR . 'sidebar.php';
+if ( file_exists( $file_sidebar ) ) {
+	get_sidebar();
+}
 
-<?php get_footer();
+?>
+
+<?php
+get_footer();

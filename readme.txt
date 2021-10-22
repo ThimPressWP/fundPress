@@ -2,9 +2,9 @@
 Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
-Requires at least: 4.6
-Tested up to: 5.6.2
-Stable tag: 2.0.5
+Requires at least: 5.6
+Tested up to: 5.8.1
+Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,12 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
+= 2.0.6 =
+~ Added: Stripe SCA
+
+= 2.0.5 =
+~ Fixed: minor bug
 
 = 2.0.4 =
 ~ Fixed: minor bug
