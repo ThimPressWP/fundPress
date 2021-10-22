@@ -66,6 +66,9 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_script' ) );
 			add_action( 'wp_footer', array( $this, 'process_script_js' ) );
+
+			add_action('wp_ajax_verify_intent_after_checkout', array($this,'verify_intent_after_checkout'));
+			add_action('wp_ajax_nopriv_verify_intent_after_checkout',array($this,'verify_intent_after_checkout'));
 		}
 
 		/**
@@ -472,6 +475,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 		}*/
 
 		public function process( $donate = false, $posted = array() ): array {
+
 			$response = [
 				'status'  => 'failed',
 				'message' => '',
@@ -530,25 +534,93 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				if ( 'requires_action' === $confirm_payment_intents->status ) {
 					update_post_meta( $donate->id, '_dn_stripe_intent_id', $confirm_payment_intents->id );
 
-					$redirect = sprintf( '%s#confirm-pi-%s', 'http://lp.local/lp-checkout', $confirm_payment_intents->client_secret );
-
+					$nonce = wp_create_nonce( 'fundpress_donate_confirm_pi' );
+					$sca_verification_url = admin_url('admin-ajax.php?action=verify_intent_after_checkout&donate_id='.$donate->id.'&nonce='.$nonce.'&indent_id='.$payment_intents->id.'');
+					$redirect = sprintf( '#confirm-pi-%s:%s', $confirm_payment_intents->client_secret, rawurlencode($sca_verification_url));
 					$response['status']   = 'success';
 					$response['redirect'] = $redirect;
+					
+
 				} elseif ( 'succeeded' === $confirm_payment_intents->status ) {
-					/*learn_press_delete_order_item_meta( $this->order->id, '_lp_stripe_intent_id', $intent->id );
 
-					$this->order_complete();
+					$donate->update_status( 'donate-completed' );
+					$donate->update_meta( 'total', $posted['amount'] );
 
-					return array(
+					FP()->cart->remove_cart();
+
+					$result = array(
 						'result'   => 'success',
-						'redirect' => $this->get_return_url( $this->order ),
-					);*/
+						'redirect' =>  donate_get_thankyou_link( $donate->id),
+					);
 				}
 			} catch ( Exception $e ) {
 				$response['message'] = $e->getMessage();
 			}
 
 			return $response;
+		}
+
+		public function verify_intent_after_checkout() {
+
+			if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'fundpress_donate_confirm_pi' ) ) {
+				$result = array(
+					'result'   => 'fail',
+		 			'message'  => esc_html__( 'Error: Verify nonce error!', 'fundpress' ),
+				);
+
+			 	wp_send_json( $result );
+			}
+
+			$intent_id = isset( $_GET['indent_id'] ) ? $_GET['indent_id'] : '';
+			$intent = $this->stripe_request( array(), 'payment_intents/' . $intent_id, 'GET' );
+
+			$donate_id = isset( $_GET['donate_id'] ) ? $_GET['donate_id'] : '';
+			$donate = DN_Donate::instance( $donate_id );
+
+			if ( ! $intent || ! $donate_id ) {
+			 	$result = array(
+					'result'   => 'fail',
+			 		'message'  => esc_html__( 'Error: Can\'t get Intent!', 'fundpress' ),
+				);
+
+				wp_send_json( $result );
+			}
+
+			clean_post_cache( $donate_id );
+
+			if ( isset( $intent->object ) && 'payment_intent' === $intent->object && isset( $intent->status ) && 'succeeded' === $intent->status ) {
+				delete_post_meta( $donate_id, '_dn_stripe_intent_id', $intent->id );
+
+				$zero_decimal_currencies = array( 'BIF', 'CLP', 'DJF', 'GNF', 'JPY', 'KMF', 'KRW', 'MGA', 'PYG', 'RWF', 'UGX', 'VND', 'VUV', 'XAF', 'XOF', 'XPF' );
+				$currency                = donate_get_currency();
+				$dn_total                = in_array( $currency, $zero_decimal_currencies ) ? (float) $donate->total : (float) $donate->total * 100;
+
+				if ( (float) $dn_total === (float) $intent->amount ) {
+					$status = 'donate-completed';
+				} else {
+					$status = 'donate-processing';
+				}
+
+				$donate->update_status( $status );
+				$donate->update_meta( 'total', $donate->total );
+				FP()->cart->remove_cart();
+
+				$result = array(
+					'result'   => 'success',
+					'redirect' =>  donate_get_thankyou_link( $donate_id),
+				);
+				
+			} else {
+				delete_post_meta( $donate_id, '_dn_stripe_intent_id', $intent->id );
+
+				$message = isset( $intent->last_payment_error->message ) ? $intent->last_payment_error->message : esc_html__( 'Unable to process this payment, please try again or use alternative method.', 'fundpress' );
+
+				$result = array(
+				 	'result'   => 'fail',
+					'message'  => $message,
+				);
+			}
+			wp_send_json( $result );
 		}
 
 		public function customer_payment_stripe() {

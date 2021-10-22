@@ -5,6 +5,44 @@ body {
     text-align: center;
     margin-top: 100px;
 }
+/* noitice form checkout */
+.donate_form_messages {
+    position: relative;
+    margin: 0 0 20px 0;
+    padding: 10px 12px 10px 15px;
+    border-top: 5px solid #00adff;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: #f5f5f5;
+}
+.donate_form_messages.error {
+    border-top: 5px solid #d85554;
+}
+.donate_form_messages::before, .donate_form_messages::after {
+    position: absolute;
+    top: 0;
+    content: "";
+}
+.donate_form_messages::before {
+    right: 20px;
+    width: 20px;
+    height: 30px;
+    background: #00adff;
+}
+.donate_form_messages.error::before {
+    background: #d85554;
+}
+.donate_form_messages.error::after {
+    top: 10px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-bottom-color: #f5f5f5;
+}
+
+/* end noitice form checkout */
+
 /**
  * ajax loading
  */

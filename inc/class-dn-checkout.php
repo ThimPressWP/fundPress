@@ -243,7 +243,7 @@ if ( ! class_exists( 'DN_Checkout' ) ) {
 						}
 					}
 				} else {
-					wp_send_json( array( 'status' => 'success', 'url' => donate_redirect_url() ) );
+					wp_send_json( array( 'status' => 'success', 'redirect' => donate_redirect_url() ) );
 				}
 			}
 			catch ( Exception $e ) {

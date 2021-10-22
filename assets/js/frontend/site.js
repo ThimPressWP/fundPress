@@ -1,4 +1,11 @@
 ;(function ($) {
+
+    try {
+        var stripe = Stripe( dn_localize.stripe_publish_key );
+    } catch( error ) {
+        console.log( error );
+        return;
+    }
 	/**
 	 * DONATE_Site object
 	 * @type Object
@@ -164,8 +171,8 @@
 
 			var _form = $(this),
 				_layout = _form.find('.donate_form_layout'),
-				_message = _form.find('.donation-messages');
-
+				_message = _form.find('.donation-messages'),
+                _button = _form.find('.donate_button');
 			// remove old message error
 			_form.find('.donate_form_error_messages').remove();
 			// invalid fields process ajax
@@ -181,38 +188,15 @@
 				data      : _data,
 				beforeSend: function () {
 					TP_Donate_Global.processing();
+                    _button.html('Loading...');
 				}
 			}).done(function (res) {
-				window.location = res.redirect;
-
+                
+                if( res.status && res.status === 'success' ) {
+                    _button.html('Donate');
+                    window.location = res.redirect;
+                }
 				return;
-				TP_Donate_Global.complete();
-
-				res = TP_Donate_Global.applyFilters('donate_submit_submited_form_results', res);
-
-				if (typeof res.status === 'undefined') {
-					return;
-				}
-
-				if (res) {
-					TP_Donate_Global.doAction('donate_submit_submited_form_completed', res);
-				}
-
-				if (typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true) {
-					// process with authorize.net SIM payment
-					var args = res.args;
-					if (Object.keys(args).length !== 0) {
-						var html = [];
-						html.push('<form id="donate_form_instead" action="' + res.url + '" method="POST">')
-						$.each(args, function (name, value) {
-							html.push('<input type="hidden" name="' + name + '" value="' + value + '" />');
-						});
-						html.push('<button type="submit" class="donate-redirecting">' + res.submit_text + '</button>');
-						html.push('</form>');
-						_form.replaceWith(html.join(''));
-						$('#donate_form_instead').submit();
-					}
-				}
 			});
 
 			return false;
@@ -282,54 +266,91 @@
 		init: function() {
 
 			window.addEventListener( 'hashchange', dn_stripe.onHashChange );
-			dn_stripe.onHashChange()
 		},
 
 		notice: function( $message ) {
-			/*$( 'div.learnpress' ).find( '.learn-press-message.stripe' ).remove();
-			$( 'div.learnpress' ).prepend( '<div class="learn-press-message stripe error message-error">' + $message + '</div>' );*/
+			$( 'div.donate_checkout' ).find( '.donate_form_messages' ).remove();
+			$( 'div.donate_checkout' ).prepend( '<div class="donate_form_messages error">' + $message + '</div>' );
 		},
 
 		onHashChange: function() {
-			var partials = window.location.hash.match( /^#?confirm-(pi|si).*/ );
-			//var partials = '#confirm-pi-pi_3JmxYLK8vbTUG7BJ1ALWAbsN_secret_V212sdzY45kWxcFYcrCrHIq2T'.match( /^#?confirm-(pi|si).*/ );
+			
+            var partials = window.location.hash.match( /^#?confirm-(pi|si)-([^:]+):(.+)$/ );
 
-			$intentSecurity =  partials[0].replace('#confirm-pi-', '').replace('#confirm-si-', '');
-			//
-			// // if ( ! partials || 4 > partials.length ) {
-			// // 	return;
-			// // }
-			//
-			// var type               = partials[1];
-			// var intentClientSecret = partials[2];
-			// var redirectURL        = decodeURIComponent( partials[0].replace('#confirm-pi-pi_', '') );
+            if ( ! partials || 4 > partials.length ) {
+                return;
+            }
 
-			// console.log(redirectURL);
-
-			// Cleanup the URL
-			// window.location.hash = '';
-
-			dn_stripe.openIntentModal( $intentSecurity, 'http://lp.local', false, 'si' === 'pi' );
+            var type               = partials[1];
+            var intentClientSecret = partials[2];
+            var redirectURL        = decodeURIComponent(partials[3]);
+            window.location.hash = '';
+            dn_stripe.openIntentModal( intentClientSecret, redirectURL, false, 'si' === type );
 		},
 
 		openIntentModal: function( intentClientSecret, redirectURL, alwaysRedirect, isSetupIntent ) {
-			var buttonCheckout = $( '#learn-press-checkout-place-order' ),
-				formCheckout = buttonCheckout.closest( 'form' );
+			var buttonCheckout = $( '.donate_payment_button_process .donate_button' );
 
 			stripe[ isSetupIntent ? 'confirmCardSetup' : 'confirmCardPayment' ]( intentClientSecret )
 				.then( function( response ) {
-					console.log( response );
+                    if ( response.error ) {                        
+                        dn_stripe.notice( response.error.message );
+                        throw response.error;
+                    }
+                    var intent = response[ isSetupIntent ? 'setupIntent' : 'paymentIntent' ];
+
+                    if ( 'requires_capture' !== intent.status && 'succeeded' !== intent.status ) {
+                        dn_stripe.notice( dn_localize.error_verify );
+                        return;
+                    }
+
+                    $.get( redirectURL, function( data ) {
+                        if ( data.result !== 'success' ) {
+                            if ( data.message ) {
+                                dn_stripe.notice( data.message );
+                            } else {
+                                dn_stripe.notice( 'Hotel Booking Stripe Js error.' );
+                            }
+                        }
+
+                        if ( data.redirect ) {
+                            window.location = data.redirect;
+                        }
+
+                        //buttonCheckout.html( lpCheckoutSettings.i18n_place_order );
+                        //buttonCheckout.prop( 'disabled', false );
+                    } );
 				} )
 				.catch( function( error ) {
+                    $( document.body ).trigger( 'stripeError', { error: error } );
+                    
+                    dn_stripe.notice( dn_localize.error_verify );
 
+                    //Report back to the server.
+                    buttonCheckout.html( dn_localize.button_verify );
+
+                    $.get( redirectURL, function( data ) {
+                        if ( data.result !== 'success' ) {
+                            if ( data.message ) {
+                                dn_stripe.notice( data.message );
+                            } else {
+                                dn_stripe.notice( 'FundPress Stripe Js error.' );
+                            }
+                        }
+
+                        if ( data.redirect ) {
+                            window.location = data.redirect;
+                        }
+
+                        //buttonCheckout.html( lpCheckoutSettings.i18n_place_order );
+                        //buttonCheckout.prop( 'disabled', false );
+                    } );
 				} );
 		},
 
 	};
 
-	let stripe;
 	$(document).ready(function () {
-		 stripe = Stripe( dn_localize.stripe_publish_key );
 		DONATE_Site.init();
 		dn_stripe.init();
 	});
