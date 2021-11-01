@@ -54,17 +54,20 @@
 		hooks                 : {
 			init    : function () {
 				TP_Donate_Global.addAction('donate_submit_submited_form_completed', this.submited);
+                console.log(TP_Donate_Global);
 			},
 			submited: function (res) {
-				if (res.status === 'success' && typeof res.url !== 'undefined') {
-					window.location.href = res.url;
+                console.log(res);
+				if (res.status === 'success' && typeof res.redirect !== 'undefined') {
+					window.location.href = res.redirect;
 				} else if (res.status === 'failed' && typeof res.message !== 'undefined') {
+                    var desiredHeight = $(window).height() - 150;
 					console.log(res.message);
 					DONATE_Site.generate_messages(res.message);
 					console.log(DONATE_Site.generate_messages(res.message));
 					$('body, html').animate({
-						scrollTop: $('.donation-messages').offset().top
-					});
+						scrollTop: $('.donation-messages').offset().top - desiredHeight
+					},1000);
 				}
 			}
 		},
@@ -187,16 +190,36 @@
 				type      : 'POST',
 				data      : _data,
 				beforeSend: function () {
-					TP_Donate_Global.processing();
-                    _button.html('Loading...');
+                    TP_Donate_Global.beforeAjax();
 				}
 			}).done(function (res) {
-                
-                if( res.status && res.status === 'success' ) {
-                    _button.html('Donate');
-                    window.location = res.redirect;
-                }
-				return;
+                TP_Donate_Global.afterAjax();
+
+				res = TP_Donate_Global.applyFilters('donate_submit_submited_form_results', res);
+
+				if (typeof res.status === 'undefined') {
+					return;
+				}
+
+				if (res) {
+					TP_Donate_Global.doAction('donate_submit_submited_form_completed', res);
+				}
+
+				if (typeof res.form !== 'undefined' && typeof res.args !== 'undefined' && res.form === true) {
+					// process with authorize.net SIM payment
+					var args = res.args;
+					if (Object.keys(args).length !== 0) {
+						var html = [];
+						html.push('<form id="donate_form_instead" action="' + res.url + '" method="POST">')
+						$.each(args, function (name, value) {
+							html.push('<input type="hidden" name="' + name + '" value="' + value + '" />');
+						});
+						html.push('<button type="submit" class="donate-redirecting">' + res.submit_text + '</button>');
+						html.push('</form>');
+						_form.replaceWith(html.join(''));
+						$('#donate_form_instead').submit();
+					}
+				}
 			});
 
 			return false;
@@ -305,7 +328,7 @@
                     }
 
                     $.get( redirectURL, function( data ) {
-                        if ( data.result !== 'success' ) {
+                        if ( data.status !== 'success' ) {
                             if ( data.message ) {
                                 dn_stripe.notice( data.message );
                             } else {
@@ -330,7 +353,7 @@
                     buttonCheckout.html( dn_localize.button_verify );
 
                     $.get( redirectURL, function( data ) {
-                        if ( data.result !== 'success' ) {
+                        if ( data.status !== 'success' ) {
                             if ( data.message ) {
                                 dn_stripe.notice( data.message );
                             } else {

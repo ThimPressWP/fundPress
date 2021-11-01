@@ -482,6 +482,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 			];
 
 			try {
+
 				if ( ! $this->secret_key || ! $this->publish_key ) {
 
 					$response['message'] = __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.', 'fundpress' );
@@ -530,7 +531,6 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				if ( $confirm_payment_intents instanceof WP_Error ) {
 					throw new Exception( $confirm_payment_intents->get_error_message() );
 				}
-
 				if ( 'requires_action' === $confirm_payment_intents->status ) {
 					update_post_meta( $donate->id, '_dn_stripe_intent_id', $confirm_payment_intents->id );
 
@@ -542,14 +542,13 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 					
 
 				} elseif ( 'succeeded' === $confirm_payment_intents->status ) {
-
 					$donate->update_status( 'donate-completed' );
 					$donate->update_meta( 'total', $posted['amount'] );
 
 					FP()->cart->remove_cart();
 
-					$result = array(
-						'result'   => 'success',
+					$response = array(
+						'status'   => 'success',
 						'redirect' =>  donate_get_thankyou_link( $donate->id),
 					);
 				}
@@ -564,7 +563,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 
 			if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['nonce'] ), 'fundpress_donate_confirm_pi' ) ) {
 				$result = array(
-					'result'   => 'fail',
+					'status'   => 'failed',
 		 			'message'  => esc_html__( 'Error: Verify nonce error!', 'fundpress' ),
 				);
 
@@ -579,7 +578,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 
 			if ( ! $intent || ! $donate_id ) {
 			 	$result = array(
-					'result'   => 'fail',
+					'status'   => 'failed',
 			 		'message'  => esc_html__( 'Error: Can\'t get Intent!', 'fundpress' ),
 				);
 
@@ -606,7 +605,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				FP()->cart->remove_cart();
 
 				$result = array(
-					'result'   => 'success',
+					'status'   => 'success',
 					'redirect' =>  donate_get_thankyou_link( $donate_id),
 				);
 				
@@ -616,7 +615,7 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				$message = isset( $intent->last_payment_error->message ) ? $intent->last_payment_error->message : esc_html__( 'Unable to process this payment, please try again or use alternative method.', 'fundpress' );
 
 				$result = array(
-				 	'result'   => 'fail',
+				 	'status'   => 'failed',
 					'message'  => $message,
 				);
 			}
