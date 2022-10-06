@@ -36,7 +36,7 @@ if ( ! class_exists( 'DN_Frontend_Assets' ) ) {
 			$localize_script = array(
 				'stripe_publish_key' => $checkout->get( 'stripe_test_publish_key' ),
 				'error_verify'       => esc_html__( 'Unable to process this payment, please try again or use alternative method.', 'fundpress' ),
-				'button_verify' 	 => esc_html__( 'Updating', 'fundpress' ),
+				'button_verify'      => esc_html__( 'Updating', 'fundpress' ),
 			);
 
 			if ( $checkout->get( 'environment' ) === 'production' ) {
@@ -54,7 +54,7 @@ if ( ! class_exists( 'DN_Frontend_Assets' ) ) {
 
 			// circles library
 			DN_Assets::register_script( 'donate-circles', FUNDPRESS_LIB_URI . '/circles.min.js' );
-			
+
 			wp_localize_script( 'donate-frontend-script', 'dn_localize', $localize_script );
 		}
 	}
