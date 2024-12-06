@@ -99,6 +99,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
+= 2.0.7 =
+~ Fixed: security.
+
 = 2.0.6 =
 ~ Added: Stripe SCA
 

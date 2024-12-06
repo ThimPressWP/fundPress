@@ -53,8 +53,8 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 			if ( ! $prefix ) {
 				return;
 			}
-			$this->prefix   = $prefix;
-			$this->remember = $remember;
+			$this->prefix    = $prefix;
+			$this->remember  = $remember;
 			$this->live_item = 12 * HOUR_IN_SECONDS;
 			// get all
 			$this->session = $this->load();
@@ -73,8 +73,9 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 
 			if ( isset( $_SESSION[ $this->prefix ] ) ) {
 				return $_SESSION[ $this->prefix ];
-			} else if ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {
-				return $_SESSION[ $this->prefix ] = maybe_unserialize( $_COOKIE[ $this->prefix ] );
+			} elseif ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {
+				$_SESSION[ $this->prefix ] = maybe_unserialize( DN_Helpper::DN_sanitize_params_submitted( $_COOKIE[ $this->prefix ] ) );
+				return $_SESSION[ $this->prefix ];
 			}
 
 			return array();
