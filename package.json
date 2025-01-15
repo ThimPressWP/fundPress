@@ -1,37 +1,35 @@
 {
-  "name": "tp-donate",
-  "version": "1.0.0",
-  "main": "gulp.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://ducnvtt92@bitbucket.org/foobla/tp-donate.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/foobla/tp-donate#readme",
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "^3.10.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-replace": "^1.0.0",
-    "gulp-sass": "^2.3.2",
-    "gulp-save": "^1.2.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^2.0.0",
-    "mkdirp": "^0.5.1",
-    "read-file": "^0.2.0",
-    "yargs": "^13.2.4"
-  },
-  "dependencies": {
-    "gulp-clean": "^0.4.0",
-    "gulp-copy": "^4.0.1",
-    "gulp-save": "^1.2.1",
-    "gulp-uglify": "^2.0.0",
-    "gulp-zip": "^5.0.0"
-  },
-  "description": ""
+	"name": "learnpress-assignments",
+	"version": "1.0.1",
+	"description": "",
+	"dependencies": {
+		"toastify-js": "1.12.0"
+	},
+	"devDependencies": {
+		"@automattic/wp-babel-makepot": "1.2.0",
+		"@wordpress/scripts": "30.6.0",
+		"eslint": "9.16.0",
+		"gulp": "5.0.0",
+		"gulp-cli": "3.0.0",
+		"gulp-rename": "2.0.0",
+		"gulp-replace": "1.1.4",
+		"gulp-rtlcss": "2.0.0",
+		"sass": "1.82.0",
+		"gulp-sass": "6.0.0",
+		"gulp-clean-css": "4.3.0",
+		"gulp-zip": "6.0.0",
+		"gulp-notify": "5.0.0",
+		"read-file": "0.2.0",
+		"webpack-glob-entries": "1.0.1",
+		"del": "8.0.0",
+		"style-loader": "4.0.0"
+	},
+	"scripts": {
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"format": "wp-scripts format assets/src/**/*.js",
+		"makepot": "wp i18n make-pot . languages/fundpress.pot --skip-audit --exclude=\"test,release,build,tools,dist,node_modules,vendor,assets,languages\"",
+		"build-makepot-zip": "npm run build && npm run makepot && gulp",
+		"release": "node build-release.js"
+	}
 }

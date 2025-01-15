@@ -6,6 +6,8 @@
  * Author: ThimPress
  * Version: 2.0.7-beta.1
  * Author URI: http://thimpress.com
+ *
+ * Text Domain: fundpress
  */
 
 /**
@@ -141,7 +143,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 		 * Init hooks.
 		 */
 		public function init_hooks() {
-			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+			add_action( 'init', array( $this, 'plugins_loaded' ) );
 		}
 
 		/**
@@ -181,7 +183,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 
 			if ( file_exists( $wp_file ) ) {
 				$mofile = $wp_file;
-			} else if ( file_exists( $pluginFile ) ) {
+			} elseif ( file_exists( $pluginFile ) ) {
 				$mofile = $pluginFile;
 			}
 
