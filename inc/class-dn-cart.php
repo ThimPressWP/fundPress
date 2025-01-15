@@ -133,7 +133,7 @@ if ( ! class_exists( 'DN_Cart' ) ) {
 
 						// class process product
 						$param->product_class = apply_filters( 'donate_product_type_class', $product_class, $post_type );
-						$product              = new $param->product_class;
+						$product              = new $param->product_class();
 
 						// amount include tax
 						$param->total = floatval( $param->amount );
@@ -303,11 +303,14 @@ if ( ! class_exists( 'DN_Cart' ) ) {
 
 		// set cart information. donor_id. donate_id. addtion_note
 		public function set_cart_information( $info = array() ) {
-			$info = wp_parse_args( $info, array(
-				'addtion_note' => $this->donate_info->get( 'addtion_note' ),
-				'donate_id'    => $this->donate_info->get( 'donate_id' ),
-				'donor_id'     => $this->donate_info->get( 'donor_id' )
-			) );
+			$info = wp_parse_args(
+				$info,
+				array(
+					'addtion_note' => $this->donate_info->get( 'addtion_note' ),
+					'donate_id'    => $this->donate_info->get( 'donate_id' ),
+					'donor_id'     => $this->donate_info->get( 'donor_id' ),
+				)
+			);
 
 			foreach ( $info as $key => $value ) {
 				$this->donate_info->set( $key, $value );
@@ -326,7 +329,7 @@ if ( ! class_exists( 'DN_Cart' ) ) {
 			$infos = array(
 				'addtion_note',
 				'donate_id',
-				'donor_id'
+				'donor_id',
 			);
 
 			if ( in_array( $key, $infos ) ) {
@@ -348,7 +351,13 @@ if ( ! class_exists( 'DN_Cart' ) ) {
 			// refresh cart contents
 			$this->cart_contents = array();
 			$this->refresh();
-			$this->set_cart_information( array( 'addtion_note' => '', 'donate_id' => '', 'donor_id' => '', ) );
+			$this->set_cart_information(
+				array(
+					'addtion_note' => '',
+					'donate_id'    => '',
+					'donor_id'     => '',
+				)
+			);
 		}
 
 		/**

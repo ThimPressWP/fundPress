@@ -56,7 +56,7 @@ if ( ! class_exists( 'DN_Helpper' ) ) {
 		    } elseif ( is_array( $value ) ) {
 			    foreach ( $value as $k => $v ) {
 				    unset( $value[ $k ] );
-				    $value[ sanitize_text_field( $k ) ] = self::sanitize_params_submitted( $v, $type_content );
+				    $value[ sanitize_text_field( $k ) ] = self::DN_sanitize_params_submitted( $v, $type_content );
 			    }
 		    }
 

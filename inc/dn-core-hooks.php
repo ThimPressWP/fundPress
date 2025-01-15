@@ -24,12 +24,12 @@ if ( ! function_exists( 'fundpress_setup_page' ) ) {
 	 */
 	function fundpress_setup_page( $content ) {
 		global $post;
-		$post_id = $post->ID;
+		$post_id = $post->ID ?? 0;
 		if ( $post_id == FP()->settings->checkout->get( 'cart_page' ) ) {
 			$content = '[donate_cart]';
-		} else if ( $post_id == FP()->settings->checkout->get( 'checkout_page' ) ) {
+		} elseif ( $post_id == FP()->settings->checkout->get( 'checkout_page' ) ) {
 			$content = '[donate_checkout]';
-		} else if ( in_array( $post->post_type, array( 'dn_donate', 'dn_donor' ) ) ) {
+		} elseif ( $post && in_array( $post->post_type, array( 'dn_donate', 'dn_donor' ) ) ) {
 			wp_redirect( home_url() );
 			exit();
 		}
