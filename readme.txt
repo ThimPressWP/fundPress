@@ -2,9 +2,9 @@
 Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
-Requires at least: 6.3
-Tested up to: 6.4.2
-Stable tag: 2.0.6
+Requires at least: 6.0
+Tested up to: 6.7.1
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,7 +99,7 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
-= 2.0.7 =
+= 2.0.7 (2025-01-20) =
 ~ Fixed: security.
 
 = 2.0.6 =
