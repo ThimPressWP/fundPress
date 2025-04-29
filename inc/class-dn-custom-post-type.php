@@ -24,11 +24,11 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 		public function __construct() {
 
 			// register campaign, donate, donor
-			add_action( 'init', array( $this, 'register_post_types' ) );
+			add_action( 'init', array( $this, 'register_post_types' ), 99 );
 			// register taxonomy
-			add_action( 'init', array( $this, 'register_taxonomies' ) );
+			add_action( 'init', array( $this, 'register_taxonomies' ), 99 );
 			// post post status
-			add_action( 'init', array( $this, 'register_status' ) );
+			add_action( 'init', array( $this, 'register_status' ), 99 );
 
 			// custom post type admin column
 			add_filter( 'manage_dn_campaign_posts_columns', array( $this, 'campaign_columns' ) );

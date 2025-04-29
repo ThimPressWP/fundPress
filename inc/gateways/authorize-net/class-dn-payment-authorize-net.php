@@ -74,7 +74,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 				4 => __( ' This transaction is being held for review.', 'fundpress' )
 			);
 
-			add_action( 'init', array( $this, 'verify' ) );
+			add_action( 'init', array( $this, 'verify' ), 99 );
 		}
 
 		/**

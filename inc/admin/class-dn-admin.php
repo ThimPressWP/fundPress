@@ -22,7 +22,7 @@ if ( ! class_exists( 'DN_Admin' ) ) {
 		 * DN_Admin constructor.
 		 */
 		public function __construct() {
-			add_action( 'init', array( $this, 'includes' ) );
+			add_action( 'init', array( $this, 'includes' ), 99 );
 		}
 
 		/**

@@ -70,7 +70,7 @@ if ( ! function_exists( 'fundpress_update_payment_completed' ) ) {
 	}
 }
 
-add_action( 'init', 'fundpress_empty_cart_thankyou_page' );
+add_action( 'init', 'fundpress_empty_cart_thankyou_page', 99 );
 
 if ( ! function_exists( 'fundpress_empty_cart_thankyou_page' ) ) {
 	/**

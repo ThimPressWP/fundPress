@@ -80,7 +80,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 		 * FundPress constructor.
 		 */
 		public function __construct() {
-			$this->includes();
+			// $this->includes();
 			$this->init_hooks();
 		}
 
@@ -152,6 +152,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 		public function plugins_loaded() {
 			// load text domain
 			$this->load_text_domain();
+			$this->includes();
 
 			/**
 			 * Only create cart in frontend to prevent request-timeout when

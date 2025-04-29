@@ -22,8 +22,8 @@ if ( ! class_exists( 'DN_Admin_Metabox' ) ) {
 		 * Init.
 		 */
 		public static function init() {
-			add_action( 'admin_init', array( __CLASS__, 'add_meta_boxes' ) );
-			add_action( 'admin_init', array( __CLASS__, 'remove_meta_box' ) );
+			add_action( 'admin_init', array( __CLASS__, 'add_meta_boxes' ), 99 );
+			add_action( 'admin_init', array( __CLASS__, 'remove_meta_box' ), 99 );
 
 			add_action( 'save_post', array( __CLASS__, 'save_post' ), 10, 3 );
 		}
