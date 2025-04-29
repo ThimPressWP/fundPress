@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit();
 				<?php foreach ( FP()->cart->cart_contents as $cart_key => $cart_content ) { ?>
 
                     <li>
-                        <a class="<?php echo esc_attr( get_permalink( $cart_content->campaign_id ) ) ?>">
+                        <a class="<?php echo esc_url( get_permalink( $cart_content->campaign_id ) ) ?>">
 							<?php echo get_the_post_thumbnail( $cart_content->campaign_id, 'thumbnail' ); ?>
 							<?php printf( '%s', $cart_content->product_data->post_title ) ?>
                         </a>
@@ -37,10 +37,10 @@ defined( 'ABSPATH' ) || exit();
 				<?php } ?>
             </ul>
             <div class="donate_items_footer">
-                <a href="<?php echo esc_attr( donate_cart_url() ) ?>" class="donate_button donate_button_view_cart">
+                <a href="<?php echo esc_url( donate_cart_url() ) ?>" class="donate_button donate_button_view_cart">
 					<?php _e( 'View Cart', 'fundpress' ) ?>
                 </a>
-                <a href="<?php echo esc_attr( donate_checkout_url() ) ?>"
+                <a href="<?php echo esc_url( donate_checkout_url() ) ?>"
                    class="donate_button donate_button_view_checkout">
 					<?php _e( 'Checkout', 'fundpress' ) ?>
                 </a>

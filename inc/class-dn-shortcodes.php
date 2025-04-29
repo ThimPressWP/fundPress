@@ -65,8 +65,8 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		 *
 		 * @param string $name
 		 * @param string $template
-		 * @param array $atts
-		 * @param null $content
+		 * @param array  $atts
+		 * @param null   $content
 		 *
 		 * @return string
 		 */
@@ -82,7 +82,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		/**
 		 * Donate button.
 		 *
-		 * @param $atts
+		 * @param      $atts
 		 * @param null $contents
 		 *
 		 * @return string
@@ -94,7 +94,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		/**
 		 * Cart page.
 		 *
-		 * @param $atts
+		 * @param      $atts
 		 * @param null $contents
 		 *
 		 * @return string
@@ -112,7 +112,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		/**
 		 * Checkout page.
 		 *
-		 * @param $atts
+		 * @param      $atts
 		 * @param null $contents
 		 *
 		 * @return string
@@ -120,7 +120,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		public static function donate_checkout( $atts, $contents = null ) {
 			if ( donate_is_thankyou_page() ) {
 				$temp   = 'checkout/thank-you.php';
-				$donate = ( isset( $_GET['donate-id'] ) ? $_GET['donate-id'] : 0 );
+				$donate = ( isset( $_GET['donate-id'] ) ? DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-id'] ) : 0 );
 				$atts   = shortcode_atts( array( 'donate' => $donate ), $atts );
 			} else if ( FP()->cart->is_empty() ) {
 				$temp = 'cart/empty.php';
@@ -134,7 +134,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		/**
 		 * Total donate system.
 		 *
-		 * @param $atts
+		 * @param      $atts
 		 * @param null $contents
 		 *
 		 * @return string
@@ -146,7 +146,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		/**
 		 * Donate form.
 		 *
-		 * @param $atts
+		 * @param      $atts
 		 * @param null $contents
 		 *
 		 * @return string
@@ -191,7 +191,7 @@ if ( ! class_exists( 'DN_Shortcodes' ) ) {
 		/**
 		 * Campaign slider.
 		 *
-		 * @param $atts
+		 * @param      $atts
 		 * @param null $contents
 		 *
 		 * @return string

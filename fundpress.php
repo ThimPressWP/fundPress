@@ -1,11 +1,13 @@
 <?php
-/*
-  Plugin Name: FundPress
-  Plugin URI: http://thimpress.com/fundpress
-  Description: Easily build your own crowdfunding platform like Kickstarter with this free WordPress donation plugin.
-  Author: ThimPress
-  Version: 2.0.1
-  Author URI: http://thimpress.com
+/**
+ * Plugin Name: FundPress
+ * Plugin URI: http://thimpress.com/fundpress
+ * Description: Easily build your own crowdfunding platform like Kickstarter with this free WordPress donation plugin.
+ * Author: ThimPress
+ * Version: 2.0.7
+ * Author URI: http://thimpress.com
+ *
+ * Text Domain: fundpress
  */
 
 /**
@@ -141,7 +143,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 		 * Init hooks.
 		 */
 		public function init_hooks() {
-			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+			add_action( 'init', array( $this, 'plugins_loaded' ) );
 		}
 
 		/**
@@ -155,12 +157,12 @@ if ( ! class_exists( 'FundPress' ) ) {
 			 * Only create cart in frontend to prevent request-timeout when
 			 * wp try to call a test to a rest-api for site-health feature.
 			 */
-			if ( ! is_admin() ) {
+//			if ( ! is_admin() ) {
 				// cart
 				$this->cart = DN_Cart::instance();
 				// checkout
 				$this->checkout = DN_Checkout::instance();
-			}
+//			}
 
 			// payment gateways
 			$this->payment_gateways = DN_Payment_Gateways::instance();
@@ -181,7 +183,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 
 			if ( file_exists( $wp_file ) ) {
 				$mofile = $wp_file;
-			} else if ( file_exists( $pluginFile ) ) {
+			} elseif ( file_exists( $pluginFile ) ) {
 				$mofile = $pluginFile;
 			}
 
@@ -262,9 +264,9 @@ if ( ! class_exists( 'FundPress' ) ) {
 /**
  * Short way to load main instance of plugin.
  *
+ * @return FundPress|null
  * @since 2.0
  *
- * @return FundPress|null
  */
 function FP() {
 	return FundPress::instance();

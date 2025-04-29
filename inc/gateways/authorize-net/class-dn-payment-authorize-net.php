@@ -91,7 +91,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 			}
 
 			if ( isset( $_POST['x_response_reason_text'] ) ) {
-				donate_add_notice( 'error', $_POST['x_response_reason_text'] );
+				donate_add_notice( 'error', DN_Helpper::DN_sanitize_params_submitted( $_POST['x_response_reason_text'] ) );
 			}
 
 			$code = 0;
@@ -184,7 +184,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 		/**
 		 * Checkout args.
 		 *
-		 * @param null $donate
+		 * @param null  $donate
 		 * @param array $posted
 		 *
 		 * @return array|mixed
@@ -194,7 +194,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 				return array( 'status' => 'failed', 'message' => __( 'Transaction Key is invalid.', 'fundpress' ) );
 			}
 
-			$donor    = DN_Donor::instance( $donate->donor_id );
+			$donor = DN_Donor::instance( $donate->donor_id );
 
 			$total = $donate->total;
 
@@ -253,7 +253,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 		/**
 		 * Checkout process.
 		 *
-		 * @param null $donate
+		 * @param null  $donate
 		 * @param array $posted
 		 *
 		 * @return array|null

@@ -2,9 +2,9 @@
 Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
-Requires at least: 4.6
-Tested up to: 5.2.2
-Stable tag: 2.0.1
+Requires at least: 6.0
+Tested up to: 6.7.1
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,8 +98,28 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
+= 2.0.7 (2025-01-20) =
+~ Fixed: security.
+
+= 2.0.6 =
+~ Added: Stripe SCA
+
+= 2.0.5 =
+~ Fixed: minor bug
+
+= 2.0.4 =
+~ Fixed: minor bug
+
+= 2.0.3 =
+~ Fix error some server not found CMB2_Hookup.php file
+
+= 2.0.2 =
+~ Update library CMB2
+
 = 2.0.1 =
 ~ Fixed issue with calling session_start() when wp try to test rest-api for site-health feature (request timeout)
+~ Normalized input data with the function 'sanitize_params_submitted'
 
 = 2.0 =
 - Restructure core

@@ -28,10 +28,10 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			}
 
 			$actions = array(
-				'load_form'         => true,
-				'submit'            => true,
-				'remove_compensate' => false,
-				'action_status'     => true,
+				'donate_load_form'         => true,
+				'donate_submit'            => true,
+				'donate_remove_compensate' => true,
+				'donate_action_status'     => true,
 			);
 
 			foreach ( $actions as $action => $nopriv ) {
@@ -39,9 +39,12 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 					return;
 				}
 
-				add_action( 'wp_ajax_donate_' . $action, array( $this, 'donate_' . $action ) );
+				add_action( 'wp_ajax_' . $action, array( $this, $action ) );
 				if ( $nopriv ) {
-					add_action( 'wp_ajax_nopriv_donate_' . $action, array( $this, 'donate_' . $action ) );
+					if ( $action == 'donate_remove_compensate' ) {
+						add_action( 'wp_ajax_nopriv_' . $action, array( $this, 'mustLogin' ) );
+					}
+					add_action( 'wp_ajax_nopriv_' . $action, array( $this, $action ) );
 				}
 			}
 		}
@@ -50,11 +53,11 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 * Load donate form.
 		 */
 		public function donate_load_form() {
-			if ( ! isset( $_GET['schema'] ) || $_GET['schema'] !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
 
-			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'thimpress_donate_nonce' ) ) {
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( DN_Helpper::DN_sanitize_params_submitted( $_POST['nonce'] ), 'thimpress_donate_nonce' ) ) {
 				return;
 			}
 
@@ -96,7 +99,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 */
 		public function donate_submit() {
 			// validate sanitize input $_POST
-			if ( ! isset( $_GET['schema'] ) || $_GET['schema'] !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				wp_send_json( array(
 					'status'  => 'failed',
 					'message' => array( __( 'Could not do action.', 'fundpress' ) )
@@ -112,7 +115,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		 * Remove campaign compensate.
 		 */
 		public function donate_remove_compensate() {
-			if ( ! isset( $_GET['schema'] ) || $_GET['schema'] !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
 
@@ -148,10 +151,18 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 		}
 
 		/**
+		 * must login
+		 * @return null
+		 */
+		public function mustLogin() {
+			_e( 'You must login', 'fundpress' );
+		}
+
+		/**
 		 * Update order donate status.
 		 */
 		public function donate_action_status() {
-			if ( ! isset( $_GET['schema'] ) || $_GET['schema'] !== 'donate-ajax' || empty( $_POST ) ) {
+			if ( ! isset( $_GET['schema'] ) || DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
 
@@ -160,7 +171,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			}
 
 			$donate_id = ( isset( $_POST['donate_id'] ) ) ? absint( $_POST['donate_id'] ) : '';
-			$status    = ( isset( $_POST['status'] ) ) ? sanitize_text_field( $_POST['status'] ) : '';
+			$status    = ( isset( $_POST['status'] ) ) ? DN_Helpper::DN_sanitize_params_submitted( $_POST['status'] ) : '';
 
 			$donate = DN_Donate::instance( $donate_id );
 

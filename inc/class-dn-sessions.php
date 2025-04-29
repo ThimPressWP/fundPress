@@ -53,8 +53,8 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 			if ( ! $prefix ) {
 				return;
 			}
-			$this->prefix   = $prefix;
-			$this->remember = $remember;
+			$this->prefix    = $prefix;
+			$this->remember  = $remember;
 			$this->live_item = 12 * HOUR_IN_SECONDS;
 			// get all
 			$this->session = $this->load();
@@ -70,15 +70,18 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 			 * Only start to prevent request-timeout when
 			 * wp try to call a test to a rest-api for site-health feature.
 			 */
+			try {
+				if ( isset( $_SESSION[ $this->prefix ] ) ) {
+					return $_SESSION[ $this->prefix ];
+				} elseif ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {
+					$_SESSION[ $this->prefix ] = json_decode( $_COOKIE[ $this->prefix ] );
+					if ( json_last_error() !== JSON_ERROR_NONE ) {
+						throw new Exception( 'JSON decode: ' . json_last_error_msg() );
+					}
 
-			if ( ! session_id() ) {
-				session_start();
-			}
-
-			if ( isset( $_SESSION[ $this->prefix ] ) ) {
-				return $_SESSION[ $this->prefix ];
-			} else if ( $this->remember && isset( $_COOKIE[ $this->prefix ] ) ) {
-				return $_SESSION[ $this->prefix ] = maybe_unserialize( $_COOKIE[ $this->prefix ] );
+					return $_SESSION[ $this->prefix ];
+				}
+			} catch ( Throwable $e ) {
 			}
 
 			return array();
@@ -109,6 +112,9 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 				return;
 			}
 
+			$name  = sanitize_text_field( $name );
+			$value = DN_Helpper::DN_sanitize_params_submitted( $value );
+
 			$time = time();
 			if ( ! $value ) {
 				unset( $this->session[ $name ] );
@@ -121,7 +127,7 @@ if ( ! class_exists( 'DN_Sessions' ) ) {
 			// save session
 			$_SESSION[ $this->prefix ] = $this->session;
 			// save cookie
-			donate_setcookie( $this->prefix, maybe_serialize( $this->session ), $time );
+			donate_setcookie( $this->prefix, json_encode( $this->session ), $time );
 		}
 
 		/**

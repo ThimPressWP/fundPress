@@ -72,24 +72,24 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 		 */
 		public function verify() {
 			if ( isset( $_GET['donate-paypal-payment'] ) && $_GET['donate-paypal-payment'] && ! empty( $_GET['donate-id'] ) ) {
-				if ( ! isset( $_GET['donate-paypal-nonce'] ) || ! wp_verify_nonce( $_GET['donate-paypal-nonce'], 'donate-paypal-nonce' ) ) {
+				if ( ! isset( $_GET['donate-paypal-nonce'] ) || ! wp_verify_nonce( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-paypal-nonce'] ), 'donate-paypal-nonce' ) ) {
 					return;
 				}
 
-				if ( $_GET['donate-paypal-payment'] === 'completed' ) {
+				if ( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-paypal-payment'] ) === 'completed' ) {
 					$this->completed_process_message();
 
 					FP()->cart->remove_cart();
-				} else if ( $_GET['donate-paypal-payment'] === 'cancel' ) {
+				} elseif ( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-paypal-payment'] ) === 'cancel' ) {
 					donate_add_notice( 'error', __( 'Donate is cancel.', 'fundpress' ) );
 				}
 				// redirect
-				wp_redirect( donate_get_thankyou_link( $_GET['donate-id'] ) );
+				wp_redirect( donate_get_thankyou_link( DN_Helpper::DN_sanitize_params_submitted( $_GET['donate-id'] ) ) );
 				exit();
 			}
 
 			// validate payment notify_url, update status
-			if ( ! empty( $_POST ) && isset( $_POST['txn_type'] ) && $_POST['txn_type'] === 'web_accept' ) {
+			if ( ! empty( $_POST ) && isset( $_POST['txn_type'] ) && DN_Helpper::DN_sanitize_params_submitted( $_POST['txn_type'] ) === 'web_accept' ) {
 				if ( ! isset( $_POST['payment_status'] ) ) {
 					return;
 				}
@@ -102,7 +102,8 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 				$transaction_subject = stripcslashes( $_POST['custom'] );
 				$transaction_subject = json_decode( $transaction_subject );
 
-				if ( ! $donate_id = $transaction_subject->donate_id ) {
+				$donate_id = $transaction_subject->donate_id;
+				if ( ! $donate_id ) {
 					return;
 				}
 
@@ -111,7 +112,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 				// sanitize
 				$pay_verify = array_merge( array( 'cmd' => '_notify-validate' ), array_map( 'stripcslashes', $_POST ) );
 
-				$paypal_api_url = isset( $_POST['test_ipn'] ) && $_POST['test_ipn'] == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
+				$paypal_api_url = isset( $_POST['test_ipn'] ) && DN_Helpper::DN_sanitize_params_submitted( $_POST['test_ipn'] ) == 1 ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
 				$params   = array(
 					'body'        => $pay_verify,
@@ -119,7 +120,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 					'httpversion' => '1.1',
 					'compress'    => false,
 					'decompress'  => false,
-					'user-agent'  => 'Donation'
+					'user-agent'  => 'Donation',
 				);
 				$response = wp_safe_remote_post( $paypal_api_url, $params );
 
@@ -128,7 +129,7 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 
 					if ( strtolower( $body ) === 'verified' ) {
 						// payment status
-						$payment_status = strtolower( $_POST['payment_status'] );
+						$payment_status = strtolower( DN_Helpper::DN_sanitize_params_submitted( $_POST['payment_status'] ) );
 
 						if ( in_array( $payment_status, array( 'pending', 'completed' ) ) ) {
 							$status = 'donate-completed';
@@ -155,13 +156,13 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 							'desc'    => __( 'This controls enable payment method', 'fundpress' ),
 							'atts'    => array(
 								'id'    => 'paypal_enable',
-								'class' => 'paypal_enable'
+								'class' => 'paypal_enable',
 							),
 							'name'    => 'paypal_enable',
 							'options' => array(
 								'no'  => __( 'No', 'fundpress' ),
-								'yes' => __( 'Yes', 'fundpress' )
-							)
+								'yes' => __( 'Yes', 'fundpress' ),
+							),
 						),
 						array(
 							'type'  => 'input',
@@ -170,9 +171,9 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 							'atts'  => array(
 								'id'    => 'paypal_email',
 								'class' => 'paypal_email',
-								'type'  => 'text'
+								'type'  => 'text',
 							),
-							'name'  => 'paypal_email'
+							'name'  => 'paypal_email',
 						),
 						array(
 							'type'  => 'input',
@@ -181,12 +182,12 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 							'atts'  => array(
 								'id'    => 'paypal_sanbox_email',
 								'class' => 'paypal_sanbox_email',
-								'type'  => 'text'
+								'type'  => 'text',
 							),
-							'name'  => 'paypal_sanbox_email'
-						)
+							'name'  => 'paypal_sanbox_email',
+						),
 					),
-				)
+				),
 			);
 		}
 
@@ -197,7 +198,9 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 		 */
 		public function get_item_name() {
 			$description = array();
-			if ( $cart_items = FP()->cart->cart_contents ) {
+			$cart_items  = FP()->cart->cart_contents;
+
+			if ( $cart_items ) {
 				foreach ( $cart_items as $cart_item_key => $cart_item ) {
 					$description[] = sprintf( '%s(%s)', $cart_item->product_data->post_title, donate_price( $cart_item->amount, $cart_item->currency ) );
 				}
@@ -237,15 +240,26 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 				'email'         => $email,
 				'rm'            => '2',
 				'no_shipping'   => '1',
-				'return'        => add_query_arg( array(
-					'donate-paypal-payment' => 'completed',
-					'donate-paypal-nonce'   => $nonce
-				), donate_get_thankyou_link( $donate->id ) ),
-				'cancel_return' => add_query_arg( array(
-					'donate-paypal-payment' => 'cancel',
-					'donate-paypal-nonce'   => $nonce
-				), donate_checkout_url() ),
-				'custom'        => json_encode( array( 'donate_id' => $donate->id, 'donor_id' => $donate->donor_id ) )
+				'return'        => add_query_arg(
+					array(
+						'donate-paypal-payment' => 'completed',
+						'donate-paypal-nonce'   => $nonce,
+					),
+					donate_get_thankyou_link( $donate->id )
+				),
+				'cancel_return' => add_query_arg(
+					array(
+						'donate-paypal-payment' => 'cancel',
+						'donate-paypal-nonce'   => $nonce,
+					),
+					donate_checkout_url()
+				),
+				'custom'        => json_encode(
+					array(
+						'donate_id' => $donate->id,
+						'donor_id'  => $donate->donor_id,
+					)
+				),
 			);
 
 			// allow hook paypal param
@@ -266,11 +280,14 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 			if ( ! $this->paypal_email ) {
 				return array(
 					'status'  => 'failed',
-					'message' => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'fundpress' )
+					'message' => __( 'Email Business PayPal is invalid. Please contact administrator to setup PayPal email.', 'fundpress' ),
 				);
 			}
 
-			return array( 'status' => 'success', 'url' => $this->checkout_url( $donate ) );
+			return array(
+				'status' => 'success',
+				'url'    => $this->checkout_url( $donate ),
+			);
 		}
 	}
 }

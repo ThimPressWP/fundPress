@@ -66,11 +66,11 @@ if ( ! class_exists( 'DN_MetaBox_Donate_Action' ) ) {
 		 * @param $post_id
 		 */
 		public function update_status( $post_id ) {
-			if ( isset( $_POST['thimpress_donate_user_id'] ) ) {
-				update_post_meta( $post_id, 'thimpress_donate_user_id', esc_attr( absint( $_POST['thimpress_donate_user_id'] ) ) );
+			if ( isset( $_POST['thimpress_donate_user_id'] ) ) {                           
+				update_post_meta( $post_id, 'thimpress_donate_user_id', absint( $_POST['thimpress_donate_user_id'] ) );
 			}
 			remove_action( 'donate_process_update_dn_donate_meta', array( $this, 'update_status' ), 10 );
-			$status = isset( $_POST['donate_payment_status'] ) ? sanitize_text_field( $_POST['donate_payment_status'] ) : '';
+			$status = isset( $_POST['donate_payment_status'] ) ? DN_Helpper::DN_sanitize_params_submitted( $_POST['donate_payment_status'] ) : '';
 			$donate = DN_Donate::instance( $post_id );
 			$donate->update_status( $status );
 			add_action( 'donate_process_update_dn_donate_meta', array( $this, 'update_status' ), 10, 3 );
