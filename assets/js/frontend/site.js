@@ -1,11 +1,4 @@
 ;(function ($) {
-
-    try {
-        var stripe = Stripe( dn_localize.stripe_publish_key );
-    } catch( error ) {
-        console.log( error );
-        return;
-    }
 	/**
 	 * DONATE_Site object
 	 * @type Object
@@ -375,7 +368,10 @@
 
 	$(document).ready(function () {
 		DONATE_Site.init();
-		dn_stripe.init();
+		if ( typeof dn_localize !== 'undefined' && dn_localize.stripe_publish_key.length > 0 ) {
+			var stripe = Stripe( dn_localize.stripe_publish_key );
+			dn_stripe.init();
+		}
 	});
 
 	$(window).resize(function () {
