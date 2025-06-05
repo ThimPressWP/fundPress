@@ -143,7 +143,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 		 * Init hooks.
 		 */
 		public function init_hooks() {
-			add_action( 'init', array( $this, 'plugins_loaded' ) );
+			add_action( 'init', array( $this, 'plugins_loaded' ), 0 );
 		}
 
 		/**
@@ -153,7 +153,6 @@ if ( ! class_exists( 'FundPress' ) ) {
 			// load text domain
 			$this->load_text_domain();
 			$this->includes();
-
 			/**
 			 * Only create cart in frontend to prevent request-timeout when
 			 * wp try to call a test to a rest-api for site-health feature.
