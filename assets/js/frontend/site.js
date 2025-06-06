@@ -51,8 +51,13 @@
 			},
 			submited: function (res) {
                 console.log(res);
-				if (res.status === 'success' && typeof res.redirect !== 'undefined') {
-					window.location.href = res.redirect;
+				if (res.status === 'success' ) {
+					if ( typeof res.redirect !== 'undefined' ) {
+						window.location.href = res.redirect;
+					} else if ( typeof res.url !== 'undefined' ) {
+						window.location.href = res.url;
+					}
+					
 				} else if (res.status === 'failed' && typeof res.message !== 'undefined') {
                     var desiredHeight = $(window).height() - 150;
 					console.log(res.message);
@@ -278,100 +283,8 @@
 		}
 	};
 
-	var dn_stripe = {
-		init: function() {
-
-			window.addEventListener( 'hashchange', dn_stripe.onHashChange );
-		},
-
-		notice: function( $message ) {
-			$( 'div.donate_checkout' ).find( '.donate_form_messages' ).remove();
-			$( 'div.donate_checkout' ).prepend( '<div class="donate_form_messages error">' + $message + '</div>' );
-		},
-
-		onHashChange: function() {
-			
-            var partials = window.location.hash.match( /^#?confirm-(pi|si)-([^:]+):(.+)$/ );
-
-            if ( ! partials || 4 > partials.length ) {
-                return;
-            }
-
-            var type               = partials[1];
-            var intentClientSecret = partials[2];
-            var redirectURL        = decodeURIComponent(partials[3]);
-            window.location.hash = '';
-            dn_stripe.openIntentModal( intentClientSecret, redirectURL, false, 'si' === type );
-		},
-
-		openIntentModal: function( intentClientSecret, redirectURL, alwaysRedirect, isSetupIntent ) {
-			var buttonCheckout = $( '.donate_payment_button_process .donate_button' );
-
-			stripe[ isSetupIntent ? 'confirmCardSetup' : 'confirmCardPayment' ]( intentClientSecret )
-				.then( function( response ) {
-                    if ( response.error ) {                        
-                        dn_stripe.notice( response.error.message );
-                        throw response.error;
-                    }
-                    var intent = response[ isSetupIntent ? 'setupIntent' : 'paymentIntent' ];
-
-                    if ( 'requires_capture' !== intent.status && 'succeeded' !== intent.status ) {
-                        dn_stripe.notice( dn_localize.error_verify );
-                        return;
-                    }
-
-                    $.get( redirectURL, function( data ) {
-                        if ( data.status !== 'success' ) {
-                            if ( data.message ) {
-                                dn_stripe.notice( data.message );
-                            } else {
-                                dn_stripe.notice( 'Hotel Booking Stripe Js error.' );
-                            }
-                        }
-
-                        if ( data.redirect ) {
-                            window.location = data.redirect;
-                        }
-
-                        //buttonCheckout.html( lpCheckoutSettings.i18n_place_order );
-                        //buttonCheckout.prop( 'disabled', false );
-                    } );
-				} )
-				.catch( function( error ) {
-                    $( document.body ).trigger( 'stripeError', { error: error } );
-                    
-                    dn_stripe.notice( dn_localize.error_verify );
-
-                    //Report back to the server.
-                    buttonCheckout.html( dn_localize.button_verify );
-
-                    $.get( redirectURL, function( data ) {
-                        if ( data.status !== 'success' ) {
-                            if ( data.message ) {
-                                dn_stripe.notice( data.message );
-                            } else {
-                                dn_stripe.notice( 'FundPress Stripe Js error.' );
-                            }
-                        }
-
-                        if ( data.redirect ) {
-                            window.location = data.redirect;
-                        }
-
-                        //buttonCheckout.html( lpCheckoutSettings.i18n_place_order );
-                        //buttonCheckout.prop( 'disabled', false );
-                    } );
-				} );
-		},
-
-	};
-
 	$(document).ready(function () {
 		DONATE_Site.init();
-		if ( typeof dn_localize !== 'undefined' && dn_localize.stripe_publish_key.length > 0 ) {
-			var stripe = Stripe( dn_localize.stripe_publish_key );
-			dn_stripe.init();
-		}
 	});
 
 	$(window).resize(function () {

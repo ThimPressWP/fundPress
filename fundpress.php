@@ -88,7 +88,7 @@ if ( ! class_exists( 'FundPress' ) ) {
 		 * Includes needed files.
 		 */
 		public function includes() {
-
+			$this->_include( 'vendor/autoload.php' );
 			$this->_include( 'inc/class-dn-autoloader.php' );
 			$this->_include( 'inc/class-dn-setting.php' );
 

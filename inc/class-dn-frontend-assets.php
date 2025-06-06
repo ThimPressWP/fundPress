@@ -33,7 +33,6 @@ if ( ! class_exists( 'DN_Frontend_Assets' ) ) {
 		public static function register_scripts( $hook ) {
 
 			$checkout        = FP()->settings->checkout;
-			wp_enqueue_script( 'stripe', 'https://js.stripe.com/v3/', '', '3.0', true );
 			// site assets
 			wp_enqueue_script( 'donate-frontend-script', FUNDPRESS_ASSETS_URI . '/js/frontend/site.js', array(), FUNDPRESS_VER, true );
 			DN_Assets::register_style( 'donate-frontend-style', FUNDPRESS_ASSETS_URI . '/css/frontend/site.css' );
@@ -44,18 +43,6 @@ if ( ! class_exists( 'DN_Frontend_Assets' ) ) {
 
 			// circles library
 			DN_Assets::register_script( 'donate-circles', FUNDPRESS_LIB_URI . '/circles.min.js' );
-			if ( $checkout->get( 'stripe_enable' ) == 'yes' ) {
-				$localize_script = array(
-					'stripe_publish_key' => $checkout->get( 'stripe_test_publish_key' ),
-					'error_verify'       => esc_html__( 'Unable to process this payment, please try again or use alternative method.', 'fundpress' ),
-					'button_verify'      => esc_html__( 'Updating', 'fundpress' ),
-				);
-
-				if ( $checkout->get( 'environment' ) === 'production' ) {
-					$localize_script['stripe_publish_key'] = $checkout->get( 'stripe_live_publish_key' );
-				}
-				wp_localize_script( 'donate-frontend-script', 'dn_localize', $localize_script );
-			}
 		}
 	}
 }

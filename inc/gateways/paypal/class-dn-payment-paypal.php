@@ -285,8 +285,8 @@ if ( ! class_exists( 'DN_Payment_Paypal' ) ) {
 			}
 
 			return array(
-				'status' => 'success',
-				'url'    => $this->checkout_url( $donate ),
+				'status'   => 'success',
+				'redirect' => $this->checkout_url( $donate ),
 			);
 		}
 	}

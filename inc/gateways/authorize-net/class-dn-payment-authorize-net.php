@@ -263,7 +263,7 @@ if ( ! class_exists( 'DN_Payment_Authorize_Net' ) ) {
 				'status'      => 'success',
 				'form'        => true,
 				'submit_text' => __( 'Redirect to Authorize.Net', 'fundpress' ),
-				'url'         => $this->api_endpoint,
+				'redirect'    => $this->api_endpoint,
 				'args'        => $this->checkout_args( $donate, $posted )
 			);
 		}
