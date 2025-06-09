@@ -58,7 +58,7 @@ export const minCss = (done) => {
 
 export const copyFilesToRelease = (done) => {
 	// Copy source release to release folder
-	const releasesFiles = ['./**', '!vendor/**', '!node_modules/**', '!assets/src/**', '!webpack.config.js', '!tsconfig.json', '!phpcs.xml', '!.eslintrc.js', '!.eslintignore', '!composer.json', '!composer.lock', '!gulpfile.mjs', '!package-lock.json', '!package.json', '!release/**','!build-release.js', '!phpunit.xml',];
+	const releasesFiles = ['./**', '!node_modules/**', '!assets/src/**', '!webpack.config.js', '!tsconfig.json', '!phpcs.xml', '!.eslintrc.js', '!.eslintignore', '!composer.json', '!composer.lock', '!gulpfile.mjs', '!package-lock.json', '!package.json', '!release/**','!build-release.js', '!phpunit.xml',];
 	gulp.src(releasesFiles)
 		.pipe(gulp.dest('release/' + name))
 		.on('end', done);

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-28T10:01:45+00:00\n"
+"POT-Creation-Date: 2025-06-06T10:40:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fundpress\n"
@@ -801,15 +801,6 @@ msgstr ""
 msgid "Donate completed"
 msgstr ""
 
-#: inc/class-dn-frontend-assets.php:38
-#: inc/gateways/stripe/class-dn-payment-stripe.php:615
-msgid "Unable to process this payment, please try again or use alternative method."
-msgstr ""
-
-#: inc/class-dn-frontend-assets.php:39
-msgid "Updating"
-msgstr ""
-
 #: inc/class-dn-gdpr.php:27
 #: inc/class-dn-gdpr.php:41
 msgid "Fundpress Donate"
@@ -940,20 +931,20 @@ msgstr ""
 
 #: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:145
 #: inc/gateways/paypal/class-dn-payment-paypal.php:155
-#: inc/gateways/stripe/class-dn-payment-stripe.php:86
+#: inc/gateways/stripe/class-dn-payment-stripe.php:85
 #: inc/settings/class-dn-setting-email.php:57
 msgid "Enable"
 msgstr ""
 
 #: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:146
 #: inc/gateways/paypal/class-dn-payment-paypal.php:156
-#: inc/gateways/stripe/class-dn-payment-stripe.php:87
+#: inc/gateways/stripe/class-dn-payment-stripe.php:86
 msgid "This controls enable payment method"
 msgstr ""
 
 #: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:153
 #: inc/gateways/paypal/class-dn-payment-paypal.php:163
-#: inc/gateways/stripe/class-dn-payment-stripe.php:94
+#: inc/gateways/stripe/class-dn-payment-stripe.php:93
 #: inc/settings/class-dn-setting-checkout.php:100
 #: inc/settings/class-dn-setting-checkout.php:173
 #: inc/settings/class-dn-setting-donate.php:80
@@ -966,7 +957,7 @@ msgstr ""
 
 #: inc/gateways/authorize-net/class-dn-payment-authorize-net.php:154
 #: inc/gateways/paypal/class-dn-payment-paypal.php:164
-#: inc/gateways/stripe/class-dn-payment-stripe.php:95
+#: inc/gateways/stripe/class-dn-payment-stripe.php:94
 #: inc/settings/class-dn-setting-checkout.php:101
 #: inc/settings/class-dn-setting-checkout.php:172
 #: inc/settings/class-dn-setting-donate.php:79
@@ -1022,8 +1013,8 @@ msgid "Paypal email"
 msgstr ""
 
 #: inc/gateways/paypal/class-dn-payment-paypal.php:170
-#: inc/gateways/stripe/class-dn-payment-stripe.php:123
-#: inc/gateways/stripe/class-dn-payment-stripe.php:134
+#: inc/gateways/stripe/class-dn-payment-stripe.php:122
+#: inc/gateways/stripe/class-dn-payment-stripe.php:133
 msgid "Production environment"
 msgstr ""
 
@@ -1032,8 +1023,8 @@ msgid "Paypal sandbox email"
 msgstr ""
 
 #: inc/gateways/paypal/class-dn-payment-paypal.php:181
-#: inc/gateways/stripe/class-dn-payment-stripe.php:101
-#: inc/gateways/stripe/class-dn-payment-stripe.php:112
+#: inc/gateways/stripe/class-dn-payment-stripe.php:100
+#: inc/gateways/stripe/class-dn-payment-stripe.php:111
 msgid "Test environment"
 msgstr ""
 
@@ -1065,44 +1056,36 @@ msgstr ""
 msgid "Card Code (CVC)"
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:52
+#: inc/gateways/stripe/class-dn-payment-stripe.php:54
 msgid "Stripe"
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:100
+#: inc/gateways/stripe/class-dn-payment-stripe.php:99
 msgid "Test Secret Key"
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:111
+#: inc/gateways/stripe/class-dn-payment-stripe.php:110
 msgid "Test Publish Key"
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:122
+#: inc/gateways/stripe/class-dn-payment-stripe.php:121
 msgid "Live Secret Key"
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:133
+#: inc/gateways/stripe/class-dn-payment-stripe.php:132
 msgid "Live Publish Key"
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:191
-msgid "Stripe process went wrong"
-msgstr ""
-
-#: inc/gateways/stripe/class-dn-payment-stripe.php:488
+#: inc/gateways/stripe/class-dn-payment-stripe.php:170
 msgid "Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment."
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:494
-msgid "Credit Card information error."
+#: inc/gateways/stripe/class-dn-payment-stripe.php:177
+msgid "Amount is required."
 msgstr ""
 
-#: inc/gateways/stripe/class-dn-payment-stripe.php:567
-msgid "Error: Verify nonce error!"
-msgstr ""
-
-#: inc/gateways/stripe/class-dn-payment-stripe.php:582
-msgid "Error: Can't get Intent!"
+#: inc/gateways/stripe/class-dn-payment-stripe.php:203
+msgid "Donate %s"
 msgstr ""
 
 #: inc/settings/class-dn-setting-checkout.php:45
