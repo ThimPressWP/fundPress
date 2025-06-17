@@ -38,7 +38,7 @@ if ( ! class_exists( 'DN_Assets' ) ) {
 		 */
 		public static function init() {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 1 );
 		}
 
 		/**
