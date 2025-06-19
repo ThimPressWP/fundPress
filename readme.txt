@@ -2,9 +2,8 @@
 Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
-Requires at least: 6.0
-Tested up to: 6.7.1
-Stable tag: 2.0.7
+Tested up to: 6.8
+Stable tag: 2.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +97,11 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
+= 2.0.8 (2025-06-19) =
+~ Fixed: Stripe payment.
+~ Fixed: PayPal payment.
+~ Fixed: priority load style.
 
 = 2.0.7 (2025-01-20) =
 ~ Fixed: security.
