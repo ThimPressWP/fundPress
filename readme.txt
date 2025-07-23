@@ -1,7 +1,7 @@
 === FundPress - WordPress Donation Plugin ===
 Contributors: thimpress, thongta, leehld
 Donate link:
-Tags: Donation WordPress, WordPress donate, donation plugin, donate, WordPress fundraising plugin
+Tags: donation, fundraising, charity, crowdfunding, nonprofit
 Tested up to: 6.8
 Stable tag: 2.0.8
 License: GPLv2 or later
