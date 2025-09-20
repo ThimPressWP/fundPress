@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit();
                                     maxValue: 100,
                                     width: 10,
                                     text: function (value) {
-                                        return '<div class="text-inner">' + value + '<span class="small">%</span><span class="text"><?php esc_html_e( 'Complete', 'thim-charitywp-shortcodes' ); ?></span></div>';
+                                        return '<div class="text-inner">' + value + '<span class="small">%</span><span class="text"><?php esc_html_e( 'Complete', 'fundpress' ); ?></span></div>';
                                     },
                                     colors: ['#FFF', '#f8b864'],
                                     duration: 600,
@@ -66,4 +66,5 @@ defined( 'ABSPATH' ) || exit();
 		}
 	}
 	wp_reset_postdata();
+
 } ?>
