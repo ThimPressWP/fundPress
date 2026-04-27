@@ -30,8 +30,8 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			$actions = array(
 				'donate_load_form'         => true,
 				'donate_submit'            => true,
-				'donate_remove_compensate' => true,
-				'donate_action_status'     => true,
+				//'donate_remove_compensate' => true,
+				//'donate_action_status'     => true,
 			);
 
 			foreach ( $actions as $action => $nopriv ) {
@@ -113,8 +113,9 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 
 		/**
 		 * Remove campaign compensate.
+		 * @deprecated not using.
 		 */
-		public function donate_remove_compensate() {
+		/*public function donate_remove_compensate() {
 			if ( ! isset( $_GET['schema'] ) || DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
@@ -148,7 +149,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 				'message' => __( 'Could not delete compensate. Please try again.', 'fundpress' )
 			) );
 			die();
-		}
+		}*/
 
 		/**
 		 * must login
@@ -160,8 +161,9 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 
 		/**
 		 * Update order donate status.
+		 * @deprecated not using.
 		 */
-		public function donate_action_status() {
+		/*public function donate_action_status() {
 			if ( ! isset( $_GET['schema'] ) || DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax' || empty( $_POST ) ) {
 				return;
 			}
@@ -187,7 +189,7 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			) );
 			die();
 
-		}
+		}*/
 	}
 }
 

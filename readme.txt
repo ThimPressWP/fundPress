@@ -2,8 +2,8 @@
 Contributors: thimpress, thongta, leehld
 Donate link:
 Tags: donation, fundraising, charity, crowdfunding, nonprofit
-Tested up to: 6.8
-Stable tag: 2.0.8
+Tested up to: 6.9
+Stable tag: 2.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 9. Compensate in campaign settings
 
 == Changelog ==
+
+= 2.0.9 (2026-04-10) =
+~ Fixed: security.
 
 = 2.0.8 (2025-06-19) =
 ~ Fixed: Stripe payment.
