@@ -47,10 +47,10 @@
 		hooks                 : {
 			init    : function () {
 				TP_Donate_Global.addAction('donate_submit_submited_form_completed', this.submited);
-                console.log(TP_Donate_Global);
+                // console.log(TP_Donate_Global);
 			},
 			submited: function (res) {
-                console.log(res);
+                // console.log(res);
 				if (res.status === 'success' ) {
 					if ( typeof res.redirect !== 'undefined' ) {
 						window.location.href = res.redirect;
@@ -60,9 +60,9 @@
 					
 				} else if (res.status === 'failed' && typeof res.message !== 'undefined') {
                     var desiredHeight = $(window).height() - 150;
-					console.log(res.message);
+					// console.log(res.message);
 					DONATE_Site.generate_messages(res.message);
-					console.log(DONATE_Site.generate_messages(res.message));
+					// console.log(DONATE_Site.generate_messages(res.message));
 					$('body, html').animate({
 						scrollTop: $('.donation-messages').offset().top - desiredHeight
 					},1000);

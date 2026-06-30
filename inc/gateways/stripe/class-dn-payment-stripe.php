@@ -168,8 +168,16 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				if ( ! $this->secret_key || ! $this->publish_key ) {
 
 					$response['message'] = __( 'Secret key and Publish key is invalid. Please contact administrator to setup Stripe payment.', 'fundpress' );
+
+					return $response;
 				}
-				$amount = sanitize_text_field( $posted['amount'] );
+				// The authoritative amount is the donate order total, set by
+				// DN_Checkout from `donate_input_amount`. Fall back to the posted
+				// field for backward compatibility.
+				$amount = $donate ? $donate->get_meta( 'total' ) : 0;
+				if ( ! $amount && isset( $posted['amount'] ) ) {
+					$amount = sanitize_text_field( $posted['amount'] );
+				}
 
 				if ( ! $amount ) {
 					return array(
@@ -223,13 +231,27 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 			if ( ! isset( $_REQUEST['donate-id'] ) ) {
 				return;
 			}
-			$checkout_session_id = sanitize_text_field( $_REQUEST['fp_stripe_session_id'] );
-			$stripe   = new StripeClient( $this->secret_key );
-			$retrieve = $stripe->checkout->sessions->retrieve( $checkout_session_id );
-			if ( $retrieve->payment_status === 'paid' ) {
+
+			// Missing keys: nothing to verify against. Bail quietly so the
+			// thank-you page can still render.
+			if ( ! $this->secret_key ) {
+				return;
+			}
+
+			// Wrap the Stripe API call: an uncaught ApiErrorException here would
+			// fatal the thank-you page on return from Stripe.
+			try {
+				$checkout_session_id = sanitize_text_field( $_REQUEST['fp_stripe_session_id'] );
+				$stripe              = new StripeClient( $this->secret_key );
+				$retrieve            = $stripe->checkout->sessions->retrieve( $checkout_session_id );
+
+				if ( $retrieve->payment_status !== 'paid' ) {
+					return;
+				}
+
 				$donate_id = $retrieve->metadata->fp_donate_id ?? 0;
-				$donate = DN_Donate::instance( $donate_id );
-				if ( ! $donate ) {
+				$donate    = $donate_id ? DN_Donate::instance( $donate_id ) : false;
+				if ( ! $donate || ! $donate->id ) {
 					return;
 				}
 				if ( $donate->has_status( 'completed' ) ) {
@@ -238,6 +260,11 @@ if ( ! class_exists( 'DN_Payment_Stripe' ) ) {
 				$donate->update_status( 'donate-completed' );
 				$donate->update_meta( 'transaction_id', $retrieve->payment_intent );
 				FP()->cart->remove_cart();
+			} catch ( Exception $e ) {
+				// Log and continue rendering the page rather than crashing it.
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					error_log( 'FundPress Stripe verify_payment error: ' . $e->getMessage() );
+				}
 			}
 		}
 		public function calculate_amount( $amount ) {
