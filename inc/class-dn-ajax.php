@@ -30,7 +30,6 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			$actions = array(
 				'donate_load_form'     => true,
 				'donate_submit'        => true,
-				'donate_action_status' => true,
 			);
 
 			foreach ( $actions as $action => $nopriv ) {
@@ -111,46 +110,6 @@ if ( ! class_exists( 'DN_Ajax' ) ) {
 			// process checkout
 			FP()->checkout->process_checkout();
 			die( 0 );
-		}
-
-		/**
-		 * Update order donate status.
-		 * @deprecated not using.
-		 */
-		public function donate_action_status() {
-			if ( ! isset( $_GET['schema'] )
-				|| DN_Helpper::DN_sanitize_params_submitted( $_GET['schema'] ) !== 'donate-ajax'
-				|| empty( $_POST ) ) {
-				return;
-			}
-
-			if ( ! isset( $_POST['donate_id'] ) || ! isset( $_POST['status'] ) ) {
-				return;
-			}
-
-			$donate_id = absint( $_POST['donate_id'] );
-			$status    = DN_Helpper::DN_sanitize_params_submitted( $_POST['status'] );
-
-			$donate = DN_Donate::instance( $donate_id );
-
-			if ( $donate ) {
-				$donate->update_status( 'donate-' . $status . '' );
-				wp_send_json(
-					array(
-						'status' => 'success',
-						'action' => $status,
-					)
-				);
-				die();
-			}
-
-			wp_send_json(
-				array(
-					'status'  => 'failed',
-					'message' => __( 'Could not change status of Donate. Please try again.', 'fundpress' ),
-				)
-			);
-			die();
 		}
 	}
 }

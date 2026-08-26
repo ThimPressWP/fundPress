@@ -31,7 +31,7 @@ if ( ! function_exists( 'donate_get_template' ) ) {
 
 		do_action( 'donate_before_template_part', $template_name, $template_path, $located, $args );
 
-		include( $located );
+		include $located;
 
 		do_action( 'donate_after_template_part', $template_name, $template_path, $located, $args );
 	}
@@ -53,10 +53,12 @@ if ( ! function_exists( 'donate_get_template_part' ) ) {
 
 		// Look in yourtheme/slug-name.php and yourtheme/courses-manage/slug-name.php
 		if ( $name ) {
-			$template = locate_template( array(
-				"{$slug}-{$name}.php",
-				donate_template_path() . "/{$slug}-{$name}.php"
-			) );
+			$template = locate_template(
+				array(
+					"{$slug}-{$name}.php",
+					donate_template_path() . "/{$slug}-{$name}.php",
+				)
+			);
 		}
 
 		// Get default slug-name.php
@@ -99,7 +101,7 @@ if ( ! function_exists( 'donate_locate_template' ) ) {
 		$template = locate_template(
 			array(
 				trailingslashit( $template_path ) . $template_name,
-				$template_name
+				$template_name,
 			)
 		);
 		// Get default template
@@ -186,7 +188,7 @@ if ( ! function_exists( 'donate_get_currencies' ) ) {
 			'TRY' => 'Turkish Lira (₺)',
 			'USD' => 'US Dollars ($)',
 			'VND' => 'Vietnamese Dong (₫)',
-			'EGP' => 'Egyptian Pound (EGP)'
+			'EGP' => 'Egyptian Pound (EGP)',
 		);
 
 		return apply_filters( 'donate_currencies', $currencies );
@@ -221,129 +223,129 @@ if ( ! function_exists( 'donate_get_currency_symbol' ) ) {
 		}
 
 		switch ( $currency ) {
-			case 'AED' :
+			case 'AED':
 				$currency_symbol = 'د.إ';
 				break;
-			case 'AUD' :
-			case 'ARS' :
-			case 'CAD' :
-			case 'CLP' :
-			case 'COP' :
-			case 'HKD' :
-			case 'MXN' :
-			case 'NZD' :
-			case 'SGD' :
-			case 'USD' :
+			case 'AUD':
+			case 'ARS':
+			case 'CAD':
+			case 'CLP':
+			case 'COP':
+			case 'HKD':
+			case 'MXN':
+			case 'NZD':
+			case 'SGD':
+			case 'USD':
 				$currency_symbol = '&#36;';
 				break;
 			case 'BDT':
 				$currency_symbol = '&#2547;&nbsp;';
 				break;
-			case 'BGN' :
+			case 'BGN':
 				$currency_symbol = '&#1083;&#1074;.';
 				break;
-			case 'BRL' :
+			case 'BRL':
 				$currency_symbol = '&#82;&#36;';
 				break;
-			case 'CHF' :
+			case 'CHF':
 				$currency_symbol = '&#67;&#72;&#70;';
 				break;
-			case 'CNY' :
-			case 'JPY' :
-			case 'RMB' :
+			case 'CNY':
+			case 'JPY':
+			case 'RMB':
 				$currency_symbol = '&yen;';
 				break;
-			case 'CZK' :
+			case 'CZK':
 				$currency_symbol = '&#75;&#269;';
 				break;
-			case 'DKK' :
+			case 'DKK':
 				$currency_symbol = 'DKK';
 				break;
-			case 'DOP' :
+			case 'DOP':
 				$currency_symbol = 'RD&#36;';
 				break;
-			case 'EGP' :
+			case 'EGP':
 				$currency_symbol = 'EGP';
 				break;
-			case 'EUR' :
+			case 'EUR':
 				$currency_symbol = '&euro;';
 				break;
-			case 'GBP' :
+			case 'GBP':
 				$currency_symbol = '&pound;';
 				break;
-			case 'HRK' :
+			case 'HRK':
 				$currency_symbol = 'Kn';
 				break;
-			case 'HUF' :
+			case 'HUF':
 				$currency_symbol = '&#70;&#116;';
 				break;
-			case 'IDR' :
+			case 'IDR':
 				$currency_symbol = 'Rp';
 				break;
-			case 'ILS' :
+			case 'ILS':
 				$currency_symbol = '&#8362;';
 				break;
-			case 'INR' :
+			case 'INR':
 				$currency_symbol = 'Rs.';
 				break;
-			case 'ISK' :
+			case 'ISK':
 				$currency_symbol = 'Kr.';
 				break;
-			case 'KIP' :
+			case 'KIP':
 				$currency_symbol = '&#8365;';
 				break;
-			case 'KRW' :
+			case 'KRW':
 				$currency_symbol = '&#8361;';
 				break;
-			case 'MYR' :
+			case 'MYR':
 				$currency_symbol = '&#82;&#77;';
 				break;
-			case 'NGN' :
+			case 'NGN':
 				$currency_symbol = '&#8358;';
 				break;
-			case 'NOK' :
+			case 'NOK':
 				$currency_symbol = '&#107;&#114;';
 				break;
-			case 'NPR' :
+			case 'NPR':
 				$currency_symbol = 'Rs.';
 				break;
-			case 'PHP' :
+			case 'PHP':
 				$currency_symbol = '&#8369;';
 				break;
-			case 'PLN' :
+			case 'PLN':
 				$currency_symbol = '&#122;&#322;';
 				break;
-			case 'PYG' :
+			case 'PYG':
 				$currency_symbol = '&#8370;';
 				break;
-			case 'RON' :
+			case 'RON':
 				$currency_symbol = 'lei';
 				break;
-			case 'RUB' :
+			case 'RUB':
 				$currency_symbol = '&#1088;&#1091;&#1073;.';
 				break;
-			case 'SEK' :
+			case 'SEK':
 				$currency_symbol = '&#107;&#114;';
 				break;
-			case 'THB' :
+			case 'THB':
 				$currency_symbol = '&#3647;';
 				break;
-			case 'TRY' :
+			case 'TRY':
 				$currency_symbol = '&#8378;';
 				break;
-			case 'TWD' :
+			case 'TWD':
 				$currency_symbol = '&#78;&#84;&#36;';
 				break;
-			case 'UAH' :
+			case 'UAH':
 				$currency_symbol = '&#8372;';
 				break;
-			case 'VND' :
+			case 'VND':
 				$currency_symbol = '&#8363;';
 				break;
-			case 'ZAR' :
+			case 'ZAR':
 				$currency_symbol = '&#82;';
 				break;
-			default :
+			default:
 				$currency_symbol = '';
 				break;
 		}
@@ -467,7 +469,7 @@ if ( ! function_exists( 'donate_redirect_url' ) ) {
 
 		if ( $rediect === 'checkout' ) {
 			return donate_checkout_url();
-		} else if ( $rediect === 'cart' ) {
+		} elseif ( $rediect === 'cart' ) {
 			return donate_cart_url();
 		}
 	}
@@ -542,8 +544,8 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 				case 'yahoo':
 					$yql_query = 'select * from yahoo.finance.xchange where pair in ("' . $from . $to . '")';
 
-					$url = 'http://query.yahooapis.com/v1/public/yql?q=' . urlencode( $yql_query );
-					$url .= "&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+					$url  = 'http://query.yahooapis.com/v1/public/yql?q=' . urlencode( $yql_query );
+					$url .= '&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
 
 					if ( function_exists( 'curl_init' ) ) {
 						$res = donate_curl_get( $url );
@@ -573,7 +575,7 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 					if ( isset( $matches[1], $matches[1][0] ) ) {
 						$rate = floatval( $matches[1][0] );
 					} else {
-						$rate = sprintf( __( "no data for %s", 'fundpress' ), $to );
+						$rate = sprintf( __( 'no data for %s', 'fundpress' ), $to );
 					}
 					break;
 
@@ -603,9 +605,9 @@ if ( ! function_exists( 'donate_campaign_convert_amount' ) ) {
 	 * @return rate
 	 */
 	function donate_curl_get( $url ) {
-            $response = wp_remote_get($url );
-            $data    = wp_remote_retrieve_body( $response );
-            return $data;
+			$response = wp_remote_get( $url );
+			$data     = wp_remote_retrieve_body( $response );
+			return $data;
 	}
 
 }
@@ -755,7 +757,7 @@ if ( ! function_exists( 'donate_get_status' ) ) {
 		$status = array(
 			'donate-pending'    => __( 'Pending', 'fundpress' ),
 			'donate-processing' => __( 'Processing', 'fundpress' ),
-			'donate-completed'  => __( 'Completed', 'fundpress' )
+			'donate-completed'  => __( 'Completed', 'fundpress' ),
 		);
 
 		return apply_filters( 'donate_get_status', $status );
@@ -772,7 +774,8 @@ if ( ! function_exists( 'donate_amount_system' ) ) {
 	function donate_amount_system() {
 		global $wpdb;
 
-		$query = $wpdb->prepare( "
+		$query = $wpdb->prepare(
+			"
 				SELECT donate_system.meta_value AS amount, donate_currency.meta_value AS currency
 				FROM $wpdb->postmeta AS donate_system
 				INNER JOIN $wpdb->posts AS donation ON donation.ID = donate_system.post_id
@@ -786,7 +789,14 @@ if ( ! function_exists( 'donate_amount_system' ) ) {
 					AND donate_type.meta_key = %s
 					AND donate_type.meta_value = %s
 				HAVING amount > 0
-			", 'dn_donate', 'donate-completed', TP_DONATE_META_DONATE . 'total', TP_DONATE_META_DONATE . 'currency', TP_DONATE_META_DONATE . 'type', 'system' );
+			",
+			'dn_donate',
+			'donate-completed',
+			TP_DONATE_META_DONATE . 'total',
+			TP_DONATE_META_DONATE . 'currency',
+			TP_DONATE_META_DONATE . 'type',
+			'system'
+		);
 
 		$total = 0;
 		if ( $results = $wpdb->get_results( $query ) ) {
@@ -814,9 +824,13 @@ if ( ! function_exists( 'donate_get_donors' ) ) {
 
 	function donate_get_donors() {
 		global $wpdb;
-		$sql = $wpdb->prepare( "
+		$sql = $wpdb->prepare(
+			"
 				SELECT DISTINCT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
-			", 'dn_donor', 'publish' );
+			",
+			'dn_donor',
+			'publish'
+		);
 
 		return $wpdb->get_col( $sql );
 	}
@@ -827,9 +841,13 @@ if ( ! function_exists( 'donate_get_campaigns' ) ) {
 
 	function donate_get_campaigns() {
 		global $wpdb;
-		$sql = $wpdb->prepare( "
+		$sql = $wpdb->prepare(
+			"
 				SELECT ID FROM $wpdb->posts WHERE post_type = %s AND post_status = %s
-			", 'dn_campaign', 'publish' );
+			",
+			'dn_campaign',
+			'publish'
+		);
 
 		return $wpdb->get_col( $sql );
 	}
@@ -944,13 +962,18 @@ if ( ! function_exists( 'donate_get_donors' ) ) {
 			return 0;
 		}
 		global $wpdb;
-		$sql = $wpdb->prepare( "
+		$sql = $wpdb->prepare(
+			"
 				SELECT IFNULL( COUNT( donor.meta_value ), 0 ) FROM $wpdb->postmeta AS donor
 					lEFT JOIN $wpdb->posts AS donate ON donor.post_id = donate.ID AND donor.meta_key = %s
 				WHERE donate.post_type = %s
 					AND donate.ID = %d
 				GROUP BY donor.meta_value
-			", 'thimpress_donate_donor_id', 'dn_donate', $donate_id );
+			",
+			'thimpress_donate_donor_id',
+			'dn_donate',
+			$donate_id
+		);
 
 		return apply_filters( 'donate_get_donors_count', absint( $wpdb->get_var( $sql ) ), $donate_id );
 	}
@@ -979,10 +1002,13 @@ if ( ! function_exists( 'donate_get_donate_items' ) ) {
 if ( ! function_exists( 'donate_get_thankyou_link' ) ) {
 
 	function donate_get_thankyou_link( $donate_id = null ) {
-		return add_query_arg( array(
-			'thank-you' => 1,
-			'donate-id' => $donate_id
-		), donate_checkout_url() );
+		return add_query_arg(
+			array(
+				'thank-you' => 1,
+				'donate-id' => $donate_id,
+			),
+			donate_checkout_url()
+		);
 	}
 
 }
@@ -1119,15 +1145,23 @@ if ( ! function_exists( 'donate_campaign_count_donor' ) ) {
 			$campaign_id = $post->ID;
 		}
 		global $wpdb;
-		$sql = $wpdb->prepare( "SELECT COUNT( DISTINCT item_meta.meta_value ) FROM $wpdb->postmeta AS item_meta"
-		                       . " INNER JOIN $wpdb->posts AS item ON item.ID = item_meta.post_id"
-		                       . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
-		                       . " WHERE donate.post_status = %s"
-		                       . " AND donate.post_type = %s"
-		                       . " AND item.post_status = %s"
-		                       . " AND item.post_type = %s"
-		                       . " AND item_meta.meta_key = %s"
-		                       . " AND item_meta.meta_value = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $campaign_id );
+		$sql = $wpdb->prepare(
+			"SELECT COUNT( DISTINCT item_meta.meta_value ) FROM $wpdb->postmeta AS item_meta"
+								. " INNER JOIN $wpdb->posts AS item ON item.ID = item_meta.post_id"
+								. " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
+								. ' WHERE donate.post_status = %s'
+								. ' AND donate.post_type = %s'
+								. ' AND item.post_status = %s'
+								. ' AND item.post_type = %s'
+								. ' AND item_meta.meta_key = %s'
+								. ' AND item_meta.meta_value = %s',
+			'donate-completed',
+			'dn_donate',
+			'publish',
+			'dn_donate_item',
+			'campaign_id',
+			$campaign_id
+		);
 
 		return abs( $wpdb->get_var( $sql ) );
 	}
@@ -1203,19 +1237,29 @@ if ( ! function_exists( 'donate_total_campaign_donated' ) ) {
 
 		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT total.meta_value AS raised, c.meta_value AS currency FROM $wpdb->postmeta AS total"
-		                       . " INNER JOIN $wpdb->posts AS item ON item.ID = total.post_id"
-		                       . " INNER JOIN $wpdb->postmeta AS item_meta ON item.ID = item_meta.post_id"
-		                       . " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
-		                       . " INNER JOIN $wpdb->postmeta AS c ON c.post_id = donate.ID"
-		                       . " WHERE donate.post_status = %s"
-		                       . " AND donate.post_type = %s"
-		                       . " AND item.post_status = %s"
-		                       . " AND item.post_type = %s"
-		                       . " AND item_meta.meta_key = %s"
-		                       . " AND item_meta.meta_value = %s"
-		                       . " AND total.meta_key = %s"
-		                       . " AND c.meta_key = %s", 'donate-completed', 'dn_donate', 'publish', 'dn_donate_item', 'campaign_id', $post_id, 'total', TP_DONATE_META_DONATE . 'currency' );
+		$sql = $wpdb->prepare(
+			"SELECT total.meta_value AS raised, c.meta_value AS currency FROM $wpdb->postmeta AS total"
+								. " INNER JOIN $wpdb->posts AS item ON item.ID = total.post_id"
+								. " INNER JOIN $wpdb->postmeta AS item_meta ON item.ID = item_meta.post_id"
+								. " INNER JOIN $wpdb->posts AS donate ON donate.ID = item.post_parent"
+								. " INNER JOIN $wpdb->postmeta AS c ON c.post_id = donate.ID"
+								. ' WHERE donate.post_status = %s'
+								. ' AND donate.post_type = %s'
+								. ' AND item.post_status = %s'
+								. ' AND item.post_type = %s'
+								. ' AND item_meta.meta_key = %s'
+								. ' AND item_meta.meta_value = %s'
+								. ' AND total.meta_key = %s'
+								. ' AND c.meta_key = %s',
+			'donate-completed',
+			'dn_donate',
+			'publish',
+			'dn_donate_item',
+			'campaign_id',
+			$post_id,
+			'total',
+			TP_DONATE_META_DONATE . 'currency'
+		);
 
 		$total = 0;
 		if ( $results = $wpdb->get_results( $sql ) ) {
@@ -1279,25 +1323,6 @@ if ( ! function_exists( 'donate_campaign_is_allow_donate' ) ) {
 
 }
 
-// change donate status
-if ( ! function_exists( 'donate_action_status' ) ) {
-	function donate_action_status( $post_id ) {
-		$donate = DN_Donate::instance( $post_id );
-		$action = '<div id="action-status" data-id="' . esc_attr( $post_id ) . '" >';
-		if ( $donate->has_status( 'pending' ) ) {
-			$action .= '<a href="#" class="button" data-action="processing" title="' . esc_html__( 'Processing', 'fundpress' ) . '"><i class="icon-spinner6"></i></a>';
-		}
-		if ( $donate->has_status( 'pending' ) || $donate->has_status( 'processing' ) ) {
-			$action .= '<a href="#" class="button" data-action="completed" title="' . esc_html__( 'Complete', 'fundpress' ) . '"><i class="icon-checkmark"></i></a>';
-		}
-		$action .= '</div>';
-		$action .= '<a href="' . get_edit_post_link( $post_id ) . '" class="button edit-donate" title="' . esc_html__( 'View', 'fundpress' ) . '"><i class="icon-eye view"></i></a>';
-
-		return apply_filters( 'donate_action_status', $action, $post_id );
-
-	}
-}
-
 // i18n
 if ( ! function_exists( 'donate_18n_languages' ) ) {
 
@@ -1314,7 +1339,7 @@ if ( ! function_exists( 'donate_18n_languages' ) ) {
 			'complete'               => __( 'Donate', 'fundpress' ),
 			'status_processing'      => __( 'Processing', 'fundpress' ),
 			'status_completed'       => __( 'Completed', 'fundpress' ),
-			'date_time_format'       => donate_date_time_format_js()
+			'date_time_format'       => donate_date_time_format_js(),
 		);
 
 		return apply_filters( 'donate_i18n', $i18n );
@@ -1324,23 +1349,23 @@ if ( ! function_exists( 'donate_18n_languages' ) ) {
 if ( ! function_exists( 'donation_system_total_amount' ) ) {
 	function donation_system_total_amount( $field ) {
 		?>
-        <tr>
-            <th>
+		<tr>
+			<th>
 				<?php if ( isset( $field['label'] ) ) : ?>
-                    <label for="<?php echo esc_attr( $field['name'] ) ?>"><?php printf( '%s', $field['label'] ) ?></label>
+					<label for="<?php echo esc_attr( $field['name'] ); ?>"><?php printf( '%s', $field['label'] ); ?></label>
 					<?php if ( isset( $field['desc'] ) ) : ?>
-                        <p>
-                            <small><?php printf( '%s', $field['desc'] ) ?></small>
-                        </p>
+						<p>
+							<small><?php printf( '%s', $field['desc'] ); ?></small>
+						</p>
 					<?php endif; ?>
 				<?php endif; ?>
-            </th>
-            <td>
-                <input type="text"
-                       value="<?php echo esc_attr( donate_price( donate_amount_system(), donate_get_currency() ) ); ?>"
-                       readonly="readonly"/>
-            </td>
-        </tr>
+			</th>
+			<td>
+				<input type="text"
+						value="<?php echo esc_attr( donate_price( donate_amount_system(), donate_get_currency() ) ); ?>"
+						readonly="readonly"/>
+			</td>
+		</tr>
 
 		<?php
 	}
