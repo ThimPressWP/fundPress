@@ -7,7 +7,6 @@ import gulpSass from 'gulp-sass';
 import cleanCSS from 'gulp-clean-css';
 import rename from 'gulp-rename';
 import rtlCss from 'gulp-rtlcss';
-import notify from 'gulp-notify';
 import fs from 'fs';
 
 const name = 'fundpress';
@@ -58,13 +57,13 @@ export const minCss = (done) => {
 
 export const copyFilesToRelease = (done) => {
 	// Copy source release to release folder
-	const releasesFiles = ['./**', '!node_modules/**', '!assets/src/**', '!webpack.config.js', '!tsconfig.json', '!phpcs.xml', '!.eslintrc.js', '!.eslintignore', '!composer.json', '!composer.lock', '!gulpfile.mjs', '!package-lock.json', '!package.json', '!release/**','!build-release.js', '!phpunit.xml',];
+	const releasesFiles = ['./**', '!node_modules/**', '!assets/src/**', '!webpack.config.js', '!tsconfig.json', '!phpcs.xml', '!.eslintrc.js', '!.eslintignore', '!composer.json', '!composer.lock', '!gulpfile.mjs', '!package-lock.json', '!package.json', '!release/**','!build-release.js', '!phpunit.xml','!tests/**',];
 	gulp.src(releasesFiles)
 		.pipe(gulp.dest('release/' + name))
 		.on('end', done);
 }
 
-export const zipRelease = () => {
+export const zipRelease = (done) => {
 	// Get current version of addon
 	const getCurrentVer = function () {
 		const current = readFile.sync(`${name}.php`, {encoding: 'utf8'}).match(/Version:\s*(.*)/);
@@ -79,7 +78,7 @@ export const zipRelease = () => {
 	return gulp.src(releasesFiles)
 		.pipe(zip(`${zipFileName}`))
 		.pipe(gulp.dest('release'))
-		.pipe(notify({message: 'Build Complete', onLast: true}));
+		.on( 'end', done );
 };
 
 export const runInSeries = gulp.series(clearAll, compileSass, createRTLCss, minCss, copyFilesToRelease, zipRelease);

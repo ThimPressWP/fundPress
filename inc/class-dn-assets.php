@@ -93,14 +93,17 @@ if ( ! class_exists( 'DN_Assets' ) ) {
 
 			self::register_script( 'donate-global', FUNDPRESS_ASSETS_URI . '/js/donate.js' );
 
-			$donate_settings = apply_filters( 'donate_localize_object_settings', array(
-				'settings'    => FP()->settings->_options,
-				'i18n'        => donate_18n_languages(),
-				'ajaxurl'     => admin_url( 'admin-ajax.php?schema=donate-ajax' ),
-				'nonce'       => wp_create_nonce( 'thimpress_donate_nonce' ),
-				'date_format' => get_option( 'date_format', 'Y-m-d' ),
-				'time_format' => get_option( 'time_format', 'H:i:s' )
-			) );
+			$donate_settings = apply_filters(
+				'donate_localize_object_settings',
+				array(
+					'settings'    => FP()->settings->_options,
+					'i18n'        => donate_18n_languages(),
+					'ajaxurl'     => admin_url( 'admin-ajax.php?schema=donate-ajax' ),
+					'nonce'       => wp_create_nonce( 'thimpress_donate_nonce' ),
+					'date_format' => get_option( 'date_format', 'Y-m-d' ),
+					'time_format' => get_option( 'time_format', 'H:i:s' ),
+				)
+			);
 
 			self::localize_script( 'donate-global', apply_filters( 'thimpress_donate_localize', 'thimpress_donate' ), $donate_settings );
 
@@ -175,7 +178,6 @@ if ( ! class_exists( 'DN_Assets' ) ) {
 
 			return str_replace( $base_url, $path, $uri );
 		}
-
 	}
 }
 

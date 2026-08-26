@@ -32,13 +32,12 @@ if ( ! class_exists( 'DN_Admin_Assets' ) ) {
 		 */
 		public static function register_scripts( $hook ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
-			DN_Assets::register_script( 'donate-admin-script', FUNDPRESS_ASSETS_URI . '/js/admin.js', array(), FUNDPRESS_VER, true );
+			DN_Assets::register_script( 'donate-admin-script', FUNDPRESS_ASSETS_URI . '/js/admin/admin.js', array(), FUNDPRESS_VER, true );
 			DN_Assets::register_style( 'donate-admin-style', FUNDPRESS_ASSETS_URI . '/css/admin.css' );
 
 			DN_Assets::register_script( 'donate-admin-select2-script', FUNDPRESS_ASSETS_URI . '/js/select2.min.js', array(), FUNDPRESS_VER, true );
 			DN_Assets::register_style( 'donate-admin-select2-style', FUNDPRESS_ASSETS_URI . '/css/select2.min.css' );
 		}
-
 	}
 }
 

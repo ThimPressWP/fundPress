@@ -104,36 +104,7 @@
             },
             remove_compensate: function (e) {
                 e.preventDefault();
-                var _self = $(this),
-                    _record = _self.parents('.form-group:first'),
-                    _post_id = $('body').find('#post_ID').val();
-
-                $.ajax({
-                    url: thimpress_donate.ajaxurl,
-                    type: 'POST',
-                    data: {
-                        compensate_id: _self.attr('data-compensate-id'),
-                        action: 'donate_remove_compensate',
-                        post_id: _post_id
-                    },
-                    beforeSend: function () {
-
-                    }
-                }).done(function (res) {
-
-                    if (typeof res.status === 'undefined') {
-                        return;
-                    }
-
-                    if (res.status === 'success') {
-                        _record.remove();
-                    } else if (res.status === 'failed' && typeof res.message !== 'undefined') {
-                        alert(res.message);
-                    }
-
-                }).fail(function () {
-
-                });
+                $(this).parents('.form-group:first').remove();
             },
             datepicker: function () {
                 var _start = $('input[name="thimpress_campaign_start"]'),
