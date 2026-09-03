@@ -98,6 +98,9 @@ Since the plugin is new, currently we use Facebook and Twitter as our main metho
 
 == Changelog ==
 
+= 2.0.9 (2026-09-03) =
+~ Fixed: security (Props @Shikhali Jamalzade).
+
 = 2.0.9 (2026-04-10) =
 ~ Fixed: security.
 

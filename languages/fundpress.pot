@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the FundPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: FundPress 2.0.9\n"
+"Project-Id-Version: FundPress 2.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fundPress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-10T04:26:45+03:00\n"
+"POT-Creation-Date: 2026-09-03T03:10:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: fundpress\n"
@@ -268,16 +268,12 @@ msgstr ""
 msgid "Donate ID"
 msgstr ""
 
-#: inc/class-dn-ajax.php:71
+#: inc/class-dn-ajax.php:67
 msgid "Campaign is not exists in our system."
 msgstr ""
 
 #: inc/class-dn-ajax.php:105
 msgid "Could not do action."
-msgstr ""
-
-#: inc/class-dn-ajax.php:159
-msgid "You must login"
 msgstr ""
 
 #: inc/class-dn-cart.php:131
@@ -702,7 +698,7 @@ msgstr ""
 
 #: inc/class-dn-custom-post-type.php:390
 #: inc/class-dn-gdpr.php:107
-#: inc/dn-core-functions.php:1314
+#: inc/dn-core-functions.php:1339
 #: inc/settings/class-dn-setting-donate.php:40
 #: inc/widgets/class-dn-widget-button.php:27
 #: templates/checkout/checkout.php:50
@@ -842,67 +838,58 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: inc/dn-core-functions.php:449
+#: inc/dn-core-functions.php:451
 msgid "--- Select page ---"
 msgstr ""
 
-#: inc/dn-core-functions.php:576
+#: inc/dn-core-functions.php:578
 #, php-format
 msgid "no data for %s"
 msgstr ""
 
-#: inc/dn-core-functions.php:756
+#: inc/dn-core-functions.php:758
 msgid "Pending"
 msgstr ""
 
-#: inc/dn-core-functions.php:757
-#: inc/dn-core-functions.php:1288
-#: inc/dn-core-functions.php:1315
+#: inc/dn-core-functions.php:759
+#: inc/dn-core-functions.php:1340
 msgid "Processing"
 msgstr ""
 
-#: inc/dn-core-functions.php:758
-#: inc/dn-core-functions.php:1316
+#: inc/dn-core-functions.php:760
+#: inc/dn-core-functions.php:1341
 msgid "Completed"
 msgstr ""
 
-#: inc/dn-core-functions.php:1291
-msgid "Complete"
-msgstr ""
-
-#: inc/dn-core-functions.php:1294
-msgid "View"
-msgstr ""
-
-#: inc/dn-core-functions.php:1306
+#: inc/dn-core-functions.php:1331
 msgid "Please enter donate amount."
 msgstr ""
 
-#: inc/dn-core-functions.php:1307
+#: inc/dn-core-functions.php:1332
 msgid "Please enter valid email. Eg: example@example.com"
 msgstr ""
 
-#: inc/dn-core-functions.php:1308
+#: inc/dn-core-functions.php:1333
 msgid "First name invalid, min length 3 and max length 15 character."
 msgstr ""
 
-#: inc/dn-core-functions.php:1309
+#: inc/dn-core-functions.php:1334
 msgid "Last name invalid, min length 3 and max length 15 character."
 msgstr ""
 
-#: inc/dn-core-functions.php:1310
+#: inc/dn-core-functions.php:1335
 msgid "Phone number invalid. Eg: 01365987521."
 msgstr ""
 
-#: inc/dn-core-functions.php:1311
+#: inc/dn-core-functions.php:1336
 msgid "Please select payment method."
 msgstr ""
 
-#: inc/dn-core-functions.php:1312
+#: inc/dn-core-functions.php:1337
 msgid "Please enter your address."
 msgstr ""
 
-#: inc/dn-core-functions.php:1313
+#: inc/dn-core-functions.php:1338
 msgid "Processing..."
 msgstr ""
 
