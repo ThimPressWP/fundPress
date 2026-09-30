@@ -265,7 +265,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'fundpress' ),
 			) );
 
 			// pending payment
@@ -275,7 +275,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>', 'fundpress' ),
 			) );
 
 			// processing payment
@@ -285,7 +285,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>', 'Processing <span class="count">(%s)</span>', 'fundpress' ),
 			) );
 
 			// completed payment
@@ -295,7 +295,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'fundpress' ),
 			) );
 
 			// refunded payment
@@ -305,7 +305,7 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 				'exclude_from_search'       => false,
 				'show_in_admin_all_list'    => true,
 				'show_in_admin_status_list' => true,
-				'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>' ),
+				'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'fundpress' ),
 			) );
 
 			// allow filter donate statuses
@@ -671,3 +671,4 @@ if ( ! class_exists( 'DN_Post_Type' ) ) {
 }
 
 new DN_Post_Type();
+
